@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Safari Tours | Osimlai Adventures</title>
+  <meta name="description" content="Browse handcrafted African safari tours. Filter by destination, duration, budget and activity type with Osimlai Adventures." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    /* ── Loading skeleton ── */
+    .skeleton {
+      background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    .tour-card-skeleton {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #e8e8e8;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .skeleton-img  { height: 220px; width: 100%; }
+    .skeleton-body { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .skeleton-line { height: 14px; }
+    .skeleton-line.short { width: 60%; }
+    .skeleton-line.long  { width: 90%; }
+    .skeleton-line.med   { width: 75%; }
+
+    /* ── Empty / error state ── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 64px 24px;
+    }
+    .empty-state .empty-icon { font-size: 3.5rem; margin-bottom: 16px; }
+    .empty-state h3 { font-size: 1.3rem; font-weight: 700; color: #101828; margin-bottom: 8px; }
+    .empty-state p  { color: #667085; font-size: 0.95rem; max-width: 400px; margin: 0 auto; }
+
+    /* ── Tour count badge ── */
+    .results-info {
+      font-size: 0.88rem;
+      color: #667085;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .results-info strong { color: #101828; }
+
+    /* ── Active filter chip ── */
+    .chip { cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <a href="index.html" class="logo" style="color:var(--forest)">
+    <div class="logo-icon">🌍</div>
+    Osimlai <span>Adventures</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link" style="color:var(--text)">Home</a></li>
+    <li><a href="tours.html" class="nav-link active" style="color:var(--text)">Safaris</a></li>
+    <li><a href="volunteer.html" class="nav-link" style="color:var(--text)">Volunteer</a></li>
+    <li><a href="community.html" class="nav-link" style="color:var(--text)">Community</a></li>
+    <li><a href="about.html" class="nav-link" style="color:var(--text)">About</a></li>
+    <li><a href="blog.html" class="nav-link" style="color:var(--text)">Blog</a></li>
+    <li><a href="contact.html" class="nav-link" style="color:var(--text)">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="nav-cta" style="color:var(--text)">Sign In</a>
+    <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span style="background:var(--forest)"></span>
+    <span style="background:var(--forest)"></span>
+    <span style="background:var(--forest)"></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
+  <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
+  <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+  <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
+  <div class="mobile-actions">
+    <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+    <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
+  </div>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> › <span>Safaris</span>
+    </div>
+    <h1>Safari Tours & Packages</h1>
+    <p id="heroSubtitle">Expertly crafted safari experiences across East & Southern Africa. Find your perfect adventure with Osimlai.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+
+    <!-- Destination filter chips -->
+    <div class="filter-bar">
+      <span class="filter-label">Destination:</span>
+      <div class="filter-chips" id="destinationChips">
+        <div class="chip active" data-country="all">All</div>
+        <div class="chip" data-country="Tanzania">Tanzania</div>
+        <div class="chip" data-country="Kenya">Kenya</div>
+        <div class="chip" data-country="Uganda">Uganda</div>
+        <div class="chip" data-country="Rwanda">Rwanda</div>
+        <div class="chip" data-country="Botswana">Botswana</div>
+        <div class="chip" data-country="Namibia">Namibia</div>
+        <div class="chip" data-country="South Africa">South Africa</div>
+      </div>
+      <select class="filter-select" id="sortSelect" style="margin-left:auto">
+        <option value="featured">Sort: Featured</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+        <option value="rating">Highest Rated</option>
+        <option value="duration_asc">Duration: Short First</option>
+      </select>
+    </div>
+
+    <!-- Additional filters -->
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+      <select class="filter-select" id="durationFilter">
+        <option value="">Any Duration</option>
+        <option value="1-3">1–3 Days</option>
+        <option value="4-7">4–7 Days</option>
+        <option value="8-14">8–14 Days</option>
+        <option value="15+">15+ Days</option>
+      </select>
+      <select class="filter-select" id="budgetFilter">
+        <option value="">Any Budget</option>
+        <option value="0-500">Under $500</option>
+        <option value="500-1000">$500–$1,000</option>
+        <option value="1000-2500">$1,000–$2,500</option>
+        <option value="2500+">$2,500+</option>
+      </select>
+      <select class="filter-select" id="categoryFilter">
+        <option value="">Activity Type</option>
+        <option value="wildlife-safari">Wildlife Safari</option>
+        <option value="gorilla-trekking">Gorilla Trekking</option>
+        <option value="mountain-climbing">Mountain Climbing</option>
+        <option value="beach-safari">Beach & Safari</option>
+        <option value="cultural-tour">Cultural Tour</option>
+        <option value="bird-watching">Bird Watching</option>
+        <option value="photography">Photography Safari</option>
+      </select>
+    </div>
+
+    <!-- Results info -->
+    <div class="results-info" id="resultsInfo" style="display:none;">
+      <span>Showing <strong id="resultsCount">0</strong> safaris</span>
+      <button id="clearFiltersBtn" style="display:none;font-size:0.82rem;color:#667085;background:none;border:none;cursor:pointer;text-decoration:underline;" onclick="clearAllFilters()">Clear filters</button>
+    </div>
+
+    <!-- Tours grid -->
+    <div class="tours-grid" id="toursGrid">
+      <!-- Skeleton loading cards -->
+      <div class="tour-card-skeleton" id="sk1">
+        <div class="skeleton skeleton-img"></div>
+        <div class="skeleton-body">
+          <div class="skeleton skeleton-line short"></div>
+          <div class="skeleton skeleton-line long"></div>
+          <div class="skeleton skeleton-line med"></div>
+          <div class="skeleton skeleton-line short"></div>
+        </div>
+      </div>
+      <div class="tour-card-skeleton" id="sk2">
+        <div class="skeleton skeleton-img"></div>
+        <div class="skeleton-body">
+          <div class="skeleton skeleton-line short"></div>
+          <div class="skeleton skeleton-line long"></div>
+          <div class="skeleton skeleton-line med"></div>
+          <div class="skeleton skeleton-line short"></div>
+        </div>
+      </div>
+      <div class="tour-card-skeleton" id="sk3">
+        <div class="skeleton skeleton-img"></div>
+        <div class="skeleton-body">
+          <div class="skeleton skeleton-line short"></div>
+          <div class="skeleton skeleton-line long"></div>
+          <div class="skeleton skeleton-line med"></div>
+          <div class="skeleton skeleton-line short"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Load more -->
+    <div style="text-align:center;margin-top:44px;" id="loadMoreWrap" style="display:none;">
+      <button class="btn btn-outline-dark btn-lg" id="loadMoreBtn" onclick="loadMoreTours()">Load More Safaris</button>
+    </div>
+
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--gold-light)">Not Sure Which Safari?</span>
+    <h2>Let Us Plan Your Perfect Trip</h2>
+    <p>Tell us your dream, budget, and dates. Our expert travel consultants will design a custom safari itinerary just for you.</p>
+    <div class="cta-actions">
+      <a href="contact.html" class="btn btn-primary btn-lg">Get Custom Quote</a>
+      <a href="faq.html" class="btn btn-outline btn-lg">See FAQ</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="color:var(--white)">
+        <div class="logo-icon">🌍</div>
+        Osimlai <span>Adventures</span>
+      </a>
+      <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Safaris</h4>
+      <ul>
+        <li><a href="tours.html">Wildlife Safaris</a></li>
+        <li><a href="tours.html">Gorilla Trekking</a></li>
+        <li><a href="tours.html">Mountain Climbing</a></li>
+        <li><a href="tours.html">Cultural Tours</a></li>
+        <li><a href="tours.html">Photography Safaris</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Destinations</h4>
+      <ul>
+        <li><a href="tours.html">Tanzania</a></li>
+        <li><a href="tours.html">Kenya</a></li>
+        <li><a href="tours.html">Uganda</a></li>
+        <li><a href="tours.html">Rwanda</a></li>
+        <li><a href="tours.html">Botswana</a></li>
+        <li><a href="tours.html">Namibia</a></li>
+        <li><a href="tours.html">South Africa</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="faq.html">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Osimlai Adventures. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
+  </div>
+</footer>
+
+<div id="toast" class="toast"></div>
+<script src="js/main.js"></script>
+
+<script>
+/* ============================================================
+   CONFIG
+============================================================ */
+const API_BASE = 'https://wild-tours.onrender.com';
+
+/* ============================================================
+   STATE
+============================================================ */
+let allTours = [];        // raw from API
+let filteredTours = [];   // after client-side filtering
+let page = 1;
+const PAGE_SIZE = 9;
+
+let activeFilters = {
+  country:  'all',
+  duration: '',
+  budget:   '',
+  category: '',
+  sort:     'featured',
+};
+
+/* ============================================================
+   FETCH TOURS
+============================================================ */
+async function fetchTours() {
+  try {
+    // The public endpoint returns only isActive:true tours
+    const res = await fetch(`${API_BASE}/api/tours?limit=200`);
+    if (!res.ok) throw new Error(`Server error ${res.status}`);
+    const data = await res.json();
+    allTours = data.tours || data.data?.tours || data.data || [];
+
+    // Update hero count
+    if (allTours.length > 0) {
+      document.getElementById('heroSubtitle').textContent =
+        `${allTours.length} expertly crafted safari experience${allTours.length !== 1 ? 's' : ''} across East & Southern Africa. Find your perfect adventure with Osimlai.`;
+    }
+
+    removeSkeleton();
+    applyFiltersAndRender();
+
+  } catch (err) {
+    console.error('Failed to fetch tours:', err);
+    removeSkeleton();
+    showError(err.message);
+  }
+}
+
+function removeSkeleton() {
+  ['sk1','sk2','sk3'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  });
+}
+
+function showError(msg) {
+  const grid = document.getElementById('toursGrid');
+  grid.innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">🌐</div>
+      <h3>Couldn't load safaris</h3>
+      <p>${escHtml(msg)}. Please refresh the page or try again shortly.</p>
+      <button onclick="location.reload()" class="btn btn-primary btn-lg" style="margin-top:20px;">Retry</button>
+    </div>`;
+}
+
+/* ============================================================
+   FILTER & SORT
+============================================================ */
+function applyFiltersAndRender() {
+  page = 1;
+
+  filteredTours = allTours.filter(tour => {
+    // Country filter
+    if (activeFilters.country !== 'all') {
+      const tourCountry = (tour.country || tour.destination || '').toLowerCase();
+      if (!tourCountry.includes(activeFilters.country.toLowerCase())) return false;
+    }
+
+    // Duration filter
+    if (activeFilters.duration) {
+      const days = tour.duration?.days || tour.duration || 0;
+      const [min, max] = parseDurationFilter(activeFilters.duration);
+      if (max === Infinity ? days < min : (days < min || days > max)) return false;
+    }
+
+    // Budget filter
+    if (activeFilters.budget) {
+      const price = Number(tour.price || tour.pricePerPerson || 0);
+      const [pMin, pMax] = parseBudgetFilter(activeFilters.budget);
+      if (pMax === Infinity ? price < pMin : (price < pMin || price > pMax)) return false;
+    }
+
+    // Category filter
+    if (activeFilters.category) {
+      const cat = (tour.category || '').toLowerCase().replace(/\s+/g, '-');
+      if (cat !== activeFilters.category) return false;
+    }
+
+    return true;
+  });
+
+  // Sort
+  filteredTours = sortTours(filteredTours, activeFilters.sort);
+
+  // Results count
+  const resultsInfo = document.getElementById('resultsInfo');
+  const resultsCount = document.getElementById('resultsCount');
+  const clearBtn = document.getElementById('clearFiltersBtn');
+  resultsInfo.style.display = 'flex';
+  resultsCount.textContent = filteredTours.length;
+
+  const hasActiveFilters = activeFilters.country !== 'all' || activeFilters.duration ||
+                           activeFilters.budget || activeFilters.category;
+  clearBtn.style.display = hasActiveFilters ? '' : 'none';
+
+  renderPage();
+}
+
+function parseDurationFilter(val) {
+  if (val === '1-3')  return [1, 3];
+  if (val === '4-7')  return [4, 7];
+  if (val === '8-14') return [8, 14];
+  if (val === '15+')  return [15, Infinity];
+  return [0, Infinity];
+}
+
+function parseBudgetFilter(val) {
+  if (val === '0-500')    return [0, 500];
+  if (val === '500-1000') return [500, 1000];
+  if (val === '1000-2500')return [1000, 2500];
+  if (val === '2500+')    return [2500, Infinity];
+  return [0, Infinity];
+}
+
+function sortTours(tours, method) {
+  const arr = [...tours];
+  switch (method) {
+    case 'price_asc':
+      return arr.sort((a, b) => (a.price || 0) - (b.price || 0));
+    case 'price_desc':
+      return arr.sort((a, b) => (b.price || 0) - (a.price || 0));
+    case 'rating':
+      return arr.sort((a, b) => (b.ratingsAverage || 0) - (a.ratingsAverage || 0));
+    case 'duration_asc':
+      return arr.sort((a, b) => {
+        const da = a.duration?.days || a.duration || 0;
+        const db = b.duration?.days || b.duration || 0;
+        return da - db;
+      });
+    case 'featured':
+    default:
+      return arr.sort((a, b) => {
+        if (b.featured && !a.featured) return 1;
+        if (a.featured && !b.featured) return -1;
+        return (b.ratingsQuantity || 0) - (a.ratingsQuantity || 0);
+      });
+  }
+}
+
+function clearAllFilters() {
+  activeFilters = { country: 'all', duration: '', budget: '', category: '', sort: 'featured' };
+  document.querySelectorAll('#destinationChips .chip').forEach(c => c.classList.toggle('active', c.dataset.country === 'all'));
+  document.getElementById('durationFilter').value = '';
+  document.getElementById('budgetFilter').value = '';
+  document.getElementById('categoryFilter').value = '';
+  document.getElementById('sortSelect').value = 'featured';
+  applyFiltersAndRender();
+}
+
+/* ============================================================
+   RENDER
+============================================================ */
+function renderPage() {
+  const grid = document.getElementById('toursGrid');
+  const start = (page - 1) * PAGE_SIZE;
+  const slice = filteredTours.slice(0, start + PAGE_SIZE);
+
+  if (filteredTours.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <h3>No safaris match your filters</h3>
+        <p>Try adjusting your destination, duration, or budget filters to find your perfect safari.</p>
+        <button onclick="clearAllFilters()" class="btn btn-primary btn-lg" style="margin-top:20px;">Clear Filters</button>
+      </div>`;
+    document.getElementById('loadMoreWrap').style.display = 'none';
+    return;
+  }
+
+  grid.innerHTML = slice.map(tour => renderTourCard(tour)).join('');
+
+  // Load more button
+  const loadMoreWrap = document.getElementById('loadMoreWrap');
+  if (filteredTours.length > slice.length) {
+    loadMoreWrap.style.display = 'block';
+    document.getElementById('loadMoreBtn').textContent =
+      `Load More Safaris (${filteredTours.length - slice.length} remaining)`;
+  } else {
+    loadMoreWrap.style.display = 'none';
+  }
+}
+
+function renderTourCard(tour) {
+  // Resolve image
+  const img = tour.coverImage?.url
+    || tour.images?.[0]?.url
+    || tour.imageCover
+    || 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&auto=format&fit=crop';
+
+  // Resolve fields with fallbacks
+  const title     = escHtml(tour.title || 'Safari Tour');
+  const country   = escHtml(tour.country || tour.destination || '');
+  const days      = tour.duration?.days || tour.duration || '—';
+  const maxGroup  = tour.maxGroupSize || '—';
+  const price     = Number(tour.price || tour.pricePerPerson || 0);
+  const priceDisc = Number(tour.priceDiscount || 0);
+  const shortDesc = escHtml(tour.shortDescription || tour.summary || (tour.description || '').slice(0, 120));
+  const rating    = Number(tour.ratingsAverage || 0);
+  const ratingQty = tour.ratingsQuantity || 0;
+  const tourId    = tour._id || tour.id || '';
+  const slug      = tour.slug || tourId;
+
+  // Badge logic
+  let badge = '';
+  if (tour.featured) {
+    badge = `<span class="tour-badge">FEATURED</span>`;
+  } else if (ratingQty >= 80) {
+    badge = `<span class="tour-badge">BESTSELLER</span>`;
+  } else if (rating >= 4.8 && ratingQty >= 20) {
+    badge = `<span class="tour-badge">TOP RATED</span>`;
+  } else if (tour.category === 'mountain-climbing') {
+    badge = `<span class="tour-badge">ADVENTURE</span>`;
+  }
+
+  // Price display
+  const priceDisplay = priceDisc && priceDisc < price
+    ? `<span class="tour-price-from">From</span>
+       <span class="tour-price-amt" style="text-decoration:line-through;color:#999;font-size:0.9rem;">${fmtMoney(price)}</span>
+       <span class="tour-price-amt">&nbsp;${fmtMoney(priceDisc)} <span>/ person</span></span>`
+    : `<span class="tour-price-from">From</span>
+       <span class="tour-price-amt">${fmtMoney(price)} <span>/ person</span></span>`;
+
+  // Rating display
+  const ratingDisplay = rating > 0
+    ? `★ ${rating.toFixed(1)}${ratingQty > 0 ? ` (${ratingQty})` : ''}`
+    : '<span style="color:#999;font-size:0.8rem;">No reviews yet</span>';
+
+  return `
+    <div class="tour-card" onclick="window.location='tour-detail.html?id=${tourId}&slug=${slug}'" style="cursor:pointer;">
+      <div class="tour-card-img">
+        <img
+          src="${img}"
+          alt="${title}"
+          loading="lazy"
+          onerror="this.src='https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&auto=format&fit=crop'"
+        />
+        ${badge}
+      </div>
+      <div class="tour-card-body">
+        <div class="tour-card-meta">
+          <div class="tour-meta-item">📍 ${country}</div>
+          <div class="tour-meta-item">🕐 ${days} Day${days !== 1 ? 's' : ''}</div>
+          <div class="tour-meta-item">👥 Max ${maxGroup}</div>
+        </div>
+        <h3>${title}</h3>
+        <p>${shortDesc || 'An unforgettable African safari experience.'}</p>
+        <div class="tour-card-footer">
+          <div class="tour-price">${priceDisplay}</div>
+          <div class="tour-rating">${ratingDisplay}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function loadMoreTours() {
+  page++;
+  renderPage();
+  // Smooth scroll to new cards
+  const grid = document.getElementById('toursGrid');
+  const cards = grid.querySelectorAll('.tour-card');
+  const newCardIndex = (page - 1) * PAGE_SIZE;
+  if (cards[newCardIndex]) {
+    cards[newCardIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+/* ============================================================
+   HELPERS
+============================================================ */
+function fmtMoney(n) {
+  return '$' + Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 });
+}
+function escHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => (
+    { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+  ));
+}
+
+/* ============================================================
+   EVENT LISTENERS
+============================================================ */
+
+// Destination chips
+document.getElementById('destinationChips').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  document.querySelectorAll('#destinationChips .chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  activeFilters.country = chip.dataset.country;
+  applyFiltersAndRender();
+});
+
+// Sort select
+document.getElementById('sortSelect').addEventListener('change', e => {
+  activeFilters.sort = e.target.value;
+  applyFiltersAndRender();
+});
+
+// Duration filter
+document.getElementById('durationFilter').addEventListener('change', e => {
+  activeFilters.duration = e.target.value;
+  applyFiltersAndRender();
+});
+
+// Budget filter
+document.getElementById('budgetFilter').addEventListener('change', e => {
+  activeFilters.budget = e.target.value;
+  applyFiltersAndRender();
+});
+
+// Category filter
+document.getElementById('categoryFilter').addEventListener('change', e => {
+  activeFilters.category = e.target.value;
+  applyFiltersAndRender();
+});
+
+/* ============================================================
+   INIT
+============================================================ */
+
+function applyUrlParams() {
+  const params = new URLSearchParams(window.location.search);
+  const country  = params.get('country');
+  const duration = params.get('duration');
+  const budget   = params.get('budget');
+
+  if (!country && !duration && !budget) return; // nothing to do
+
+  if (country) {
+    const chips = [...document.querySelectorAll('#destinationChips .chip')];
+    const chip  = chips.find(c =>
+      c.dataset.country && c.dataset.country.toLowerCase() === country.toLowerCase()
+    );
+    if (chip) {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeFilters.country = chip.dataset.country;
+    } else {
+      // Free-text country (no matching chip) — still filter by it
+      activeFilters.country = country;
+    }
+  }
+
+  if (duration) {
+    const sel = document.getElementById('durationFilter');
+    if (sel) sel.value = duration;
+    activeFilters.duration = duration;
+  }
+
+  if (budget) {
+    const sel = document.getElementById('budgetFilter');
+    if (sel) sel.value = budget;
+    activeFilters.budget = budget;
+  }
+
+  // Re-render with the pre-applied filters
+  applyFiltersAndRender();
+}
+
+// REPLACE the old `fetchTours();` line at the bottom with:
+fetchTours().then(applyUrlParams);
+</script>
+
+</body>
+</html>

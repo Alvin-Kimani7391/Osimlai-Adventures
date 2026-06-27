@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo Gallery | Osimlai Adventures</title>
+  <meta name="description" content="Real photos from real adventures across East Africa. Safaris, wildlife, volunteer experiences, and the people who make it all possible with Osimlai Adventures." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    /* ===== MASONRY GALLERY ===== */
+    .gallery-section { padding: 60px 5% 90px; }
+
+    .gallery-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      padding: 20px 28px;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .gallery-filter-bar .filter-label { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-right: 4px; }
+
+    /* Masonry grid */
+    .masonry {
+      columns: 4;
+      column-gap: 16px;
+    }
+    .masonry-item {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      display: block;
+    }
+    .masonry-item img {
+      width: 100%;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .masonry-item .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,31,23,0.85) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 18px;
+    }
+    .masonry-item:hover .overlay { opacity: 1; }
+    .masonry-item:hover img { transform: scale(1.05); }
+    .overlay-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 4px;
+    }
+    .overlay-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.35;
+    }
+    .overlay-location {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.65);
+      margin-top: 4px;
+    }
+    .overlay-zoom {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(6px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* hidden items for load more */
+    .masonry-item.hidden { display: none; }
+
+    /* ===== LIGHTBOX ===== */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      background: rgba(0,0,0,0.94);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    .lightbox.active { display: flex; }
+    .lightbox-inner {
+      position: relative;
+      max-width: 1000px;
+      width: 92vw;
+      animation: lbIn 0.25s ease;
+    }
+    @keyframes lbIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .lightbox-img {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      display: block;
+      max-height: 78vh;
+      object-fit: contain;
+    }
+    .lightbox-caption {
+      margin-top: 14px;
+      text-align: center;
+    }
+    .lightbox-caption h4 { color: var(--white); font-size: 1rem; margin-bottom: 4px; font-family: 'Playfair Display', serif; }
+    .lightbox-caption p { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+    .lb-close {
+      position: fixed;
+      top: 20px; right: 24px;
+      font-size: 1.6rem;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      z-index: 5001;
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.2); color: var(--white); }
+    .lb-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px; height: 48px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      color: var(--white);
+      cursor: pointer;
+      z-index: 5001;
+      transition: background 0.2s;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .lb-nav:hover { background: rgba(255,255,255,0.2); }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
+    .lb-counter {
+      position: fixed;
+      top: 24px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      background: rgba(0,0,0,0.4);
+      padding: 6px 14px;
+      border-radius: 100px;
+    }
+
+    /* ===== STATS BANNER ===== */
+    .gallery-stats {
+      display: flex;
+      gap: 0;
+      background: var(--forest);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 56px;
+    }
+    .gallery-stat {
+      flex: 1;
+      padding: 28px 24px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+    .gallery-stat:last-child { border-right: none; }
+    .gallery-stat-num { font-size: 1.9rem; font-weight: 900; color: var(--white); }
+    .gallery-stat-num span { color: var(--gold-light); }
+    .gallery-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-top: 4px; }
+
+    /* Load more */
+    .load-more-wrap { text-align: center; margin-top: 44px; }
+
+    /* ===== VIDEO SECTION ===== */
+    .video-section { background: var(--forest); padding: 80px 5%; }
+    .video-section .section-header h2 { color: var(--white); font-family: 'Playfair Display', serif; }
+    .video-section .section-header p { color: rgba(255,255,255,0.65); }
+    .video-section .eyebrow { color: var(--gold-light); }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .video-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: var(--transition);
+    }
+    .video-card:hover { transform: translateY(-4px); border-color: rgba(82,183,136,0.5); }
+    .video-thumb { position: relative; }
+    .video-thumb img { width: 100%; height: 200px; object-fit: cover; display: block; }
+    .play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.35);
+      transition: background 0.25s;
+    }
+    .video-card:hover .play-btn { background: rgba(0,0,0,0.2); }
+    .play-circle {
+      width: 56px; height: 56px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 8px 24px rgba(212,160,23,0.45);
+      transition: transform 0.25s;
+    }
+    .video-card:hover .play-circle { transform: scale(1.1); }
+    .video-card-body { padding: 16px 18px 18px; }
+    .video-card-body h4 { color: var(--white); font-size: 0.95rem; margin-bottom: 5px; font-family: 'Playfair Display', serif; }
+    .video-card-body p { font-size: 0.8rem; color: rgba(255,255,255,0.55); }
+    .video-duration {
+      position: absolute;
+      bottom: 10px; right: 10px;
+      background: rgba(0,0,0,0.7);
+      color: var(--white);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .social-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      transition: var(--transition);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .social-btn:hover { background: var(--gold); color: var(--forest); }
+
+    @media (max-width: 1200px) { .masonry { columns: 3; } }
+    @media (max-width: 768px) {
+      .masonry { columns: 2; }
+      .gallery-stats { flex-wrap: wrap; }
+      .gallery-stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); flex: 1 1 40%; }
+      .gallery-stat:last-child { border-bottom: none; }
+      .lb-nav { display: none; }
+    }
+    @media (max-width: 480px) { .masonry { columns: 1; } }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">🌍</div>
+    Osimlai <span>Adventures</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">Home</a></li>
+    <li><a href="tours.html" class="nav-link">Safaris</a></li>
+    <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+    <li><a href="community.html" class="nav-link">Community</a></li>
+    <li><a href="about.html" class="nav-link">About</a></li>
+    <li><a href="blog.html" class="nav-link">Blog</a></li>
+    <li><a href="contact.html" class="nav-link">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="nav-cta">Sign In</a>
+    <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
+  <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
+  <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+  <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
+  <div class="mobile-actions">
+    <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+    <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
+  </div>
+</div>
+
+<!-- ===== PAGE HERO ===== -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span>›</span><span>Gallery</span>
+    </div>
+    <h1>Moments That Last Forever</h1>
+    <p>Every frame here was captured on a real Osimlai trip — by our guides, our staff, and the travellers who lived these moments. No stock photos. No staging.</p>
+  </div>
+</div>
+
+<!-- ===== GALLERY ===== -->
+<section class="gallery-section">
+  <div class="container">
+
+    <!-- Stats -->
+    <div class="gallery-stats">
+      <div class="gallery-stat">
+        <div class="gallery-stat-num">520<span>+</span></div>
+        <div class="gallery-stat-label">Photos in Gallery</div>
+      </div>
+      <div class="gallery-stat">
+        <div class="gallery-stat-num">12</div>
+        <div class="gallery-stat-label">African Countries</div>
+      </div>
+      <div class="gallery-stat">
+        <div class="gallery-stat-num">60<span>+</span></div>
+        <div class="gallery-stat-label">Wildlife Species</div>
+      </div>
+      <div class="gallery-stat">
+        <div class="gallery-stat-num">3,200<span>+</span></div>
+        <div class="gallery-stat-label">Travellers Photographed</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="gallery-filter-bar">
+      <span class="filter-label">Filter:</span>
+      <div class="filter-chips" id="filterChips">
+        <div class="chip active" data-filter="all">All Photos</div>
+        <div class="chip" data-filter="wildlife">🦁 Wildlife</div>
+        <div class="chip" data-filter="safari">🗺️ Safari</div>
+        <div class="chip" data-filter="volunteer">🌿 Volunteer</div>
+        <div class="chip" data-filter="culture">🥁 Culture</div>
+        <div class="chip" data-filter="landscape">🌄 Landscapes</div>
+      </div>
+    </div>
+
+    <!-- Masonry Grid -->
+    <div class="masonry" id="masonryGrid">
+
+      <div class="masonry-item" data-category="wildlife" data-title="Lioness at Dawn" data-location="Serengeti, Tanzania">
+        <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&auto=format&fit=crop" alt="Lioness at Dawn" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Wildlife</span>
+          <span class="overlay-title">Lioness at Dawn</span>
+          <span class="overlay-location">📍 Serengeti, Tanzania</span>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-category="safari" data-title="Serengeti Plains" data-location="Serengeti, Tanzania">
+        <img src="https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=600&auto=format&fit=crop" alt="Serengeti" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Safari</span>
+          <span class="overlay-title">Endless Serengeti Plains</span>
+          <span class="overlay-location">📍 Serengeti, Tanzania</span>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-category="wildlife" data-title="Mountain Gorilla" data-location="Bwindi, Uganda">
+        <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&auto=format&fit=crop" alt="Gorilla" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Wildlife</span>
+          <span class="overlay-title">Mountain Gorilla, Face to Face</span>
+          <span class="overlay-location">📍 Bwindi Forest, Uganda</span>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-category="landscape" data-title="Golden Savanna" data-location="Tarangire, Tanzania">
+        <img src="https://images.unsplash.com/photo-1581123578069-5b61e9a1c90c?w=600&auto=format&fit=crop" alt="Savanna" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Landscape</span>
+          <span class="overlay-title">Golden Hour Savanna</span>
+          <span class="overlay-location">📍 Tarangire, Tanzania</span>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-category="volunteer" data-title="Community Teaching" data-location="Arusha, Tanzania">
+        <img src="https://images.unsplash.com/photo-1508002366005-75a695ee2d17?w=600&auto=format&fit=crop" alt="Volunteer" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Volunteer</span>
+          <span class="overlay-title">Building Futures Together</span>
+          <span class="overlay-location">📍 Arusha, Tanzania</span>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-category="wildlife" data-title="Conservation Work" data-location="Selous, Tanzania">
+        <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&auto=format&fit=crop" alt="Conservation" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Conservation</span>
+          <span class="overlay-title">Wildlife Ranger on Patrol</span>
+          <span class="overlay-location">📍 Selous, Tanzania</span>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-category="culture" data-title="Maasai Warriors" data-location="Ngorongoro, Tanzania">
+        <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600&auto=format&fit=crop" alt="Maasai" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Culture</span>
+          <span class="overlay-title">Maasai Warriors' Ceremony</span>
+          <span class="overlay-location">📍 Ngorongoro, Tanzania</span>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-category="volunteer" data-title="Health Outreach" data-location="Kampala, Uganda">
+        <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=600&auto=format&fit=crop" alt="Health" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Volunteer</span>
+          <span class="overlay-title">Community Health Clinic</span>
+          <span class="overlay-location">📍 Rural Uganda</span>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-category="landscape" data-title="Ngorongoro Crater" data-location="Ngorongoro, Tanzania">
+        <img src="https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=600&auto=format&fit=crop" alt="Ngorongoro" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Landscape</span>
+          <span class="overlay-title">Ngorongoro Crater Vista</span>
+          <span class="overlay-location">📍 Ngorongoro, Tanzania</span>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-category="safari" data-title="Game Drive" data-location="Serengeti, Tanzania">
+        <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&auto=format&fit=crop" alt="Game Drive" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Safari</span>
+          <span class="overlay-title">Morning Game Drive</span>
+          <span class="overlay-location">📍 Serengeti, Tanzania</span>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-category="culture" data-title="Village Life" data-location="Musanze, Rwanda">
+        <img src="https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?w=600&auto=format&fit=crop" alt="Village" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Culture</span>
+          <span class="overlay-title">Village Life, Rwanda Hills</span>
+          <span class="overlay-location">📍 Musanze, Rwanda</span>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-category="wildlife" data-title="Elephant Herd" data-location="Tarangire, Tanzania">
+        <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=600&auto=format&fit=crop" alt="Elephants" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Wildlife</span>
+          <span class="overlay-title">Elephant Herd at Sunset</span>
+          <span class="overlay-location">📍 Tarangire, Tanzania</span>
+        </div>
+      </div>
+
+      <!-- Hidden (load more) -->
+      <div class="masonry-item hidden" data-category="landscape" data-title="Kilimanjaro" data-location="Kilimanjaro, Tanzania">
+        <img src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=600&auto=format&fit=crop" alt="Kilimanjaro" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Landscape</span>
+          <span class="overlay-title">Mount Kilimanjaro at Sunrise</span>
+          <span class="overlay-location">📍 Kilimanjaro, Tanzania</span>
+        </div>
+      </div>
+
+      <div class="masonry-item hidden" data-category="safari" data-title="Hot Air Balloon" data-location="Serengeti, Tanzania">
+        <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop" alt="Balloon" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Safari</span>
+          <span class="overlay-title">Dawn Balloon Safari</span>
+          <span class="overlay-location">📍 Serengeti, Tanzania</span>
+        </div>
+      </div>
+
+      <div class="masonry-item hidden" data-category="volunteer" data-title="Tree Planting" data-location="Arusha, Tanzania">
+        <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=600&auto=format&fit=crop" alt="Reforestation" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Volunteer</span>
+          <span class="overlay-title">Reforestation Project</span>
+          <span class="overlay-location">📍 Arusha, Tanzania</span>
+        </div>
+      </div>
+
+      <div class="masonry-item hidden" data-category="culture" data-title="Market Day" data-location="Arusha, Tanzania">
+        <img src="https://images.unsplash.com/photo-1611348524140-53c9a25263d6?w=600&auto=format&fit=crop" alt="Market" loading="lazy" />
+        <div class="overlay">
+          <span class="overlay-zoom">🔍</span>
+          <span class="overlay-tag">Culture</span>
+          <span class="overlay-title">Maasai Market Day</span>
+          <span class="overlay-location">📍 Arusha, Tanzania</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="load-more-wrap">
+      <button class="btn btn-outline-dark btn-lg" id="loadMoreBtn">Load More Photos ↓</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VIDEO SECTION ===== -->
+<section class="video-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">In Motion</span>
+      <h2>Video Stories</h2>
+      <p>Some moments only make sense when you can hear the land breathe. Short films from our guides and travellers.</p>
+    </div>
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&auto=format&fit=crop" alt="Migration" loading="lazy" />
+          <div class="play-btn"><div class="play-circle">▶</div></div>
+          <span class="video-duration">4:38</span>
+        </div>
+        <div class="video-card-body">
+          <h4>The Great Migration: One Morning in the Serengeti</h4>
+          <p>Filmed over 3 days at the river crossing · 2025</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&auto=format&fit=crop" alt="Gorillas" loading="lazy" />
+          <div class="play-btn"><div class="play-circle">▶</div></div>
+          <span class="video-duration">6:12</span>
+        </div>
+        <div class="video-card-body">
+          <h4>Bwindi: Spending an Hour with the Gorillas</h4>
+          <p>Shot in Bwindi Impenetrable Forest · 2025</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://images.unsplash.com/photo-1508002366005-75a695ee2d17?w=600&auto=format&fit=crop" alt="Volunteer" loading="lazy" />
+          <div class="play-btn"><div class="play-circle">▶</div></div>
+          <span class="video-duration">3:55</span>
+        </div>
+        <div class="video-card-body">
+          <h4>Sophie's Story: From Amsterdam to Arusha</h4>
+          <p>Volunteer documentary short · Tanzania 2025</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--gold-light)">Your Story Starts Here</span>
+    <h2>Ready to Be in the Next Frame?</h2>
+    <p>Every one of these photos was taken by someone who decided to go. Browse our safaris and start planning your adventure.</p>
+    <div class="cta-actions">
+      <a href="tours.html" class="btn btn-primary btn-lg">Browse Safaris</a>
+      <a href="contact.html" class="btn btn-outline btn-lg">Talk to an Expert</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="color:var(--white)">
+        <div class="logo-icon">🌍</div>
+        Osimlai <span>Adventures</span>
+      </a>
+      <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014.</p>
+      <div class="footer-social">
+        <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Quick Links</h4><ul>
+      <li><a href="tours.html">Safari Tours</a></li>
+      <li><a href="volunteer.html">Volunteer Programs</a></li>
+      <li><a href="community.html">Community Impact</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="blog.html">Travel Blog</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Destinations</h4><ul>
+      <li><a href="tours.html">Tanzania</a></li>
+      <li><a href="tours.html">Kenya</a></li>
+      <li><a href="tours.html">Uganda</a></li>
+      <li><a href="tours.html">Rwanda</a></li>
+      <li><a href="tours.html">Ethiopia</a></li>
+      <li><a href="tours.html">Botswana</a></li>
+      <li><a href="tours.html">Namibia</a></li>
+      <li><a href="tours.html">South Africa</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Support</h4><ul>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="faq.html#booking">Booking Policy</a></li>
+      <li><a href="faq.html#cancellation">Cancellation Policy</a></li>
+      <li><a href="faq.html#insurance">Travel Insurance</a></li>
+      <li><a href="faq.html#privacy">Privacy Policy</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Osimlai Adventures. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
+  </div>
+</footer>
+
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox" id="lightbox">
+  <span class="lb-close" id="lbClose">✕</span>
+  <span class="lb-nav lb-prev" id="lbPrev">‹</span>
+  <span class="lb-nav lb-next" id="lbNext">›</span>
+  <span class="lb-counter" id="lbCounter"></span>
+  <div class="lightbox-inner">
+    <img class="lightbox-img" id="lbImg" src="" alt="" />
+    <div class="lightbox-caption">
+      <h4 id="lbTitle"></h4>
+      <p id="lbLocation"></p>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="js/main.js"></script>
+<script src="js/gallery.js"></script>
+<script>
+  // Navbar
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 20));
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('open'));
+
+  // ---- FILTER ----
+  const chips = document.querySelectorAll('#filterChips .chip');
+  const allItems = document.querySelectorAll('.masonry-item:not(.hidden)');
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const filter = chip.dataset.filter;
+      document.querySelectorAll('.masonry-item:not([style*="display: none"])').forEach(item => {
+        if (filter === 'all' || item.dataset.category === filter) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // ---- LOAD MORE ----
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  const hiddenItems = document.querySelectorAll('.masonry-item.hidden');
+  loadMoreBtn.addEventListener('click', () => {
+    hiddenItems.forEach(item => {
+      item.classList.remove('hidden');
+      item.style.display = 'block';
+    });
+    loadMoreBtn.style.display = 'none';
+  });
+
+  // ---- LIGHTBOX ----
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbTitle = document.getElementById('lbTitle');
+  const lbLocation = document.getElementById('lbLocation');
+  const lbCounter = document.getElementById('lbCounter');
+  let currentIndex = 0;
+  let visibleItems = [];
+
+  function openLightbox(index) {
+    visibleItems = Array.from(document.querySelectorAll('.masonry-item')).filter(el => el.style.display !== 'none');
+    currentIndex = index;
+    updateLightbox();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function updateLightbox() {
+    const item = visibleItems[currentIndex];
+    lbImg.src = item.querySelector('img').src;
+    lbImg.alt = item.dataset.title;
+    lbTitle.textContent = item.dataset.title;
+    lbLocation.textContent = '📍 ' + item.dataset.location;
+    lbCounter.textContent = (currentIndex + 1) + ' / ' + visibleItems.length;
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.masonry-item').forEach((item, i) => {
+    item.addEventListener('click', () => openLightbox(i));
+  });
+
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.getElementById('lbPrev').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    updateLightbox();
+  });
+  document.getElementById('lbNext').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % visibleItems.length;
+    updateLightbox();
+  });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') { currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length; updateLightbox(); }
+    if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % visibleItems.length; updateLightbox(); }
+  });
+</script>
+</body>
+</html>

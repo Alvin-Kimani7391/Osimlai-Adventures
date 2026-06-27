@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account | Osimlai Adventures</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest: #1a3c2e; --forest-mid: #2d6a4f; --forest-light: #52b788;
+      --gold: #d4a017; --gold-light: #f4c842; --sand: #f5f0e8;
+      --text: #1a1a1a; --text-muted: #6b7280; --white: #ffffff;
+      --error: #dc2626; --success: #16a34a;
+      --radius: 12px; --radius-lg: 20px;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--white);
+    }
+    .auth-visual {
+      position: relative; overflow: hidden;
+      background: linear-gradient(160deg, #0d1f17 0%, #1a3c2e 50%, #2d6a4f 100%);
+    }
+    .auth-visual-img {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=1000&auto=format&fit=crop') center/cover;
+      opacity: 0.2;
+    }
+    .auth-visual-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(13,31,23,0.3) 0%, rgba(13,31,23,0.85) 100%);
+    }
+    .auth-visual-content {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+      height: 100%; padding: 48px;
+      justify-content: space-between;
+    }
+    .auth-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .auth-logo-icon { width: 42px; height: 42px; background: var(--gold); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .auth-logo span { font-size: 1.25rem; font-weight: 800; color: var(--white); letter-spacing: -0.02em; font-family: 'Playfair Display', serif; }
+    .auth-logo em { color: var(--gold); font-style: normal; }
+    .auth-hero-text h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; color: var(--white); line-height: 1.2; margin-bottom: 1rem; font-family: 'Playfair Display', serif; }
+    .auth-hero-text p { color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.7; max-width: 380px; margin-bottom: 2rem; }
+    .perks-list { display: flex; flex-direction: column; gap: 14px; }
+    .perk { display: flex; align-items: flex-start; gap: 12px; }
+    .perk-icon { width: 32px; height: 32px; background: rgba(82,183,136,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+    .perk-text h4 { color: var(--white); font-size: 0.88rem; font-weight: 700; margin-bottom: 2px; }
+    .perk-text p { color: rgba(255,255,255,0.6); font-size: 0.78rem; line-height: 1.5; }
+    .auth-form-panel { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px 48px; background: var(--white); overflow-y: auto; }
+    .auth-form-inner { width: 100%; max-width: 440px; }
+    .auth-form-header { margin-bottom: 30px; }
+    .auth-form-header h1 { font-size: 1.8rem; font-weight: 800; color: var(--forest); margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+    .auth-form-header p { color: var(--text-muted); font-size: 0.92rem; }
+    .auth-form-header p a { color: var(--forest-light); font-weight: 600; text-decoration: none; }
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .field-wrap { position: relative; }
+    .field-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 0.95rem; color: var(--text-muted); pointer-events: none; z-index: 1; }
+    .field input, .field select {
+      width: 100%; padding: 12px 16px 12px 40px;
+      border: 1.5px solid #e5e7eb; border-radius: var(--radius);
+      font-size: 0.93rem; color: var(--text); background: var(--white);
+      font-family: 'Inter', sans-serif; transition: all 0.22s ease; outline: none;
+    }
+    .field input:focus, .field select:focus { border-color: var(--forest-light); box-shadow: 0 0 0 3px rgba(82,183,136,0.12); }
+    .field input.error { border-color: var(--error); }
+    .field input.success-field { border-color: var(--success); }
+    .field select { padding-left: 40px; cursor: pointer; }
+    .toggle-pass { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 0.95rem; color: var(--text-muted); padding: 2px; }
+    .field-error { font-size: 0.74rem; color: var(--error); margin-top: 4px; display: none; }
+    .field-error.show { display: block; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .strength-bar { margin-top: 6px; }
+    .strength-track { height: 4px; background: #e5e7eb; border-radius: 2px; overflow: hidden; margin-bottom: 4px; }
+    .strength-fill { height: 100%; border-radius: 2px; transition: all 0.3s ease; width: 0; }
+    .strength-label { font-size: 0.72rem; font-weight: 600; }
+    .terms-row { display: flex; align-items: flex-start; gap: 10px; margin: 18px 0; }
+    .terms-row input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--forest); cursor: pointer; flex-shrink: 0; margin-top: 1px; }
+    .terms-row label { font-size: 0.84rem; color: var(--text-muted); cursor: pointer; line-height: 1.5; }
+    .terms-row a { color: var(--forest-light); font-weight: 600; text-decoration: none; }
+    .btn-submit { width: 100%; padding: 14px; background: var(--forest); color: var(--white); border: none; border-radius: 100px; font-size: 0.96rem; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-submit:hover { background: var(--forest-mid); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,60,46,0.28); }
+    .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+    .btn-submit .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-text { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
+    .divider span { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+    .btn-google { width: 100%; padding: 13px; background: var(--white); color: var(--text); border: 1.5px solid #e5e7eb; border-radius: 100px; font-size: 0.92rem; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.22s ease; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 4px; }
+    .btn-google:hover { border-color: #d1d5db; background: #fafafa; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    .alert { padding: 13px 16px; border-radius: var(--radius); font-size: 0.86rem; font-weight: 500; margin-bottom: 18px; display: none; align-items: center; gap: 8px; }
+    .alert.show { display: flex; }
+    .alert-error { background: #fef2f2; color: var(--error); border: 1px solid #fecaca; }
+    .alert-success { background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0; }
+    @media (max-width: 768px) {
+      body { grid-template-columns: 1fr; }
+      .auth-visual { display: none; }
+      .auth-form-panel { padding: 40px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="auth-visual">
+  <div class="auth-visual-img"></div>
+  <div class="auth-visual-overlay"></div>
+  <div class="auth-visual-content">
+    <a href="index.html" class="auth-logo">
+      <div class="auth-logo-icon">🌍</div>
+      <span>Osimlai <em>Adventures</em></span>
+    </a>
+    <div class="auth-hero-text">
+      <h2>Join 3,200+ Adventurers & Changemakers</h2>
+      <p>Create your free account and unlock the full Osimlai experience — from booking safaris to volunteer applications.</p>
+    </div>
+    <div class="perks-list">
+      <div class="perk">
+        <div class="perk-icon">🗺️</div>
+        <div class="perk-text">
+          <h4>Book Safari Tours Online</h4>
+          <p>Secure your spot with just a 20% deposit. View and manage all bookings in your dashboard.</p>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">🌿</div>
+        <div class="perk-text">
+          <h4>Apply for Volunteer Programs</h4>
+          <p>Submit applications, upload documents, and track your application status in real time.</p>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">💳</div>
+        <div class="perk-text">
+          <h4>Flexible Payment Options</h4>
+          <p>Pay via PayPal, M-Pesa, or bank transfer. Full payment history and receipts always available.</p>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">🔔</div>
+        <div class="perk-text">
+          <h4>Real-time Notifications</h4>
+          <p>Get instant updates on your bookings, applications, and exclusive member-only offers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="auth-form-panel">
+  <div class="auth-form-inner">
+    <div class="auth-form-header">
+      <h1>Create your account 🌍</h1>
+      <p>Already have one? <a href="login.html">Sign in instead</a></p>
+    </div>
+
+    <div class="alert alert-error" id="regAlert">
+      <span>⚠️</span> <span id="regAlertMsg"></span>
+    </div>
+
+    <button class="btn-google" onclick="handleGoogleReg()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18L12.048 13.56c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71 0-.593.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+      Sign up with Google
+    </button>
+
+    <div class="divider"><span>or create with email</span></div>
+
+    <form id="registerForm" novalidate>
+      <div class="form-row">
+        <div class="field">
+          <label>First Name</label>
+          <div class="field-wrap">
+            <span class="field-icon">👤</span>
+            <input type="text" id="firstName" placeholder="Jane" autocomplete="given-name" />
+          </div>
+          <div class="field-error" id="firstNameErr">First name is required.</div>
+        </div>
+        <div class="field">
+          <label>Last Name</label>
+          <div class="field-wrap">
+            <span class="field-icon">👤</span>
+            <input type="text" id="lastName" placeholder="Doe" autocomplete="family-name" />
+          </div>
+          <div class="field-error" id="lastNameErr">Last name is required.</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email Address</label>
+        <div class="field-wrap">
+          <span class="field-icon">📧</span>
+          <input type="email" id="email" placeholder="jane@example.com" autocomplete="email" />
+        </div>
+        <div class="field-error" id="emailErr">Please enter a valid email address.</div>
+      </div>
+
+      <div class="field">
+        <label>Phone Number</label>
+        <div class="field-wrap">
+          <span class="field-icon">📱</span>
+          <input type="tel" id="phone" placeholder="+255 7XX XXX XXX" autocomplete="tel" />
+        </div>
+        <div class="field-error" id="phoneErr">Please enter a valid phone number.</div>
+      </div>
+
+      <div class="field">
+        <label>Nationality</label>
+        <div class="field-wrap">
+          <span class="field-icon">🌍</span>
+          <select id="nationality">
+            <option value="">Select your country</option>
+            <option>Tanzania</option>
+            <option>Kenya</option>
+            <option>Uganda</option>
+            <option>United States</option>
+            <option>United Kingdom</option>
+            <option>Germany</option>
+            <option>France</option>
+            <option>Australia</option>
+            <option>Canada</option>
+            <option>Netherlands</option>
+            <option>Sweden</option>
+            <option>Norway</option>
+            <option>Denmark</option>
+            <option>Switzerland</option>
+            <option>South Africa</option>
+            <option>Nigeria</option>
+            <option>Ghana</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field-error" id="nationalityErr">Please select your nationality.</div>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <div class="field-wrap">
+          <span class="field-icon">🔒</span>
+          <input type="password" id="password" placeholder="Create a strong password" autocomplete="new-password" />
+          <button type="button" class="toggle-pass" id="togglePass">👁️</button>
+        </div>
+        <div class="strength-bar" id="strengthBar">
+          <div class="strength-track">
+            <div class="strength-fill" id="strengthFill"></div>
+          </div>
+          <div class="strength-label" id="strengthLabel"></div>
+        </div>
+        <div class="field-error" id="passwordErr">Password must be at least 8 characters with a number.</div>
+      </div>
+
+      <div class="field">
+        <label>Confirm Password</label>
+        <div class="field-wrap">
+          <span class="field-icon">🔒</span>
+          <input type="password" id="confirmPassword" placeholder="Repeat your password" autocomplete="new-password" />
+          <button type="button" class="toggle-pass" id="toggleConfirm">👁️</button>
+        </div>
+        <div class="field-error" id="confirmErr">Passwords do not match.</div>
+      </div>
+
+      <div class="terms-row">
+        <input type="checkbox" id="terms" />
+        <label for="terms">
+          I agree to Osimlai Adventures' <a href="faq.html">Terms of Service</a> and <a href="faq.html#privacy">Privacy Policy</a>. I consent to receiving booking and trip update emails.
+        </label>
+      </div>
+      <div class="field-error" id="termsErr" style="margin-top:-12px;margin-bottom:12px;">You must accept the terms to continue.</div>
+
+      <button type="submit" class="btn-submit" id="registerBtn">
+        <div class="spinner"></div>
+        <span class="btn-text">Create My Account →</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+const API = 'https://wild-tours.onrender.com/api';
+
+// Toggle passwords
+document.getElementById('togglePass').addEventListener('click', () => {
+  const i = document.getElementById('password');
+  const b = document.getElementById('togglePass');
+  i.type = i.type === 'password' ? 'text' : 'password';
+  b.textContent = i.type === 'password' ? '👁️' : '🙈';
+});
+document.getElementById('toggleConfirm').addEventListener('click', () => {
+  const i = document.getElementById('confirmPassword');
+  const b = document.getElementById('toggleConfirm');
+  i.type = i.type === 'password' ? 'text' : 'password';
+  b.textContent = i.type === 'password' ? '👁️' : '🙈';
+});
+
+// Password strength
+document.getElementById('password').addEventListener('input', (e) => {
+  const val = e.target.value;
+  const bar = document.getElementById('strengthBar');
+  const fill = document.getElementById('strengthFill');
+  const label = document.getElementById('strengthLabel');
+
+  if (!val) { bar.style.display = 'none'; return; }
+  bar.style.display = 'block';
+
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (val.length >= 12) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+
+  const levels = [
+    { w: '20%', color: '#ef4444', text: 'Too weak' },
+    { w: '40%', color: '#f97316', text: 'Weak' },
+    { w: '60%', color: '#eab308', text: 'Fair' },
+    { w: '80%', color: '#22c55e', text: 'Strong' },
+    { w: '100%', color: '#16a34a', text: 'Very strong' }
+  ];
+  const l = levels[Math.min(score, 4)];
+  fill.style.width = l.w;
+  fill.style.background = l.color;
+  label.textContent = l.text;
+  label.style.color = l.color;
+});
+
+function showAlert(msg) {
+  const a = document.getElementById('regAlert');
+  document.getElementById('regAlertMsg').textContent = msg;
+  a.className = 'alert alert-error show';
+  setTimeout(() => a.classList.remove('show'), 6000);
+}
+
+function setErr(id, errId, show) {
+  const input = document.getElementById(id);
+  const err = document.getElementById(errId);
+  if (show) { input.classList.add('error'); err.classList.add('show'); }
+  else { input.classList.remove('error'); err.classList.remove('show'); }
+  return !show;
+}
+
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  let valid = true;
+
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName = document.getElementById('lastName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const nationality = document.getElementById('nationality').value;
+  const password = document.getElementById('password').value;
+  const confirm = document.getElementById('confirmPassword').value;
+  const terms = document.getElementById('terms').checked;
+
+  if (!firstName) valid = setErr('firstName', 'firstNameErr', true) && valid; else setErr('firstName', 'firstNameErr', false);
+  if (!lastName) valid = setErr('lastName', 'lastNameErr', true) && valid; else setErr('lastName', 'lastNameErr', false);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) valid = setErr('email', 'emailErr', true) && valid; else setErr('email', 'emailErr', false);
+  if (phone.length < 7) valid = setErr('phone', 'phoneErr', true) && valid; else setErr('phone', 'phoneErr', false);
+  if (!nationality) valid = setErr('nationality', 'nationalityErr', true) && valid; else setErr('nationality', 'nationalityErr', false);
+  if (password.length < 8 || !/[0-9]/.test(password)) valid = setErr('password', 'passwordErr', true) && valid; else setErr('password', 'passwordErr', false);
+  if (password !== confirm) valid = setErr('confirmPassword', 'confirmErr', true) && valid; else setErr('confirmPassword', 'confirmErr', false);
+
+  const termsErr = document.getElementById('termsErr');
+  if (!terms) { termsErr.classList.add('show'); valid = false; } else { termsErr.classList.remove('show'); }
+
+  if (!valid) return;
+
+  const btn = document.getElementById('registerBtn');
+  btn.classList.add('loading'); btn.disabled = true;
+
+  try {
+    const res = await fetch(`${API}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        phone,
+        nationality,
+        password
+      })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      localStorage.setItem('wr_token', data.token);
+      localStorage.setItem('wr_user', JSON.stringify(data.user));
+      window.location.href = 'index.html';
+    } else {
+      showAlert(data.message || 'Registration failed. Please try again.');
+    }
+  } catch (err) {
+    showAlert('Connection error. Please check your internet and try again.');
+  } finally {
+    btn.classList.remove('loading'); btn.disabled = false;
+  }
+});
+
+function handleGoogleReg() {
+  window.location.href = `${API}/auth/google`;
+}
+</script>
+</body>
+</html>

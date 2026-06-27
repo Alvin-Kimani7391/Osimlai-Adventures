@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | Osimlai Adventures</title>
+  <meta name="description" content="Learn about Osimlai Adventures — our story, our team, our mission, and the values that drive everything we do from our home in Arusha, Tanzania." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    /* ---- TIMELINE ---- */
+    .timeline { position: relative; max-width: 780px; margin: 0 auto; padding: 0 0 20px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--forest-light), var(--gold));
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      display: flex;
+      justify-content: flex-end;
+      padding-right: calc(50% + 36px);
+      margin-bottom: 48px;
+      position: relative;
+    }
+    .timeline-item:nth-child(even) {
+      justify-content: flex-start;
+      padding-right: 0;
+      padding-left: calc(50% + 36px);
+    }
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      top: 18px;
+      width: 16px; height: 16px;
+      background: var(--gold);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 3px var(--gold);
+      z-index: 1;
+    }
+    .timeline-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.06);
+      max-width: 320px;
+      width: 100%;
+    }
+    .timeline-year {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .timeline-card h4 { color: var(--forest); font-size: 1rem; margin-bottom: 6px; }
+    .timeline-card p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ---- MISSION STRIP ---- */
+    .mission-strip {
+      background: var(--forest);
+      padding: 80px 5%;
+      color: var(--white);
+    }
+    .mission-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+    }
+    .mission-pillar {
+      padding: 0 48px;
+      border-right: 1px solid rgba(255,255,255,0.12);
+      text-align: center;
+    }
+    .mission-pillar:first-child { padding-left: 0; }
+    .mission-pillar:last-child { border-right: none; padding-right: 0; }
+    .mission-pillar-icon {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .mission-pillar h3 { color: var(--gold-light); font-size: 1.1rem; margin-bottom: 10px; }
+    .mission-pillar p { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.7; }
+
+    /* ---- IMPACT NUMBERS ---- */
+    .impact-section { background: var(--sand); }
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .impact-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--forest-light);
+    }
+    .impact-num { font-size: 2.6rem; font-weight: 900; color: var(--forest); line-height: 1; }
+    .impact-num span { color: var(--gold); }
+    .impact-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 8px; line-height: 1.4; }
+
+    /* ---- PARTNERS ---- */
+    .partners-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    .partner-badge {
+      background: var(--white);
+      border: 1.5px solid #e8e8e8;
+      border-radius: var(--radius);
+      padding: 14px 24px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .partner-badge:hover { border-color: var(--forest-light); color: var(--forest); box-shadow: var(--shadow); }
+
+    /* ---- TEAM ---- */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+    .team-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .team-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+    .team-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 16px;
+      border: 3px solid var(--forest-light);
+    }
+    .team-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .team-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .team-card p {
+      font-size: 0.85rem;
+      color: var(--forest);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .team-card .team-bio {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .team-social {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .team-social a {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+    .team-social a:hover {
+      background: var(--forest);
+      color: var(--white);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .about-img-wrap {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .about-img-wrap img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      display: block;
+    }
+    .about-img-badge {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: var(--forest);
+      color: var(--white);
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .about-img-badge i { color: var(--gold-light); }
+
+    .values-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .value-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .value-check {
+      color: var(--forest);
+      font-size: 1.2rem;
+      margin-top: 2px;
+    }
+    .value-item h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .value-item p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 992px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .about-img-wrap img {
+        height: 300px;
+      }
+    }
+    @media (max-width: 768px) {
+      .timeline::before { left: 20px; }
+      .timeline-item,
+      .timeline-item:nth-child(even) {
+        justify-content: flex-start;
+        padding-left: 60px;
+        padding-right: 0;
+      }
+      .timeline-dot { left: 20px; }
+      .timeline-card { max-width: 100%; }
+      .mission-inner { grid-template-columns: 1fr; gap: 32px; }
+      .mission-pillar { padding: 0; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 32px; }
+      .mission-pillar:last-child { border-bottom: none; padding-bottom: 0; }
+      .team-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+      }
+      .about-img-wrap img {
+        height: 220px;
+      }
+      .about-img-badge {
+        font-size: 0.75rem;
+        padding: 8px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">🌍</div>
+    Osimlai <span>Adventures</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">Home</a></li>
+    <li><a href="tours.html" class="nav-link">Safaris</a></li>
+    <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+    <li><a href="community.html" class="nav-link">Community</a></li>
+    <li><a href="about.html" class="nav-link active">About</a></li>
+    <li><a href="blog.html" class="nav-link">Blog</a></li>
+    <li><a href="contact.html" class="nav-link">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="nav-cta">Sign In</a>
+    <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
+  <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
+  <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+  <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
+  <div class="mobile-actions">
+    <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+    <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
+  </div>
+</div>
+
+<!-- ===== PAGE HERO ===== -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span>About Us</span>
+    </div>
+    <h1>Born in the Heart of Africa</h1>
+    <p>From our home in Arusha, Tanzania, we've built a movement that connects travelers with the soul of Africa — while ensuring the people and wildlife that define it thrive.</p>
+  </div>
+</div>
+
+<!-- ===== OUR STORY ===== -->
+<section>
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&auto=format&fit=crop" alt="Osimlai Adventures founders in Arusha" />
+        <div class="about-img-badge">
+          <i class="fa-solid fa-leaf"></i>
+          Est. 2014 · Arusha, Tanzania
+        </div>
+      </div>
+      <div class="about-text">
+        <span class="eyebrow">Our Story</span>
+        <h2>The Spirit of Osimlai</h2>
+        <p>Osimlai Adventures was born in 2014 under the shade of an ancient baobab tree in Arusha, Tanzania. Our founders — a Maasai wildlife guide and a community development specialist — shared a vision: to show the world Africa's true beauty while ensuring the people who call it home share in the prosperity.</p>
+        <p>They were tired of seeing mass tourism extract wealth from the continent without giving back. So they built a different model. One where guides are co-owners. Where every booking funds conservation. Where travelers leave not just with photographs, but with a genuine understanding of the land and its people.</p>
+        <p>Today, Osimlai Adventures operates across 12 African countries with a team of over 120 local experts, 18 conservation programs, and a community impact fund that has disbursed over $2.4 million into local projects — all from our headquarters in Arusha, at the foot of Mount Kilimanjaro.</p>
+        <div class="values-list">
+          <div class="value-item">
+            <div class="value-check"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <h4>Community First</h4>
+              <p>30% of every booking goes directly to local community development — schools, clinics, clean water, and livelihoods.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-check"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <h4>Conservation by Default</h4>
+              <p>We only partner with lodges and operators that meet our 47-point ecological standards. No exceptions.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-check"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <h4>Radical Transparency</h4>
+              <p>We publish our annual impact report publicly — how much was raised, where it went, and what it built.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MISSION STRIP ===== -->
+<div class="mission-strip">
+  <div class="mission-inner">
+    <div class="mission-pillar">
+      <span class="mission-pillar-icon"><i class="fa-solid fa-globe"></i></span>
+      <h3>Our Mission</h3>
+      <p>To connect curious travellers with authentic African experiences that generate measurable benefit for wildlife, ecosystems, and the communities that steward them.</p>
+    </div>
+    <div class="mission-pillar">
+      <span class="mission-pillar-icon"><i class="fa-solid fa-microscope"></i></span>
+      <h3>Our Vision</h3>
+      <p>An Africa where the economic value of a living lion or an intact forest far exceeds any alternative — because tourism and conservation make it so.</p>
+    </div>
+    <div class="mission-pillar">
+      <span class="mission-pillar-icon"><i class="fa-solid fa-handshake"></i></span>
+      <h3>Our Promise</h3>
+      <p>Every Osimlai traveller departs knowing their trip funded something real. We provide proof — names, coordinates, and outcomes — not vague pledges.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== IMPACT ===== -->
+<section class="impact-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Measured Impact</span>
+      <h2>11 Years. Real Numbers.</h2>
+      <p>Impact that can be verified, measured, and built upon. These figures are audited annually by an independent third party.</p>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-card">
+        <div class="impact-num">$2.4<span>M+</span></div>
+        <div class="impact-label">Channelled into community development projects</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">18<span>K+</span></div>
+        <div class="impact-label">Acres of wildlife habitat actively protected</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">420<span>+</span></div>
+        <div class="impact-label">Local jobs created or sustained</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">78</div>
+        <div class="impact-label">Schools supported with resources and teachers</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">1,200<span>+</span></div>
+        <div class="impact-label">International volunteers placed and supported</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIMELINE ===== -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Our Journey</span>
+      <h2>From a Baobab Tree to 12 Countries</h2>
+      <p>A decade of growth, hard lessons, and milestones that shaped who we are.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">2014 — The Beginning</div>
+          <h4>Founded in Arusha, Tanzania</h4>
+          <p>Joseph Ole Simel and Grace Mushi launch Osimlai Adventures with three safari routes and a bold community-first promise.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">2016 — Expansion</div>
+          <h4>Kenya &amp; Uganda Added</h4>
+          <p>First volunteer programs launch. 150 travelers in year one. First community school completed in Longido, Tanzania.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">2018 — Recognition</div>
+          <h4>UNWTO Award for Sustainable Tourism</h4>
+          <p>Osimlai is recognised by the UN World Tourism Organisation as a global model for responsible eco-tourism.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">2020 — Resilience</div>
+          <h4>Navigating the Pandemic</h4>
+          <p>COVID-19 halted travel but not our mission. We redirected resources to support 280 guides and their families across East Africa.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">2022 — Milestone</div>
+          <h4>1,200th Volunteer Placed</h4>
+          <p>A landmark moment. Our community impact fund surpasses $2M disbursed. New programs open in Rwanda, Ethiopia, and Botswana.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">2025 — Today</div>
+          <h4>12 Countries, 120+ Team Members</h4>
+          <p>Operating at scale with regional offices across East and Southern Africa, a certified training academy for guides, and a new booking platform launching in 2026.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEAM ===== -->
+<section style="background: var(--sand);">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">The People Behind It</span>
+      <h2>Meet Our Leadership Team</h2>
+      <p>Built by Tanzanians, for the world. Our core team brings together deep local expertise and global standards.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-img">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=160&auto=format&fit=crop&face" alt="Joseph Ole Simel" />
+        </div>
+        <h3>Joseph Ole Simel</h3>
+        <p>Co-Founder & CEO</p>
+        <div class="team-bio">Born and raised in the Maasai Steppe. Former park ranger with 22 years in wildlife conservation and community development across Tanzania.</div>
+        <div class="team-social">
+          <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-img">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&face" alt="Grace Mushi" />
+        </div>
+        <h3>Grace Mushi</h3>
+        <p>Co-Founder & Conservation Director</p>
+        <div class="team-bio">PhD in Wildlife Ecology, University of Dar es Salaam. Published researcher in human-wildlife coexistence and savanna ecosystems across East Africa.</div>
+        <div class="team-social">
+          <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-img">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&auto=format&fit=crop&face" alt="David Mwangi" />
+        </div>
+        <h3>David Mwangi</h3>
+        <p>Head of Safari Operations</p>
+        <div class="team-bio">15 years leading expeditions across East and Southern Africa. Certified wilderness first responder and master tracker with roots in Arusha.</div>
+        <div class="team-social">
+          <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-img">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&auto=format&fit=crop&face" alt="Sarah Nkya" />
+        </div>
+        <h3>Sarah Nkya</h3>
+        <p>Volunteer & Community Programs Manager</p>
+        <div class="team-bio">Background in international development and social enterprise. Has personally placed over 500 volunteers since 2016, with a focus on community-led initiatives.</div>
+        <div class="team-social">
+          <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PARTNERS ===== -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Recognised & Trusted By</span>
+      <h2>Our Partners &amp; Certifications</h2>
+      <p>We work alongside world-class conservation bodies, government agencies, and international NGOs who hold us to the highest standards.</p>
+    </div>
+    <div class="partners-row">
+      <div class="partner-badge"><i class="fa-solid fa-earth-africa"></i> UNWTO Certified Partner</div>
+      <div class="partner-badge"><i class="fa-solid fa-paw"></i> Tanzania National Parks (TANAPA)</div>
+      <div class="partner-badge"><i class="fa-solid fa-leaf"></i> Rainforest Alliance</div>
+      <div class="partner-badge"><i class="fa-solid fa-elephant"></i> WWF Conservation Partner</div>
+      <div class="partner-badge"><i class="fa-solid fa-star"></i> TripAdvisor Hall of Fame</div>
+      <div class="partner-badge"><i class="fa-solid fa-trophy"></i> Travelife Gold Certified</div>
+      <div class="partner-badge"><i class="fa-solid fa-plane"></i> IATA Accredited Agency</div>
+      <div class="partner-badge"><i class="fa-solid fa-leaf"></i> Carbon Neutral Certified 2024</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--gold-light)">Join the Story</span>
+    <h2>Be Part of Something That Matters</h2>
+    <p>Whether you're here to explore or to serve, you'll leave with more than memories. You'll leave having made a difference.</p>
+    <div class="cta-actions">
+      <a href="tours.html" class="btn btn-primary btn-lg">Explore Safaris</a>
+      <a href="volunteer.html" class="btn btn-outline btn-lg">Volunteer Programs</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="color:var(--white)">
+        <div class="logo-icon">🌍</div>
+        Osimlai <span>Adventures</span>
+      </a>
+      <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014. Certified eco-tourism operator and community development partner.</p>
+      <div class="footer-social">
+        <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="tours.html">Safari Tours</a></li>
+        <li><a href="volunteer.html">Volunteer Programs</a></li>
+        <li><a href="community.html">Community Impact</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="blog.html">Travel Blog</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Destinations</h4>
+      <ul>
+        <li><a href="tours.html">Tanzania</a></li>
+        <li><a href="tours.html">Kenya</a></li>
+        <li><a href="tours.html">Uganda</a></li>
+        <li><a href="tours.html">Rwanda</a></li>
+        <li><a href="tours.html">Ethiopia</a></li>
+        <li><a href="tours.html">Botswana</a></li>
+        <li><a href="tours.html">Namibia</a></li>
+        <li><a href="tours.html">South Africa</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="faq.html#booking">Booking Policy</a></li>
+        <li><a href="faq.html#cancellation">Cancellation Policy</a></li>
+        <li><a href="faq.html#insurance">Travel Insurance</a></li>
+        <li><a href="faq.html#visa">Visa Information</a></li>
+        <li><a href="faq.html#privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Osimlai Adventures. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
+  </div>
+</footer>
+
+<div id="toast" class="toast"></div>
+<script src="js/main.js"></script>
+<script>
+  const navbar = document.getElementById('navbar');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+</script>
+</body>
+</html>

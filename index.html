@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Osimlai Adventures | Safari & Volunteer Programs</title>
+  <meta name="description" content="Experience authentic African safaris and meaningful volunteer programs. Wildlife conservation, community development, and unforgettable adventures across East Africa." />
+  <meta property="og:title" content="Osimlai Adventures | Safari & Volunteer Programs" />
+  <meta property="og:description" content="Experience authentic African safaris and meaningful volunteer programs. Wildlife conservation, community development." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">🌍</div>
+    Osimlai <span>Adventures</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link active">Home</a></li>
+    <li><a href="tours.html" class="nav-link">Safaris</a></li>
+    <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+    <li><a href="community.html" class="nav-link">Community</a></li>
+    <li><a href="about.html" class="nav-link">About</a></li>
+    <li><a href="blog.html" class="nav-link">Blog</a></li>
+    <li><a href="contact.html" class="nav-link">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="nav-cta">Sign In</a>
+    <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
+  <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
+  <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+  <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
+  <div class="mobile-actions">
+    <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+    <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-img"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <i class="fas fa-award"></i>
+      Africa's Premier Safari & Community Travel Operator
+    </div>
+    <h1>Where <em>Wilderness</em> Meets <em>Heart</em></h1>
+    <p>Discover breathtaking safaris, immerse in vibrant cultures, and create lasting impact through community-driven volunteer programs across East Africa.</p>
+    <div class="hero-actions">
+      <a href="tours.html" class="btn btn-primary btn-lg">Explore Safaris</a>
+      <a href="volunteer.html" class="btn btn-outline btn-lg">Volunteer Programs</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">3,200<span>+</span></div>
+        <div class="hero-stat-label">Happy Travelers</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">52<span>+</span></div>
+        <div class="hero-stat-label">Safari Packages</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">15<span>+</span></div>
+        <div class="hero-stat-label">Volunteer Programs</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">12<span></span></div>
+        <div class="hero-stat-label">African Countries</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SEARCH ===== -->
+<div class="search-section">
+  <div class="search-card">
+    <div class="search-tabs">
+      <div class="search-tab active">
+        <i class="fas fa-map-location-dot"></i> Safaris
+      </div>
+      <div class="search-tab">
+        <i class="fas fa-seedling"></i> Volunteer
+      </div>
+    </div>
+    <div class="search-form">
+      <div class="search-field">
+        <label>Destination</label>
+        <input type="text" placeholder="Kenya, Tanzania, Uganda..." />
+      </div>
+      <div class="search-field">
+        <label>Duration</label>
+        <select>
+          <option value="">Any Duration</option>
+          <option>1–3 Days</option>
+          <option>4–7 Days</option>
+          <option>8–14 Days</option>
+          <option>15+ Days</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <label>Budget (USD)</label>
+        <select>
+          <option value="">Any Budget</option>
+          <option>Under $500</option>
+          <option>$500 – $1,000</option>
+          <option>$1,000 – $2,500</option>
+          <option>$2,500+</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" style="height:48px;border-radius:12px;padding:0 28px;">
+        <i class="fas fa-magnifying-glass"></i> Search
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FEATURED SAFARIS ===== -->
+<section style="padding-top: 20px;">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Most Popular</span>
+      <h2>Featured Safari Packages</h2>
+      <p>Handpicked adventures that deliver the ultimate African wilderness experience with expert guides and premium service.</p>
+    </div>
+    <div class="tours-grid">
+
+      <div class="tour-card" onclick="window.location='tour-detail.html'">
+        <div class="tour-card-img">
+          <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&auto=format&fit=crop" alt="Maasai Mara Safari" loading="lazy" />
+          <span class="tour-badge">BESTSELLER</span>
+        </div>
+        <div class="tour-card-body">
+          <div class="tour-card-meta">
+            <div class="tour-meta-item"><i class="fas fa-location-dot"></i> Kenya</div>
+            <div class="tour-meta-item"><i class="fas fa-clock"></i> 7 Days</div>
+            <div class="tour-meta-item"><i class="fas fa-users"></i> Max 12</div>
+          </div>
+          <h3>Maasai Mara Great Migration</h3>
+          <p>Witness the world's greatest wildlife spectacle. Track lions, elephants, and the iconic wildebeest migration.</p>
+          <div class="tour-card-footer">
+            <div class="tour-price">
+              <span class="tour-price-from">From</span>
+              <span class="tour-price-amt">$1,850 <span>/ person</span></span>
+            </div>
+            <div class="tour-rating">★★★★★ 4.9 (128)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card" onclick="window.location='tour-detail.html'">
+        <div class="tour-card-img">
+          <img src="https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=600&auto=format&fit=crop" alt="Serengeti" loading="lazy" />
+          <span class="tour-badge">NEW</span>
+        </div>
+        <div class="tour-card-body">
+          <div class="tour-card-meta">
+            <div class="tour-meta-item"><i class="fas fa-location-dot"></i> Tanzania</div>
+            <div class="tour-meta-item"><i class="fas fa-clock"></i> 10 Days</div>
+            <div class="tour-meta-item"><i class="fas fa-users"></i> Max 10</div>
+          </div>
+          <h3>Serengeti & Ngorongoro Discovery</h3>
+          <p>Explore the endless plains, volcanic crater, and encounter Africa's Big Five in their natural habitat.</p>
+          <div class="tour-card-footer">
+            <div class="tour-price">
+              <span class="tour-price-from">From</span>
+              <span class="tour-price-amt">$2,400 <span>/ person</span></span>
+            </div>
+            <div class="tour-rating">★★★★★ 4.8 (96)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card" onclick="window.location='tour-detail.html'">
+        <div class="tour-card-img">
+          <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&auto=format&fit=crop" alt="Gorilla Trekking" loading="lazy" />
+        </div>
+        <div class="tour-card-body">
+          <div class="tour-card-meta">
+            <div class="tour-meta-item"><i class="fas fa-location-dot"></i> Uganda</div>
+            <div class="tour-meta-item"><i class="fas fa-clock"></i> 5 Days</div>
+            <div class="tour-meta-item"><i class="fas fa-users"></i> Max 8</div>
+          </div>
+          <h3>Bwindi Gorilla Trekking</h3>
+          <p>Come face-to-face with endangered mountain gorillas in the ancient Bwindi Impenetrable Forest.</p>
+          <div class="tour-card-footer">
+            <div class="tour-price">
+              <span class="tour-price-from">From</span>
+              <span class="tour-price-amt">$3,200 <span>/ person</span></span>
+            </div>
+            <div class="tour-rating">★★★★★ 5.0 (74)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="text-align:center;margin-top:44px;">
+      <a href="tours.html" class="btn btn-outline-dark btn-lg">View All 52 Safaris →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="features-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Why Choose Osimlai</span>
+      <h2>The Osimlai Difference</h2>
+      <p>We deliver more than trips — we create transformative experiences built on trust, sustainability, and deep local knowledge.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-compass"></i></div>
+        <h3>Expert Local Guides</h3>
+        <p>Every safari and volunteer program is led by passionate local guides born and raised in the regions you'll explore.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+        <h3>100% Eco-Certified</h3>
+        <p>We operate under strict sustainability principles, partnering only with eco-lodges and conservation-first operators.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-hand-holding-heart"></i></div>
+        <h3>Community Giveback</h3>
+        <p>30% of every booking goes directly to local community development projects and wildlife conservation initiatives.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+        <h3>Fully Insured & Safe</h3>
+        <p>All tours include comprehensive travel insurance, 24/7 emergency support, and safety-briefed guides.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-credit-card"></i></div>
+        <h3>Flexible Payments</h3>
+        <p>Book with just 20% deposit. Pay via PayPal, M-Pesa, or bank transfer. Full refund up to 30 days before.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-star"></i></div>
+        <h3>5-Star Rated</h3>
+        <p>Over 3,200 five-star reviews. We don't just promise excellence — we deliver it, consistently.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VOLUNTEER ===== -->
+<section class="volunteer-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Make a Difference</span>
+      <h2>Volunteer & Community Programs</h2>
+      <p>Give your time, skills, and heart to projects that create lasting change for wildlife and communities across Africa.</p>
+    </div>
+    <div class="volunteer-grid">
+
+      <div class="volunteer-card" onclick="window.location='volunteer.html'">
+        <div class="volunteer-card-img">
+          <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=500&auto=format&fit=crop" alt="Wildlife Conservation" loading="lazy" />
+        </div>
+        <div class="volunteer-card-body">
+          <div class="volunteer-tags">
+            <span class="volunteer-tag">Wildlife</span>
+            <span class="volunteer-tag">Conservation</span>
+          </div>
+          <h3>Wildlife Conservation Ranger</h3>
+          <p>Join anti-poaching patrols, track endangered species, and assist with wildlife data collection in national reserves.</p>
+          <div class="volunteer-card-meta">
+            <div class="volunteer-meta-item"><i class="fas fa-location-dot"></i> Kenya</div>
+            <div class="volunteer-meta-item"><i class="fas fa-clock"></i> 4–12 Weeks</div>
+            <div class="volunteer-meta-item"><i class="fas fa-dollar-sign"></i> From $850</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="volunteer-card" onclick="window.location='volunteer.html'">
+        <div class="volunteer-card-img">
+          <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500&auto=format&fit=crop" alt="Teaching" loading="lazy" />
+        </div>
+        <div class="volunteer-card-body">
+          <div class="volunteer-tags">
+            <span class="volunteer-tag">Education</span>
+            <span class="volunteer-tag">Community</span>
+          </div>
+          <h3>Rural Education & Empowerment</h3>
+          <p>Teach English, maths, or STEM subjects in underfunded rural schools and empower the next generation of leaders.</p>
+          <div class="volunteer-card-meta">
+            <div class="volunteer-meta-item"><i class="fas fa-location-dot"></i> Tanzania</div>
+            <div class="volunteer-meta-item"><i class="fas fa-clock"></i> 2–24 Weeks</div>
+            <div class="volunteer-meta-item"><i class="fas fa-dollar-sign"></i> From $650</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="volunteer-card" onclick="window.location='volunteer.html'">
+        <div class="volunteer-card-img">
+          <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=500&auto=format&fit=crop" alt="Community Health" loading="lazy" />
+        </div>
+        <div class="volunteer-card-body">
+          <div class="volunteer-tags">
+            <span class="volunteer-tag">Health</span>
+            <span class="volunteer-tag">Outreach</span>
+          </div>
+          <h3>Community Health & Wellbeing</h3>
+          <p>Support mobile clinics, health education campaigns, and maternal health programs in remote villages.</p>
+          <div class="volunteer-card-meta">
+            <div class="volunteer-meta-item"><i class="fas fa-location-dot"></i> Uganda</div>
+            <div class="volunteer-meta-item"><i class="fas fa-clock"></i> 4–16 Weeks</div>
+            <div class="volunteer-meta-item"><i class="fas fa-dollar-sign"></i> From $780</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="text-align:center;margin-top:44px;">
+      <a href="volunteer.html" class="btn btn-primary btn-lg">Explore All Programs →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMMUNITY GIVEBACK ===== -->
+<!-- ===== COMMUNITY GIVEBACK ===== -->
+<section class="community-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Our Impact</span>
+      <h2>Community Giveback Programs</h2>
+      <p>At Osimlai Adventures, we believe travel should leave a positive footprint. Every booking contributes to meaningful change.</p>
+    </div>
+
+    <div class="community-grid">
+      <!-- Left: Content -->
+      <div class="community-content">
+        <div class="community-stats-grid">
+          <div class="community-stat-card">
+            <div class="community-stat-number" data-count="3200">0</div>
+            <div class="community-stat-label">Lives Impacted</div>
+            <div class="community-stat-icon">🌍</div>
+          </div>
+          <div class="community-stat-card">
+            <div class="community-stat-number" data-count="85">0</div>
+            <div class="community-stat-label">Projects Funded</div>
+            <div class="community-stat-icon">🏗️</div>
+          </div>
+          <div class="community-stat-card">
+            <div class="community-stat-number" data-count="1200">0</div>
+            <div class="community-stat-label">Children Educated</div>
+            <div class="community-stat-icon">📚</div>
+          </div>
+          <div class="community-stat-card">
+            <div class="community-stat-number" data-count="450">0</div>
+            <div class="community-stat-label">Trees Planted</div>
+            <div class="community-stat-icon">🌳</div>
+          </div>
+        </div>
+
+        <div class="community-impact-areas">
+          <h3>Where Your Contribution Goes</h3>
+          <div class="impact-areas-grid">
+            <div class="impact-area">
+              <div class="impact-icon"><i class="fas fa-tree"></i></div>
+              <div class="impact-info">
+                <h4>Wildlife Conservation</h4>
+                <div class="impact-bar">
+                  <div class="impact-bar-fill" style="width:30%"></div>
+                </div>
+                <span class="impact-percent">30%</span>
+              </div>
+            </div>
+            <div class="impact-area">
+              <div class="impact-icon"><i class="fas fa-school"></i></div>
+              <div class="impact-info">
+                <h4>Education & Schools</h4>
+                <div class="impact-bar">
+                  <div class="impact-bar-fill" style="width:25%"></div>
+                </div>
+                <span class="impact-percent">25%</span>
+              </div>
+            </div>
+            <div class="impact-area">
+              <div class="impact-icon"><i class="fas fa-hand-holding-medical"></i></div>
+              <div class="impact-info">
+                <h4>Healthcare Access</h4>
+                <div class="impact-bar">
+                  <div class="impact-bar-fill" style="width:20%"></div>
+                </div>
+                <span class="impact-percent">20%</span>
+              </div>
+            </div>
+            <div class="impact-area">
+              <div class="impact-icon"><i class="fas fa-water"></i></div>
+              <div class="impact-info">
+                <h4>Clean Water & Sanitation</h4>
+                <div class="impact-bar">
+                  <div class="impact-bar-fill" style="width:15%"></div>
+                </div>
+                <span class="impact-percent">15%</span>
+              </div>
+            </div>
+            <div class="impact-area">
+              <div class="impact-icon"><i class="fas fa-users"></i></div>
+              <div class="impact-info">
+                <h4>Women's Empowerment</h4>
+                <div class="impact-bar">
+                  <div class="impact-bar-fill" style="width:10%"></div>
+                </div>
+                <span class="impact-percent">10%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="community-cta">
+          <a href="community.html" class="btn btn-primary btn-lg">
+            <i class="fas fa-hand-holding-heart"></i> Learn More About Our Impact
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Image & Stats Overlay -->
+      <div class="community-image-wrapper">
+        <div class="community-image">
+          <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&auto=format&fit=crop" alt="Community Impact" loading="lazy" />
+          <div class="community-image-overlay">
+            <div class="overlay-content">
+              <div class="overlay-stat">
+                <div class="overlay-stat-number">$2.4M+</div>
+                <div class="overlay-stat-label">Total Community Investment</div>
+              </div>
+              <div class="overlay-stat">
+                <div class="overlay-stat-number">98%</div>
+                <div class="overlay-stat-label">Of Funds Go Directly to Projects</div>
+              </div>
+              <div class="overlay-stat">
+                <div class="overlay-stat-number">12+</div>
+                <div class="overlay-stat-label">Communities Supported</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="community-quote">
+          <div class="quote-icon">"</div>
+          <p>"Travel with purpose. Every safari, every trek, every volunteer hour plants a seed of change."</p>
+          <div class="quote-author">— Osimlai Adventures Impact Team</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS STRIP ===== -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num" data-target="3200" data-suffix="+">3,200+</div>
+      <div class="stat-label">Travelers Served</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="52" data-suffix="+">52+</div>
+      <div class="stat-label">Safari Packages</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="1200" data-suffix="+">1,200+</div>
+      <div class="stat-label">Volunteers Placed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="98" data-suffix="%">98%</div>
+      <div class="stat-label">Satisfaction Rate</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GALLERY ===== -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Our Gallery</span>
+      <h2>Moments That Last Forever</h2>
+      <p>Real photos from real adventures. Every frame tells a story of connection, wonder, and discovery.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=700&auto=format&fit=crop" alt="Safari" loading="lazy" />
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=400&auto=format&fit=crop" alt="Wildlife" loading="lazy" />
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=400&auto=format&fit=crop" alt="Gorillas" loading="lazy" />
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1581123578069-5b61e9a1c90c?w=400&auto=format&fit=crop" alt="Savanna" loading="lazy" />
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1508002366005-75a695ee2d17?w=400&auto=format&fit=crop" alt="Volunteer" loading="lazy" />
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:28px;">
+      <a href="gallery.html" class="btn btn-outline-dark">View Full Gallery →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Real Stories</span>
+      <h2>What Our Travelers Say</h2>
+      <p>Don't take our word for it. Here's what people who've lived the Osimlai experience have to say.</p>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="testimonial-quote">"</div>
+        <p>The Maasai Mara safari was beyond anything I could have imagined. Watching the wildebeest crossing was one of the most powerful moments of my life. Osimlai's guide James knew every animal by name.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SL</div>
+          <div>
+            <div class="testimonial-name">Sarah Lindström</div>
+            <div class="testimonial-role">Travel Writer, Sweden · Safari Tour</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="testimonial-quote">"</div>
+        <p>I spent 8 weeks volunteering in wildlife conservation. The team was incredibly supportive, the work was genuinely impactful, and I left with lifelong friends and a completely different outlook.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MK</div>
+          <div>
+            <div class="testimonial-name">Marcus Kowalski</div>
+            <div class="testimonial-role">Conservation Volunteer, Poland · 8 Weeks</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="testimonial-quote">"</div>
+        <p>Booked a last-minute gorilla trek and Osimlai made it seamless. Their team handled everything — permits, accommodation, transfers. The experience itself was absolutely priceless.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AO</div>
+          <div>
+            <div class="testimonial-name">Amara Okonkwo</div>
+            <div class="testimonial-role">Tech Entrepreneur, Nigeria · Gorilla Trek</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--gold-light)">Ready to Begin?</span>
+    <h2>Your African Adventure Starts Here</h2>
+    <p>Join thousands of travelers and volunteers who have already discovered the magic of Africa with Osimlai Adventures.</p>
+    <div class="cta-actions">
+      <a href="tours.html" class="btn btn-primary btn-lg">Browse Safaris</a>
+      <a href="contact.html" class="btn btn-outline btn-lg">Talk to an Expert</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEWSLETTER ===== -->
+<section class="newsletter-section">
+  <div class="newsletter-inner">
+    <span class="eyebrow">Stay in the Loop</span>
+    <h2>Get Exclusive Deals & Travel Inspiration</h2>
+    <p>Weekly dispatches from the African wilderness. No spam, ever. Unsubscribe anytime.</p>
+    <form class="newsletter-form">
+      <input type="email" placeholder="Your email address" required />
+      <button type="submit" class="btn btn-primary">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="color:var(--white)">
+        <div class="logo-icon">🌍</div>
+        Osimlai <span>Adventures</span>
+      </a>
+      <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014. Certified eco-tourism operator and community development partner.</p>
+      <div class="footer-social">
+        <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-x-twitter"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="tours.html">Safari Tours</a></li>
+        <li><a href="volunteer.html">Volunteer Programs</a></li>
+        <li><a href="community.html">Community Impact</a></li>
+        <li><a href="my-portal.html">My Portal</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="blog.html">Travel Blog</a></li>
+        <li><a href="gallery.html">Photo Gallery</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Destinations</h4>
+      <ul>
+        <li><a href="tours.html">Kenya</a></li>
+        <li><a href="tours.html">Tanzania</a></li>
+        <li><a href="tours.html">Uganda</a></li>
+        <li><a href="tours.html">Rwanda</a></li>
+        <li><a href="tours.html">Ethiopia</a></li>
+        <li><a href="tours.html">Botswana</a></li>
+        <li><a href="tours.html">Namibia</a></li>
+        <li><a href="tours.html">South Africa</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="faq.html#booking">Booking Policy</a></li>
+        <li><a href="faq.html#cancellation">Cancellation Policy</a></li>
+        <li><a href="faq.html#insurance">Travel Insurance</a></li>
+        <li><a href="faq.html#visa">Visa Information</a></li>
+        <li><a href="faq.html#privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Osimlai Adventures. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
+  </div>
+</footer>
+
+<div id="toast" class="toast"></div>
+<script src="js/main.js"></script>
+<script src="js/index-dynamic.js"></script>
+</body>
+</html>

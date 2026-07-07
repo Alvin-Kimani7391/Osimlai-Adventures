@@ -829,7 +829,7 @@ function renderProgramCard(p) {
   const location = escHtml(p.location || p.town || '');
   const locStr   = [location, country].filter(Boolean).join(', ');
 
-  // ── Duration: {min, max, unit} ──
+  // ── Duration ──
   let durStr = '—';
   if (p.duration) {
     if (typeof p.duration === 'object' && p.duration.min != null) {
@@ -894,7 +894,7 @@ function renderProgramCard(p) {
   const feeCoverage = (p.feeCoverage || []).slice(0, 2).map(f => escHtml(f)).join(', ');
   const feeNote = feeCoverage || (p.meals ? `includes ${escHtml(String(p.meals))}` : '');
 
-  // ── Serialize program data for the Apply button ──
+  // ── Serialize program data for Quick Apply ──
   const programData = encodeURIComponent(JSON.stringify({
     _id:      p._id || p.id,
     title:    p.title,
@@ -904,16 +904,21 @@ function renderProgramCard(p) {
     fee:      feeStr,
   }));
 
+  // ── Detail page URL ──
+  const detailUrl = `volunteer-explore.html?id=${p._id || p.id}`;
+
   return `
     <div class="vol-detail-card">
       <div class="vol-card-inner">
         <div class="vol-card-img-wrap">
-          <img
-            src="${img}"
-            alt="${title}"
-            loading="lazy"
-            onerror="this.src='https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&auto=format&fit=crop'"
-          />
+          <a href="${detailUrl}">
+            <img
+              src="${img}"
+              alt="${title}"
+              loading="lazy"
+              onerror="this.src='https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&auto=format&fit=crop'"
+            />
+          </a>
           ${badge}
         </div>
         <div class="vol-card-content">
@@ -921,7 +926,9 @@ function renderProgramCard(p) {
             ${catLabel}
             ${rating ? `<span class="volunteer-tag">${rating}</span>` : ''}
           </div>
-          <h2 class="vol-card-title">${title}</h2>
+          <a href="${detailUrl}" style="text-decoration:none;color:inherit;">
+            <h2 class="vol-card-title">${title}</h2>
+          </a>
           <p class="vol-card-desc">${desc || 'An impactful volunteer experience that makes a real difference.'}</p>
           <div class="vol-card-specs">
             ${locStr ? `<span class="vol-spec"><i class="fa-solid fa-location-dot"></i> ${locStr}</span>` : ''}
@@ -935,7 +942,10 @@ function renderProgramCard(p) {
               <div class="vol-price-from">Program fee from</div>
               <div class="vol-price">${feeStr} <span>${feeNote ? `(${feeNote})` : ''}</span></div>
             </div>
-            <button class="btn btn-primary" onclick="openApplyModal('${programData}')">Apply Now →</button>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <a href="${detailUrl}" class="btn btn-primary">View Details →</a>
+              <button class="btn btn-outline-dark btn-sm" onclick="openApplyModal('${programData}')">Quick Apply</button>
+            </div>
           </div>
         </div>
       </div>

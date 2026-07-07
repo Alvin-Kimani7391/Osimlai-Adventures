@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Volunteer Program Details | Osimlai Adventures</title>
-  <meta name="description" content="Explore volunteer programs in wildlife conservation, education, healthcare & community development across Africa with Osimlai Adventures." />
+  <title>Volunteer Program Details | International Volunteer Home Tz</title>
+  <meta name="description" content="Explore volunteer programs in wildlife conservation, education, healthcare & community development across Africa with International Volunteer Home Tz." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
@@ -216,6 +216,65 @@
     .review-stars { color: var(--gold); font-size: 0.85rem; }
     .review-text { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
 
+    /* ── extra details sections (IVHQ-inspired) ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .info-card {
+      background: var(--sand);
+      padding: 20px;
+      border-radius: var(--radius);
+    }
+    .info-card h4 {
+      color: var(--forest);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      font-family: 'Playfair Display', serif;
+    }
+    .info-card p, .info-card li {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+    .info-card ul {
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+    .info-card ul li { margin-bottom: 4px; }
+
+    .highlight-box {
+      background: var(--forest);
+      color: var(--white);
+      padding: 24px;
+      border-radius: var(--radius);
+      margin-bottom: 32px;
+    }
+    .highlight-box h3 { color: var(--white); border-bottom-color: rgba(255,255,255,0.2); }
+    .highlight-box p { color: rgba(255,255,255,0.85); }
+
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+    .pricing-table th {
+      background: var(--forest);
+      color: var(--white);
+      padding: 10px 16px;
+      text-align: left;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .pricing-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid #e8e8e8;
+      font-size: 0.88rem;
+    }
+    .pricing-table tr:last-child td { border-bottom: none; }
+
     /* ── modal (reused from volunteer.html) ── */
     .modal-overlay {
       position: fixed; inset: 0;
@@ -378,6 +437,7 @@
       .included-list { grid-template-columns: 1fr; }
       .gallery-mini { grid-template-columns: repeat(2, 1fr); }
       .form-row { grid-template-columns: 1fr; }
+      .info-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -387,7 +447,7 @@
 <nav class="navbar scrolled" id="navbar">
   <a href="index.html" class="logo" style="color:var(--forest)">
     <div class="logo-icon">🌍</div>
-    Osimlai <span>Adventures</span>
+    International <span>Volunteer Home Tz</span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link" style="color:var(--text)">Home</a></li>
@@ -448,7 +508,7 @@
   </div>
 </div>
 
-<!-- ===== APPLY MODAL (reused from volunteer.html) ===== -->
+<!-- ===== APPLY MODAL ===== -->
 <div class="modal-overlay" id="applyModal">
   <div class="modal">
     <div class="modal-header">
@@ -527,7 +587,7 @@
         </div>
         <div class="form-group">
           <label>Motivation Statement <span class="req">*</span></label>
-          <textarea class="form-control" name="motivation" placeholder="Why do you want to volunteer with Osimlai Adventures? What do you hope to contribute and gain?" required></textarea>
+          <textarea class="form-control" name="motivation" placeholder="Why do you want to volunteer with International Volunteer Home Tz? What do you hope to contribute and gain?" required></textarea>
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -574,7 +634,7 @@
     <div class="footer-brand">
       <a href="index.html" class="logo" style="color:var(--white)">
         <div class="logo-icon">🌍</div>
-        Osimlai <span>Adventures</span>
+        International <span>Volunteer Home Tz</span>
       </a>
       <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014.</p>
       <div class="footer-social">
@@ -613,7 +673,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 Osimlai Adventures. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>© 2026 International Volunteer Home Tz. All rights reserved. Licensed Eco-Tourism Operator.</p>
     <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
   </div>
 </footer>
@@ -626,6 +686,7 @@
 ============================================================ */
 const API_BASE = 'https://wild-tours.onrender.com';
 const FALLBACK_IMG = 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1600&auto=format&fit=crop';
+const SITE_NAME = 'International Volunteer Home Tz';
 
 /* ============================================================
    HELPERS
@@ -669,10 +730,8 @@ function showToast(msg) {
    FETCH VOLUNTEER PROGRAM
 ============================================================ */
 async function fetchVolunteerProgram(id) {
-  // Try by ID first
   let res = await fetch(`${API_BASE}/api/volunteer/${id}`);
   if (!res.ok) {
-    // fallback: fetch all and find
     const allRes = await fetch(`${API_BASE}/api/volunteer?limit=100`);
     if (!allRes.ok) throw new Error(`Server error ${allRes.status}`);
     const data = await allRes.json();
@@ -686,7 +745,7 @@ async function fetchVolunteerProgram(id) {
 }
 
 /* ============================================================
-   RENDER PAGE (inspired by IVHQ layout)
+   RENDER PAGE (IVHQ-inspired detailed layout)
 ============================================================ */
 function renderPage(program) {
   window.currentProgram = program;
@@ -702,12 +761,15 @@ function renderPage(program) {
 
   // Duration
   let durStr = '—';
+  let durMin = null, durMax = null, durUnit = 'weeks';
   if (program.duration) {
     if (typeof program.duration === 'object' && program.duration.min != null) {
-      const unit = program.duration.unit || 'weeks';
-      durStr = program.duration.max && program.duration.max !== program.duration.min
-        ? `${program.duration.min}–${program.duration.max} ${unit}`
-        : `${program.duration.min} ${unit}`;
+      durMin = program.duration.min;
+      durMax = program.duration.max;
+      durUnit = program.duration.unit || 'weeks';
+      durStr = durMax && durMax !== durMin
+        ? `${durMin}–${durMax} ${durUnit}`
+        : `${durMin} ${durUnit}`;
     } else {
       durStr = String(program.duration);
     }
@@ -716,6 +778,7 @@ function renderPage(program) {
   // Fee
   const fee = Number(program.programFee || program.fee || 0);
   const feeStr = fee > 0 ? fmtMoney(fee) : 'Contact us';
+  const deposit = fee > 0 ? Math.round(fee * 0.2) : 0;
 
   // Age
   const ageMin = program.ageMin || program.minAge;
@@ -723,6 +786,9 @@ function renderPage(program) {
   let ageStr = '';
   if (ageMin && ageMax) ageStr = `Age ${ageMin}–${ageMax}`;
   else if (ageMin) ageStr = `Age ${ageMin}+`;
+
+  // Volunteer hours
+  const hoursPerDay = program.hoursPerDay || program.volunteerHours || '4 hours a day';
 
   // Accommodation
   const accomType = program.accommodation?.type || program.accommodationType || '';
@@ -732,6 +798,8 @@ function renderPage(program) {
     'bush-camp': 'Bush Camp',
     'guesthouse': 'Guesthouse',
     'lodge': 'Eco Lodge',
+    'volunteer-house': 'Volunteer House',
+    'homestay': 'Homestay',
   }[accomType] || accomType || '';
 
   // Images
@@ -742,7 +810,7 @@ function renderPage(program) {
   while (allImages.length < 4) allImages.push(FALLBACK_IMG);
   const heroImg = allImages[0];
 
-  // Schedule (itinerary)
+  // Schedule
   const schedule = program.itinerary || program.schedule || [];
 
   // Included / excluded
@@ -764,13 +832,14 @@ function renderPage(program) {
     ? `<span style="color:var(--gold);font-weight:700;">${starHTML(rating)} ${rating.toFixed(1)} (${ratingQty} reviews)</span>`
     : `<span style="color:rgba(255,255,255,0.6);">No reviews yet</span>`;
 
-  // ---- build pills ----
+  // ---- build pills (key details like IVHQ) ----
   const pills = [
+    { icon: 'fa-solid fa-bullseye', text: program.purpose || 'Community Support' },
+    { icon: 'fa-solid fa-calendar', text: program.startDates?.length ? `${program.startDates.length} dates available` : 'Year-round' },
     { icon: 'fa-solid fa-clock', text: durStr !== '—' ? durStr : 'Flexible duration' },
+    { icon: 'fa-solid fa-hourglass-half', text: hoursPerDay },
     { icon: 'fa-solid fa-user', text: ageStr || 'All ages welcome' },
     { icon: 'fa-solid fa-bed', text: accomLabel || 'Accommodation included' },
-    { icon: 'fa-solid fa-flag', text: country || 'Multiple locations' },
-    { icon: 'fa-solid fa-calendar', text: program.startDates?.length ? `${program.startDates.length} dates available` : 'Year-round' },
   ];
   if (program.spotsAvailable != null) {
     pills.push({ icon: 'fa-solid fa-users', text: `${program.spotsAvailable} spots left` });
@@ -796,7 +865,7 @@ function renderPage(program) {
       </div>
     `).join('');
   } else {
-    // fallback: generic weekly overview
+    // fallback: weekly overview
     const genericDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     scheduleHtml = genericDays.map((day, i) => `
       <div class="schedule-item">
@@ -809,10 +878,12 @@ function renderPage(program) {
   // ---- included / excluded ----
   const defaultIncluded = [
     'Airport pick-up', 'Accommodation', 'Breakfast & dinner', 'In-country orientation',
-    '24/7 emergency support', 'Pre-departure training', 'Certificate of service'
+    '24/7 emergency support', 'Pre-departure training', 'Certificate of service',
+    'Transport to and from placement', 'Supervision & materials'
   ];
   const defaultExcluded = [
-    'Flights', 'Travel insurance', 'Visa fees', 'Lunch', 'Personal expenses', 'Return airport transfer'
+    'Flights', 'Travel insurance', 'Visa fees', 'Lunch', 'Personal expenses',
+    'Return airport transfer', 'Criminal background check'
   ];
   const incItems = included.length > 0 ? included : defaultIncluded;
   const excItems = excluded.length > 0 ? excluded : defaultExcluded;
@@ -821,6 +892,89 @@ function renderPage(program) {
     ...incItems.map(item => `<div class="included-item yes"><i class="fa-solid fa-circle-check"></i> ${esc(typeof item === 'string' ? item : item.item || item.name || '')}</div>`),
     ...excItems.map(item => `<div class="included-item no"><i class="fa-solid fa-circle-xmark"></i> ${esc(typeof item === 'string' ? item : item.item || item.name || '')}</div>`),
   ].join('');
+
+  // ---- pricing table (if fee data available) ----
+  let pricingHtml = '';
+  if (fee > 0) {
+    const durations = [1, 2, 4, 6, 8, 12];
+    const pricingRows = durations.map(w => {
+      const weeklyFee = Math.round(fee / 4); // assume 4 weeks base
+      const total = weeklyFee * w;
+      return `<tr><td>${w} week${w > 1 ? 's' : ''}</td><td>${fmtMoney(total)}</td><td>${fmtMoney(Math.round(total / w))}/week</td></tr>`;
+    }).join('');
+    pricingHtml = `
+      <div class="tour-section">
+        <h3>Pricing</h3>
+        <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:12px;">
+          Secure your place with a 20% deposit (${fmtMoney(deposit)}). Pay the balance 30 days before your start date.
+        </p>
+        <table class="pricing-table">
+          <thead><tr><th>Duration</th><th>Program Fee</th><th>Weekly Rate</th></tr></thead>
+          <tbody>${pricingRows}</tbody>
+        </table>
+        <p style="color:var(--text-muted);font-size:0.78rem;margin-top:8px;">
+          <i class="fa-solid fa-info-circle"></i> All programs include a registration fee of ${fmtMoney(Math.round(fee * 0.1))} for pre-departure support.
+        </p>
+      </div>
+    `;
+  }
+
+  // ---- extra info cards (IVHQ-style) ----
+  const extraInfoHtml = `
+    <div class="info-grid">
+      <div class="info-card">
+        <h4><i class="fa-solid fa-location-dot"></i> Location</h4>
+        <p>${esc(locStr || 'Various locations across Africa')}</p>
+        <p style="margin-top:8px;font-size:0.82rem;">
+          ${program.region ? esc(program.region) : 'Our programs are based in local communities, providing authentic cultural immersion.'}
+        </p>
+      </div>
+      <div class="info-card">
+        <h4><i class="fa-solid fa-shield-halved"></i> Safety & Support</h4>
+        <ul>
+          <li>24/7 in-country emergency support</li>
+          <li>Pre-departure training and orientation</li>
+          <li>Local teams trained in First Aid</li>
+          <li>Risk management protocols in place</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4><i class="fa-solid fa-utensils"></i> Meals</h4>
+        <p>Breakfast and dinner are provided at your accommodation. Lunch is not included, but you can purchase it locally for ${fee > 0 ? fmtMoney(Math.round(fee * 0.01)) : '$3–$5'} per day.</p>
+        <p style="margin-top:6px;font-size:0.82rem;">Please notify us of any dietary requirements in your application.</p>
+      </div>
+      <div class="info-card">
+        <h4><i class="fa-solid fa-wifi"></i> Accommodation & WiFi</h4>
+        <p>${accomLabel || 'Comfortable volunteer accommodation'} with shared rooms, electricity, running water, and western bathrooms.</p>
+        <p style="margin-top:6px;font-size:0.82rem;">WiFi is available at the accommodation and local team office.</p>
+      </div>
+    </div>
+  `;
+
+  // ---- "Why volunteer with us" section ----
+  const whyHtml = `
+    <div class="tour-section">
+      <h3>Why volunteer with ${SITE_NAME}?</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;">
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--sand);border-radius:8px;">
+          <i class="fa-solid fa-hand-holding-heart" style="color:var(--forest);font-size:1.1rem;"></i>
+          <span style="font-size:0.88rem;color:var(--text-muted);">Make a genuine impact in local communities</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--sand);border-radius:8px;">
+          <i class="fa-solid fa-users" style="color:var(--forest);font-size:1.1rem;"></i>
+          <span style="font-size:0.88rem;color:var(--text-muted);">Connect with like-minded volunteers</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--sand);border-radius:8px;">
+          <i class="fa-solid fa-globe" style="color:var(--forest);font-size:1.1rem;"></i>
+          <span style="font-size:0.88rem;color:var(--text-muted);">Immerse yourself in African culture</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--sand);border-radius:8px;">
+          <i class="fa-solid fa-leaf" style="color:var(--forest);font-size:1.1rem;"></i>
+          <span style="font-size:0.88rem;color:var(--text-muted);">Support sustainable development goals</span>
+        </div>
+      </div>
+    </div>
+  `;
 
   // ---- reviews ----
   let reviewsHtml = '';
@@ -849,7 +1003,7 @@ function renderPage(program) {
   }
 
   // ---- page title ----
-  document.title = `${title} | Osimlai Adventures Volunteer`;
+  document.title = `${title} | ${SITE_NAME}`;
 
   // ---- inject ----
   document.getElementById('pageContent').innerHTML = `
@@ -879,16 +1033,69 @@ function renderPage(program) {
 
         <div class="tour-info-pills">${pillsHtml}</div>
 
+        <div class="highlight-box">
+          <h3 style="border-bottom-color:rgba(255,255,255,0.2);">This program is ideal for:</h3>
+          <p>${esc(program.idealFor || 'Volunteers who want to make a meaningful impact while experiencing authentic African culture and community life.')}</p>
+        </div>
+
         <div class="tour-section">
-          <h3>About This Program</h3>
+          <h3>Project Details</h3>
           ${shortDesc ? `<p style="color:var(--text-muted);line-height:1.8;margin-bottom:12px;">${esc(shortDesc)}</p>` : ''}
           ${description && description !== shortDesc ? `<p style="color:var(--text-muted);line-height:1.8;">${esc(description)}</p>` : ''}
         </div>
 
         <div class="tour-section">
-          <h3>Weekly Schedule Overview</h3>
-          ${scheduleHtml}
+          <h3>What to Expect & How You'll Make an Impact</h3>
+          <p style="color:var(--text-muted);line-height:1.8;">
+            ${esc(program.impactDescription || 'Volunteers work alongside local communities on sustainable projects that address real needs. You\'ll gain hands-on experience, develop new skills, and create lasting connections with the people you serve.')}
+          </p>
         </div>
+
+        ${whyHtml}
+
+        <div class="tour-section">
+          <h3>Volunteer Requirements</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--sand);border-radius:8px;">
+              <i class="fa-solid fa-check-circle" style="color:#28a745;"></i>
+              <span style="font-size:0.88rem;color:var(--text-muted);">Minimum age: ${ageMin || 16}+</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--sand);border-radius:8px;">
+              <i class="fa-solid fa-check-circle" style="color:#28a745;"></i>
+              <span style="font-size:0.88rem;color:var(--text-muted);">English proficiency required</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--sand);border-radius:8px;">
+              <i class="fa-solid fa-check-circle" style="color:#28a745;"></i>
+              <span style="font-size:0.88rem;color:var(--text-muted);">Criminal background check (18+)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--sand);border-radius:8px;">
+              <i class="fa-solid fa-check-circle" style="color:#28a745;"></i>
+              <span style="font-size:0.88rem;color:var(--text-muted);">Adequate travel insurance</span>
+            </div>
+          </div>
+          <p style="color:var(--text-muted);font-size:0.82rem;margin-top:12px;">
+            <i class="fa-solid fa-info-circle"></i> ${esc(program.requirements || 'Volunteers under 16 must be accompanied by a parent or guardian.')}
+          </p>
+        </div>
+
+        <div class="tour-section">
+          <h3>Arrival & Orientation</h3>
+          <p style="color:var(--text-muted);line-height:1.8;">
+            ${esc(program.orientation || 'Arrive on the Sunday before your start date. You\'ll be met at the airport and transferred to your accommodation. Orientation covers project introduction, safety guidelines, cultural insights, and language basics.')}
+          </p>
+        </div>
+
+        <div class="tour-section">
+          <h3>Weekly Schedule Example</h3>
+          ${scheduleHtml}
+          <p style="color:var(--text-muted);font-size:0.82rem;margin-top:12px;">
+            <i class="fa-solid fa-info-circle"></i> Schedule may vary based on community needs, weather, and public holidays.
+          </p>
+        </div>
+
+        ${extraInfoHtml}
+
+        ${pricingHtml}
 
         <div class="tour-section">
           <h3>What's Included & Excluded</h3>
@@ -912,7 +1119,7 @@ function renderPage(program) {
 
           <div class="sidebar-features">
             <div class="sidebar-feature"><i class="fa-solid fa-circle-check"></i> Free cancellation (30 days prior)</div>
-            <div class="sidebar-feature"><i class="fa-solid fa-credit-card"></i> Book with 20% deposit (${fee > 0 ? fmtMoney(Math.round(fee * 0.2)) : '—'})</div>
+            <div class="sidebar-feature"><i class="fa-solid fa-credit-card"></i> Book with 20% deposit (${fee > 0 ? fmtMoney(deposit) : '—'})</div>
             <div class="sidebar-feature"><i class="fa-solid fa-lock"></i> Secure payment</div>
             <div class="sidebar-feature"><i class="fa-solid fa-clock"></i> 24/7 in-country support</div>
             <div class="sidebar-feature"><i class="fa-solid fa-leaf"></i> Sustainable impact</div>
@@ -952,13 +1159,18 @@ function renderPage(program) {
           <h4 style="color:var(--forest);font-size:0.95rem;margin-bottom:12px;"><i class="fa-solid fa-leaf"></i> Sustainable Impact</h4>
           <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.65;">30% of this program's fee supports local conservation and community development projects in the region.</p>
         </div>
+
+        <div style="background:#e8f4f0;border-radius:var(--radius);padding:20px;margin-top:16px;border-left:3px solid var(--forest);">
+          <h4 style="color:var(--forest);font-size:0.9rem;margin-bottom:6px;"><i class="fa-solid fa-graduation-cap"></i> Academic Course Credit</h4>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Gain course credit from your college or university while completing a volunteer program with ${SITE_NAME}.</p>
+        </div>
       </div>
     </div>
   `;
 }
 
 /* ============================================================
-   APPLY MODAL (reused from volunteer.html)
+   APPLY MODAL
 ============================================================ */
 function openApplyModal(programName, programId) {
   document.getElementById('modalProgramName').textContent = programName || 'Volunteer Program';
@@ -996,7 +1208,7 @@ document.getElementById('applyModal').addEventListener('click', e => {
 });
 
 /* ============================================================
-   SUBMIT APPLICATION (reused from volunteer.html)
+   SUBMIT APPLICATION
 ============================================================ */
 document.getElementById('volunteerApplyForm').addEventListener('submit', async function(e) {
   e.preventDefault();

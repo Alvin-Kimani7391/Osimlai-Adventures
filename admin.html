@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | WildRoots Africa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest:#1a3c2e; --forest-mid:#2d6a4f; --forest-light:#52b788; --forest-pale:#d8f3dc;
+      --gold:#d4a017; --gold-light:#f4c842; --gold-pale:#fef9e7;
+      --sand:#f5f0e8; --sand-dark:#e8dfc8;
+      --bg:#f0f2f5; --surface:#ffffff; --surface-2:#f8f9fa;
+      --border:#e4e7ec; --border-subtle:#f0f2f5;
+      --text:#101828; --text-2:#344054; --text-muted:#667085; --text-faint:#98a2b3;
+      --blue:#1d6fbd; --blue-pale:#eff6ff;
+      --amber:#b45309; --amber-pale:#fffbeb;
+      --red:#b91c1c; --red-pale:#fef2f2;
+      --green:#15803d; --green-pale:#f0fdf4;
+      --purple:#6d28d9; --purple-pale:#f5f3ff;
+      --sidebar-w:248px; --topbar-h:64px;
+      --radius:10px; --radius-lg:14px;
+      --shadow-sm:0 1px 3px rgba(16,24,40,.06),0 1px 2px rgba(16,24,40,.04);
+      --shadow:0 4px 16px rgba(16,24,40,.08);
+      --shadow-lg:0 12px 40px rgba(16,24,40,.12);
+      --transition:all .22s cubic-bezier(.4,0,.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:15px}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    button{cursor:pointer;border:none;background:none;font-family:inherit}
+    a{text-decoration:none;color:inherit}
+    input,select,textarea{font-family:inherit}
+    ul{list-style:none}
+    img{max-width:100%;display:block}
+
+    /* SHELL */
+    .shell{display:flex;min-height:100vh}
+
+    /* SIDEBAR */
+    .sidebar{width:var(--sidebar-w);background:var(--forest);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:200;transition:var(--transition);overflow-y:auto;overflow-x:hidden}
+    .sidebar::-webkit-scrollbar{width:4px}
+    .sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px}
+    .sidebar-brand{display:flex;align-items:center;gap:10px;padding:20px 20px 18px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0}
+    .brand-icon{width:36px;height:36px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+    .brand-text{line-height:1.2}
+    .brand-text strong{font-size:.95rem;font-weight:800;color:#fff}
+    .brand-text span{font-size:.7rem;color:rgba(255,255,255,.45);letter-spacing:.04em;display:block}
+    .nav-section{padding:16px 12px 4px}
+    .nav-section-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:0 8px;margin-bottom:4px}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;font-size:.855rem;font-weight:500;color:rgba(255,255,255,.62);cursor:pointer;transition:var(--transition);margin-bottom:1px;position:relative}
+    .nav-item:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9)}
+    .nav-item.active{background:rgba(82,183,136,.18);color:var(--forest-light);font-weight:600}
+    .nav-item.active::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:3px;background:var(--forest-light);border-radius:0 3px 3px 0}
+    .nav-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
+    .nav-badge{margin-left:auto;font-size:.68rem;font-weight:700;background:var(--red);color:#fff;padding:1px 6px;border-radius:100px;min-width:18px;text-align:center}
+    .nav-badge.amber{background:var(--gold);color:var(--forest)}
+    .nav-badge.green{background:var(--forest-light);color:var(--forest)}
+    .sidebar-footer{margin-top:auto;padding:14px 12px;border-top:1px solid rgba(255,255,255,.08)}
+    .admin-profile{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;cursor:pointer;transition:var(--transition)}
+    .admin-profile:hover{background:rgba(255,255,255,.07)}
+    .admin-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--forest-light),var(--forest-mid));display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0}
+    .admin-info strong{font-size:.82rem;font-weight:600;color:#fff;display:block}
+    .admin-info span{font-size:.7rem;color:rgba(255,255,255,.4)}
+    .admin-profile .more{margin-left:auto;color:rgba(255,255,255,.3);font-size:1.1rem}
+
+    /* MAIN */
+    .main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+
+    /* TOPBAR */
+    .topbar{height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:16px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+    .topbar-left{display:flex;align-items:center;gap:12px}
+    .page-breadcrumb{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--text-muted)}
+    .page-breadcrumb span{color:var(--forest-mid);font-weight:600}
+    .topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+    .topbar-search{display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:7px 14px;font-size:.83rem;color:var(--text-muted);width:220px;transition:var(--transition)}
+    .topbar-search:focus-within{border-color:var(--forest-light);background:#fff;width:260px}
+    .topbar-search input{border:none;background:none;outline:none;font-size:.83rem;color:var(--text);width:100%}
+    .icon-btn{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;color:var(--text-muted);background:var(--bg);border:1.5px solid var(--border);transition:var(--transition);position:relative}
+    .icon-btn:hover{background:var(--surface);color:var(--text)}
+    .icon-btn .dot{position:absolute;top:6px;right:6px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1.5px solid var(--surface)}
+    .date-badge{font-size:.75rem;color:var(--text-muted);background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:6px 12px;white-space:nowrap}
+
+    /* CONTENT */
+    .content{padding:28px;flex:1}
+    .view{display:none}
+    .view.active{display:block}
+
+    /* STAT CARDS */
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+    .stat-card{background:var(--surface);border-radius:var(--radius-lg);padding:20px 22px;border:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;transition:var(--transition)}
+    .stat-card:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+    .stat-card-top{display:flex;align-items:flex-start;justify-content:space-between}
+    .stat-card-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+    .stat-card-icon.green{background:var(--green-pale)}
+    .stat-card-icon.blue{background:var(--blue-pale)}
+    .stat-card-icon.amber{background:var(--amber-pale)}
+    .stat-card-icon.purple{background:var(--purple-pale)}
+    .stat-change{font-size:.73rem;font-weight:600;padding:3px 8px;border-radius:100px;display:flex;align-items:center;gap:3px}
+    .stat-change.up{background:var(--green-pale);color:var(--green)}
+    .stat-change.down{background:var(--red-pale);color:var(--red)}
+    .stat-num{font-size:1.85rem;font-weight:800;color:var(--text);letter-spacing:-.02em;line-height:1}
+    .stat-label{font-size:.8rem;color:var(--text-muted);font-weight:500}
+    .stat-sub{font-size:.75rem;color:var(--text-faint);margin-top:2px}
+
+    /* GRIDS */
+    .two-col{display:grid;grid-template-columns:1fr 380px;gap:20px;margin-bottom:20px}
+    .three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px}
+
+    /* CARDS */
+    .card{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);box-shadow:var(--shadow-sm);overflow:hidden}
+    .card-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 16px;border-bottom:1px solid var(--border-subtle)}
+    .card-title{font-size:.9rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+    .card-title .icon{font-size:1rem}
+    .card-body{padding:20px 22px}
+    .card-footer{padding:12px 22px;border-top:1px solid var(--border-subtle);background:var(--surface-2)}
+
+    /* CHARTS */
+    .chart-wrap{position:relative;height:200px;padding:10px 0 0}
+    .chart-bars{display:flex;align-items:flex-end;gap:8px;height:160px;padding:0 4px}
+    .chart-bar-group{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+    .chart-bar{width:100%;border-radius:4px 4px 0 0;transition:opacity .2s;cursor:pointer}
+    .chart-bar:hover{opacity:.8}
+    .chart-bar.primary{background:linear-gradient(to top,var(--forest),var(--forest-light))}
+    .chart-bar.secondary{background:linear-gradient(to top,#dde4e0,#b8d0c4)}
+    .chart-label{font-size:.65rem;color:var(--text-faint);font-weight:500}
+    .sparkline{display:flex;align-items:flex-end;gap:3px;height:32px}
+    .spark-bar{flex:1;border-radius:2px;background:var(--forest-light);opacity:.5}
+    .spark-bar.active{opacity:1}
+
+    /* ACTIVITY */
+    .activity-list{display:flex;flex-direction:column}
+    .activity-item{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--border-subtle);align-items:flex-start}
+    .activity-item:last-child{border-bottom:none}
+    .activity-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;margin-top:1px}
+    .activity-dot.green{background:var(--green-pale)}
+    .activity-dot.blue{background:var(--blue-pale)}
+    .activity-dot.amber{background:var(--amber-pale)}
+    .activity-dot.red{background:var(--red-pale)}
+    .activity-dot.purple{background:var(--purple-pale)}
+    .activity-body{flex:1;min-width:0}
+    .activity-text{font-size:.83rem;color:var(--text-2);line-height:1.45}
+    .activity-text strong{color:var(--text);font-weight:600}
+    .activity-time{font-size:.72rem;color:var(--text-faint);margin-top:2px}
+    .activity-badge{font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:100px;flex-shrink:0;margin-top:3px}
+
+    /* TABLES */
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:.83rem}
+    thead th{background:var(--surface-2);color:var(--text-muted);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:10px 16px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+    tbody td{padding:13px 16px;border-bottom:1px solid var(--border-subtle);color:var(--text-2);vertical-align:middle}
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr:hover td{background:var(--surface-2)}
+    .td-main{font-weight:600;color:var(--text)}
+    .td-mono{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--text-muted)}
+    .td-avatar{display:flex;align-items:center;gap:10px}
+    .avatar-sm{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--forest-light),var(--forest));display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0}
+    .td-action{display:flex;gap:6px}
+    .btn-xs{font-size:.75rem;padding:5px 10px;border-radius:6px;font-weight:600;transition:var(--transition);cursor:pointer;border:1.5px solid transparent}
+    .btn-xs.ghost{background:var(--bg);border-color:var(--border);color:var(--text-muted)}
+    .btn-xs.ghost:hover{border-color:var(--forest);color:var(--forest)}
+    .btn-xs.primary{background:var(--forest);color:#fff}
+    .btn-xs.primary:hover{background:var(--forest-mid)}
+    .btn-xs.danger{background:var(--red-pale);color:var(--red);border-color:#fca5a5}
+    .btn-xs.danger:hover{background:var(--red);color:#fff}
+    .btn-xs.amber{background:var(--amber-pale);color:var(--amber)}
+    .btn-xs.amber:hover{background:var(--amber);color:#fff}
+
+    /* BADGES */
+    .badge{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:600;padding:3px 9px;border-radius:100px;white-space:nowrap}
+    .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+    .badge.confirmed,.badge.approved,.badge.published{background:var(--green-pale);color:var(--green)}
+    .badge.pending{background:var(--amber-pale);color:var(--amber)}
+    .badge.cancelled,.badge.rejected,.badge.draft{background:var(--red-pale);color:var(--red)}
+    .badge.review{background:var(--purple-pale);color:var(--purple)}
+    .badge.active{background:var(--blue-pale);color:var(--blue)}
+
+    /* PROGRESS */
+    .progress-item{margin-bottom:14px}
+    .progress-item:last-child{margin-bottom:0}
+    .progress-label{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:6px}
+    .progress-label span:first-child{font-weight:600;color:var(--text-2)}
+    .progress-label span:last-child{color:var(--text-muted)}
+    .progress-track{height:6px;background:var(--border);border-radius:100px;overflow:hidden}
+    .progress-fill{height:100%;border-radius:100px;background:linear-gradient(to right,var(--forest),var(--forest-light));transition:width .8s cubic-bezier(.4,0,.2,1)}
+
+    /* DONUT */
+    .donut-wrap{display:flex;align-items:center;gap:24px;padding:4px 0}
+    .donut{width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--forest-light) 0% 52%,var(--gold) 52% 73%,var(--blue) 73% 88%,var(--red) 88% 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+    .donut::after{content:'';width:68px;height:68px;background:var(--surface);border-radius:50%;position:absolute}
+    .donut-legend{display:flex;flex-direction:column;gap:8px}
+    .donut-item{display:flex;align-items:center;gap:8px;font-size:.78rem}
+    .donut-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .donut-item span:last-child{margin-left:auto;font-weight:700;color:var(--text);padding-left:12px}
+
+    /* TABS */
+    .tab-bar{display:flex;gap:2px;padding:4px;background:var(--bg);border-radius:10px;margin-bottom:22px;width:fit-content}
+    .tab{padding:7px 18px;border-radius:7px;font-size:.82rem;font-weight:600;color:var(--text-muted);cursor:pointer;transition:var(--transition)}
+    .tab:hover{color:var(--text)}
+    .tab.active{background:var(--surface);color:var(--forest);box-shadow:var(--shadow-sm)}
+
+    /* FILTER */
+    .filter-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+    .filter-select{padding:7px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.82rem;color:var(--text);background:var(--surface);outline:none;cursor:pointer;transition:var(--transition)}
+    .filter-select:focus{border-color:var(--forest-light)}
+    .search-input{display:flex;align-items:center;gap:7px;padding:7px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--surface);transition:var(--transition)}
+    .search-input:focus-within{border-color:var(--forest-light)}
+    .search-input input{border:none;background:none;outline:none;font-size:.82rem;color:var(--text);width:180px}
+    .btn-sm-primary{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;background:var(--forest);color:#fff;border-radius:8px;font-size:.82rem;font-weight:600;transition:var(--transition);cursor:pointer;border:none}
+    .btn-sm-primary:hover{background:var(--forest-mid)}
+    .btn-sm-outline{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--surface);color:var(--text-2);border:1.5px solid var(--border);border-radius:8px;font-size:.82rem;font-weight:600;transition:var(--transition);cursor:pointer}
+    .btn-sm-outline:hover{border-color:var(--forest);color:var(--forest)}
+
+    /* MINI STATS */
+    .mini-stats{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+    .mini-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 18px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-sm)}
+    .mini-stat-icon{font-size:1.1rem}
+    .mini-stat-num{font-size:1.1rem;font-weight:800;color:var(--text);line-height:1}
+    .mini-stat-label{font-size:.72rem;color:var(--text-muted);margin-top:2px}
+
+    /* LISTING CARDS */
+    .listing-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+    .listing-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:var(--transition)}
+    .listing-card:hover{box-shadow:var(--shadow)}
+    .listing-card-img{height:140px;overflow:hidden;position:relative}
+    .listing-card-img img{width:100%;height:100%;object-fit:cover}
+    .listing-card-img .card-status{position:absolute;top:10px;left:10px}
+    .listing-card-body{padding:14px 16px}
+    .listing-card-body h4{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.3}
+    .listing-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+    .listing-meta span{font-size:.75rem;color:var(--text-muted)}
+    .listing-card-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-top:1px solid var(--border-subtle);background:var(--surface-2)}
+    .listing-price{font-size:.9rem;font-weight:800;color:var(--forest)}
+    .listing-rating{font-size:.75rem;color:var(--gold)}
+
+    /* PAGE HEADER */
+    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px}
+    .page-header h2{font-size:1.2rem;font-weight:800;color:var(--text);margin-bottom:2px}
+    .page-header p{font-size:.82rem;color:var(--text-muted)}
+    .page-header-actions{display:flex;gap:8px;align-items:center}
+
+    /* NOTIFICATIONS */
+    .notif-list{display:flex;flex-direction:column}
+    .notif-item{display:flex;gap:12px;padding:14px 22px;border-bottom:1px solid var(--border-subtle);cursor:pointer;transition:background .15s}
+    .notif-item:last-child{border-bottom:none}
+    .notif-item:hover{background:var(--surface-2)}
+    .notif-item.unread{background:rgba(82,183,136,.04)}
+    .notif-icon-wrap{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+    .notif-body{flex:1;min-width:0}
+    .notif-title{font-size:.83rem;font-weight:600;color:var(--text);margin-bottom:2px}
+    .notif-desc{font-size:.78rem;color:var(--text-muted);line-height:1.4}
+    .notif-time{font-size:.7rem;color:var(--text-faint);margin-top:3px;white-space:nowrap}
+    .unread-dot{width:7px;height:7px;background:var(--forest-light);border-radius:50%;flex-shrink:0;margin-top:6px}
+
+    /* MODALS */
+    .modal-overlay{position:fixed;inset:0;background:rgba(16,24,40,.5);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px)}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--surface);border-radius:var(--radius-lg);width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);animation:modalIn .22s ease}
+    @keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 18px;border-bottom:1px solid var(--border)}
+    .modal-header h3{font-size:1rem;font-weight:700;color:var(--text)}
+    .modal-close{width:28px;height:28px;background:var(--bg);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--text-muted);cursor:pointer;transition:var(--transition)}
+    .modal-close:hover{background:var(--red-pale);color:var(--red)}
+    .modal-body{padding:22px 24px}
+    .modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+
+    /* FORMS */
+    .form-group{margin-bottom:16px}
+    .form-group label{display:block;font-size:.78rem;font-weight:600;color:var(--text-2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+    .form-control{width:100%;padding:9px 13px;border:1.5px solid var(--border);border-radius:8px;font-size:.88rem;color:var(--text);background:var(--surface);outline:none;transition:var(--transition)}
+    .form-control:focus{border-color:var(--forest-light);box-shadow:0 0 0 3px rgba(82,183,136,.1)}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    textarea.form-control{resize:vertical;min-height:90px}
+
+    /* SETTINGS */
+    .settings-grid{display:grid;grid-template-columns:220px 1fr;gap:20px}
+    .settings-nav{display:flex;flex-direction:column;gap:2px}
+    .settings-nav-item{padding:10px 14px;border-radius:8px;font-size:.85rem;font-weight:500;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:9px;transition:var(--transition)}
+    .settings-nav-item:hover{background:var(--bg);color:var(--text)}
+    .settings-nav-item.active{background:var(--forest);color:#fff}
+    .settings-panel{display:none}
+    .settings-panel.active{display:block}
+    .settings-section{margin-bottom:28px}
+    .settings-section h3{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:4px}
+    .settings-section>p{font-size:.8rem;color:var(--text-muted);margin-bottom:16px}
+    .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--border-subtle)}
+    .toggle-row:last-child{border-bottom:none}
+    .toggle-label h5{font-size:.85rem;font-weight:600;color:var(--text)}
+    .toggle-label p{font-size:.78rem;color:var(--text-muted);margin-top:1px}
+    .toggle{width:42px;height:24px;background:var(--border);border-radius:100px;position:relative;cursor:pointer;transition:background .22s;flex-shrink:0}
+    .toggle.on{background:var(--forest-light)}
+    .toggle::after{content:'';width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:transform .22s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+    .toggle.on::after{transform:translateX(18px)}
+
+    /* COLLAPSED SIDEBAR */
+    .sidebar.collapsed{width:68px}
+    .sidebar.collapsed .brand-text,.sidebar.collapsed .nav-section-label,.sidebar.collapsed .nav-item span:not(.nav-icon),.sidebar.collapsed .nav-badge,.sidebar.collapsed .admin-info,.sidebar.collapsed .admin-profile .more{display:none}
+    .sidebar.collapsed .nav-item{justify-content:center;padding:10px}
+    .sidebar.collapsed .admin-profile{justify-content:center;padding:8px}
+    .sidebar.collapsed~.main{margin-left:68px}
+
+    /* MODAL WIDE + STEPS */
+    .modal-wide{max-width:720px}
+    .modal-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);padding:0 24px;background:var(--surface-2);overflow-x:auto}
+    .modal-tab{padding:12px 18px;font-size:.8rem;font-weight:600;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:var(--transition);display:flex;align-items:center;gap:6px}
+    .modal-tab:hover{color:var(--text)}
+    .modal-tab.active{color:var(--forest);border-bottom-color:var(--forest-light)}
+    .modal-tab .tab-num{width:18px;height:18px;border-radius:50%;background:var(--border);color:var(--text-muted);font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--transition)}
+    .modal-tab.active .tab-num{background:var(--forest-light);color:var(--forest)}
+    .modal-tab.done .tab-num{background:var(--green);color:#fff}
+    .modal-step{display:none}
+    .modal-step.active{display:block}
+
+    /* UPLOAD */
+    .upload-zone{border:2px dashed var(--border);border-radius:var(--radius-lg);padding:28px 20px;text-align:center;cursor:pointer;transition:var(--transition);background:var(--surface-2);position:relative}
+    .upload-zone:hover,.upload-zone.drag-over{border-color:var(--forest-light);background:rgba(82,183,136,.04)}
+    .upload-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+    .upload-zone-icon{font-size:2rem;margin-bottom:10px}
+    .upload-zone h4{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:4px}
+    .upload-zone p{font-size:.78rem;color:var(--text-muted)}
+    .upload-zone .upload-hint{font-size:.72rem;color:var(--text-faint);margin-top:6px}
+    .img-preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:14px}
+    .img-preview-item{aspect-ratio:1;border-radius:8px;overflow:hidden;position:relative;background:var(--border);border:1.5px solid var(--border)}
+    .img-preview-item img{width:100%;height:100%;object-fit:cover}
+    .img-preview-item .img-remove{position:absolute;top:4px;right:4px;width:20px;height:20px;background:rgba(185,28,28,.85);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;cursor:pointer;font-weight:700;line-height:1}
+    .img-preview-item.cover-badge::after{content:'COVER';position:absolute;bottom:0;left:0;right:0;background:rgba(26,60,46,.85);color:var(--gold-light);font-size:.55rem;font-weight:800;letter-spacing:.08em;text-align:center;padding:2px 0}
+    .upload-progress{margin-top:10px;display:none}
+    .upload-progress.show{display:block}
+    .upload-progress-bar{height:4px;background:var(--border);border-radius:100px;overflow:hidden}
+    .upload-progress-fill{height:100%;background:linear-gradient(to right,var(--forest),var(--forest-light));border-radius:100px;transition:width .3s ease;width:0%}
+    .upload-progress-label{font-size:.72rem;color:var(--text-muted);margin-top:4px}
+
+    /* TAGS */
+    .tags-input-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--surface);min-height:42px;align-items:center;cursor:text;transition:var(--transition)}
+    .tags-input-wrap:focus-within{border-color:var(--forest-light);box-shadow:0 0 0 3px rgba(82,183,136,.1)}
+    .tag-chip{background:var(--forest-pale);color:var(--forest);border-radius:100px;padding:2px 10px;font-size:.75rem;font-weight:600;display:flex;align-items:center;gap:5px}
+    .tag-chip button{font-size:.75rem;color:var(--forest-mid);font-weight:700;padding:0;line-height:1}
+    .tags-input-wrap input{border:none;background:none;outline:none;font-size:.85rem;color:var(--text);flex:1;min-width:100px}
+
+    /* ITINERARY BUILDER */
+    .itinerary-day{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;position:relative}
+    .itinerary-day-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .itinerary-day-num{width:28px;height:28px;background:var(--forest);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0}
+    .itinerary-day h5{font-size:.85rem;font-weight:700;color:var(--text);flex:1}
+    .itinerary-remove{font-size:.75rem;color:var(--red);cursor:pointer;padding:4px 8px;border-radius:6px;border:1px solid #fca5a5;background:var(--red-pale);font-weight:600;transition:var(--transition)}
+    .itinerary-remove:hover{background:var(--red);color:#fff}
+
+    /* SUBMIT BTN */
+    .btn-submit{display:inline-flex;align-items:center;gap:8px;padding:9px 20px;background:var(--forest);color:#fff;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;transition:var(--transition)}
+    .btn-submit:hover{background:var(--forest-mid)}
+    .btn-submit:disabled{opacity:.6;cursor:not-allowed}
+    .btn-submit .spin{width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none}
+    .btn-submit.loading .spin{display:inline-block}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .section-divider{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin:20px 0 12px;display:flex;align-items:center;gap:10px}
+    .section-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+    .char-count{font-size:.72rem;color:var(--text-faint);text-align:right;margin-top:4px}
+    .form-hint{font-size:.75rem;color:var(--text-muted);margin-top:4px}
+
+    /* TOAST */
+    .toast-stack{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:9000}
+    .toast{display:flex;align-items:center;gap:12px;background:var(--text);color:#fff;padding:12px 18px;border-radius:var(--radius);font-size:.84rem;font-weight:500;box-shadow:var(--shadow-lg);animation:toastIn .25s ease;min-width:280px}
+    .toast.success{background:var(--forest)}
+    .toast.error{background:var(--red)}
+    .toast.warning{background:var(--amber);color:var(--text)}
+    @keyframes toastIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .toast-icon{font-size:1.1rem}
+
+    /* RESPONSIVE */
+    @media(max-width:1100px){.stats-row{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.three-col{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.stats-row{grid-template-columns:1fr 1fr}.content{padding:16px}.settings-grid{grid-template-columns:1fr}}
+    @media(max-width:480px){.stats-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<!-- AUTH LOADING -->
+<div id="authLoading" style="position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:9999;">
+  <div style="width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--forest-light);border-radius:50%;animation:authspin .7s linear infinite;"></div>
+  <div style="font-size:.88rem;color:var(--text-muted);font-weight:500;">Checking your session…</div>
+</div>
+<style>@keyframes authspin{to{transform:rotate(360deg)}}</style>
+
+<div class="shell" id="shellRoot" style="display:none;">
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">🌿</div>
+    <div class="brand-text"><strong>WildRoots</strong><span>Admin Dashboard</span></div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Overview</div>
+    <div class="nav-item active" onclick="showView('dashboard',this)"><span class="nav-icon">📊</span><span>Dashboard</span></div>
+    <div class="nav-item" onclick="showView('analytics',this)"><span class="nav-icon">📈</span><span>Analytics</span></div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Operations</div>
+    <div class="nav-item" onclick="showView('bookings',this)"><span class="nav-icon">🗓️</span><span>Bookings</span><span class="nav-badge" id="badge-bookings">8</span></div>
+    <div class="nav-item" onclick="showView('applications',this)"><span class="nav-icon">📋</span><span>Applications</span><span class="nav-badge amber" id="badge-applications">12</span></div>
+    <div class="nav-item" onclick="showView('reviews',this)"><span class="nav-icon">⭐</span><span>Reviews</span><span class="nav-badge amber" id="badge-reviews">5</span></div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Content</div>
+    <div class="nav-item" onclick="showView('tours',this)"><span class="nav-icon">🗺️</span><span>Tours</span></div>
+    <div class="nav-item" onclick="showView('volunteers',this)"><span class="nav-icon">🌿</span><span>Volunteer Programs</span></div>
+    <div class="nav-item" onclick="showView('blog',this)"><span class="nav-icon">📰</span><span>Blog Posts</span></div>
+    <div class="nav-item" onclick="showView('gallery',this)"><span class="nav-icon">🖼️</span><span>Media Gallery</span></div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">People</div>
+    <div class="nav-item" onclick="showView('users',this)"><span class="nav-icon">👥</span><span>Users</span></div>
+    <div class="nav-item" onclick="showView('notifications',this)"><span class="nav-icon">🔔</span><span>Notifications</span><span class="nav-badge">3</span></div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">System</div>
+    <div class="nav-item" onclick="showView('settings',this)"><span class="nav-icon">⚙️</span><span>Settings</span></div>
+    <div class="nav-item" onclick="confirmLogout()"><span class="nav-icon">🚪</span><span>Log Out</span></div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="admin-profile" onclick="showView('settings',null)">
+      <div class="admin-avatar" id="sidebarAvatar">JM</div>
+      <div class="admin-info"><strong id="sidebarName">James Mwangi</strong><span id="sidebarRole">Super Admin</span></div>
+      <span class="more">⋯</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main" id="mainArea">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="icon-btn" onclick="toggleSidebar()" title="Toggle sidebar">☰</button>
+      <div class="page-breadcrumb">Admin <span>›</span> <span id="breadcrumbCurrent">Dashboard</span></div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-search"><span>🔍</span><input type="text" placeholder="Search anything…" /></div>
+      <div class="date-badge" id="liveClock">Loading…</div>
+      <button class="icon-btn" onclick="showView('notifications',null)">🔔<span class="dot"></span></button>
+      <button class="icon-btn">❓</button>
+      <div class="admin-avatar" style="cursor:pointer;" onclick="showView('settings',null)" id="topbarAvatar">JM</div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div class="view active" id="view-dashboard">
+      <div class="page-header">
+        <div><h2 id="dashGreeting">Good morning, James 👋</h2><p>Here's what's happening across WildRoots today.</p></div>
+        <div class="page-header-actions">
+          <button class="btn-sm-outline" onclick="toast('Report exported!','success')">⬇ Export Report</button>
+          <button class="btn-sm-primary" onclick="openTourModal()">＋ Add Tour</button>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-card-icon green">💰</div><div class="stat-change up" id="rev-change">↑ 18.4%</div></div>
+          <div><div class="stat-num" id="stat-revenue">$84,290</div><div class="stat-label">Total Revenue</div><div class="stat-sub" id="stat-revenue-sub">+$13,480 this month</div></div>
+          <div class="sparkline" id="spark1"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-card-icon blue">🗓️</div><div class="stat-change up">↑ 12.1%</div></div>
+          <div><div class="stat-num" id="stat-bookings">247</div><div class="stat-label">Total Bookings</div><div class="stat-sub" id="stat-bookings-sub">8 pending confirmation</div></div>
+          <div class="sparkline" id="spark2"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-card-icon amber">📋</div><div class="stat-change up">↑ 9.7%</div></div>
+          <div><div class="stat-num" id="stat-apps">63</div><div class="stat-label">Active Applications</div><div class="stat-sub" id="stat-apps-sub">12 awaiting review</div></div>
+          <div class="sparkline" id="spark3"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-card-icon purple">👥</div><div class="stat-change up">↑ 6.3%</div></div>
+          <div><div class="stat-num" id="stat-users">2,419</div><div class="stat-label">Registered Users</div><div class="stat-sub" id="stat-users-sub">+34 this week</div></div>
+          <div class="sparkline" id="spark4"></div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="icon">📊</span>Revenue — Last 6 Months</div>
+            <select class="filter-select" style="font-size:.78rem;padding:5px 10px;"><option>2026</option><option>2025</option></select>
+          </div>
+          <div class="card-body"><div class="chart-wrap"><div class="chart-bars" id="revenueChart"></div></div></div>
+          <div class="card-footer" style="display:flex;gap:16px;align-items:center;">
+            <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><div style="width:10px;height:10px;border-radius:2px;background:var(--forest);"></div>Bookings Revenue</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);"><div style="width:10px;height:10px;border-radius:2px;background:#b8d0c4;"></div>Volunteer Fees</div>
+            <span style="margin-left:auto;font-size:.75rem;color:var(--text-muted);">All figures in USD</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="icon">🍩</span>Booking Status</div></div>
+          <div class="card-body">
+            <div class="donut-wrap">
+              <div class="donut" id="bookingDonut"></div>
+              <div class="donut-legend" id="bookingDonutLegend" style="flex:1;">
+                <div class="donut-item"><div class="donut-dot" style="background:var(--forest-light);"></div><span style="font-size:.78rem;color:var(--text-2);">Confirmed</span><span>—</span></div>
+                <div class="donut-item"><div class="donut-dot" style="background:var(--gold);"></div><span style="font-size:.78rem;color:var(--text-2);">Pending</span><span>—</span></div>
+                <div class="donut-item"><div class="donut-dot" style="background:var(--blue);"></div><span style="font-size:.78rem;color:var(--text-2);">Completed</span><span>—</span></div>
+                <div class="donut-item"><div class="donut-dot" style="background:var(--red);"></div><span style="font-size:.78rem;color:var(--text-2);">Cancelled</span><span>—</span></div>
+              </div>
+            </div>
+            <div style="margin-top:20px;">
+              <div class="progress-item"><div class="progress-label"><span>Kenya Tours</span><span id="prog-kenya">$34,200</span></div><div class="progress-track"><div class="progress-fill" id="prog-kenya-bar" style="width:72%"></div></div></div>
+              <div class="progress-item"><div class="progress-label"><span>Tanzania Safari</span><span id="prog-tz">$28,600</span></div><div class="progress-track"><div class="progress-fill" id="prog-tz-bar" style="width:58%"></div></div></div>
+              <div class="progress-item"><div class="progress-label"><span>Uganda Gorillas</span><span id="prog-ug">$14,400</span></div><div class="progress-track"><div class="progress-fill" id="prog-ug-bar" style="width:34%"></div></div></div>
+              <div class="progress-item"><div class="progress-label"><span>Volunteer Programs</span><span id="prog-vol">$7,090</span></div><div class="progress-track"><div class="progress-fill" id="prog-vol-bar" style="width:18%"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="icon">🗓️</span>Recent Bookings</div><button class="btn-sm-outline" onclick="showView('bookings',null)">View all →</button></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Guest</th><th>Tour</th><th>Date</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+            <tbody id="dashboardBookingsBody">
+              <tr><td><div class="td-avatar"><div class="avatar-sm">SL</div><div><div class="td-main">Sarah Lindström</div><div class="td-mono">REF-00284</div></div></div></td><td>Maasai Mara 7D</td><td>Jul 12 2026</td><td style="font-weight:700;color:var(--forest);">$1,850</td><td><span class="badge confirmed">confirmed</span></td><td><div class="td-action"><button class="btn-xs ghost">View →</button></div></td></tr>
+              <tr><td><div class="td-avatar"><div class="avatar-sm">AO</div><div><div class="td-main">Amara Okonkwo</div><div class="td-mono">REF-00283</div></div></div></td><td>Bwindi Gorilla Trek</td><td>Aug 4 2026</td><td style="font-weight:700;color:var(--forest);">$3,200</td><td><span class="badge pending">pending</span></td><td><div class="td-action"><button class="btn-xs primary" onclick="toast('Booking confirmed!','success')">Confirm</button></div></td></tr>
+              <tr><td><div class="td-avatar"><div class="avatar-sm">MK</div><div><div class="td-main">Marcus Kowalski</div><div class="td-mono">REF-00282</div></div></div></td><td>Serengeti 10D</td><td>Sep 18 2026</td><td style="font-weight:700;color:var(--forest);">$2,400</td><td><span class="badge confirmed">confirmed</span></td><td><div class="td-action"><button class="btn-xs ghost">View →</button></div></td></tr>
+              <tr><td><div class="td-avatar"><div class="avatar-sm">PB</div><div><div class="td-main">Priya Banerjee</div><div class="td-mono">REF-00281</div></div></div></td><td>Amboseli Elephants</td><td>Jul 29 2026</td><td style="font-weight:700;color:var(--forest);">$980</td><td><span class="badge pending">pending</span></td><td><div class="td-action"><button class="btn-xs primary" onclick="toast('Booking confirmed!','success')">Confirm</button></div></td></tr>
+              <tr><td><div class="td-avatar"><div class="avatar-sm">TN</div><div><div class="td-main">Thomas Nguyen</div><div class="td-mono">REF-00280</div></div></div></td><td>Kilimanjaro Trek</td><td>Oct 5 2026</td><td style="font-weight:700;color:var(--forest);">$1,650</td><td><span class="badge cancelled">cancelled</span></td><td><div class="td-action"><button class="btn-xs ghost">View →</button></div></td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="icon">⚡</span>Activity Feed</div><span style="font-size:.72rem;color:var(--text-faint);">Live</span></div>
+          <div class="card-body" style="padding:0 22px;">
+            <div class="activity-list" id="activityFeedList">
+              <div class="activity-item"><div class="activity-dot green">🎉</div><div class="activity-body"><div class="activity-text"><strong>Sarah Lindström</strong> completed Maasai Mara 7D and left a 5-star review</div><div class="activity-time">2 minutes ago</div></div><span class="badge active activity-badge">Review</span></div>
+              <div class="activity-item"><div class="activity-dot amber">📋</div><div class="activity-body"><div class="activity-text">New volunteer application from <strong>Sophie van Dijk</strong> for Wildlife Conservation Ranger</div><div class="activity-time">14 minutes ago</div></div><span class="badge pending activity-badge">New</span></div>
+              <div class="activity-item"><div class="activity-dot blue">💳</div><div class="activity-body"><div class="activity-text"><strong>Amara Okonkwo</strong> paid deposit of $640 for Bwindi Gorilla Trek</div><div class="activity-time">41 minutes ago</div></div></div>
+              <div class="activity-item"><div class="activity-dot green">✅</div><div class="activity-body"><div class="activity-text">Volunteer application from <strong>Marcus Kowalski</strong> approved by Grace W.</div><div class="activity-time">1 hour ago</div></div><span class="badge confirmed activity-badge">Approved</span></div>
+              <div class="activity-item"><div class="activity-dot red">❌</div><div class="activity-body"><div class="activity-text"><strong>Thomas Nguyen</strong> cancelled booking REF-00280 — refund initiated</div><div class="activity-time">2 hours ago</div></div></div>
+              <div class="activity-item"><div class="activity-dot purple">📝</div><div class="activity-body"><div class="activity-text">Blog post <strong>"Top 10 Safari Tips"</strong> published by Grace Wanjiku</div><div class="activity-time">3 hours ago</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="three-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="icon">📍</span>Top Destinations</div></div>
+          <div class="card-body">
+            <div class="progress-item"><div class="progress-label"><span>🇰🇪 Kenya</span><span>42%</span></div><div class="progress-track"><div class="progress-fill" style="width:42%"></div></div></div>
+            <div class="progress-item"><div class="progress-label"><span>🇹🇿 Tanzania</span><span>35%</span></div><div class="progress-track"><div class="progress-fill" style="width:35%"></div></div></div>
+            <div class="progress-item"><div class="progress-label"><span>🇺🇬 Uganda</span><span>14%</span></div><div class="progress-track"><div class="progress-fill" style="width:14%"></div></div></div>
+            <div class="progress-item"><div class="progress-label"><span>🇷🇼 Rwanda</span><span>9%</span></div><div class="progress-track"><div class="progress-fill" style="width:9%"></div></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="icon">💚</span>Platform Health</div></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--green-pale);border-radius:8px;"><span style="font-size:.82rem;font-weight:600;color:var(--green);">🟢 API Server</span><span style="font-size:.75rem;color:var(--green);">99.98% uptime</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--green-pale);border-radius:8px;"><span style="font-size:.82rem;font-weight:600;color:var(--green);">🟢 Database</span><span style="font-size:.75rem;color:var(--green);">MongoDB Atlas — OK</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--green-pale);border-radius:8px;"><span style="font-size:.82rem;font-weight:600;color:var(--green);">🟢 Cloudinary</span><span style="font-size:.75rem;color:var(--green);">Media CDN — OK</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--amber-pale);border-radius:8px;"><span style="font-size:.82rem;font-weight:600;color:var(--amber);">🟡 Email Service</span><span style="font-size:.75rem;color:var(--amber);">Minor delays</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--green-pale);border-radius:8px;"><span style="font-size:.82rem;font-weight:600;color:var(--green);">🟢 Payment Gateway</span><span style="font-size:.75rem;color:var(--green);">PayPal — OK</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="icon">⏳</span>Needs Attention</div></div>
+          <div class="card-body" style="padding:12px 22px;">
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--amber-pale);border-radius:8px;cursor:pointer;" onclick="showView('applications',null)"><div style="font-size:.82rem;"><strong id="need-apps" style="color:var(--amber);">12</strong> <span style="color:var(--text-muted);">volunteer applications pending</span></div><span style="font-size:.8rem;color:var(--amber);">→</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--amber-pale);border-radius:8px;cursor:pointer;" onclick="showView('bookings',null)"><div style="font-size:.82rem;"><strong id="need-bookings" style="color:var(--amber);">8</strong> <span style="color:var(--text-muted);">bookings awaiting confirmation</span></div><span style="font-size:.8rem;color:var(--amber);">→</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--purple-pale);border-radius:8px;cursor:pointer;" onclick="showView('reviews',null)"><div style="font-size:.82rem;"><strong id="need-reviews" style="color:var(--purple);">5</strong> <span style="color:var(--text-muted);">reviews awaiting approval</span></div><span style="font-size:.8rem;color:var(--purple);">→</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--red-pale);border-radius:8px;cursor:pointer;"><div style="font-size:.82rem;"><strong style="color:var(--red);">2</strong> <span style="color:var(--text-muted);">refund requests open</span></div><span style="font-size:.8rem;color:var(--red);">→</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BOOKINGS ═══ -->
+    <div class="view" id="view-bookings">
+      <div class="page-header">
+        <div><h2>Bookings</h2><p>Manage all tour and safari bookings.</p></div>
+        <div class="page-header-actions">
+          <button class="btn-sm-outline" onclick="toast('CSV exported!','success')">⬇ Export CSV</button>
+        </div>
+      </div>
+      <div class="mini-stats">
+        <div class="mini-stat"><span class="mini-stat-icon">🗓️</span><div><div class="mini-stat-num">247</div><div class="mini-stat-label">Total</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">✅</span><div><div class="mini-stat-num">128</div><div class="mini-stat-label">Confirmed</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">⏳</span><div><div class="mini-stat-num">8</div><div class="mini-stat-label">Pending</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">❌</span><div><div class="mini-stat-num">31</div><div class="mini-stat-label">Cancelled</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">💰</span><div><div class="mini-stat-num">$84k</div><div class="mini-stat-label">Revenue</div></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="filter-row" style="margin:0;flex:1;">
+            <div class="search-input"><span>🔍</span><input type="text" placeholder="Search by name, ref, tour…" /></div>
+            <select class="filter-select"><option>All Statuses</option><option>Confirmed</option><option>Pending</option><option>Cancelled</option></select>
+            <select class="filter-select"><option>All Tours</option><option>Maasai Mara</option><option>Serengeti</option><option>Bwindi</option></select>
+            <select class="filter-select"><option>All Dates</option><option>This Month</option><option>Next Month</option></select>
+          </div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Ref</th><th>Guest</th><th>Tour Package</th><th>Pax</th><th>Departure</th><th>Amount</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="bookingsTableBody"><tr><td colspan="9" style="text-align:center;color:var(--text-faint);padding:24px;">Loading bookings…</td></tr></tbody>
+        </table></div>
+        <div class="card-footer" style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:.78rem;color:var(--text-muted);" id="bookings-footer-text">Loading…</span>
+          <div style="display:flex;gap:6px;"><button class="btn-xs ghost">← Prev</button><button class="btn-xs primary">1</button><button class="btn-xs ghost">2</button><button class="btn-xs ghost">3</button><button class="btn-xs ghost">Next →</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ APPLICATIONS ═══ -->
+    <div class="view" id="view-applications">
+      <div class="page-header">
+        <div><h2>Volunteer Applications</h2><p>Review and process incoming applications.</p></div>
+        <button class="btn-sm-outline" onclick="toast('Applications exported!','success')">⬇ Export</button>
+      </div>
+      <div class="mini-stats">
+        <div class="mini-stat"><span class="mini-stat-icon">📋</span><div><div class="mini-stat-num">63</div><div class="mini-stat-label">Total</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">✅</span><div><div class="mini-stat-num">38</div><div class="mini-stat-label">Approved</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">⏳</span><div><div class="mini-stat-num">12</div><div class="mini-stat-label">Pending Review</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">🔍</span><div><div class="mini-stat-num">5</div><div class="mini-stat-label">Under Review</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">❌</span><div><div class="mini-stat-num">8</div><div class="mini-stat-label">Rejected</div></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="filter-row" style="margin:0;flex:1;">
+            <div class="search-input"><span>🔍</span><input type="text" placeholder="Search applicant or program…" /></div>
+            <select class="filter-select"><option>All Statuses</option><option>Pending</option><option>Under Review</option><option>Approved</option><option>Rejected</option></select>
+            <select class="filter-select"><option>All Programs</option><option>Wildlife Conservation</option><option>Rural Education</option><option>Health Outreach</option></select>
+          </div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Applicant</th><th>Program</th><th>Duration</th><th>Start Date</th><th>Nationality</th><th>Applied</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="applicationsTableBody"><tr><td colspan="8" style="text-align:center;color:var(--text-faint);padding:24px;">Loading applications…</td></tr></tbody>
+        </table></div>
+        <div class="card-footer" style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:.78rem;color:var(--text-muted);" id="apps-footer-text">Loading…</span>
+          <div style="display:flex;gap:6px;"><button class="btn-xs ghost">← Prev</button><button class="btn-xs primary">1</button><button class="btn-xs ghost">2</button><button class="btn-xs ghost">Next →</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ REVIEWS ═══ -->
+    <div class="view" id="view-reviews">
+      <div class="page-header"><div><h2>Reviews</h2><p>Approve, feature, or remove traveller reviews.</p></div></div>
+      <div class="card">
+        <div class="card-header">
+          <div class="filter-row" style="margin:0;flex:1;">
+            <div class="search-input"><span>🔍</span><input type="text" placeholder="Search reviews…" /></div>
+            <select class="filter-select"><option>All Reviews</option><option>Pending Approval</option><option>Approved</option><option>Featured</option></select>
+            <select class="filter-select"><option>All Ratings</option><option>5 Stars</option><option>4 Stars</option><option>3 Stars &amp; below</option></select>
+          </div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Reviewer</th><th>Tour</th><th>Rating</th><th>Title</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="reviewsTableBody">
+            <tr><td><div class="td-avatar"><div class="avatar-sm">SL</div><span class="td-main">Sarah Lindström</span></div></td><td>Maasai Mara 7D</td><td><span style="color:var(--gold);font-weight:700;">★★★★★ 5.0</span></td><td>"Life-changing. James knew every animal."</td><td>Jun 10 2026</td><td><span class="badge pending">pending</span></td><td><div class="td-action"><button class="btn-xs primary" onclick="toast('Review approved!','success')">Approve</button><button class="btn-xs ghost" onclick="toast('Marked as featured!','success')">Feature</button><button class="btn-xs danger" onclick="toast('Review deleted.','error')">Delete</button></div></td></tr>
+            <tr><td><div class="td-avatar"><div class="avatar-sm">AO</div><span class="td-main">Amara Okonkwo</span></div></td><td>Bwindi Gorilla Trek</td><td><span style="color:var(--gold);font-weight:700;">★★★★★ 5.0</span></td><td>"Priceless. WildRoots handled everything."</td><td>Jun 8 2026</td><td><span class="badge confirmed">approved</span></td><td><div class="td-action"><button class="btn-xs ghost">Feature</button><button class="btn-xs danger" onclick="toast('Review deleted.','error')">Delete</button></div></td></tr>
+            <tr><td><div class="td-avatar"><div class="avatar-sm">MK</div><span class="td-main">Marcus Kowalski</span></div></td><td>Wildlife Conservation</td><td><span style="color:var(--gold);font-weight:700;">★★★★☆ 4.8</span></td><td>"8 weeks that genuinely changed my outlook."</td><td>Jun 5 2026</td><td><span class="badge pending">pending</span></td><td><div class="td-action"><button class="btn-xs primary" onclick="toast('Review approved!','success')">Approve</button><button class="btn-xs danger" onclick="toast('Review deleted.','error')">Delete</button></div></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- ═══ TOURS ═══ -->
+    <div class="view" id="view-tours">
+      <div class="page-header">
+        <div><h2>Tour Packages</h2><p id="tours-count-text">Manage all safari and tour packages.</p></div>
+        <div class="page-header-actions">
+          <button class="btn-sm-outline">⬇ Export</button>
+          <button class="btn-sm-primary" onclick="openTourModal()">＋ Add Tour</button>
+        </div>
+      </div>
+      <div class="filter-row">
+        <div class="search-input"><span>🔍</span><input type="text" placeholder="Search tours…" /></div>
+        <select class="filter-select"><option>All Countries</option><option>Kenya</option><option>Tanzania</option><option>Uganda</option><option>Rwanda</option></select>
+        <select class="filter-select"><option>All Status</option><option>Active</option><option>Draft</option><option>Archived</option></select>
+      </div>
+      <div class="listing-cards" id="toursGrid">
+        <div style="grid-column:1/-1;text-align:center;color:var(--text-faint);padding:32px;">Loading tours…</div>
+      </div>
+    </div>
+
+    <!-- ═══ VOLUNTEERS ═══ -->
+    <div class="view" id="view-volunteers">
+      <div class="page-header">
+        <div><h2>Volunteer Programs</h2><p id="vol-count-text">Manage all volunteer placements.</p></div>
+        <button class="btn-sm-primary" onclick="openVolunteerModal()">＋ Add Program</button>
+      </div>
+      <div class="listing-cards" id="volunteersGrid">
+        <div style="grid-column:1/-1;text-align:center;color:var(--text-faint);padding:32px;">Loading programs…</div>
+      </div>
+    </div>
+
+    <!-- ═══ BLOG ═══ -->
+    <div class="view" id="view-blog">
+      <div class="page-header">
+        <div><h2>Blog Posts</h2><p>Create, edit, and publish travel content.</p></div>
+        <button class="btn-sm-primary" onclick="toast('Create post form coming soon!','default')">＋ New Post</button>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="filter-row" style="margin:0;flex:1;">
+            <div class="search-input"><span>🔍</span><input type="text" placeholder="Search posts…" /></div>
+            <select class="filter-select"><option>All Status</option><option>Published</option><option>Draft</option></select>
+          </div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Title</th><th>Category</th><th>Author</th><th>Views</th><th>Published</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="blogTableBody"><tr><td colspan="7" style="text-align:center;color:var(--text-faint);padding:24px;">Loading blog posts…</td></tr></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- ═══ GALLERY ═══ -->
+    <div class="view" id="view-gallery">
+      <div class="page-header">
+        <div><h2>Media Gallery</h2><p>Upload and manage photos and assets.</p></div>
+        <button class="btn-sm-primary" onclick="toast('Upload modal coming soon!','warning')">⬆ Upload Media</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
+        <div style="aspect-ratio:1;border-radius:var(--radius);overflow:hidden;position:relative;cursor:pointer;" onmouseenter="this.querySelector('.ov').style.opacity='1'" onmouseleave="this.querySelector('.ov').style.opacity='0'"><img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=300&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" loading="lazy"/><div class="ov" style="position:absolute;inset:0;background:rgba(26,60,46,.6);display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;transition:opacity .2s;"><button class="btn-xs ghost" style="background:rgba(255,255,255,.9);">✏️</button><button class="btn-xs danger" onclick="toast('Image deleted.','error')">🗑️</button></div></div>
+        <div style="aspect-ratio:1;border-radius:var(--radius);overflow:hidden;position:relative;cursor:pointer;" onmouseenter="this.querySelector('.ov').style.opacity='1'" onmouseleave="this.querySelector('.ov').style.opacity='0'"><img src="https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=300&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" loading="lazy"/><div class="ov" style="position:absolute;inset:0;background:rgba(26,60,46,.6);display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;transition:opacity .2s;"><button class="btn-xs ghost" style="background:rgba(255,255,255,.9);">✏️</button><button class="btn-xs danger" onclick="toast('Image deleted.','error')">🗑️</button></div></div>
+        <div style="aspect-ratio:1;border-radius:var(--radius);overflow:hidden;position:relative;cursor:pointer;" onmouseenter="this.querySelector('.ov').style.opacity='1'" onmouseleave="this.querySelector('.ov').style.opacity='0'"><img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=300&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" loading="lazy"/><div class="ov" style="position:absolute;inset:0;background:rgba(26,60,46,.6);display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;transition:opacity .2s;"><button class="btn-xs ghost" style="background:rgba(255,255,255,.9);">✏️</button><button class="btn-xs danger" onclick="toast('Image deleted.','error')">🗑️</button></div></div>
+        <div style="aspect-ratio:1;border-radius:var(--radius);overflow:hidden;position:relative;cursor:pointer;" onmouseenter="this.querySelector('.ov').style.opacity='1'" onmouseleave="this.querySelector('.ov').style.opacity='0'"><img src="https://images.unsplash.com/photo-1581123578069-5b61e9a1c90c?w=300&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" loading="lazy"/><div class="ov" style="position:absolute;inset:0;background:rgba(26,60,46,.6);display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;transition:opacity .2s;"><button class="btn-xs ghost" style="background:rgba(255,255,255,.9);">✏️</button><button class="btn-xs danger" onclick="toast('Image deleted.','error')">🗑️</button></div></div>
+        <div style="aspect-ratio:1;border-radius:var(--radius);border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;color:var(--text-muted);background:var(--surface-2);" onclick="toast('Upload ready!','success')"><span style="font-size:1.6rem;">＋</span><span style="font-size:.75rem;font-weight:600;">Upload</span></div>
+      </div>
+    </div>
+
+    <!-- ═══ USERS ═══ -->
+    <div class="view" id="view-users">
+      <div class="page-header">
+        <div><h2>Users</h2><p>Manage travellers, volunteers, and staff accounts.</p></div>
+        <button class="btn-sm-primary" onclick="toast('Invite user form coming soon!','default')">＋ Invite User</button>
+      </div>
+      <div class="tab-bar"><div class="tab active">All Users</div><div class="tab">Travellers</div><div class="tab">Volunteers</div><div class="tab">Staff</div></div>
+      <div class="card">
+        <div class="card-header">
+          <div class="filter-row" style="margin:0;flex:1;">
+            <div class="search-input"><span>🔍</span><input type="text" placeholder="Search users…" /></div>
+            <select class="filter-select"><option>All Roles</option><option>User</option><option>Volunteer</option><option>Staff</option><option>Admin</option></select>
+            <select class="filter-select"><option>All Status</option><option>Active</option><option>Suspended</option></select>
+          </div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>User</th><th>Email</th><th>Role</th><th>Nationality</th><th>Joined</th><th>Bookings</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="usersTableBody"><tr><td colspan="8" style="text-align:center;color:var(--text-faint);padding:24px;">Loading users…</td></tr></tbody>
+        </table></div>
+        <div class="card-footer" style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:.78rem;color:var(--text-muted);" id="users-footer-text">Loading…</span>
+          <div style="display:flex;gap:6px;"><button class="btn-xs ghost">← Prev</button><button class="btn-xs primary">1</button><button class="btn-xs ghost">2</button><button class="btn-xs ghost">Next →</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ NOTIFICATIONS ═══ -->
+    <div class="view" id="view-notifications">
+      <div class="page-header">
+        <div><h2>Notifications</h2><p>System alerts and activity notifications.</p></div>
+        <button class="btn-sm-outline" onclick="toast('All marked as read.','success')">✓ Mark all read</button>
+      </div>
+      <div class="card" style="max-width:720px;">
+        <div class="notif-list">
+          <div class="notif-item unread"><div class="notif-icon-wrap" style="background:var(--amber-pale);">📋</div><div class="notif-body"><div class="notif-title">New application received</div><div class="notif-desc">Sophie van Dijk applied for the Wildlife Conservation Ranger program in Kenya.</div><div class="notif-time">2 minutes ago</div></div><div class="unread-dot"></div></div>
+          <div class="notif-item unread"><div class="notif-icon-wrap" style="background:var(--blue-pale);">💳</div><div class="notif-body"><div class="notif-title">Deposit payment received</div><div class="notif-desc">Amara Okonkwo paid $640 deposit for booking REF-00283 (Bwindi Gorilla Trek).</div><div class="notif-time">41 minutes ago</div></div><div class="unread-dot"></div></div>
+          <div class="notif-item unread"><div class="notif-icon-wrap" style="background:var(--purple-pale);">⭐</div><div class="notif-body"><div class="notif-title">New review pending approval</div><div class="notif-desc">Sarah Lindström left a 5-star review for the Maasai Mara Great Migration tour.</div><div class="notif-time">2 hours ago</div></div><div class="unread-dot"></div></div>
+          <div class="notif-item"><div class="notif-icon-wrap" style="background:var(--red-pale);">❌</div><div class="notif-body"><div class="notif-title">Booking cancelled</div><div class="notif-desc">Thomas Nguyen cancelled booking REF-00280. A refund of $330 has been initiated.</div><div class="notif-time">3 hours ago</div></div></div>
+          <div class="notif-item"><div class="notif-icon-wrap" style="background:var(--amber-pale);">🟡</div><div class="notif-body"><div class="notif-title">Email service delay warning</div><div class="notif-desc">Mailgun is reporting minor delays. Confirmation emails may be delayed 5–15 minutes.</div><div class="notif-time">4 hours ago</div></div></div>
+          <div class="notif-item"><div class="notif-icon-wrap" style="background:var(--green-pale);">✅</div><div class="notif-body"><div class="notif-title">Blog post published</div><div class="notif-desc">Grace Wanjiku published "First Safari? 12 Things Your Agent Won't Tell You".</div><div class="notif-time">Yesterday, 3:42 PM</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ANALYTICS ═══ -->
+    <div class="view" id="view-analytics">
+      <div class="page-header">
+        <div><h2>Analytics</h2><p>Performance overview across all channels.</p></div>
+        <select class="filter-select"><option>Last 30 days</option><option>Last 90 days</option><option>This year</option></select>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon green">👁</div><div class="stat-change up" id="an-pv-change">↑ 24%</div></div><div><div class="stat-num" id="an-pageviews">—</div><div class="stat-label">Page Views</div><div class="stat-sub" id="an-pv-sub">Loading…</div></div></div>
+        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon blue">🔗</div><div class="stat-change up" id="an-cv-change">↑ 11%</div></div><div><div class="stat-num" id="an-conversion">—</div><div class="stat-label">Conversion Rate</div><div class="stat-sub" id="an-cv-sub">Loading…</div></div></div>
+        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon amber">⏱</div><div class="stat-change down" id="an-sess-change">↓ 4%</div></div><div><div class="stat-num" id="an-session">—</div><div class="stat-label">Avg. Session Time</div><div class="stat-sub" id="an-sess-sub">Loading…</div></div></div>
+        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon purple">🌍</div><div class="stat-change up" id="an-ctry-change">↑ 8%</div></div><div><div class="stat-num" id="an-countries">—</div><div class="stat-label">Countries Reached</div><div class="stat-sub" id="an-ctry-sub">Loading…</div></div></div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="icon">📊</span>Revenue Trend</div></div>
+          <div class="card-body" id="analyticsRevenueChartWrap">
+            <div style="text-align:center;color:var(--text-faint);padding:40px;">Loading chart…</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="icon">🌍</span>Traffic by Source</div></div>
+          <div class="card-body" id="analyticsTrafficWrap">
+            <div class="progress-item"><div class="progress-label"><span>Organic Search</span><span>44%</span></div><div class="progress-track"><div class="progress-fill" style="width:44%"></div></div></div>
+            <div class="progress-item"><div class="progress-label"><span>Direct</span><span>26%</span></div><div class="progress-track"><div class="progress-fill" style="width:26%"></div></div></div>
+            <div class="progress-item"><div class="progress-label"><span>Social Media</span><span>18%</span></div><div class="progress-track"><div class="progress-fill" style="width:18%"></div></div></div>
+            <div class="progress-item"><div class="progress-label"><span>Referral</span><span>8%</span></div><div class="progress-track"><div class="progress-fill" style="width:8%"></div></div></div>
+            <div class="progress-item"><div class="progress-label"><span>Email</span><span>4%</span></div><div class="progress-track"><div class="progress-fill" style="width:4%"></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title"><span class="icon">🏆</span>Top Tours / Pages</div></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Page / Tour</th><th>Views</th><th>Bookings</th><th>Revenue</th><th>Rating</th></tr></thead>
+          <tbody id="analyticsTopToursBody">
+            <tr><td>/tours/maasai-mara</td><td class="td-mono">12,400</td><td class="td-mono">128</td><td class="td-mono">$236,800</td><td class="td-mono">★ 4.9</td></tr>
+            <tr><td>/volunteer</td><td class="td-mono">8,920</td><td class="td-mono">63</td><td class="td-mono">$53,550</td><td class="td-mono">★ 4.8</td></tr>
+            <tr><td>/tours/serengeti</td><td class="td-mono">7,610</td><td class="td-mono">96</td><td class="td-mono">$230,400</td><td class="td-mono">★ 4.8</td></tr>
+            <tr><td>/blog/great-migration</td><td class="td-mono">5,440</td><td class="td-mono">—</td><td class="td-mono">—</td><td class="td-mono">—</td></tr>
+            <tr><td>/tours/bwindi-gorillas</td><td class="td-mono">3,280</td><td class="td-mono">74</td><td class="td-mono">$236,800</td><td class="td-mono">★ 5.0</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- ═══ SETTINGS ═══ -->
+    <div class="view" id="view-settings">
+      <div class="page-header">
+        <div><h2>Settings</h2><p>Configure your platform preferences.</p></div>
+        <button class="btn-sm-primary" onclick="toast('Settings saved!','success')">💾 Save Changes</button>
+      </div>
+      <div class="settings-grid">
+        <div>
+          <div class="card" style="padding:8px;">
+            <div class="settings-nav">
+              <div class="settings-nav-item active" onclick="switchSettings('profile',this)">👤 Profile</div>
+              <div class="settings-nav-item" onclick="switchSettings('platform',this)">🌿 Platform</div>
+              <div class="settings-nav-item" onclick="switchSettings('notifs',this)">🔔 Notifications</div>
+              <div class="settings-nav-item" onclick="switchSettings('payments',this)">💳 Payments</div>
+              <div class="settings-nav-item" onclick="switchSettings('security',this)">🔒 Security</div>
+              <div class="settings-nav-item" onclick="switchSettings('api',this)">⚡ API &amp; Integrations</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="settings-panel active" id="settings-profile">
+            <div class="card"><div class="card-body">
+              <div class="settings-section"><h3>Personal Information</h3><p>Update your admin account details.</p>
+                <div class="form-row"><div class="form-group"><label>First Name</label><input class="form-control" id="s_fname" value="James"/></div><div class="form-group"><label>Last Name</label><input class="form-control" id="s_lname" value="Mwangi"/></div></div>
+                <div class="form-group"><label>Email Address</label><input class="form-control" value="james@wildrootsafrica.com"/></div>
+                <div class="form-group"><label>Phone / WhatsApp</label><input class="form-control" value="+254 700 123 456"/></div>
+                <div class="form-group"><label>Role</label><input class="form-control" value="Super Admin" disabled style="opacity:.6;"/></div>
+              </div>
+              <div class="settings-section"><h3>Change Password</h3><p>Use a strong password of at least 12 characters.</p>
+                <div class="form-group"><label>Current Password</label><input class="form-control" type="password" placeholder="••••••••••••"/></div>
+                <div class="form-row"><div class="form-group"><label>New Password</label><input class="form-control" type="password" placeholder="••••••••••••"/></div><div class="form-group"><label>Confirm Password</label><input class="form-control" type="password" placeholder="••••••••••••"/></div></div>
+                <button class="btn-sm-primary" onclick="toast('Password updated!','success')">Update Password</button>
+              </div>
+            </div></div>
+          </div>
+          <div class="settings-panel" id="settings-platform">
+            <div class="card"><div class="card-body">
+              <div class="settings-section"><h3>Site Settings</h3><p>Global platform configuration.</p>
+                <div class="form-group"><label>Site Name</label><input class="form-control" value="WildRoots Africa"/></div>
+                <div class="form-group"><label>Support Email</label><input class="form-control" value="hello@wildrootsafrica.com"/></div>
+                <div class="form-group"><label>Default Currency</label><select class="form-control"><option>USD — US Dollar</option><option>EUR — Euro</option><option>GBP — British Pound</option><option>KES — Kenyan Shilling</option></select></div>
+                <div class="form-group"><label>Deposit Percentage (%)</label><input class="form-control" type="number" value="20"/></div>
+              </div>
+              <div class="settings-section"><h3>Feature Flags</h3><p>Toggle platform features on or off.</p>
+                <div class="toggle-row"><div class="toggle-label"><h5>Booking System</h5><p>Allow new bookings to be made</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>Volunteer Applications</h5><p>Accept new volunteer applications</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>Review System</h5><p>Allow guests to submit reviews</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>Newsletter Signup</h5><p>Show newsletter form on public site</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>Maintenance Mode</h5><p>Show maintenance page to public visitors</p></div><div class="toggle" onclick="this.classList.toggle('on');toast('Maintenance mode toggled!','warning')"></div></div>
+              </div>
+            </div></div>
+          </div>
+          <div class="settings-panel" id="settings-notifs">
+            <div class="card"><div class="card-body">
+              <div class="settings-section"><h3>Email Notifications</h3><p>Choose which events trigger admin email alerts.</p>
+                <div class="toggle-row"><div class="toggle-label"><h5>New Booking</h5><p>Notify when a new booking is confirmed</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>New Application</h5><p>Notify when a volunteer application is submitted</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>New Review</h5><p>Notify when a review is submitted for approval</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>Booking Cancelled</h5><p>Notify on cancellation requests</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>Payment Received</h5><p>Notify on successful payments</p></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>System Alerts</h5><p>Notify on server or service issues</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+              </div>
+            </div></div>
+          </div>
+          <div class="settings-panel" id="settings-payments">
+            <div class="card"><div class="card-body">
+              <div class="settings-section"><h3>Payment Gateways</h3><p>Configure payment provider credentials.</p>
+                <div class="toggle-row"><div class="toggle-label"><h5>PayPal</h5><p>Accept PayPal payments</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>Stripe</h5><p>Accept card payments via Stripe</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>M-Pesa</h5><p>Accept M-Pesa mobile payments (East Africa)</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>Bank Transfer</h5><p>Show bank transfer instructions at checkout</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+              </div>
+              <div class="settings-section"><h3>PayPal Configuration</h3>
+                <div class="form-group"><label>PayPal Client ID</label><input class="form-control" value="AYZ••••••••••••••••••••••••••••••"/></div>
+                <div class="form-group"><label>Environment</label><select class="form-control"><option>Live (Production)</option><option>Sandbox (Testing)</option></select></div>
+              </div>
+            </div></div>
+          </div>
+          <div class="settings-panel" id="settings-security">
+            <div class="card"><div class="card-body">
+              <div class="settings-section"><h3>Security Settings</h3>
+                <div class="toggle-row"><div class="toggle-label"><h5>Two-Factor Authentication</h5><p>Require 2FA for all admin logins</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>Session Timeout</h5><p>Auto-logout after 60 minutes of inactivity</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>IP Whitelist</h5><p>Restrict admin access to known IPs</p></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-row"><div class="toggle-label"><h5>Audit Logging</h5><p>Log all admin actions for compliance</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+              </div>
+              <div class="settings-section"><h3>Rate Limiting</h3>
+                <div class="form-group"><label>Max Requests per IP (per 15 min)</label><input class="form-control" type="number" value="100"/></div>
+                <div class="form-group"><label>Auth Attempts Limit (per 15 min)</label><input class="form-control" type="number" value="20"/></div>
+              </div>
+            </div></div>
+          </div>
+          <div class="settings-panel" id="settings-api">
+            <div class="card"><div class="card-body">
+              <div class="settings-section"><h3>API Keys</h3><p>Manage access tokens for integrations.</p>
+                <div class="form-group"><label>Cloudinary Cloud Name</label><input class="form-control" value="wildroots-africa"/></div>
+                <div class="form-group"><label>Cloudinary API Key</label><input class="form-control" value="847••••••••••••"/></div>
+                <div class="form-group"><label>MongoDB Atlas URI</label><input class="form-control" value="mongodb+srv://••••••••••••"/></div>
+                <div class="form-group"><label>Mailgun API Key</label><input class="form-control" value="key-••••••••••••••••••"/></div>
+                <div class="form-group"><label>JWT Secret</label><input class="form-control" value="••••••••••••••••••••••••••••"/></div>
+              </div>
+              <div style="padding:14px;background:var(--amber-pale);border-radius:var(--radius);border-left:3px solid var(--gold);"><p style="font-size:.82rem;color:var(--amber);font-weight:500;">⚠️ Never share these credentials. Rotate keys immediately if you suspect a breach.</p></div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- ═══ BOOKING DETAIL MODAL ═══ -->
+<div class="modal-overlay" id="bookingDetailModal">
+  <div class="modal modal-wide" style="max-width:640px;">
+    <div class="modal-header">
+      <h3>🗓️ Booking Details — <span id="bd_ref">…</span></h3>
+      <div class="modal-close" onclick="closeModal('bookingDetailModal')">✕</div>
+    </div>
+    <div class="modal-body" id="bd_body" style="max-height:72vh;overflow-y:auto;padding:0;">
+      <div style="text-align:center;padding:40px;color:var(--text-faint);">Loading…</div>
+    </div>
+    <div class="modal-footer" style="gap:10px;flex-wrap:wrap;">
+      <button class="btn-sm-outline" onclick="closeModal('bookingDetailModal')">Close</button>
+      <button class="btn-sm-primary" id="bd_confirm_btn" style="display:none;" onclick="updateBookingStatus(window._bdId,'confirmed',this);closeModal('bookingDetailModal')">✅ Confirm Booking</button>
+      <button class="btn-sm-primary" id="bd_verify_btn" style="display:none;background:var(--blue);" onclick="openVerifyPaymentModal(window._bdId)">🧾 Verify Payment</button>
+      <button class="btn-sm-outline" id="bd_cancel_btn" style="display:none;border-color:#fca5a5;color:var(--red);" onclick="updateBookingStatus(window._bdId,'cancelled',this);closeModal('bookingDetailModal')">❌ Cancel Booking</button>
+      <button class="btn-sm-outline" style="margin-left:auto;" onclick="toast('Email sent to guest!','success')">✉️ Email Guest</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ VERIFY PAYMENT MODAL ═══ -->
+<div class="modal-overlay" id="verifyPaymentModal">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-header">
+      <h3>🧾 Verify Bank Transfer</h3>
+      <div class="modal-close" onclick="closeModal('verifyPaymentModal')">✕</div>
+    </div>
+    <div class="modal-body">
+      <div id="vp_receipt_wrap" style="margin-bottom:16px;"></div>
+      <div class="form-group">
+        <label>Internal Notes (optional)</label>
+        <textarea id="vp_notes" class="form-control" style="min-height:70px;" placeholder="e.g. Verified against bank statement ref…"></textarea>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:8px;">
+        <button class="btn-submit" style="flex:1;background:var(--green);" onclick="submitVerifyPayment(true)">
+          <span class="spin"></span>✅ Approve Payment
+        </button>
+        <button class="btn-submit" style="flex:1;background:var(--red);" onclick="submitVerifyPayment(false)">
+          <span class="spin"></span>❌ Reject Payment
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ APPLICATION DETAIL MODAL ═══ -->
+<div class="modal-overlay" id="appDetailModal">
+  <div class="modal modal-wide" style="max-width:680px;">
+    <div class="modal-header">
+      <h3>📋 Application — <span id="ad_ref">…</span></h3>
+      <div class="modal-close" onclick="closeModal('appDetailModal')">✕</div>
+    </div>
+    <div class="modal-body" id="ad_body" style="max-height:72vh;overflow-y:auto;padding:0;">
+      <div style="text-align:center;padding:40px;color:var(--text-faint);">Loading…</div>
+    </div>
+    <div class="modal-footer" style="gap:10px;flex-wrap:wrap;">
+      <button class="btn-sm-outline" onclick="closeModal('appDetailModal')">Close</button>
+      <button class="btn-sm-primary" id="ad_approve_btn" style="display:none;" onclick="updateApplicationStatus(window._adId,'approved',this);closeModal('appDetailModal')">✅ Approve</button>
+      <button class="btn-sm-outline" id="ad_review_btn" style="display:none;" onclick="updateApplicationStatus(window._adId,'under_review',this);closeModal('appDetailModal')">🔍 Mark Under Review</button>
+      <button class="btn-sm-outline" id="ad_reject_btn" style="display:none;border-color:#fca5a5;color:var(--red);" onclick="updateApplicationStatus(window._adId,'rejected',this);closeModal('appDetailModal')">❌ Reject</button>
+      <button class="btn-sm-outline" style="margin-left:auto;" onclick="toast('Email sent to applicant!','success')">✉️ Email Applicant</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NEW TOUR MODAL ═══ -->
+<div class="modal-overlay" id="newTourModal">
+  <div class="modal modal-wide">
+    <div class="modal-header"><h3>🗺️ Add New Tour Package</h3><div class="modal-close" onclick="closeTourModal()">✕</div></div>
+    <div class="modal-tabs" id="tourTabs">
+      <div class="modal-tab active" onclick="tourStep(1)" id="tourTab1"><span class="tab-num">1</span>Basics</div>
+      <div class="modal-tab" onclick="tourStep(2)" id="tourTab2"><span class="tab-num">2</span>Details</div>
+      <div class="modal-tab" onclick="tourStep(3)" id="tourTab3"><span class="tab-num">3</span>Itinerary</div>
+      <div class="modal-tab" onclick="tourStep(4)" id="tourTab4"><span class="tab-num">4</span>Photos</div>
+      <div class="modal-tab" onclick="tourStep(5)" id="tourTab5"><span class="tab-num">5</span>Publish</div>
+    </div>
+    <div class="modal-body" style="max-height:62vh;overflow-y:auto;">
+      <!-- Step 1 -->
+      <div class="modal-step active" id="tourStep1">
+        <div class="form-group"><label>Tour Title *</label><input id="t_title" class="form-control" placeholder="e.g. Maasai Mara Great Migration Safari" oninput="updateCharCount(this,'t_title_count',120)"/><div class="char-count"><span id="t_title_count">0</span>/120</div></div>
+        <div class="form-row">
+          <div class="form-group"><label>Category *</label><select id="t_category" class="form-control"><option value="">Select category…</option><option value="wildlife-safari">🦁 Wildlife Safari</option><option value="gorilla-trekking">🦍 Gorilla Trekking</option><option value="mountain-climbing">⛰️ Mountain Climbing</option><option value="beach-safari">🏖️ Beach Safari</option><option value="cultural-tour">🥁 Cultural Tour</option><option value="bird-watching">🦜 Bird Watching</option><option value="photography">📷 Photography Tour</option></select></div>
+          <div class="form-group"><label>Country *</label><select id="t_country" class="form-control"><option value="">Select country…</option><option value="Kenya">🇰🇪 Kenya</option><option value="Tanzania">🇹🇿 Tanzania</option><option value="Uganda">🇺🇬 Uganda</option><option value="Rwanda">🇷🇼 Rwanda</option><option value="Ethiopia">🇪🇹 Ethiopia</option><option value="Botswana">🇧🇼 Botswana</option><option value="South Africa">🇿🇦 South Africa</option></select></div>
+        </div>
+        <div class="form-group"><label>Destination / Location *</label><input id="t_destination" class="form-control" placeholder="e.g. Maasai Mara National Reserve"/></div>
+        <div class="form-row">
+          <div class="form-group"><label>Duration — Days *</label><input id="t_days" class="form-control" type="number" min="1" max="365" placeholder="7"/></div>
+          <div class="form-group"><label>Duration — Nights</label><input id="t_nights" class="form-control" type="number" min="0" max="364" placeholder="6"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Price per Person (USD) *</label><input id="t_price" class="form-control" type="number" min="0" placeholder="1850"/></div>
+          <div class="form-group"><label>Discounted Price (USD)</label><input id="t_pricediscount" class="form-control" type="number" min="0" placeholder="Optional"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Max Group Size</label><input id="t_maxgroup" class="form-control" type="number" min="1" value="12"/></div>
+          <div class="form-group"><label>Difficulty</label><select id="t_difficulty" class="form-control"><option value="easy">Easy</option><option value="moderate" selected>Moderate</option><option value="challenging">Challenging</option><option value="expert">Expert</option></select></div>
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div class="modal-step" id="tourStep2">
+        <div class="form-group"><label>Full Description *</label><textarea id="t_description" class="form-control" style="min-height:110px;" placeholder="A rich, detailed description…" oninput="updateCharCount(this,'t_desc_count',3000)"></textarea><div class="char-count"><span id="t_desc_count">0</span>/3000</div></div>
+        <div class="form-group"><label>Short Description (for cards)</label><textarea id="t_shortdesc" class="form-control" style="min-height:70px;" placeholder="Up to 280 characters…" oninput="updateCharCount(this,'t_sdesc_count',280)" maxlength="280"></textarea><div class="char-count"><span id="t_sdesc_count">0</span>/280</div></div>
+        <div class="form-row">
+          <div class="form-group"><label>Start Location</label><input id="t_start" class="form-control" placeholder="e.g. Nairobi, Kenya"/></div>
+          <div class="form-group"><label>End Location</label><input id="t_end" class="form-control" placeholder="e.g. Nairobi, Kenya"/></div>
+        </div>
+        <div class="section-divider">What's Included / Excluded</div>
+        <div class="form-row">
+          <div class="form-group"><label>Included (one per line)</label><textarea id="t_included" class="form-control" style="min-height:90px;" placeholder="Airport transfers&#10;All game drives&#10;Full board&#10;Park fees"></textarea></div>
+          <div class="form-group"><label>Excluded (one per line)</label><textarea id="t_excluded" class="form-control" style="min-height:90px;" placeholder="International flights&#10;Visa fees&#10;Travel insurance&#10;Tips"></textarea></div>
+        </div>
+        <div class="section-divider">Highlights &amp; Tags</div>
+        <div class="form-group"><label>Tour Highlights (one per line)</label><textarea id="t_highlights" class="form-control" style="min-height:80px;" placeholder="Witness the Great Migration river crossing&#10;Track the Big Five with expert guides"></textarea></div>
+        <div class="form-group"><label>Tags</label><div class="tags-input-wrap" id="t_tags_wrap" onclick="this.querySelector('input').focus()"><input id="t_tags_input" placeholder="Type tag and press Enter…" onkeydown="addTag(event,'t_tags_wrap','t_tags_data')"/></div><input type="hidden" id="t_tags_data" value="[]"/><div class="form-hint">Press Enter after each tag.</div></div>
+      </div>
+      <!-- Step 3 -->
+      <div class="modal-step" id="tourStep3">
+        <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:18px;">Build the day-by-day itinerary. Optional — you can save and add later.</p>
+        <div id="itinerary_days"></div>
+        <button class="btn-sm-outline" style="width:100%;justify-content:center;margin-top:4px;" onclick="addItineraryDay()">＋ Add Day</button>
+      </div>
+      <!-- Step 4 -->
+      <div class="modal-step" id="tourStep4">
+        <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:16px;">Upload a cover photo and up to 8 additional gallery images.</p>
+        <div class="section-divider">Cover Image</div>
+        <div class="upload-zone" id="t_cover_zone"><input type="file" id="t_cover_file" accept="image/*" onchange="handleCoverUpload('t','tour')"/><div id="t_cover_preview_wrap"><div class="upload-zone-icon">🖼️</div><h4>Drop cover image here or click to browse</h4><p>Recommended: 1200×800px · Max 5MB</p></div></div>
+        <div class="upload-progress" id="t_cover_progress"><div class="upload-progress-bar"><div class="upload-progress-fill" id="t_cover_progress_fill"></div></div><div class="upload-progress-label" id="t_cover_progress_label">Uploading…</div></div>
+        <div class="section-divider" style="margin-top:22px;">Gallery Images</div>
+        <div class="upload-zone" id="t_gallery_zone"><input type="file" id="t_gallery_files" accept="image/*" multiple onchange="handleGalleryUpload('t','tour')"/><div class="upload-zone-icon">📷</div><h4>Drop gallery images or click to browse</h4><p>Up to 8 images · 5MB each</p></div>
+        <div class="upload-progress" id="t_gallery_progress"><div class="upload-progress-bar"><div class="upload-progress-fill" id="t_gallery_progress_fill"></div></div><div class="upload-progress-label" id="t_gallery_progress_label">Uploading…</div></div>
+        <div class="img-preview-grid" id="t_gallery_previews"></div>
+        <input type="hidden" id="t_cover_url"/><input type="hidden" id="t_cover_public_id"/><input type="hidden" id="t_gallery_data" value="[]"/>
+      </div>
+      <!-- Step 5 -->
+      <div class="modal-step" id="tourStep5">
+        <div class="form-row">
+          <div class="form-group"><label>Status</label><select id="t_isactive" class="form-control"><option value="false">Draft (not visible)</option><option value="true">Active (live on site)</option></select></div>
+          <div class="form-group"><label>Featured Tour</label><select id="t_featured" class="form-control"><option value="false">No</option><option value="true">Yes — show on homepage</option></select></div>
+        </div>
+        <div class="form-group"><label>Deposit Percentage (%)</label><input id="t_deposit" class="form-control" type="number" min="0" max="100" value="20"/></div>
+        <div id="tour_summary" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-top:20px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:12px;">📋 Review Before Submitting</div>
+          <div id="tour_summary_content" style="font-size:.82rem;color:var(--text-muted);line-height:1.8;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between;">
+      <button class="btn-sm-outline" id="tourBackBtn" onclick="tourStepNav(-1)" style="display:none;">← Back</button>
+      <button class="btn-sm-outline" onclick="closeTourModal()">Cancel</button>
+      <div style="display:flex;gap:8px;margin-left:auto;">
+        <button class="btn-submit" id="tourNextBtn" onclick="tourStepNav(1)">Next →</button>
+        <button class="btn-submit" id="tourSubmitBtn" style="display:none;" onclick="submitTour()"><span class="spin"></span>Create Tour</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NEW VOLUNTEER MODAL ═══ -->
+<div class="modal-overlay" id="newVolunteerModal">
+  <div class="modal modal-wide">
+    <div class="modal-header"><h3>🌿 Add New Volunteer Program</h3><div class="modal-close" onclick="closeVolunteerModal()">✕</div></div>
+    <div class="modal-tabs">
+      <div class="modal-tab active" onclick="volStep(1)" id="volTab1"><span class="tab-num">1</span>Basics</div>
+      <div class="modal-tab" onclick="volStep(2)" id="volTab2"><span class="tab-num">2</span>Program Details</div>
+      <div class="modal-tab" onclick="volStep(3)" id="volTab3"><span class="tab-num">3</span>Accommodation</div>
+      <div class="modal-tab" onclick="volStep(4)" id="volTab4"><span class="tab-num">4</span>Photos</div>
+      <div class="modal-tab" onclick="volStep(5)" id="volTab5"><span class="tab-num">5</span>Publish</div>
+    </div>
+    <div class="modal-body" style="max-height:62vh;overflow-y:auto;">
+      <!-- Vol Step 1 -->
+      <div class="modal-step active" id="volStep1">
+        <div class="form-group"><label>Program Title *</label><input id="v_title" class="form-control" placeholder="e.g. Wildlife Conservation Ranger" oninput="updateCharCount(this,'v_title_count',120)"/><div class="char-count"><span id="v_title_count">0</span>/120</div></div>
+        <div class="form-row">
+          <div class="form-group"><label>Category *</label><select id="v_category" class="form-control"><option value="">Select category…</option><option value="wildlife">🦁 Wildlife Conservation</option><option value="education">📚 Education</option><option value="healthcare">🏥 Healthcare</option><option value="environment">🌿 Environment</option><option value="community">🤝 Community Development</option></select></div>
+          <div class="form-group"><label>Country *</label><select id="v_country" class="form-control"><option value="">Select country…</option><option value="Kenya">🇰🇪 Kenya</option><option value="Tanzania">🇹🇿 Tanzania</option><option value="Uganda">🇺🇬 Uganda</option><option value="Rwanda">🇷🇼 Rwanda</option><option value="Ethiopia">🇪🇹 Ethiopia</option></select></div>
+        </div>
+        <div class="form-group"><label>Location / Town *</label><input id="v_location" class="form-control" placeholder="e.g. Maasai Mara, Narok County"/></div>
+        <div class="form-row">
+          <div class="form-group"><label>Min Duration (weeks) *</label><input id="v_dur_min" class="form-control" type="number" min="1" max="52" placeholder="4"/></div>
+          <div class="form-group"><label>Max Duration (weeks)</label><input id="v_dur_max" class="form-control" type="number" min="1" max="52" placeholder="12"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Program Fee (USD) *</label><input id="v_fee" class="form-control" type="number" min="0" placeholder="850"/></div>
+          <div class="form-group"><label>Available Spots</label><input id="v_spots" class="form-control" type="number" min="0" placeholder="20"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Minimum Age</label><input id="v_agemin" class="form-control" type="number" min="16" value="18"/></div>
+          <div class="form-group"><label>Maximum Age</label><input id="v_agemax" class="form-control" type="number" min="16" value="65"/></div>
+        </div>
+      </div>
+      <!-- Vol Step 2 -->
+      <div class="modal-step" id="volStep2">
+        <div class="form-group"><label>Full Description *</label><textarea id="v_description" class="form-control" style="min-height:110px;" placeholder="Describe the volunteer work, impact, and experience…" oninput="updateCharCount(this,'v_desc_count',3000)"></textarea><div class="char-count"><span id="v_desc_count">0</span>/3000</div></div>
+        <div class="form-group"><label>Short Description</label><textarea id="v_shortdesc" class="form-control" style="min-height:70px;" placeholder="Up to 280 characters…" maxlength="280" oninput="updateCharCount(this,'v_sdesc_count',280)"></textarea><div class="char-count"><span id="v_sdesc_count">0</span>/280</div></div>
+        <div class="section-divider">Responsibilities, Requirements &amp; Benefits</div>
+        <div class="form-group"><label>Volunteer Responsibilities (one per line)</label><textarea id="v_responsibilities" class="form-control" style="min-height:80px;" placeholder="Join anti-poaching patrols&#10;Track and record wildlife data"></textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Requirements (one per line)</label><textarea id="v_requirements" class="form-control" style="min-height:80px;" placeholder="Age 18-65&#10;Good physical fitness&#10;Valid passport"></textarea></div>
+          <div class="form-group"><label>Benefits Included (one per line)</label><textarea id="v_benefits" class="form-control" style="min-height:80px;" placeholder="Airport pickup&#10;Accommodation&#10;Daily meals&#10;Certificate"></textarea></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Skills Needed (one per line)</label><textarea id="v_skills" class="form-control" style="min-height:70px;" placeholder="No experience needed&#10;Basic English"></textarea></div>
+          <div class="form-group"><label>Languages Spoken (one per line)</label><textarea id="v_languages" class="form-control" style="min-height:70px;" placeholder="English&#10;Swahili"></textarea></div>
+        </div>
+        <div class="form-group"><label>Fee Coverage — what the program fee includes</label><textarea id="v_feecoverage" class="form-control" style="min-height:70px;" placeholder="Accommodation&#10;Full board meals&#10;Ground transport"></textarea></div>
+        <div class="form-group"><label>Tags</label><div class="tags-input-wrap" id="v_tags_wrap" onclick="this.querySelector('input').focus()"><input id="v_tags_input" placeholder="Type tag and press Enter…" onkeydown="addTag(event,'v_tags_wrap','v_tags_data')"/></div><input type="hidden" id="v_tags_data" value="[]"/></div>
+      </div>
+      <!-- Vol Step 3 -->
+      <div class="modal-step" id="volStep3">
+        <div class="form-row">
+          <div class="form-group"><label>Accommodation Type</label><select id="v_accom_type" class="form-control"><option value="host-family">🏡 Host Family</option><option value="shared-house">🏠 Shared Volunteer House</option><option value="bush-camp">⛺ Bush Camp</option><option value="guesthouse">🏨 Guesthouse</option><option value="lodge">🌿 Eco Lodge</option></select></div>
+          <div class="form-group"><label>Meals Provided</label><select id="v_meals" class="form-control"><option value="full-board">Full Board (B+L+D)</option><option value="half-board">Half Board (B+D)</option><option value="self-catering">Self Catering</option></select></div>
+        </div>
+        <div class="form-group"><label>Accommodation Description</label><textarea id="v_accom_desc" class="form-control" style="min-height:90px;" placeholder="Describe the volunteer accommodation, facilities…"></textarea></div>
+        <div class="form-group"><label>Amenities (one per line)</label><textarea id="v_amenities" class="form-control" style="min-height:80px;" placeholder="Hot water&#10;Wi-Fi&#10;Laundry facilities&#10;Common lounge"></textarea></div>
+      </div>
+      <!-- Vol Step 4 -->
+      <div class="modal-step" id="volStep4">
+        <div class="section-divider">Cover Image</div>
+        <div class="upload-zone" id="v_cover_zone"><input type="file" id="v_cover_file" accept="image/*" onchange="handleCoverUpload('v','volunteer')"/><div id="v_cover_preview_wrap"><div class="upload-zone-icon">🖼️</div><h4>Drop cover image here or click to browse</h4><p>Recommended: 1200×800px · Max 5MB</p></div></div>
+        <div class="upload-progress" id="v_cover_progress"><div class="upload-progress-bar"><div class="upload-progress-fill" id="v_cover_progress_fill"></div></div><div class="upload-progress-label" id="v_cover_progress_label">Uploading…</div></div>
+        <div class="section-divider" style="margin-top:22px;">Gallery Images</div>
+        <div class="upload-zone" id="v_gallery_zone"><input type="file" id="v_gallery_files" accept="image/*" multiple onchange="handleGalleryUpload('v','volunteer')"/><div class="upload-zone-icon">📷</div><h4>Drop gallery images or click to browse</h4><p>Up to 8 images · 5MB each</p></div>
+        <div class="upload-progress" id="v_gallery_progress"><div class="upload-progress-bar"><div class="upload-progress-fill" id="v_gallery_progress_fill"></div></div><div class="upload-progress-label" id="v_gallery_progress_label">Uploading…</div></div>
+        <div class="img-preview-grid" id="v_gallery_previews"></div>
+        <input type="hidden" id="v_cover_url"/><input type="hidden" id="v_cover_public_id"/><input type="hidden" id="v_gallery_data" value="[]"/>
+      </div>
+      <!-- Vol Step 5 -->
+      <div class="modal-step" id="volStep5">
+        <div class="form-row">
+          <div class="form-group"><label>Status</label><select id="v_isactive" class="form-control"><option value="false">Draft (not visible)</option><option value="true">Active (live on site)</option></select></div>
+          <div class="form-group"><label>Featured Program</label><select id="v_featured" class="form-control"><option value="false">No</option><option value="true">Yes — show on homepage</option></select></div>
+        </div>
+        <div id="vol_summary" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-top:20px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:12px;">📋 Review Before Submitting</div>
+          <div id="vol_summary_content" style="font-size:.82rem;color:var(--text-muted);line-height:1.8;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between;">
+      <button class="btn-sm-outline" id="volBackBtn" onclick="volStepNav(-1)" style="display:none;">← Back</button>
+      <button class="btn-sm-outline" onclick="closeVolunteerModal()">Cancel</button>
+      <div style="display:flex;gap:8px;margin-left:auto;">
+        <button class="btn-submit" id="volNextBtn" onclick="volStepNav(1)">Next →</button>
+        <button class="btn-submit" id="volSubmitBtn" style="display:none;" onclick="submitVolunteer()"><span class="spin"></span>Create Program</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST STACK -->
+<div class="toast-stack" id="toastStack"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   CONFIG & AUTH
+═══════════════════════════════════════════════════════════════ */
+const API_BASE = 'https://wild-tours.onrender.com';
+function getToken(){ return localStorage.getItem('wr_token'); }
+function getUser(){ try{ return JSON.parse(localStorage.getItem('wr_user')||'null'); }catch{ return null; } }
+function logout(){ localStorage.removeItem('wr_token'); localStorage.removeItem('wr_user'); window.location.href='admin-login.html'; }
+function confirmLogout(){ if(confirm('Are you sure you want to log out?')) logout(); }
+
+async function api(path, opts={}){
+  const headers={'Content-Type':'application/json',...(opts.headers||{})};
+  if(getToken()) headers['Authorization']=`Bearer ${getToken()}`;
+  const res = await fetch(API_BASE+path,{...opts,headers});
+  if(res.status===401){ toast('Session expired. Please sign in again.','error'); setTimeout(logout,1200); throw new Error('Unauthorized'); }
+  let data; try{ data=await res.json(); }catch{ data={}; }
+  if(!res.ok) throw new Error(data.message||`Error ${res.status}`);
+  return data;
+}
+
+/* ── Auth Guard ── */
+(function authGuard(){
+  const token=getToken(), user=getUser();
+  if(!token||!user||(user.role!=='admin'&&user.role!=='staff')){
+    window.location.href='admin-login.html'; return;
+  }
+  document.getElementById('authLoading').style.display='none';
+  document.getElementById('shellRoot').style.display='flex';
+  const initials=((user.firstName||'?')[0]+(user.lastName||'?')[0]).toUpperCase();
+  const fullName=`${user.firstName||''} ${user.lastName||''}`.trim()||'Admin';
+  const roleLabel=user.role==='admin'?'Super Admin':'Staff';
+  document.querySelectorAll('.admin-avatar').forEach(el=>el.textContent=initials);
+  const si=document.getElementById('sidebarName'); if(si) si.textContent=fullName;
+  const sr=document.getElementById('sidebarRole'); if(sr) sr.textContent=roleLabel;
+  const hour=new Date().getHours();
+  const tod=hour<12?'morning':hour<18?'afternoon':'evening';
+  const g=document.getElementById('dashGreeting'); if(g) g.textContent=`Good ${tod}, ${user.firstName||'Admin'} 👋`;
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════════════ */
+function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fmtMoney(n){ return '$'+(Number(n)||0).toLocaleString('en-US',{maximumFractionDigits:0}); }
+function fmtMoneyShort(n){ n=Number(n)||0; return n>=1000?'$'+(n/1000).toFixed(1).replace(/\.0$/,'')+'k':'$'+n; }
+function fmtDate(d){ if(!d) return '—'; const dt=new Date(d); return isNaN(dt)?'—':dt.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}); }
+function fmtDateTime(d){ if(!d) return '—'; const dt=new Date(d); const now=new Date(); const m=Math.floor((now-dt)/60000); if(m<1) return 'just now'; if(m<60) return m+'m ago'; const h=Math.floor(m/60); if(h<24) return h+'h ago'; const dy=Math.floor(h/24); if(dy<7) return dy+'d ago'; return fmtDate(d); }
+function initials(u){ return u?((u.firstName||'?')[0]+(u.lastName||'')[0]).toUpperCase().slice(0,2)||'??':'??'; }
+function v(id){ const el=document.getElementById(id); return el?el.value.trim():''; }
+function lines(id){ return v(id).split('\n').map(s=>s.trim()).filter(Boolean); }
+function updateCharCount(el,cid,max){ const c=document.getElementById(cid); if(c){c.textContent=el.value.length; c.style.color=el.value.length>max*.9?'var(--amber)':'';} }
+
+/* ═══════════════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════════════ */
+function toast(msg,type='default'){
+  const icons={success:'✅',error:'❌',warning:'⚠️',default:'ℹ️'};
+  const el=document.createElement('div');
+  el.className=`toast ${type}`;
+  el.innerHTML=`<span class="toast-icon">${icons[type]}</span><span>${esc(msg)}</span>`;
+  document.getElementById('toastStack').appendChild(el);
+  setTimeout(()=>el.remove(),3500);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════════════════════ */
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); }));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open')); });
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════════ */
+const viewLoaders={dashboard:loadDashboard,bookings:loadBookings,applications:loadApplications,reviews:loadReviews,tours:loadTours,volunteers:loadVolunteerPrograms,blog:loadBlogPosts,users:loadUsers,analytics:loadAnalytics};
+const loadedViews=new Set();
+const viewLabels={dashboard:'Dashboard',bookings:'Bookings',applications:'Applications',reviews:'Reviews',tours:'Tours',volunteers:'Volunteer Programs',blog:'Blog Posts',gallery:'Media Gallery',users:'Users',notifications:'Notifications',analytics:'Analytics',settings:'Settings'};
+
+function showView(id,navEl){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const view=document.getElementById('view-'+id); if(view) view.classList.add('active');
+  const bc=document.getElementById('breadcrumbCurrent'); if(bc) bc.textContent=viewLabels[id]||id;
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(navEl) navEl.classList.add('active');
+  else document.querySelectorAll('.nav-item').forEach(n=>{ if(n.getAttribute('onclick')===`showView('${id}',this)`) n.classList.add('active'); });
+  if(viewLoaders[id]&&(!loadedViews.has(id)||id==='dashboard')){
+    loadedViews.add(id); viewLoaders[id]();
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SIDEBAR TOGGLE
+═══════════════════════════════════════════════════════════════ */
+function toggleSidebar(){
+  const s=document.getElementById('sidebar'),m=document.getElementById('mainArea');
+  if(window.innerWidth<=768){ s.classList.toggle('mobile-open'); }
+  else{ s.classList.toggle('collapsed'); m.style.marginLeft=s.classList.contains('collapsed')?'68px':'var(--sidebar-w)'; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SETTINGS
+═══════════════════════════════════════════════════════════════ */
+function switchSettings(id,el){
+  document.querySelectorAll('.settings-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.settings-nav-item').forEach(n=>n.classList.remove('active'));
+  const p=document.getElementById('settings-'+id); if(p) p.classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLOCK
+═══════════════════════════════════════════════════════════════ */
+function updateClock(){ const now=new Date(); const el=document.getElementById('liveClock'); if(el) el.textContent=now.toLocaleString('en-KE',{weekday:'short',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:true,timeZone:'Africa/Nairobi'})+' EAT'; }
+updateClock(); setInterval(updateClock,30000);
+
+/* ═══════════════════════════════════════════════════════════════
+   DETAIL MODAL HELPERS
+═══════════════════════════════════════════════════════════════ */
+function _row(label,value){ return `<tr><td style="padding:10px 16px;font-size:.79rem;font-weight:600;color:var(--text-muted);white-space:nowrap;width:160px;border-bottom:1px solid var(--border-subtle);">${esc(label)}</td><td style="padding:10px 16px;font-size:.84rem;color:var(--text-2);border-bottom:1px solid var(--border-subtle);">${value}</td></tr>`; }
+function _section(title,rows){ return `<div style="margin-bottom:0;"><div style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);padding:12px 16px 8px;background:var(--surface-2);border-bottom:1px solid var(--border);">${esc(title)}</div><table style="width:100%;border-collapse:collapse;">${rows}</table></div>`; }
+function _badge(status){ const map={confirmed:'confirmed',pending:'pending',cancelled:'cancelled',completed:'confirmed',approved:'confirmed',rejected:'cancelled',under_review:'review',review:'review',draft:'draft',active:'active',published:'published',deposit_paid:'active',fully_paid:'confirmed',unpaid:'pending',refunded:'cancelled'}; return `<span class="badge ${map[status]||'pending'}">${esc(status)}</span>`; }
+function _list(arr){ if(!arr||!arr.length) return '<span style="color:var(--text-faint)">—</span>'; return arr.map(i=>`<span style="display:inline-block;background:var(--forest-pale);color:var(--forest);border-radius:100px;padding:2px 10px;font-size:.74rem;font-weight:600;margin:2px;">${esc(i)}</span>`).join(''); }
+
+/* ═══════════════════════════════════════════════════════════════
+   BOOKING DETAIL MODAL
+═══════════════════════════════════════════════════════════════ */
+window.openBookingDetail=async function(bookingId){
+  window._bdId=bookingId;
+  document.getElementById('bd_ref').textContent='…';
+  document.getElementById('bd_body').innerHTML='<div style="text-align:center;padding:40px;color:var(--text-faint);">Loading…</div>';
+  document.getElementById('bd_confirm_btn').style.display='none';
+  document.getElementById('bd_cancel_btn').style.display='none';
+  openModal('bookingDetailModal');
+  try{
+   // With this:
+const data = await api(`/api/bookings/${bookingId}`);
+const b = data.booking || data.data || data;
+const paymentSummary = data.paymentSummary?.length
+  ? data.paymentSummary   // ← use backend's pre-built summary (has receiptUrl)
+  : (b.payments || []).map(p => ({
+      receiptUrl:    p.proofOfPayment?.url || '',
+      bankName:      p.bankName || '',
+      bankReference: p.bankReference || p.reference || '',
+      amount:        p.amount,
+      status:        p.status,
+      paidAt:        p.createdAt || p.paidAt,
+    }));
+window._bdPayments = paymentSummary; // store for verify modal
+
+    const ref=b.bookingRef||b._id?.slice(-6).toUpperCase()||bookingId;
+    const guest=b.user?`${b.user.firstName||''} ${b.user.lastName||''}`.trim():'Unknown';
+    const email=b.user?.email||'—';
+    const phone=b.user?.phone||b.guestPhone||'—';
+    const nationality=b.user?.nationality||b.personalInfo?.nationality||'—';
+    const tourTitle=b.tour?.title||b.tour?.destination||'Tour';
+    const tourId=b.tour?._id||b.tour?.id||'';
+    const pax=b.numberOfPeople||b.pax||1;
+    const deposit=b.depositAmount||(b.totalAmount?b.totalAmount*.2:0);
+    const remaining=b.remainingBalance??((b.totalAmount||0)-deposit);
+    const special=b.specialRequests||b.notes||'';
+    document.getElementById('bd_ref').textContent=ref;
+   if(b.status==='pending'){ document.getElementById('bd_confirm_btn').style.display=''; document.getElementById('bd_cancel_btn').style.display=''; }
+else if(b.status==='confirmed'){ document.getElementById('bd_cancel_btn').style.display=''; }
+
+const hasPending = (b.payments || []).some(p => p.status === 'pending_verification');
+const verifyBtn = document.getElementById('bd_verify_btn');
+if (verifyBtn) verifyBtn.style.display = hasPending ? '' : 'none';
+    document.getElementById('bd_body').innerHTML=
+      _section('Guest Information',[
+        _row('Full Name',esc(guest)),
+        _row('Email',`<a href="mailto:${esc(email)}" style="color:var(--forest)">${esc(email)}</a>`),
+        _row('Phone',esc(phone)),
+        _row('Nationality',esc(nationality)),
+      ].join(''))+
+      _section('Booking Information',[
+        _row('Reference',`<span style="font-family:monospace;font-weight:700;">${esc(ref)}</span>`),
+        _row('Status',_badge(b.status)),
+        _row('Tour',tourId?`<a href="tour-detail.html?id=${esc(tourId)}" target="_blank" style="color:var(--forest);font-weight:600;">${esc(tourTitle)} ↗</a>`:esc(tourTitle)),
+        _row('Travelers',pax),
+        _row('Travel Date',fmtDate(b.travelDate||b.startDate)),
+        _row('End Date',b.endDate?fmtDate(b.endDate):'—'),
+        _row('Booked On',fmtDate(b.createdAt)),
+      ].join(''))+
+       
+      _section('Payment',[
+        _row('Total Amount',`<strong style="color:var(--forest);font-size:1rem;">${fmtMoney(b.totalAmount)}</strong>`),
+        _row('Deposit Paid',fmtMoney(deposit)),
+        _row('Balance Due',`<span style="color:${remaining>0?'var(--amber)':'var(--green)'};">${fmtMoney(remaining)}</span>`),
+        _row('Payment Status',_badge((b.paymentStatus||'unpaid').replace(/\s/g,'_'))),
+        _row('Payment Method',esc(b.paymentMethod||'—')),
+      ].join(''))+
+       _receiptSection(paymentSummary) +           // ← add this line
+      (special?_section('Special Requests',`<tr><td colspan="2" style="padding:12px 16px;font-size:.84rem;color:var(--text-2);font-style:italic;">${esc(special)}</td></tr>`):'');
+  }catch(e){
+    document.getElementById('bd_body').innerHTML=`<div style="text-align:center;padding:40px;color:var(--red);">Failed to load booking: ${esc(e.message)}</div>`;
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   VERIFY PAYMENT MODAL
+═══════════════════════════════════════════════════════════════ */
+function openVerifyPaymentModal(bookingId) {
+  window._vpId = bookingId;
+  document.getElementById('vp_notes').value = '';
+
+  // Pull receipt from the already-loaded booking data
+  const pendingPayment = window._bdPayments?.find(p => p.status === 'pending_verification');
+  const wrap = document.getElementById('vp_receipt_wrap');
+
+  if (pendingPayment?.receiptUrl) {
+    wrap.innerHTML = `
+      <div style="margin-bottom:12px;">
+        <div style="font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;">Payment Receipt</div>
+        <img src="${esc(pendingPayment.receiptUrl)}" alt="Receipt"
+             style="width:100%;max-height:260px;object-fit:contain;border-radius:8px;border:1px solid var(--border);cursor:pointer;"
+             onclick="window.open('${esc(pendingPayment.receiptUrl)}','_blank')"
+             onerror="this.style.display='none'">
+        <div style="margin-top:8px;display:flex;gap:12px;font-size:.8rem;color:var(--text-muted);">
+          <span>💰 ${fmtMoney(pendingPayment.amount)}</span>
+          ${pendingPayment.bankName ? `<span>🏦 ${esc(pendingPayment.bankName)}</span>` : ''}
+          ${pendingPayment.bankReference ? `<span>Ref: ${esc(pendingPayment.bankReference)}</span>` : ''}
+        </div>
+        <a href="${esc(pendingPayment.receiptUrl)}" target="_blank"
+           style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;
+                  background:var(--forest);color:#fff;padding:6px 14px;
+                  border-radius:6px;font-size:.82rem;text-decoration:none;font-weight:600;">
+          🔍 Open Full Size
+        </a>
+      </div>`;
+  } else {
+    wrap.innerHTML = `<div style="padding:16px;background:var(--amber-pale);border-radius:8px;font-size:.84rem;color:var(--amber);margin-bottom:12px;">⚠️ No receipt image uploaded for pending payment.</div>`;
+  }
+
+  openModal('verifyPaymentModal');
+}
+
+async function submitVerifyPayment(approved) {
+  const btns = document.querySelectorAll('#verifyPaymentModal .btn-submit');
+  btns.forEach(b => { b.disabled = true; b.classList.add('loading'); });
+  try {
+    await api(`/api/bookings/${window._vpId}/verify-payment`, {
+  method: 'PATCH',
+      body: JSON.stringify({ approved, notes: document.getElementById('vp_notes').value.trim() })
+    });
+    toast(approved ? 'Payment approved! Booking confirmed. ✅' : 'Payment rejected. Guest notified. ❌', approved ? 'success' : 'warning');
+    closeModal('verifyPaymentModal');
+    closeModal('bookingDetailModal');
+    loadedViews.delete('bookings');
+    loadedViews.delete('dashboard');
+    showView('bookings', null);
+  } catch(e) {
+    toast('Failed: ' + e.message, 'error');
+    btns.forEach(b => { b.disabled = false; b.classList.remove('loading'); });
+  }
+}
+
+
+// Add this helper function once, outside openBookingDetail
+function _receiptSection(paymentSummary) {
+  if (!paymentSummary?.length) return '';
+  
+  const receipts = paymentSummary
+    .filter(p => p.receiptUrl)
+    .map((p, i) => `
+      <tr>
+        <td style="padding:10px 16px;color:var(--text-2);font-size:.84rem;width:40%;">
+          Receipt ${paymentSummary.length > 1 ? i + 1 : ''}
+        </td>
+        <td style="padding:10px 16px;">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <a href="${esc(p.receiptUrl)}" target="_blank"
+               style="display:inline-flex;align-items:center;gap:6px;
+                      background:var(--forest);color:#fff;padding:6px 14px;
+                      border-radius:6px;font-size:.82rem;text-decoration:none;font-weight:600;">
+              🧾 View Receipt
+            </a>
+            <span style="font-size:.8rem;color:var(--text-faint);">
+              ${esc(p.bankName || '')} ${p.bankReference ? '· Ref: ' + esc(p.bankReference) : ''}
+            </span>
+          </div>
+          <div style="margin-top:8px;">
+            <img src="${esc(p.receiptUrl)}" alt="Payment receipt"
+                 style="max-width:100%;max-height:220px;border-radius:8px;
+                        border:1px solid var(--border);object-fit:contain;cursor:pointer;"
+                 // ✅ safer — use a data attribute instead
+onclick="window.open(this.dataset.url,'_blank')" data-url="${esc(p.receiptUrl)}"
+                 onerror="this.style.display='none'">
+          </div>
+          <div style="margin-top:6px;font-size:.78rem;color:var(--text-faint);">
+            ${fmtMoney(p.amount)} · ${_badge(p.status)} · ${p.paidAt ? fmtDate(p.paidAt) : 'Pending verification'}
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+  if (!receipts) return '';
+  return _section('Payment Proof', receipts);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APPLICATION DETAIL MODAL
+═══════════════════════════════════════════════════════════════ */
+window.openAppDetail=async function(appId){
+  window._adId=appId;
+  document.getElementById('ad_ref').textContent='…';
+  document.getElementById('ad_body').innerHTML='<div style="text-align:center;padding:40px;color:var(--text-faint);">Loading…</div>';
+  ['ad_approve_btn','ad_review_btn','ad_reject_btn'].forEach(id=>document.getElementById(id).style.display='none');
+  openModal('appDetailModal');
+  try{
+    const data=await api(`/api/applications/${appId}`);
+    const a=data.application||data.data||data;
+    const ref=a.applicationRef||a._id?.slice(-6).toUpperCase()||appId;
+    const name=a.user?`${a.user.firstName||''} ${a.user.lastName||''}`.trim():'Unknown';
+    const email=a.user?.email||'—';
+    const phone=a.user?.phone||a.personalInfo?.phone||'—';
+    const nat=a.personalInfo?.nationality||a.user?.nationality||'—';
+    const dob=a.personalInfo?.dateOfBirth;
+    const gender=a.personalInfo?.gender||'—';
+    const prog=a.program?.title||'Program';
+    const progId=a.program?._id||'';
+    const country=a.program?.country||a.location||'—';
+    const durMin=a.programDetails?.duration?.min||a.programDetails?.durationMin||'—';
+    const durMax=a.programDetails?.duration?.max||a.programDetails?.durationMax;
+    const durUnit=a.programDetails?.duration?.unit||'weeks';
+    const durStr=durMax&&durMax!==durMin?`${durMin}–${durMax} ${durUnit}`:`${durMin} ${durUnit}`;
+    const startDate=a.programDetails?.startDate||a.programDetails?.preferredStartDate;
+    const experience=a.experience||a.backgroundInfo?.experience||'—';
+    const motivation=a.motivation||a.backgroundInfo?.motivation||'—';
+    const skills=a.skills||a.backgroundInfo?.skills||[];
+    const languages=a.languages||a.backgroundInfo?.languages||[];
+    const medicalInfo=a.medicalInfo||a.health||'—';
+    const dietaryReq=a.dietaryRequirements||a.dietary||'—';
+    document.getElementById('ad_ref').textContent=ref;
+    const canAct=['pending','under_review','review'].includes(a.status);
+    if(canAct){ document.getElementById('ad_approve_btn').style.display=''; document.getElementById('ad_reject_btn').style.display=''; if(a.status==='pending') document.getElementById('ad_review_btn').style.display=''; }
+    document.getElementById('ad_body').innerHTML=
+      _section('Applicant',[
+        _row('Full Name',esc(name)),
+        _row('Email',`<a href="mailto:${esc(email)}" style="color:var(--forest)">${esc(email)}</a>`),
+        _row('Phone',esc(phone)),
+        _row('Nationality',esc(nat)),
+        _row('Gender',esc(gender)),
+        _row('Date of Birth',dob?fmtDate(dob):'—'),
+      ].join(''))+
+      _section('Program Details',[
+        _row('Program',progId?`<a href="volunteer-detail.html?id=${esc(progId)}" target="_blank" style="color:var(--forest);font-weight:600;">${esc(prog)} ↗</a>`:esc(prog)),
+        _row('Country',esc(country)),
+        _row('Duration',esc(durStr)),
+        _row('Start Date',fmtDate(startDate)),
+        _row('Status',_badge(a.status)),
+        _row('Applied On',fmtDate(a.createdAt)),
+      ].join(''))+
+      _section('Background',[
+        _row('Experience',`<span style="white-space:pre-wrap;font-size:.83rem;">${esc(experience)}</span>`),
+        _row('Motivation',`<span style="white-space:pre-wrap;font-size:.83rem;">${esc(motivation)}</span>`),
+        _row('Skills',_list(Array.isArray(skills)?skills:[skills].filter(Boolean))),
+        _row('Languages',_list(Array.isArray(languages)?languages:[languages].filter(Boolean))),
+      ].join(''))+
+      _section('Health & Logistics',[
+        _row('Medical Info',esc(typeof medicalInfo==='object'?JSON.stringify(medicalInfo):medicalInfo)),
+        _row('Dietary Req.',esc(dietaryReq)),
+        _row('Emergency Contact',a.emergencyContact?`${esc(a.emergencyContact.name||'—')} · ${esc(a.emergencyContact.phone||'—')} (${esc(a.emergencyContact.relationship||'—')})`: '—'),
+      ].join(''))+
+      (a.documents?.length?_section('Documents',`<tr><td colspan="2" style="padding:12px 16px;">${a.documents.map(d=>`<a href="${esc(d.url||d)}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:1.5px solid var(--border);border-radius:6px;margin:3px;font-size:.78rem;color:var(--forest);">📎 ${esc(d.name||d.type||'Document')}</a>`).join('')}</td></tr>`):'');
+  }catch(e){
+    document.getElementById('ad_body').innerHTML=`<div style="text-align:center;padding:40px;color:var(--red);">Failed to load application: ${esc(e.message)}</div>`;
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   DASHBOARD
+═══════════════════════════════════════════════════════════════ */
+async function loadDashboard(){
+  try{
+    const{stats,monthlyRevenue,recentBookings,recentApplications}=await api('/api/dashboard/stats');
+    const s=stats||{};
+    const el=id=>document.getElementById(id);
+    if(el('stat-revenue')) el('stat-revenue').textContent=fmtMoney(s.revenue?.total||0);
+    if(el('stat-revenue-sub')) el('stat-revenue-sub').textContent=`+${fmtMoney(s.revenue?.thisMonth||0)} this month`;
+    if(el('stat-bookings')) el('stat-bookings').textContent=s.bookings?.total||0;
+    if(el('stat-bookings-sub')) el('stat-bookings-sub').textContent=`${s.bookings?.pending||0} pending confirmation`;
+    if(el('stat-apps')) el('stat-apps').textContent=s.applications?.total||0;
+    if(el('stat-apps-sub')) el('stat-apps-sub').textContent=`${s.applications?.pending||0} awaiting review`;
+    if(el('stat-users')) el('stat-users').textContent=(s.users?.total||0).toLocaleString();
+    if(el('stat-users-sub')) el('stat-users-sub').textContent=`+${s.users?.newThisMonth||0} this week`;
+    if(el('need-apps')) el('need-apps').textContent=s.applications?.pending||0;
+    if(el('need-bookings')) el('need-bookings').textContent=s.bookings?.pending||0;
+    if(el('need-reviews')) el('need-reviews').textContent=s.content?.pendingReviews||0;
+    // Badge counts
+    updateBadge('bookings',s.bookings?.pending||0);
+    updateBadge('applications',s.applications?.pending||0);
+    updateBadge('reviews',s.content?.pendingReviews||0);
+    buildRevenueChart(monthlyRevenue||[]);
+    renderDashboardBookings(recentBookings||[]);
+    renderActivityFeed(recentBookings||[],recentApplications||[]);
+  }catch(e){ console.error(e); toast('Dashboard stats unavailable: '+e.message,'error'); }
+}
+
+function updateBadge(view,count){
+  const b=document.getElementById('badge-'+view); if(!b) return;
+  b.textContent=count>0?count:''; b.style.display=count>0?'':'none';
+}
+
+function buildRevenueChart(monthlyRevenue){
+  const chart=document.getElementById('revenueChart'); if(!chart) return;
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if(!monthlyRevenue.length){ chart.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:140px;width:100%;color:var(--text-faint);font-size:.85rem;">No revenue data yet</div>'; return; }
+  const maxVal=Math.max(...monthlyRevenue.map(m=>m.revenue||0),1);
+  chart.innerHTML='';
+  monthlyRevenue.forEach(m=>{
+    const g=document.createElement('div'); g.className='chart-bar-group';
+    const h=Math.max(Math.round(((m.revenue||0)/maxVal)*140),2);
+    const mo=months[((m._id?.month||1)-1+12)%12];
+    g.innerHTML=`<div style="display:flex;align-items:flex-end;gap:3px;height:140px;"><div class="chart-bar primary" style="height:${h}px;flex:1;" title="${fmtMoney(m.revenue)} · ${m.count||0} bookings"></div></div><div class="chart-label">${mo}</div>`;
+    chart.appendChild(g);
+  });
+}
+
+function renderDashboardBookings(bookings){
+  const table=document.getElementById('dashboardBookingsBody'); if(!table) return;
+  if(!bookings.length){ table.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text-faint);padding:24px;">No bookings yet.</td></tr>'; return; }
+  table.innerHTML=bookings.map(b=>{
+    const guest=b.user?`${b.user.firstName||''} ${b.user.lastName||''}`.trim():'Unknown';
+    const ini=initials(b.user);
+    const tour=b.tour?.title||b.tour?.destination||'Tour';
+    const ref=b.bookingRef||b._id?.slice(-6).toUpperCase()||'—';
+    const sc={confirmed:'confirmed',pending:'pending',cancelled:'cancelled',completed:'confirmed'}[b.status]||'pending';
+    return `<tr>
+      <td><div class="td-avatar"><div class="avatar-sm">${ini}</div><div><div class="td-main">${esc(guest)}</div><div class="td-mono">${esc(ref)}</div></div></div></td>
+      <td>${esc(tour)}</td>
+      <td>${fmtDate(b.travelDate||b.createdAt)}</td>
+      <td style="font-weight:700;color:var(--forest);">${fmtMoney(b.totalAmount)}</td>
+      <td><span class="badge ${sc}">${b.status}</span></td>
+      <td><div class="td-action">
+        <button class="btn-xs ghost" onclick="openBookingDetail('${b._id}')">View →</button>
+        ${b.status==='pending'?`<button class="btn-xs primary" onclick="updateBookingStatus('${b._id}','confirmed',this)">Confirm</button>`:''}
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderActivityFeed(recentBookings,recentApplications){
+  const list=document.getElementById('activityFeedList'); if(!list) return;
+  const events=[];
+  (recentBookings||[]).forEach(b=>{
+    const guestName=b.user?`${b.user.firstName||''} ${b.user.lastName||''}`.trim():'A traveller';
+    const tourTitle=b.tour?.title||b.tour?.destination||'a tour';
+    events.push({time:b.createdAt,icon:'🗓️',dotClass:b.status==='cancelled'?'red':'blue',html:`<strong>${esc(guestName)}</strong> booked <strong>${esc(tourTitle)}</strong> — ${fmtMoney(b.totalAmount)}`,badge:{cls:b.status==='cancelled'?'cancelled':b.status==='confirmed'?'confirmed':'pending',label:b.status}});
+  });
+  (recentApplications||[]).forEach(a=>{
+    const appName=a.user?`${a.user.firstName||''} ${a.user.lastName||''}`.trim():'A volunteer';
+    const programTitle=a.program?a.program.title:'a program';
+    events.push({time:a.createdAt,icon:'📋',dotClass:a.status==='approved'?'green':a.status==='rejected'?'red':'amber',html:`<strong>${esc(appName)}</strong> applied for <strong>${esc(programTitle)}</strong>`,badge:{cls:a.status==='approved'?'confirmed':a.status==='rejected'?'cancelled':'pending',label:a.status}});
+  });
+  events.sort((a,b)=>new Date(b.time)-new Date(a.time));
+  if(!events.length){ list.innerHTML='<div style="text-align:center;color:var(--text-faint);padding:24px;font-size:.85rem;">No recent activity yet.</div>'; return; }
+  list.innerHTML=events.slice(0,8).map(e=>`<div class="activity-item"><div class="activity-dot ${e.dotClass}">${e.icon}</div><div class="activity-body"><div class="activity-text">${e.html}</div><div class="activity-time">${fmtDateTime(e.time)}</div></div><span class="badge ${e.badge.cls} activity-badge">${esc(e.badge.label)}</span></div>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BOOKINGS VIEW
+═══════════════════════════════════════════════════════════════ */
+async function loadBookings(){
+  const tbody=document.getElementById('bookingsTableBody'); if(!tbody) return;
+  tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:var(--text-faint);padding:24px;">Loading bookings…</td></tr>';
+  try{
+    const data=await api('/api/bookings?limit=20');
+    const bookings=data.bookings||[];
+    if(!bookings.length){ tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:var(--text-faint);padding:24px;">No bookings found.</td></tr>'; updateBookingsMiniStats(data,bookings); return; }
+    tbody.innerHTML=bookings.map(b=>{
+      const guest=b.user?`${b.user.firstName||''} ${b.user.lastName||''}`.trim():'Unknown';
+      const ini=initials(b.user);
+      const tour=b.tour?.title||b.tour?.destination||'Tour';
+      const ref=b.bookingRef||b._id?.slice(-6).toUpperCase()||'—';
+      const sc={confirmed:'confirmed',pending:'pending',cancelled:'cancelled',completed:'confirmed'}[b.status]||'pending';
+      const payMap={deposit_paid:'Deposit paid',fully_paid:'Fully paid',unpaid:'Unpaid',refunded:'Refunded',refund_pending:'Refund pending'};
+      const pay=payMap[b.paymentStatus]||b.paymentStatus||'—';
+      return `<tr>
+        <td class="td-mono">${esc(ref)}</td>
+        <td><div class="td-avatar"><div class="avatar-sm">${ini}</div><div><div class="td-main">${esc(guest)}</div><div class="td-mono">${esc(b.user?.email||'')}</div></div></div></td>
+        <td>${esc(tour)}</td>
+        <td>${b.numberOfPeople||b.pax||1}</td>
+        <td>${fmtDate(b.travelDate||b.createdAt)}</td>
+        <td style="font-weight:700;color:var(--forest);">${fmtMoney(b.totalAmount)}</td>
+        <td style="font-size:.78rem;color:var(--text-muted);">${esc(pay)}</td>
+        <td><span class="badge ${sc}">${b.status}</span></td>
+        <td><div class="td-action">
+          <button class="btn-xs ghost" onclick="openBookingDetail('${b._id}')">View →</button>
+          ${b.status==='pending'?`<button class="btn-xs primary" onclick="updateBookingStatus('${b._id}','confirmed',this)">Confirm</button>`:''}
+          ${b.status!=='cancelled'&&b.status!=='completed'?`<button class="btn-xs danger" onclick="updateBookingStatus('${b._id}','cancelled',this)">Cancel</button>`:''}
+        </div></td>
+      </tr>`;
+    }).join('');
+    updateBookingsMiniStats(data,bookings);
+  }catch(e){ document.getElementById('bookingsTableBody').innerHTML=`<tr><td colspan="9" style="text-align:center;color:var(--red);padding:24px;">Failed: ${esc(e.message)}</td></tr>`; }
+}
+
+function updateBookingsMiniStats(data,bookings){
+  const minis=document.querySelectorAll('#view-bookings .mini-stats .mini-stat-num');
+  const total=data.total??bookings.length;
+  if(minis[0]) minis[0].textContent=total;
+  if(minis[1]) minis[1].textContent=bookings.filter(b=>b.status==='confirmed').length;
+  if(minis[2]) minis[2].textContent=bookings.filter(b=>b.status==='pending').length;
+  if(minis[3]) minis[3].textContent=bookings.filter(b=>b.status==='cancelled').length;
+  if(minis[4]) minis[4].textContent=fmtMoneyShort(bookings.reduce((s,b)=>s+(Number(b.totalAmount)||0),0));
+  const ft=document.getElementById('bookings-footer-text'); if(ft) ft.textContent=`Showing ${bookings.length} of ${total} bookings`;
+}
+
+async function updateBookingStatus(id,status,btn){
+  const row=btn?.closest('tr');
+  if(btn) btn.disabled=true;
+  if(row) row.querySelectorAll('button').forEach(b=>b.disabled=true);
+  try{
+    await api(`/api/bookings/${id}/status`,{method:'PUT',body:JSON.stringify({status})});
+    toast(`Booking ${status}.`,'success');
+    loadedViews.delete('bookings'); loadedViews.delete('dashboard'); showView('bookings',null);
+  }catch(e){ toast('Failed: '+e.message,'error'); if(row) row.querySelectorAll('button').forEach(b=>b.disabled=false); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APPLICATIONS VIEW
+═══════════════════════════════════════════════════════════════ */
+async function loadApplications(){
+  const tbody=document.getElementById('applicationsTableBody'); if(!tbody) return;
+  tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text-faint);padding:24px;">Loading…</td></tr>';
+  try{
+    const data=await api('/api/applications?limit=20');
+    const apps=data.applications||[];
+    if(!apps.length){ tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text-faint);padding:24px;">No applications found.</td></tr>'; updateAppMiniStats(data,apps); return; }
+    tbody.innerHTML=apps.map(a=>{
+      const name=a.user?`${a.user.firstName||''} ${a.user.lastName||''}`.trim():'Unknown';
+      const ini=initials(a.user);
+      const prog=a.program?.title||'Program';
+      const country=a.program?.country||'';
+      const durMin=a.programDetails?.duration?.min||a.programDetails?.durationMin||'—';
+      const durMax=a.programDetails?.duration?.max||a.programDetails?.durationMax;
+      const durUnit=a.programDetails?.duration?.unit||'weeks';
+      const dur=durMax&&durMax!==durMin?`${durMin}–${durMax} ${durUnit}`:`${durMin} ${durUnit}`;
+      const start=a.programDetails?.startDate||a.programDetails?.preferredStartDate;
+      const nat=a.personalInfo?.nationality||a.user?.nationality||'—';
+      const bc={pending:'pending',under_review:'review',review:'review',approved:'confirmed',rejected:'cancelled',withdrawn:'cancelled'}[a.status]||'pending';
+      const canAct=['pending','under_review','review'].includes(a.status);
+      return `<tr>
+        <td><div class="td-avatar"><div class="avatar-sm">${ini}</div><span class="td-main">${esc(name)}</span></div></td>
+        <td>${esc(prog)}${country?` <span style="color:var(--text-faint);font-size:.75rem;">(${esc(country)})</span>`:''}</td>
+        <td>${esc(dur)}</td>
+        <td>${fmtDate(start)}</td>
+        <td>${esc(nat)}</td>
+        <td>${fmtDate(a.createdAt)}</td>
+        <td><span class="badge ${bc}">${a.status}</span></td>
+        <td><div class="td-action">
+          <button class="btn-xs ghost" onclick="openAppDetail('${a._id}')">View →</button>
+          ${canAct?`<button class="btn-xs primary" onclick="updateApplicationStatus('${a._id}','approved',this)">Approve</button><button class="btn-xs danger" onclick="updateApplicationStatus('${a._id}','rejected',this)">Reject</button>`:''}
+        </div></td>
+      </tr>`;
+    }).join('');
+    updateAppMiniStats(data,apps);
+  }catch(e){ document.getElementById('applicationsTableBody').innerHTML=`<tr><td colspan="8" style="text-align:center;color:var(--red);padding:24px;">Failed: ${esc(e.message)}</td></tr>`; }
+}
+
+function updateAppMiniStats(data,apps){
+  const minis=document.querySelectorAll('#view-applications .mini-stats .mini-stat-num');
+  const total=data.total??apps.length;
+  if(minis[0]) minis[0].textContent=total;
+  if(minis[1]) minis[1].textContent=apps.filter(a=>a.status==='approved').length;
+  if(minis[2]) minis[2].textContent=apps.filter(a=>a.status==='pending').length;
+  if(minis[3]) minis[3].textContent=apps.filter(a=>['under_review','review'].includes(a.status)).length;
+  if(minis[4]) minis[4].textContent=apps.filter(a=>a.status==='rejected').length;
+  const ft=document.getElementById('apps-footer-text'); if(ft) ft.textContent=`Showing ${apps.length} of ${total} applications`;
+}
+
+async function updateApplicationStatus(id,status,btn){
+  const row=btn?.closest('tr');
+  if(row) row.querySelectorAll('button').forEach(b=>b.disabled=true);
+  try{
+    await api(`/api/applications/${id}/status`,{method:'PUT',body:JSON.stringify({status})});
+    toast(`Application ${status}.`,status==='rejected'?'warning':'success');
+    loadedViews.delete('applications'); loadedViews.delete('dashboard'); showView('applications',null);
+  }catch(e){ toast('Failed: '+e.message,'error'); if(row) row.querySelectorAll('button').forEach(b=>b.disabled=false); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   REVIEWS VIEW
+═══════════════════════════════════════════════════════════════ */
+async function loadReviews(){
+  const tbody=document.getElementById('reviewsTableBody'); if(!tbody) return;
+  try{
+    const data=await api('/api/reviews?limit=20');
+    const reviews=data.reviews||[];
+    if(!reviews.length) return;
+    tbody.innerHTML=reviews.map(r=>{
+      const name=r.user?`${r.user.firstName||''} ${r.user.lastName||''}`.trim():'Unknown';
+      const ini=initials(r.user);
+      const tourTitle=r.tour?.title||'—';
+      const stars='★'.repeat(Math.round(r.rating||0))+'☆'.repeat(5-Math.round(r.rating||0));
+      const sc=r.isApproved?'confirmed':'pending';
+      return `<tr>
+        <td><div class="td-avatar"><div class="avatar-sm">${ini}</div><span class="td-main">${esc(name)}</span></div></td>
+        <td>${esc(tourTitle)}</td>
+        <td><span style="color:var(--gold);font-weight:700;">${stars} ${Number(r.rating||0).toFixed(1)}</span></td>
+        <td>${esc(r.title||r.body?.slice(0,60)||'—')}</td>
+        <td>${fmtDate(r.createdAt)}</td>
+        <td><span class="badge ${sc}">${r.isApproved?'approved':'pending'}</span></td>
+        <td><div class="td-action">
+          ${!r.isApproved?`<button class="btn-xs primary" onclick="setReviewApproval('${r._id}',true,false,this)">Approve</button>`:''}
+          <button class="btn-xs ghost" onclick="setReviewApproval('${r._id}',true,${!r.isFeatured},this)">${r.isFeatured?'Unfeature':'Feature'}</button>
+          <button class="btn-xs danger" onclick="deleteReview('${r._id}',this)">Delete</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  }catch(e){ console.error(e); }
+}
+
+async function setReviewApproval(id,approved,featured,btn){
+  const row=btn?.closest('tr'); if(row) row.querySelectorAll('button').forEach(b=>b.disabled=true);
+  try{ await api(`/api/reviews/${id}/approve`,{method:'PUT',body:JSON.stringify({approved,featured})}); toast('Review updated!','success'); loadedViews.delete('reviews'); showView('reviews',null); }
+  catch(e){ toast('Failed: '+e.message,'error'); if(row) row.querySelectorAll('button').forEach(b=>b.disabled=false); }
+}
+async function deleteReview(id,btn){
+  const row=btn?.closest('tr'); if(row) row.querySelectorAll('button').forEach(b=>b.disabled=true);
+  try{ await api(`/api/reviews/${id}`,{method:'DELETE'}); toast('Review deleted.','success'); if(row) row.remove(); }
+  catch(e){ toast('Failed: '+e.message,'error'); if(row) row.querySelectorAll('button').forEach(b=>b.disabled=false); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TOURS VIEW
+═══════════════════════════════════════════════════════════════ */
+async function loadTours(){
+  const grid=document.getElementById('toursGrid'); if(!grid) return;
+  grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-faint);padding:32px;">Loading tours…</div>';
+  try{
+    const data=await api('/api/tours/admin/tours');
+    const tours=data.tours||[];
+    const tc=document.getElementById('tours-count-text'); if(tc) tc.textContent=`Manage all ${data.total??tours.length} safari and tour packages.`;
+    if(!tours.length){ grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-faint);padding:32px;">No tours found. Click "Add Tour" to create one.</div>'; return; }
+    grid.innerHTML=tours.map(t=>{
+      const img=t.coverImage?.url||t.images?.[0]?.url||'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=400&auto=format&fit=crop';
+      const sc=t.isActive?'confirmed':'cancelled';
+      const sl=t.isActive?'active':'draft';
+      const rating=t.ratingsAverage?`★ ${Number(t.ratingsAverage).toFixed(1)} (${t.ratingsQuantity||0})`:'No reviews yet';
+      return `<div class="listing-card">
+        <div class="listing-card-img"><img src="${esc(img)}" alt="" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=400&auto=format&fit=crop'"/><span class="badge ${sc} card-status">${sl}</span></div>
+        <div class="listing-card-body">
+          <h4>${esc(t.title||'Untitled Tour')}</h4>
+          <div class="listing-meta"><span>📍 ${esc(t.country||t.destination||'—')}</span><span>🕐 ${t.duration?t.duration+' Days':'—'}</span><span>👥 Max ${t.maxGroupSize||'—'}</span></div>
+          <div style="display:flex;gap:8px;"><button class="btn-xs ghost" style="flex:1;" onclick="toast('Edit form coming soon','default')">Edit</button>${t.isActive?`<button class="btn-xs danger" onclick="toggleTourActive('${t._id}',false,this)">Archive</button>`:`<button class="btn-xs primary" onclick="toggleTourActive('${t._id}',true,this)">Publish</button>`}</div>
+        </div>
+        <div class="listing-card-footer"><span class="listing-price">${fmtMoney(t.price||t.pricePerPerson)}</span><span class="listing-rating">${rating}</span></div>
+      </div>`;
+    }).join('');
+  }catch(e){ document.getElementById('toursGrid').innerHTML=`<div style="grid-column:1/-1;text-align:center;color:var(--red);padding:32px;">Failed: ${esc(e.message)}</div>`; }
+}
+
+async function toggleTourActive(id,isActive,btn){
+  if(btn) btn.disabled=true;
+  try{ await api(`/api/tours/${id}`,{method:'PUT',body:JSON.stringify({isActive})}); toast(isActive?'Tour published!':'Tour archived.','success'); loadedViews.delete('tours'); showView('tours',null); }
+  catch(e){ toast('Failed: '+e.message,'error'); if(btn) btn.disabled=false; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   VOLUNTEERS VIEW
+═══════════════════════════════════════════════════════════════ */
+async function loadVolunteerPrograms(){
+  const grid=document.getElementById('volunteersGrid'); if(!grid) return;
+  grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-faint);padding:32px;">Loading programs…</div>';
+  try{
+    let programs=[],total=0;
+    try{ const d=await api('/api/volunteer/admin/programs'); programs=d.programs||[]; total=d.total??programs.length; }
+    catch{ const d=await api('/api/volunteer'); programs=d.programs||[]; total=d.total??programs.length; }
+    const vc=document.getElementById('vol-count-text'); if(vc) vc.textContent=`Manage all ${total} volunteer placements.`;
+    if(!programs.length){ grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-faint);padding:32px;">No programs found. Click "Add Program" to create one.</div>'; return; }
+    grid.innerHTML=programs.map(p=>{
+      const img=p.coverImage?.url||'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&auto=format&fit=crop';
+      const sc=p.isActive?'confirmed':'cancelled';
+      const sl=p.isActive?'active':'draft';
+      const rating=p.ratingsAverage?`★ ${Number(p.ratingsAverage).toFixed(1)}`:'No reviews yet';
+      const dur=p.duration?(p.duration.min!=null?`${p.duration.min}${p.duration.max&&p.duration.max!==p.duration.min?'–'+p.duration.max:''} ${p.duration.unit||'weeks'}`:String(p.duration)):'—';
+      return `<div class="listing-card">
+        <div class="listing-card-img"><img src="${esc(img)}" alt="" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&auto=format&fit=crop'"/><span class="badge ${sc} card-status">${sl}</span></div>
+        <div class="listing-card-body">
+          <h4>${esc(p.title||'Untitled Program')}</h4>
+          <div class="listing-meta"><span>📍 ${esc(p.country||'—')}</span><span>🕐 ${esc(dur)}</span><span>📂 ${esc(p.category||'—')}</span></div>
+          <div style="display:flex;gap:8px;"><button class="btn-xs ghost" style="flex:1;" onclick="toast('Edit form coming soon','default')">Edit</button>${p.isActive?`<button class="btn-xs danger" onclick="toggleProgramActive('${p._id}',false,this)">Deactivate</button>`:`<button class="btn-xs primary" onclick="toggleProgramActive('${p._id}',true,this)">Activate</button>`}</div>
+        </div>
+        <div class="listing-card-footer"><span class="listing-price">${fmtMoney(p.programFee)}</span><span class="listing-rating">${rating}</span></div>
+      </div>`;
+    }).join('');
+  }catch(e){ document.getElementById('volunteersGrid').innerHTML=`<div style="grid-column:1/-1;text-align:center;color:var(--red);padding:32px;">Failed: ${esc(e.message)}</div>`; }
+}
+
+async function toggleProgramActive(id,isActive,btn){
+  if(btn) btn.disabled=true;
+  try{ await api(`/api/volunteer/admin/program/${id}`,{method:'PUT',body:JSON.stringify({isActive})}); toast(isActive?'Program activated!':'Program deactivated.','success'); loadedViews.delete('volunteers'); showView('volunteers',null); }
+  catch(e){ toast('Failed: '+e.message,'error'); if(btn) btn.disabled=false; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BLOG VIEW
+═══════════════════════════════════════════════════════════════ */
+async function loadBlogPosts(){
+  const tbody=document.getElementById('blogTableBody'); if(!tbody) return;
+  tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-faint);padding:24px;">Loading…</td></tr>';
+  try{
+    const data=await api('/api/blog?limit=50');
+    const posts=data.posts||[];
+    if(!posts.length){ tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-faint);padding:24px;">No blog posts found.</td></tr>'; return; }
+    tbody.innerHTML=posts.map(p=>{
+      const author=p.author?`${p.author.firstName||''} ${p.author.lastName||''}`.trim():'—';
+      const sc=p.isPublished?'published':'draft';
+      return `<tr>
+        <td class="td-main">${esc(p.title||'Untitled')}</td>
+        <td>${esc(p.category||'—')}</td>
+        <td>${esc(author)}</td>
+        <td class="td-mono">${p.viewCount!=null?p.viewCount.toLocaleString():'—'}</td>
+        <td>${p.publishedAt?fmtDate(p.publishedAt):'—'}</td>
+        <td><span class="badge ${sc}">${sc}</span></td>
+        <td><div class="td-action">
+          <button class="btn-xs ghost" onclick="toast('Edit form coming soon','default')">Edit</button>
+          ${!p.isPublished?`<button class="btn-xs primary" onclick="setPostPublished('${p._id}',true,this)">Publish</button>`:`<button class="btn-xs danger" onclick="deleteBlogPost('${p._id}',this)">Delete</button>`}
+        </div></td>
+      </tr>`;
+    }).join('');
+  }catch(e){ document.getElementById('blogTableBody').innerHTML=`<tr><td colspan="7" style="text-align:center;color:var(--red);padding:24px;">Failed: ${esc(e.message)}</td></tr>`; }
+}
+
+async function setPostPublished(id,isPublished,btn){
+  if(btn) btn.disabled=true;
+  try{ await api(`/api/blog/${id}`,{method:'PUT',body:JSON.stringify({isPublished})}); toast('Post published!','success'); loadedViews.delete('blog'); showView('blog',null); }
+  catch(e){ toast('Failed: '+e.message,'error'); if(btn) btn.disabled=false; }
+}
+async function deleteBlogPost(id,btn){
+  const row=btn?.closest('tr'); if(row) row.querySelectorAll('button').forEach(b=>b.disabled=true);
+  try{ await api(`/api/blog/${id}`,{method:'DELETE'}); toast('Post deleted.','success'); if(row) row.remove(); }
+  catch(e){ toast('Failed: '+e.message,'error'); if(row) row.querySelectorAll('button').forEach(b=>b.disabled=false); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   USERS VIEW
+═══════════════════════════════════════════════════════════════ */
+async function loadUsers(){
+  const tbody=document.getElementById('usersTableBody'); if(!tbody) return;
+  tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text-faint);padding:24px;">Loading…</td></tr>';
+  try{
+    const data=await api('/api/users?limit=20');
+    const users=data.users||[];
+    if(!users.length){ tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text-faint);padding:24px;">No users found.</td></tr>'; return; }
+    tbody.innerHTML=users.map(u=>{
+      const ini=initials(u);
+      const rc={admin:'pending',staff:'pending',volunteer:'review',user:'active'}[u.role]||'active';
+      const sc=u.isSuspended?'cancelled':'confirmed';
+      return `<tr>
+        <td><div class="td-avatar"><div class="avatar-sm">${ini}</div><span class="td-main">${esc(u.firstName||'')} ${esc(u.lastName||'')}</span></div></td>
+        <td class="td-mono">${esc(u.email||'—')}</td>
+        <td><span class="badge ${rc}">${esc(u.role||'user')}</span></td>
+        <td>${esc(u.nationality||'—')}</td>
+        <td>${fmtDate(u.createdAt)}</td>
+        <td>${u.bookingsCount??'—'}</td>
+        <td><span class="badge ${sc}">${u.isSuspended?'suspended':'active'}</span></td>
+        <td><div class="td-action">
+          <button class="btn-xs ghost" onclick="toast('User profile view coming soon','default')">View</button>
+          ${u.role!=='admin'?`<button class="btn-xs amber" onclick="toggleUserSuspend('${u._id}',${!u.isSuspended},this)">${u.isSuspended?'Unsuspend':'Suspend'}</button>`:''}
+        </div></td>
+      </tr>`;
+    }).join('');
+    const ft=document.getElementById('users-footer-text'); if(ft) ft.textContent=`Showing ${users.length} of ${data.total??users.length} users`;
+  }catch(e){ document.getElementById('usersTableBody').innerHTML=`<tr><td colspan="8" style="text-align:center;color:var(--red);padding:24px;">Failed: ${esc(e.message)}</td></tr>`; }
+}
+
+async function toggleUserSuspend(id,suspend,btn){
+  if(btn) btn.disabled=true;
+  try{ await api(`/api/users/${id}/suspend`,{method:'PUT',body:JSON.stringify({suspend})}); toast(suspend?'User suspended.':'User unsuspended.',suspend?'warning':'success'); loadedViews.delete('users'); showView('users',null); }
+  catch(e){ toast('Failed: '+e.message,'error'); if(btn) btn.disabled=false; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANALYTICS VIEW
+═══════════════════════════════════════════════════════════════ */
+async function loadAnalytics(){
+  const view=document.getElementById('view-analytics'); if(!view) return;
+  const el=id=>document.getElementById(id);
+  ['an-pageviews','an-conversion','an-session','an-countries'].forEach(id=>{ const e=el(id); if(e) e.textContent='…'; });
+  try{
+    let stats={},topTours=[],traffic=[],monthlyRevenue=[];
+    try{
+      const d=await api('/api/analytics/overview');
+      stats=d.stats||d; topTours=d.topTours||[]; traffic=d.trafficSources||[]; monthlyRevenue=d.monthlyRevenue||[];
+    }catch{
+      const d=await api('/api/dashboard/stats');
+      stats=d.stats||{}; monthlyRevenue=d.monthlyRevenue||[];
+    }
+    function _fmt(v){ if(v==null||v==='—') return '—'; if(typeof v==='number'){ if(v>=1000000) return (v/1000000).toFixed(1)+'M'; if(v>=1000) return (v/1000).toFixed(1)+'k'; return v.toLocaleString(); } return String(v); }
+    const pv=stats.analytics?.pageViews??stats.pageViews??'—';
+    const cv=stats.analytics?.conversion??stats.conversion??'—';
+    const st=stats.analytics?.avgSession??stats.avgSession??'—';
+    const co=stats.analytics?.countries??stats.countries??'—';
+    if(el('an-pageviews')) el('an-pageviews').textContent=_fmt(pv);
+    if(el('an-conversion')) el('an-conversion').textContent=typeof cv==='number'?cv.toFixed(1)+'%':'—';
+    if(el('an-session')) el('an-session').textContent=typeof st==='number'?Math.floor(st/60)+'m '+Math.round(st%60)+'s':String(st||'—');
+    if(el('an-countries')) el('an-countries').textContent=_fmt(co);
+    // Revenue chart
+    const chartWrap=document.getElementById('analyticsRevenueChartWrap');
+    if(chartWrap&&monthlyRevenue.length){
+      const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const maxVal=Math.max(...monthlyRevenue.map(m=>m.revenue||0),1);
+      chartWrap.innerHTML=`<div style="display:flex;align-items:flex-end;gap:8px;height:160px;padding:0 4px;">${monthlyRevenue.slice(-8).map(m=>{const h=Math.max(Math.round(((m.revenue||0)/maxVal)*140),2);const mo=months[((m._id?.month||1)-1+12)%12];return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div title="${fmtMoney(m.revenue)}" style="width:100%;height:${h}px;background:linear-gradient(to top,var(--forest),var(--forest-light));border-radius:4px 4px 0 0;cursor:pointer;" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'"></div><div style="font-size:.65rem;color:var(--text-faint);font-weight:500;">${mo}</div></div>`;}).join('')}</div><div style="margin-top:12px;font-size:.75rem;color:var(--text-muted);text-align:right;">All figures in USD · Last ${monthlyRevenue.slice(-8).length} months</div>`;
+    } else if(chartWrap){ chartWrap.innerHTML='<div style="text-align:center;color:var(--text-faint);padding:40px;">Revenue data not available</div>'; }
+    // Traffic sources
+    if(traffic.length){
+      const trafficWrap=document.getElementById('analyticsTrafficWrap');
+      if(trafficWrap){ const total=traffic.reduce((s,t)=>s+(t.sessions||t.count||0),0)||1; trafficWrap.innerHTML=traffic.map(t=>{const pct=Math.round(((t.sessions||t.count||0)/total)*100); return `<div class="progress-item"><div class="progress-label"><span>${esc(t.source||t._id||'Direct')}</span><span>${pct}%</span></div><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div></div>`;}).join(''); }
+    }
+    // Top tours table
+    if(topTours.length){
+      const tb=document.getElementById('analyticsTopToursBody');
+      if(tb) tb.innerHTML=topTours.slice(0,8).map(t=>`<tr><td><a href="tour-detail.html?id=${esc(t._id)}" target="_blank" style="color:var(--forest);font-size:.82rem;">/tours/${esc(t.slug||t._id||'')}</a></td><td class="td-mono">${t.viewCount!=null?t.viewCount.toLocaleString():'—'}</td><td class="td-mono">${t.ratingsQuantity||'—'}</td><td class="td-mono">${t.totalRevenue?fmtMoney(t.totalRevenue):'—'}</td><td class="td-mono">★ ${t.ratingsAverage?Number(t.ratingsAverage).toFixed(1):'—'}</td></tr>`).join('');
+    }
+  }catch(e){ console.error(e); toast('Analytics unavailable: '+e.message,'error'); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TOUR MODAL
+═══════════════════════════════════════════════════════════════ */
+let currentTourStep=1; const TOUR_TOTAL_STEPS=5;
+function openTourModal(){ currentTourStep=1; renderTourStep(1); openModal('newTourModal'); }
+function closeTourModal(){ closeModal('newTourModal'); }
+function tourStep(n){ currentTourStep=n; renderTourStep(n); }
+function tourStepNav(dir){ const next=currentTourStep+dir; if(next<1||next>TOUR_TOTAL_STEPS) return; if(dir===1&&!validateTourStep(currentTourStep)) return; if(next===TOUR_TOTAL_STEPS) buildTourSummary(); currentTourStep=next; renderTourStep(currentTourStep); }
+function renderTourStep(n){ for(let i=1;i<=TOUR_TOTAL_STEPS;i++){ const s=document.getElementById('tourStep'+i),t=document.getElementById('tourTab'+i); if(s) s.classList.toggle('active',i===n); if(t){ t.classList.toggle('active',i===n); if(i<n) t.classList.add('done'); else t.classList.remove('done'); } } document.getElementById('tourBackBtn').style.display=n>1?'':'none'; document.getElementById('tourNextBtn').style.display=n<TOUR_TOTAL_STEPS?'':'none'; document.getElementById('tourSubmitBtn').style.display=n===TOUR_TOTAL_STEPS?'':'none'; }
+function validateTourStep(n){ if(n===1){ if(!v('t_title')) return errField('t_title','Tour title is required'); if(!v('t_category')) return errField('t_category','Please select a category'); if(!v('t_country')) return errField('t_country','Please select a country'); if(!v('t_destination')) return errField('t_destination','Destination is required'); if(!v('t_days')||Number(v('t_days'))<1) return errField('t_days','Duration must be at least 1 day'); if(!v('t_price')||Number(v('t_price'))<1) return errField('t_price','Price is required'); } if(n===2){ if(!v('t_description')||v('t_description').length<20) return errField('t_description','Description must be at least 20 characters'); } return true; }
+function errField(id,msg){ const el=document.getElementById(id); if(el){ el.style.borderColor='var(--red)'; el.style.boxShadow='0 0 0 3px rgba(185,28,28,.1)'; el.focus(); setTimeout(()=>{ el.style.borderColor=''; el.style.boxShadow=''; },2500); } toast(msg,'error'); return false; }
+function buildTourSummary(){ document.getElementById('tour_summary_content').innerHTML=[`<b>Title:</b> ${esc(v('t_title'))}`,`<b>Category:</b> ${esc(v('t_category'))}`,`<b>Country:</b> ${esc(v('t_country'))}`,`<b>Destination:</b> ${esc(v('t_destination'))}`,`<b>Duration:</b> ${v('t_days')} days / ${v('t_nights')||'—'} nights`,`<b>Price:</b> ${fmtMoney(v('t_price'))}${v('t_pricediscount')?` (discounted: ${fmtMoney(v('t_pricediscount'))})`: ''}`,`<b>Max Group:</b> ${v('t_maxgroup')} pax`,`<b>Itinerary Days:</b> ${document.querySelectorAll('#itinerary_days .itinerary-day').length}`,`<b>Cover Image:</b> ${v('t_cover_url')?'✅ Uploaded':'⚠️ None'}`,`<b>Status:</b> ${v('t_isactive')==='true'?'Active (live)':'Draft'}`,`<b>Featured:</b> ${v('t_featured')==='true'?'Yes':'No'}`].join('<br>'); }
+
+/* ═══════════════════════════════════════════════════════════════
+   VOLUNTEER MODAL
+═══════════════════════════════════════════════════════════════ */
+let currentVolStep=1; const VOL_TOTAL_STEPS=5;
+function openVolunteerModal(){ currentVolStep=1; renderVolStep(1); openModal('newVolunteerModal'); }
+function closeVolunteerModal(){ closeModal('newVolunteerModal'); }
+function volStep(n){ currentVolStep=n; renderVolStep(n); }
+function volStepNav(dir){ const next=currentVolStep+dir; if(next<1||next>VOL_TOTAL_STEPS) return; if(dir===1&&!validateVolStep(currentVolStep)) return; if(next===VOL_TOTAL_STEPS) buildVolSummary(); currentVolStep=next; renderVolStep(currentVolStep); }
+function renderVolStep(n){ for(let i=1;i<=VOL_TOTAL_STEPS;i++){ const s=document.getElementById('volStep'+i),t=document.getElementById('volTab'+i); if(s) s.classList.toggle('active',i===n); if(t){ t.classList.toggle('active',i===n); if(i<n) t.classList.add('done'); else t.classList.remove('done'); } } document.getElementById('volBackBtn').style.display=n>1?'':'none'; document.getElementById('volNextBtn').style.display=n<VOL_TOTAL_STEPS?'':'none'; document.getElementById('volSubmitBtn').style.display=n===VOL_TOTAL_STEPS?'':'none'; }
+function validateVolStep(n){ if(n===1){ if(!v('v_title')) return errField('v_title','Program title is required'); if(!v('v_category')) return errField('v_category','Please select a category'); if(!v('v_country')) return errField('v_country','Please select a country'); if(!v('v_location')) return errField('v_location','Location is required'); if(!v('v_dur_min')) return errField('v_dur_min','Minimum duration is required'); if(!v('v_fee')) return errField('v_fee','Program fee is required'); } if(n===2){ if(!v('v_description')||v('v_description').length<20) return errField('v_description','Description must be at least 20 characters'); } return true; }
+function buildVolSummary(){ document.getElementById('vol_summary_content').innerHTML=[`<b>Title:</b> ${esc(v('v_title'))}`,`<b>Category:</b> ${esc(v('v_category'))}`,`<b>Country:</b> ${esc(v('v_country'))}`,`<b>Location:</b> ${esc(v('v_location'))}`,`<b>Duration:</b> ${v('v_dur_min')}–${v('v_dur_max')||v('v_dur_min')} weeks`,`<b>Program Fee:</b> ${fmtMoney(v('v_fee'))}`,`<b>Age Range:</b> ${v('v_agemin')}–${v('v_agemax')}`,`<b>Cover Image:</b> ${v('v_cover_url')?'✅ Uploaded':'⚠️ None'}`,`<b>Status:</b> ${v('v_isactive')==='true'?'Active':'Draft'}`].join('<br>'); }
+
+/* ═══════════════════════════════════════════════════════════════
+   TAGS
+═══════════════════════════════════════════════════════════════ */
+function addTag(e,wrapId,dataId){ if(e.key!=='Enter'&&e.key!==',') return; e.preventDefault(); const input=e.target,val=input.value.trim().replace(/,/g,''); if(!val) return; const data=JSON.parse(document.getElementById(dataId).value||'[]'); if(data.includes(val)){ input.value=''; return; } data.push(val); document.getElementById(dataId).value=JSON.stringify(data); const chip=document.createElement('div'); chip.className='tag-chip'; chip.innerHTML=`${esc(val)} <button type="button" onclick="removeTag(this,'${dataId}','${esc(val)}')">✕</button>`; document.getElementById(wrapId).insertBefore(chip,input); input.value=''; }
+function removeTag(btn,dataId,val){ let data=JSON.parse(document.getElementById(dataId).value||'[]'); data=data.filter(t=>t!==val); document.getElementById(dataId).value=JSON.stringify(data); btn.parentElement.remove(); }
+
+/* ═══════════════════════════════════════════════════════════════
+   ITINERARY BUILDER
+═══════════════════════════════════════════════════════════════ */
+let itineraryCount=0;
+function addItineraryDay(){ itineraryCount++; const n=itineraryCount; const container=document.getElementById('itinerary_days'); const div=document.createElement('div'); div.className='itinerary-day'; div.id='itin_day_'+n; div.innerHTML=`<div class="itinerary-day-header"><div class="itinerary-day-num">${n}</div><h5>Day ${n}</h5><button class="itinerary-remove" onclick="removeItineraryDay('itin_day_${n}')">Remove</button></div><div class="form-group" style="margin-bottom:10px;"><label style="font-size:.75rem;text-transform:uppercase;font-weight:600;color:var(--text-muted);margin-bottom:4px;display:block;">Day Title</label><input id="itin_title_${n}" class="form-control" placeholder="e.g. Arrival &amp; Orientation"/></div><div class="form-group" style="margin-bottom:10px;"><label style="font-size:.75rem;text-transform:uppercase;font-weight:600;color:var(--text-muted);margin-bottom:4px;display:block;">Description</label><textarea id="itin_desc_${n}" class="form-control" style="min-height:70px;" placeholder="What happens on this day…"></textarea></div><div class="form-row"><div class="form-group" style="margin-bottom:0;"><label style="font-size:.75rem;text-transform:uppercase;font-weight:600;color:var(--text-muted);margin-bottom:4px;display:block;">Accommodation</label><input id="itin_accom_${n}" class="form-control" placeholder="e.g. Mara Serena Lodge"/></div><div class="form-group" style="margin-bottom:0;"><label style="font-size:.75rem;text-transform:uppercase;font-weight:600;color:var(--text-muted);margin-bottom:4px;display:block;">Meals</label><div style="display:flex;gap:12px;margin-top:8px;"><label style="display:flex;align-items:center;gap:4px;font-size:.8rem;font-weight:normal;text-transform:none;letter-spacing:0;color:var(--text);"><input type="checkbox" id="itin_b_${n}" style="width:auto;"/> B</label><label style="display:flex;align-items:center;gap:4px;font-size:.8rem;font-weight:normal;text-transform:none;letter-spacing:0;color:var(--text);"><input type="checkbox" id="itin_l_${n}" style="width:auto;"/> L</label><label style="display:flex;align-items:center;gap:4px;font-size:.8rem;font-weight:normal;text-transform:none;letter-spacing:0;color:var(--text);"><input type="checkbox" id="itin_d_${n}" style="width:auto;"/> D</label></div></div></div>`; container.appendChild(div); }
+function removeItineraryDay(id){ const el=document.getElementById(id); if(el) el.remove(); }
+function collectItinerary(){ const days=[]; document.querySelectorAll('#itinerary_days .itinerary-day').forEach((div,idx)=>{ const n=div.id.replace('itin_day_',''); days.push({day:idx+1,title:document.getElementById('itin_title_'+n)?.value.trim()||'',description:document.getElementById('itin_desc_'+n)?.value.trim()||'',accommodation:document.getElementById('itin_accom_'+n)?.value.trim()||'',meals:{breakfast:!!document.getElementById('itin_b_'+n)?.checked,lunch:!!document.getElementById('itin_l_'+n)?.checked,dinner:!!document.getElementById('itin_d_'+n)?.checked}}); }); return days; }
+
+/* ═══════════════════════════════════════════════════════════════
+   IMAGE UPLOAD
+═══════════════════════════════════════════════════════════════ */
+async function uploadImageToCloudinary(file,folder,onProgress){
+  const formData=new FormData(); formData.append('image',file); formData.append('folder',folder);
+  return new Promise((resolve,reject)=>{
+    const xhr=new XMLHttpRequest(); xhr.open('POST',`${API_BASE}/api/uploads/image`);
+    if(getToken()) xhr.setRequestHeader('Authorization',`Bearer ${getToken()}`);
+    xhr.upload.addEventListener('progress',e=>{ if(e.lengthComputable&&onProgress) onProgress(Math.round(e.loaded/e.total*100)); });
+    xhr.onload=()=>{ try{ const d=JSON.parse(xhr.responseText); if(xhr.status===200&&d.success) resolve(d); else reject(new Error(d.message||'Upload failed')); }catch(e){ reject(e); } };
+    xhr.onerror=()=>reject(new Error('Network error'));
+    xhr.send(formData);
+  });
+}
+
+async function handleCoverUpload(prefix,folder){
+  const file=document.getElementById(prefix+'_cover_file').files[0]; if(!file) return;
+  if(file.size>5*1024*1024){ toast('Cover image must be under 5MB','error'); return; }
+  const progress=document.getElementById(prefix+'_cover_progress');
+  const fill=document.getElementById(prefix+'_cover_progress_fill');
+  const label=document.getElementById(prefix+'_cover_progress_label');
+  const previewWrap=document.getElementById(prefix+'_cover_preview_wrap');
+  progress.classList.add('show'); label.textContent='Uploading cover image…';
+  try{
+    const result=await uploadImageToCloudinary(file,`wildroots/${folder}`,pct=>{ fill.style.width=pct+'%'; label.textContent=`Uploading… ${pct}%`; });
+    document.getElementById(prefix+'_cover_url').value=result.url;
+    document.getElementById(prefix+'_cover_public_id').value=result.publicId;
+    previewWrap.innerHTML=`<div style="position:relative;max-width:100%;"><img src="${result.url}" style="width:100%;height:160px;object-fit:cover;border-radius:8px;"/><div style="position:absolute;top:8px;left:8px;background:var(--gold);color:var(--forest);font-size:.65rem;font-weight:800;padding:3px 8px;border-radius:100px;">COVER</div><button onclick="clearCoverImage('${prefix}')" style="position:absolute;top:8px;right:8px;background:rgba(185,28,28,.85);color:#fff;border-radius:50%;width:24px;height:24px;font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;">✕</button></div>`;
+    label.textContent='✅ Cover image uploaded'; toast('Cover image uploaded!','success');
+  }catch(e){ label.textContent='❌ Upload failed: '+e.message; toast('Upload failed: '+e.message,'error'); }
+}
+
+function clearCoverImage(prefix){ document.getElementById(prefix+'_cover_url').value=''; document.getElementById(prefix+'_cover_public_id').value=''; const w=document.getElementById(prefix+'_cover_preview_wrap'); w.innerHTML='<div class="upload-zone-icon">🖼️</div><h4>Drop cover image here or click to browse</h4><p>Recommended: 1200×800px · Max 5MB</p>'; document.getElementById(prefix+'_cover_progress').classList.remove('show'); document.getElementById(prefix+'_cover_file').value=''; }
+
+async function handleGalleryUpload(prefix,folder){
+  const files=Array.from(document.getElementById(prefix+'_gallery_files').files); if(!files.length) return;
+  const existing=JSON.parse(document.getElementById(prefix+'_gallery_data').value||'[]');
+  if(existing.length+files.length>8){ toast(`Max 8 gallery images. You have ${existing.length} already.`,'error'); return; }
+  const validFiles=files.filter(f=>f.size<=5*1024*1024);
+  if(files.length!==validFiles.length) toast(`${files.length-validFiles.length} file(s) exceed 5MB and were skipped.`,'warning');
+  if(!validFiles.length) return;
+  const progress=document.getElementById(prefix+'_gallery_progress');
+  const fill=document.getElementById(prefix+'_gallery_progress_fill');
+  const label=document.getElementById(prefix+'_gallery_progress_label');
+  const previewGrid=document.getElementById(prefix+'_gallery_previews');
+  progress.classList.add('show');
+  for(let i=0;i<validFiles.length;i++){
+    const file=validFiles[i]; label.textContent=`Uploading ${i+1} of ${validFiles.length}…`;
+    try{
+      const result=await uploadImageToCloudinary(file,`wildroots/${folder}/gallery`,pct=>{ fill.style.width=Math.round(((i+pct/100)/validFiles.length)*100)+'%'; });
+      const gallery=JSON.parse(document.getElementById(prefix+'_gallery_data').value||'[]');
+      gallery.push({url:result.url,publicId:result.publicId});
+      document.getElementById(prefix+'_gallery_data').value=JSON.stringify(gallery);
+      const idx=gallery.length-1;
+      const item=document.createElement('div'); item.className='img-preview-item'; item.id=`${prefix}_gimg_${idx}`;
+      item.innerHTML=`<img src="${result.url}" alt="" loading="lazy"/><div class="img-remove" onclick="removeGalleryImg('${prefix}',${idx})">✕</div>`;
+      previewGrid.appendChild(item);
+    }catch(e){ toast(`Failed to upload ${file.name}: ${e.message}`,'error'); }
+  }
+  label.textContent=`✅ ${validFiles.length} image(s) uploaded`;
+  document.getElementById(prefix+'_gallery_files').value='';
+}
+
+function removeGalleryImg(prefix,idx){ const de=document.getElementById(prefix+'_gallery_data'); let g=JSON.parse(de.value||'[]'); g.splice(idx,1); de.value=JSON.stringify(g); const item=document.getElementById(`${prefix}_gimg_${idx}`); if(item) item.remove(); document.getElementById(prefix+'_gallery_previews').querySelectorAll('.img-preview-item').forEach((el,i)=>{ el.id=`${prefix}_gimg_${i}`; const rb=el.querySelector('.img-remove'); if(rb) rb.setAttribute('onclick',`removeGalleryImg('${prefix}',${i})`); }); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SUBMIT TOUR
+═══════════════════════════════════════════════════════════════ */
+async function submitTour(){
+  if(!validateTourStep(1)||!validateTourStep(2)) return;
+  const btn=document.getElementById('tourSubmitBtn'); btn.classList.add('loading'); btn.disabled=true;
+  const coverUrl=v('t_cover_url'),coverPid=v('t_cover_public_id'),gallery=JSON.parse(v('t_gallery_data')||'[]'),tags=JSON.parse(document.getElementById('t_tags_data').value||'[]');
+  const payload={title:v('t_title'),description:v('t_description'),shortDescription:v('t_shortdesc')||undefined,category:v('t_category'),country:v('t_country'),destination:v('t_destination'),duration:{days:Number(v('t_days')),nights:Number(v('t_nights'))||undefined},price:Number(v('t_price')),priceDiscount:v('t_pricediscount')?Number(v('t_pricediscount')):undefined,maxGroupSize:Number(v('t_maxgroup'))||12,difficulty:v('t_difficulty'),startLocation:v('t_start')||undefined,endLocation:v('t_end')||undefined,included:lines('t_included'),excluded:lines('t_excluded'),highlights:lines('t_highlights'),itinerary:collectItinerary(),isActive:v('t_isactive')==='true',featured:v('t_featured')==='true',depositPercent:Number(v('t_deposit'))||20,tags};
+  if(coverUrl) payload.coverImage={url:coverUrl,publicId:coverPid};
+  if(gallery.length) payload.images=gallery;
+  Object.keys(payload).forEach(k=>payload[k]===undefined&&delete payload[k]);
+  try{ await api('/api/tours',{method:'POST',body:JSON.stringify(payload)}); toast('Tour created successfully! 🎉','success'); closeTourModal(); resetTourForm(); loadedViews.delete('tours'); loadedViews.delete('dashboard'); showView('tours',null); }
+  catch(e){ toast('Failed to create tour: '+e.message,'error'); }
+  finally{ btn.classList.remove('loading'); btn.disabled=false; }
+}
+
+function resetTourForm(){ ['t_title','t_category','t_country','t_destination','t_days','t_nights','t_price','t_pricediscount','t_maxgroup','t_difficulty','t_description','t_shortdesc','t_start','t_end','t_included','t_excluded','t_highlights','t_isactive','t_featured','t_deposit','t_cover_url','t_cover_public_id'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=el.tagName==='SELECT'?el.options[0]?.value||'':''; }); document.getElementById('t_gallery_data').value='[]'; document.getElementById('t_tags_data').value='[]'; document.getElementById('itinerary_days').innerHTML=''; document.getElementById('t_gallery_previews').innerHTML=''; document.getElementById('t_cover_progress').classList.remove('show'); document.getElementById('t_gallery_progress').classList.remove('show'); clearCoverImage('t'); document.getElementById('t_tags_wrap').querySelectorAll('.tag-chip').forEach(el=>el.remove()); itineraryCount=0; currentTourStep=1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SUBMIT VOLUNTEER
+═══════════════════════════════════════════════════════════════ */
+async function submitVolunteer(){
+  if(!validateVolStep(1)||!validateVolStep(2)) return;
+  const btn=document.getElementById('volSubmitBtn'); btn.classList.add('loading'); btn.disabled=true;
+  const coverUrl=v('v_cover_url'),coverPid=v('v_cover_public_id'),gallery=JSON.parse(v('v_gallery_data')||'[]'),tags=JSON.parse(document.getElementById('v_tags_data').value||'[]');
+  const amenities=lines('v_amenities');
+  const payload={title:v('v_title'),description:v('v_description'),shortDescription:v('v_shortdesc')||undefined,category:v('v_category'),country:v('v_country'),location:v('v_location'),duration:{min:Number(v('v_dur_min')),max:v('v_dur_max')?Number(v('v_dur_max')):undefined,unit:'weeks'},programFee:Number(v('v_fee')),spotsTotal:v('v_spots')?Number(v('v_spots')):undefined,ageMin:Number(v('v_agemin'))||18,ageMax:Number(v('v_agemax'))||65,responsibilities:lines('v_responsibilities'),requirements:lines('v_requirements'),benefits:lines('v_benefits'),skills:lines('v_skills'),feeCoverage:lines('v_feecoverage'),languages:lines('v_languages'),accommodation:{type:v('v_accom_type'),description:v('v_accom_desc')||undefined,amenities:amenities.length?amenities:undefined},meals:v('v_meals'),isActive:v('v_isactive')==='true',featured:v('v_featured')==='true',tags};
+  if(coverUrl) payload.coverImage={url:coverUrl,publicId:coverPid};
+  if(gallery.length) payload.images=gallery;
+  Object.keys(payload).forEach(k=>payload[k]===undefined&&delete payload[k]);
+  if(payload.duration) Object.keys(payload.duration).forEach(k=>payload.duration[k]===undefined&&delete payload.duration[k]);
+  if(payload.accommodation) Object.keys(payload.accommodation).forEach(k=>payload.accommodation[k]===undefined&&delete payload.accommodation[k]);
+  try{ await api('/api/volunteer/admin/program',{method:'POST',body:JSON.stringify(payload)}); toast('Volunteer program created! 🌿','success'); closeVolunteerModal(); resetVolunteerForm(); loadedViews.delete('volunteers'); loadedViews.delete('dashboard'); showView('volunteers',null); }
+  catch(e){ toast('Failed to create program: '+e.message,'error'); }
+  finally{ btn.classList.remove('loading'); btn.disabled=false; }
+}
+
+function resetVolunteerForm(){ ['v_title','v_category','v_country','v_location','v_dur_min','v_dur_max','v_fee','v_spots','v_agemin','v_agemax','v_description','v_shortdesc','v_responsibilities','v_requirements','v_benefits','v_skills','v_feecoverage','v_languages','v_accom_type','v_accom_desc','v_amenities','v_meals','v_isactive','v_featured','v_cover_url','v_cover_public_id'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=el.tagName==='SELECT'?el.options[0]?.value||'':''; }); document.getElementById('v_gallery_data').value='[]'; document.getElementById('v_tags_data').value='[]'; document.getElementById('v_gallery_previews').innerHTML=''; document.getElementById('v_cover_progress').classList.remove('show'); document.getElementById('v_gallery_progress').classList.remove('show'); clearCoverImage('v'); document.getElementById('v_tags_wrap').querySelectorAll('.tag-chip').forEach(el=>el.remove()); currentVolStep=1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   DRAG & DROP
+═══════════════════════════════════════════════════════════════ */
+['t_cover_zone','t_gallery_zone','v_cover_zone','v_gallery_zone'].forEach(zoneId=>{
+  const zone=document.getElementById(zoneId); if(!zone) return;
+  zone.addEventListener('dragover',e=>{ e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{ e.preventDefault(); zone.classList.remove('drag-over'); const input=zone.querySelector('input[type="file"]'); if(input&&e.dataTransfer.files.length){ Object.defineProperty(input,'files',{value:e.dataTransfer.files,configurable:true}); input.dispatchEvent(new Event('change',{bubbles:true})); } });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════ */
+if(getToken()){ loadDashboard(); loadedViews.add('dashboard'); }
+</script>
+</body>
+</html>

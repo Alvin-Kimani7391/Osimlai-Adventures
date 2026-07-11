@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tour Details | Osimlai Adventures</title>
+  <meta name="description" content="Safari tour details - Osimlai Adventures" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    .tour-detail-hero {
+      height: 60vh;
+      min-height: 420px;
+      position: relative;
+      overflow: hidden;
+    }
+    .tour-detail-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .tour-detail-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.7) 100%);
+    }
+    .tour-detail-hero-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 40px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .tour-detail-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 5%;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 48px;
+      align-items: start;
+    }
+    .tour-info-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .tour-info-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--sand);
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--forest);
+    }
+    .tour-section { margin-bottom: 40px; }
+    .tour-section h3 {
+      color: var(--forest);
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--sand);
+      font-family: 'Playfair Display', serif;
+    }
+    .itinerary-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .itinerary-day {
+      width: 42px;
+      height: 42px;
+      background: var(--forest);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .itinerary-content h4 { color: var(--forest); font-size: 0.95rem; margin-bottom: 5px; }
+    .itinerary-content p { color: var(--text-muted); font-size: 0.86rem; line-height: 1.65; }
+    .included-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .included-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .included-item i { width: 16px; }
+    .included-item.yes i { color: #28a745; }
+    .included-item.no i { color: #dc3545; }
+    .booking-sidebar {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      padding: 28px;
+      position: sticky;
+      top: 100px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .sidebar-price {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .sidebar-price-main {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--forest);
+      line-height: 1;
+    }
+    .sidebar-price-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+    .sidebar-features { margin-bottom: 20px; }
+    .sidebar-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f8f8f8;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+    .sidebar-feature:last-child { border-bottom: none; }
+    .review-item {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .review-item:last-child { border-bottom: none; }
+    .review-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .review-author { display: flex; align-items: center; gap: 10px; }
+    .review-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--forest);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .review-name { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+    .review-date { font-size: 0.78rem; color: var(--text-muted); }
+    .review-stars { color: var(--gold); font-size: 0.85rem; }
+    .review-text { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+    .gallery-mini {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .gallery-mini img {
+      height: 90px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .gallery-mini img:hover { opacity: 0.85; }
+
+    /* ── Skeleton loading ── */
+    .skeleton {
+      background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ── Error state ── */
+    .error-state {
+      text-align: center;
+      padding: 80px 24px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .error-state .error-icon { font-size: 3.5rem; margin-bottom: 16px; }
+    .error-state h3 { font-size: 1.4rem; font-weight: 700; color: var(--forest); margin-bottom: 10px; }
+    .error-state p { color: var(--text-muted); margin-bottom: 24px; }
+
+    /* Hero skeleton */
+    .hero-skeleton {
+      height: 60vh;
+      min-height: 420px;
+      background: linear-gradient(90deg, #d0d0d0 25%, #e8e8e8 50%, #d0d0d0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      padding-top: 76px;
+    }
+
+    /* ── Payment methods ── */
+    .payment-methods {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .payment-method {
+      padding: 10px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: var(--transition);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .payment-method:hover { border-color: var(--forest-light); }
+    .payment-method.active { border-color: var(--forest); background: var(--forest-pale); color: var(--forest); }
+
+    /* ── Social Icons ── */
+    .social-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      transition: var(--transition);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .social-btn:hover { background: var(--gold); color: var(--forest); }
+
+    @media (max-width: 900px) {
+      .tour-detail-layout { grid-template-columns: 1fr; }
+      .booking-sidebar { position: static; }
+      .included-list { grid-template-columns: 1fr; }
+      .gallery-mini { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <a href="index.html" class="logo" style="color:var(--forest)">
+    <div class="logo-icon">🌍</div>
+    Osimlai <span>Adventures</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link" style="color:var(--text)">Home</a></li>
+    <li><a href="tours.html" class="nav-link active" style="color:var(--text)">Safaris</a></li>
+    <li><a href="volunteer.html" class="nav-link" style="color:var(--text)">Volunteer</a></li>
+    <li><a href="community.html" class="nav-link" style="color:var(--text)">Community</a></li>
+    <li><a href="about.html" class="nav-link" style="color:var(--text)">About</a></li>
+    <li><a href="blog.html" class="nav-link" style="color:var(--text)">Blog</a></li>
+    <li><a href="contact.html" class="nav-link" style="color:var(--text)">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="nav-cta" style="color:var(--text)">Sign In</a>
+    <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <button class="hamburger" id="hamburger">
+    <span style="background:var(--forest)"></span><span style="background:var(--forest)"></span><span style="background:var(--forest)"></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
+  <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
+  <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+  <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
+  <div class="mobile-actions">
+    <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+    <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
+  </div>
+</div>
+
+<!-- Dynamic content injected here -->
+<div id="pageContent">
+  <div class="hero-skeleton" id="heroSkeleton"></div>
+  <div class="tour-detail-layout" id="skeletonLayout">
+    <div>
+      <div class="gallery-mini" style="margin-bottom:32px;">
+        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
+        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
+        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
+        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;">
+        <div class="skeleton" style="height:40px;width:130px;border-radius:8px;"></div>
+        <div class="skeleton" style="height:40px;width:130px;border-radius:8px;"></div>
+        <div class="skeleton" style="height:40px;width:130px;border-radius:8px;"></div>
+      </div>
+      <div class="skeleton" style="height:20px;width:200px;margin-bottom:16px;"></div>
+      <div class="skeleton" style="height:14px;width:100%;margin-bottom:10px;"></div>
+      <div class="skeleton" style="height:14px;width:90%;margin-bottom:10px;"></div>
+      <div class="skeleton" style="height:14px;width:80%;margin-bottom:40px;"></div>
+    </div>
+    <div>
+      <div class="skeleton" style="height:360px;border-radius:16px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="fa-solid fa-map-location-dot"></i> Book: <span id="modalTourName">Safari Tour</span></h3>
+      <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form class="booking-form" >
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" name="firstName" placeholder="John" required />
+          </div>
+          <input type="hidden" name="tourId" id="tourId">
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" name="lastName" placeholder="Doe" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="email" placeholder="john@example.com" required />
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" name="phone" placeholder="+1 234 567 8900" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tour Start Date</label>
+            <input type="date" name="startDate" required />
+          </div>
+          <div class="form-group">
+            <label>Number of Travelers</label>
+            <select name="numberOfTravelers" required>
+              <option value="">Select</option>
+              <option value="1">1 Person</option>
+              <option value="2">2 People</option>
+              <option value="4">3–4 People</option>
+              <option value="8">5–8 People</option>
+            </select>
+          </div>
+        </div>
+
+        <input type="hidden" name="paymentMethod" id="paymentMethod" value="paypal">
+        <div class="form-group">
+          <label>Payment Method</label>
+          <div class="payment-methods">
+            <div class="payment-method active" data-method="paypal"><i class="fa-brands fa-paypal"></i> PayPal</div>
+            <div class="payment-method" data-method="mpesa"><i class="fa-solid fa-mobile-alt"></i> M-Pesa</div>
+            <div class="payment-method" data-method="bank"><i class="fa-solid fa-building"></i> Bank Transfer</div>
+          </div>
+        </div>
+        <div id="paypalDetails" style="background:var(--sand);padding:14px;border-radius:var(--radius);margin-bottom:14px;font-size:0.86rem;color:var(--text-muted);">
+          <i class="fa-brands fa-paypal"></i> You'll be redirected to PayPal to complete your 20% deposit of <strong id="depositAmount">$0</strong>.
+        </div>
+        <div id="mpesaDetails" style="display:none;background:var(--sand);padding:14px;border-radius:var(--radius);margin-bottom:14px;">
+          <div class="form-group" style="margin-bottom:8px;">
+            <label>M-Pesa Phone Number</label>
+            <input type="tel" name="mpesaPhone" placeholder="2547XXXXXXXX" />
+          </div>
+          <p style="font-size:0.82rem;color:var(--text-muted);">You'll receive an STK Push to authorize the payment.</p>
+        </div>
+        <div id="bankDetails" style="display:none;background:var(--sand);padding:14px;border-radius:var(--radius);margin-bottom:14px;font-size:0.85rem;color:var(--text-muted);line-height:1.75;">
+          <i class="fa-solid fa-building-columns"></i> Bank: CRDB Bank Tanzania<br>
+          Account: Osimlai Adventures Ltd<br>
+          Account No: 0150263XXX<br>
+          Reference: <span id="bankRef">SAFARI-[Your Name]</span>
+          <hr style="border:none;border-top:1px solid #ddd;margin:12px 0;" />
+          <div class="form-group" style="margin-bottom:0;">
+            <label style="font-weight:600;color:var(--forest);">
+              <i class="fa-solid fa-upload"></i> Upload Payment Receipt
+            </label>
+            <input
+              type="file"
+              name="bankReceipt"
+              id="bankReceiptInput"
+              accept="image/*,.pdf"
+              style="margin-top:8px;font-size:0.83rem;"
+            />
+            <p style="font-size:0.79rem;margin-top:6px;">Accepted: JPG, PNG, PDF · Max 5MB. The admin will verify your payment within 24 hours.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Special Requests (Optional)</label>
+          <textarea
+            name="specialRequests"
+            placeholder="Dietary requirements, accessibility needs, special occasions..."
+            style="min-height:80px;"
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="confirmBookingBtn">
+          Confirm Booking & Pay <span id="depositDisplay">$0</span> Deposit
+        </button>
+        <p style="font-size:0.78rem;color:var(--text-muted);text-align:center;margin-top:10px;">
+          <i class="fa-solid fa-shield-halved"></i> Secure SSL payment · Free cancellation 30 days prior
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="color:var(--white)">
+        <div class="logo-icon">🌍</div>
+        Osimlai <span>Adventures</span>
+      </a>
+      <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014.</p>
+      <div class="footer-social">
+        <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>More Safaris</h4>
+      <ul>
+        <li><a href="tours.html">All Safari Packages</a></li>
+        <li><a href="tours.html">Gorilla Trekking</a></li>
+        <li><a href="tours.html">Kilimanjaro</a></li>
+        <li><a href="tours.html">Beach & Safari</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="faq.html">Booking Policy</a></li>
+        <li><a href="faq.html">Privacy Policy</a></li>
+        <li><a href="faq.html">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Osimlai Adventures. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
+  </div>
+</footer>
+
+<div id="toast" class="toast"></div>
+<script src="js/main.js"></script>
+
+<script>
+/* ============================================================
+   CONFIG
+============================================================ */
+const API_BASE = 'https://wild-tours.onrender.com';
+const FALLBACK_IMG = 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1600&auto=format&fit=crop';
+
+/* ============================================================
+   HELPERS
+============================================================ */
+function esc(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => (
+    { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+  ));
+}
+function fmtMoney(n) {
+  return '$' + Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 });
+}
+function starHTML(rating) {
+  const full = Math.round(rating);
+  return Array.from({ length: 5 }, (_, i) =>
+    `<i class="${i < full ? 'fas' : 'far'} fa-star"></i>`
+  ).join('');
+}
+function getURLParam(key) {
+  return new URLSearchParams(window.location.search).get(key);
+}
+
+/* ============================================================
+   FETCH TOUR
+============================================================ */
+async function fetchTour(id) {
+  // Try by ID first
+  const res = await fetch(`${API_BASE}/api/tours/${id}`);
+  if (!res.ok) throw new Error(`Safari not found (${res.status})`);
+  const data = await res.json();
+  // Handle various API response shapes
+  return data.tour || data.data?.tour || data.data || data;
+}
+
+/* ============================================================
+   RENDER PAGE
+============================================================ */
+function renderPage(tour) {
+
+  window.currentTour = tour;
+  // Resolve fields
+  const title       = tour.title || 'Safari Tour';
+  const country     = tour.country || tour.destination || '';
+  const days        = tour.duration?.days || tour.duration || '—';
+  const nights      = tour.duration?.nights || (typeof days === 'number' ? days - 1 : '—');
+  const maxGroup    = tour.maxGroupSize || '—';
+  const difficulty  = tour.difficulty || 'All Fitness Levels';
+  const price       = Number(tour.price || tour.pricePerPerson || 0);
+  const priceDisc   = Number(tour.priceDiscount || 0);
+  const finalPrice  = priceDisc && priceDisc < price ? priceDisc : price;
+  const deposit     = Math.round(finalPrice * 0.2);
+  const rating      = Number(tour.ratingsAverage || 0);
+  const ratingQty   = tour.ratingsQuantity || 0;
+  const description = tour.description || tour.longDescription || tour.summary || '';
+  const shortDesc   = tour.shortDescription || tour.summary || '';
+  const category    = tour.category || '';
+  const startDates  = tour.startDates || [];
+  const guides      = tour.guides || [];
+
+  // Images
+  const allImages = [
+    tour.coverImage?.url || tour.imageCover,
+    ...(tour.images || []).map(i => i?.url || i),
+  ].filter(Boolean);
+  while (allImages.length < 4) allImages.push(FALLBACK_IMG);
+  const heroImg = allImages[0];
+
+  // Itinerary
+  const itinerary = tour.itinerary || tour.schedule || [];
+
+  // Included / excluded
+  const included = Array.isArray(tour.included) ? tour.included : [];
+  const excluded = Array.isArray(tour.excluded) ? tour.excluded : [];
+
+  // Reviews
+  const reviews = tour.reviews || [];
+
+  // Badge
+  let badgeHtml = '';
+  if (tour.featured) badgeHtml = `<span style="background:var(--gold);color:var(--forest);padding:5px 14px;border-radius:100px;font-size:0.78rem;font-weight:700;">FEATURED</span>`;
+  else if (ratingQty >= 80) badgeHtml = `<span style="background:var(--gold);color:var(--forest);padding:5px 14px;border-radius:100px;font-size:0.78rem;font-weight:700;">BESTSELLER</span>`;
+  else if (rating >= 4.8 && ratingQty >= 20) badgeHtml = `<span style="background:var(--gold);color:var(--forest);padding:5px 14px;border-radius:100px;font-size:0.78rem;font-weight:700;">TOP RATED</span>`;
+
+  // Rating display
+  const ratingDisplay = rating > 0
+    ? `<span style="color:var(--gold);font-weight:700;">${starHTML(rating)} ${rating.toFixed(1)} (${ratingQty} reviews)</span>`
+    : `<span style="color:rgba(255,255,255,0.6);">No reviews yet</span>`;
+
+  // Price display for sidebar
+  const priceHtml = priceDisc && priceDisc < price
+    ? `<span style="font-size:1rem;text-decoration:line-through;color:#999;font-weight:400;">${fmtMoney(price)}</span>
+       <span class="sidebar-price-main">${fmtMoney(priceDisc)}</span>`
+    : `<span class="sidebar-price-main">${fmtMoney(price)}</span>`;
+
+  // Gallery HTML (up to 4 images)
+  const galleryHtml = allImages.slice(0, 4).map((img, i) =>
+    `<img src="${esc(img)}" alt="${esc(title)} image ${i + 1}" loading="lazy"
+       onerror="this.src='${FALLBACK_IMG}'" />`
+  ).join('');
+
+  // Itinerary HTML
+  let itineraryHtml = '';
+  if (itinerary.length > 0) {
+    itineraryHtml = itinerary.map((item, i) => `
+      <div class="itinerary-item">
+        <div class="itinerary-day">D${i + 1}</div>
+        <div class="itinerary-content">
+          <h4>${esc(item.title || item.day || `Day ${i + 1}`)}</h4>
+          <p>${esc(item.description || item.activities?.join(', ') || '')}</p>
+        </div>
+      </div>`).join('');
+  } else {
+    // Fallback: generate generic itinerary from days count
+    const dayCount = typeof days === 'number' ? days : 7;
+    const generic = [
+      { title: 'Arrival & Welcome Briefing', desc: `Meet your guide and transfer to accommodation. Welcome dinner and safari orientation.` },
+      { title: 'First Game Drive', desc: `Your first morning and afternoon game drives in the reserve. Spot wildlife and settle into the safari rhythm.` },
+    ];
+    itineraryHtml = Array.from({ length: Math.min(dayCount, 7) }, (_, i) => {
+      const g = generic[i] || { title: `Day ${i + 1} Activities`, desc: 'Full day of safari activities and wildlife viewing.' };
+      return `
+        <div class="itinerary-item">
+          <div class="itinerary-day">D${i + 1}</div>
+          <div class="itinerary-content">
+            <h4>${esc(g.title)}</h4>
+            <p>${esc(g.desc)}</p>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // Included / excluded HTML
+  const defaultIncluded = ['Airport transfers', `${nights} nights accommodation`, 'All meals (full board)', 'Expert guide', 'All game drives', 'Park entry fees', 'Bottled water'];
+  const defaultExcluded = ['International flights', 'Travel insurance', 'Personal items', 'Alcoholic beverages', 'Visa fees'];
+  const incItems = included.length > 0 ? included : defaultIncluded;
+  const excItems = excluded.length > 0 ? excluded : defaultExcluded;
+
+  const includedHtml = [
+    ...incItems.map(item => `<div class="included-item yes"><i class="fa-solid fa-circle-check"></i> ${esc(typeof item === 'string' ? item : item.item || item.name || '')}</div>`),
+    ...excItems.map(item => `<div class="included-item no"><i class="fa-solid fa-circle-xmark"></i> ${esc(typeof item === 'string' ? item : item.item || item.name || '')}</div>`),
+  ].join('');
+
+  // Reviews HTML
+  let reviewsHtml = '';
+  if (reviews.length > 0) {
+    // Rating breakdown
+    const pct5 = Math.round((reviews.filter(r => r.rating >= 4.5).length / reviews.length) * 100);
+    const pct4 = Math.round((reviews.filter(r => r.rating >= 3.5 && r.rating < 4.5).length / reviews.length) * 100);
+    const pct3 = 100 - pct5 - pct4;
+
+    reviewsHtml = `
+      <div style="display:flex;align-items:center;gap:20px;margin-bottom:24px;background:var(--sand);padding:20px;border-radius:var(--radius);">
+        <div style="text-align:center;">
+          <div style="font-size:3rem;font-weight:900;color:var(--forest);line-height:1;">${rating.toFixed(1)}</div>
+          <div style="color:var(--gold);font-size:1rem;">${starHTML(rating)}</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">${ratingQty} reviews</div>
+        </div>
+        <div style="flex:1;">
+          ${[['5 stars', pct5], ['4 stars', pct4], ['3 stars', Math.max(0, pct3)]].map(([label, pct]) => `
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span style="font-size:0.78rem;color:var(--text-muted);width:60px;">${label}</span>
+            <div style="flex:1;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;">
+              <div style="width:${pct}%;height:100%;background:var(--gold);border-radius:3px;"></div>
+            </div>
+            <span style="font-size:0.78rem;color:var(--text-muted);">${pct}%</span>
+          </div>`).join('')}
+        </div>
+      </div>
+      ${reviews.slice(0, 5).map(r => {
+        const reviewer = r.user?.name || r.reviewer || r.name || 'Anonymous';
+        const initials = reviewer.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        const dateStr = r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : '';
+        return `
+        <div class="review-item">
+          <div class="review-header">
+            <div class="review-author">
+              <div class="review-avatar">${initials}</div>
+              <div>
+                <div class="review-name">${esc(reviewer)}</div>
+                <div class="review-date">${esc(dateStr)}</div>
+              </div>
+            </div>
+            <div class="review-stars">${starHTML(r.rating || 5)}</div>
+          </div>
+          <p class="review-text">${esc(r.review || r.comment || r.text || '')}</p>
+        </div>`;
+      }).join('')}`;
+  } else {
+    reviewsHtml = `<p style="color:var(--text-muted);font-size:0.9rem;">No reviews yet. Be the first to experience this safari!</p>`;
+  }
+
+  // Start dates for sidebar select
+  let dateOptionsHtml = '<option value="">Choose a date</option>';
+  if (startDates.length > 0) {
+    startDates.forEach(d => {
+      const date = new Date(d.date || d);
+      if (date > new Date()) {
+        const label = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        const spots = d.participants != null ? ` (${(tour.maxGroupSize || 12) - d.participants} spots left)` : '';
+        dateOptionsHtml += `<option value="${date.toISOString().slice(0,10)}">${label}${spots}</option>`;
+      }
+    });
+  }
+  const datePickerHtml = startDates.length > 0
+    ? `<select>${dateOptionsHtml}</select>`
+    : `<input type="date" min="${new Date().toISOString().slice(0,10)}" />`;
+
+  // Difficulty pill label
+  const diffLabel = { easy: 'Easy', medium: 'Moderate', difficult: 'Challenging' }[difficulty?.toLowerCase()] || (difficulty || 'All Fitness Levels');
+
+  // Guide info pill
+  const guideHtml = guides.length > 0
+    ? `<div class="tour-info-pill"><i class="fa-solid fa-user-tie"></i> ${esc(guides[0]?.name || 'Expert Guide')}</div>`
+    : '';
+
+  // Accommodation type
+  const accommodation = tour.accommodation || tour.accommodationType || 'Lodge';
+
+  // Page title update
+  document.title = `${title} | Osimlai Adventures`;
+
+  // Inject everything
+  document.getElementById('pageContent').innerHTML = `
+    <!-- Hero -->
+    <div class="tour-detail-hero" style="padding-top:76px;">
+      <img src="${esc(heroImg)}" alt="${esc(title)}" onerror="this.src='${FALLBACK_IMG}'" />
+      <div class="tour-detail-hero-overlay"></div>
+      <div class="tour-detail-hero-content">
+        <div class="breadcrumb" style="position:static;justify-content:flex-start;margin-bottom:12px;">
+          <a href="index.html" style="color:rgba(255,255,255,0.6)">Home</a> ›
+          <a href="tours.html" style="color:rgba(255,255,255,0.6)">Safaris</a> ›
+          <span style="color:var(--gold-light)">${esc(country)}</span>
+        </div>
+        <h1 style="color:var(--white);margin-bottom:12px;font-size:clamp(1.8rem,3.5vw,2.8rem);font-family:'Playfair Display',serif;">${esc(title)}</h1>
+        <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+          <span style="color:rgba(255,255,255,0.85);font-size:0.9rem"><i class="fa-solid fa-location-dot"></i> ${esc(country)}</span>
+          ${ratingDisplay}
+          ${badgeHtml}
+        </div>
+      </div>
+    </div>
+
+    <div class="tour-detail-layout">
+      <!-- MAIN CONTENT -->
+      <div>
+        <div class="gallery-mini">${galleryHtml}</div>
+
+        <div class="tour-info-pills">
+          <div class="tour-info-pill"><i class="fa-solid fa-clock"></i> ${days} Day${days !== 1 ? 's' : ''} / ${nights} Night${nights !== 1 ? 's' : ''}</div>
+          <div class="tour-info-pill"><i class="fa-solid fa-users"></i> Max ${maxGroup} People</div>
+          <div class="tour-info-pill"><i class="fa-solid fa-calendar"></i> ${startDates.length > 0 ? startDates.length + ' dates available' : 'Year-round'}</div>
+          <div class="tour-info-pill"><i class="fa-solid fa-campground"></i> ${esc(accommodation)}</div>
+          ${category ? `<div class="tour-info-pill"><i class="fa-solid fa-paw"></i> ${esc(category.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase()))}</div>` : ''}
+          <div class="tour-info-pill"><i class="fa-solid fa-dumbbell"></i> ${esc(diffLabel)}</div>
+          ${guideHtml}
+        </div>
+
+        <div class="tour-section">
+          <h3>About This Safari</h3>
+          <p style="color:var(--text-muted);line-height:1.8;margin-bottom:12px;">${esc(shortDesc)}</p>
+          ${description && description !== shortDesc ? `<p style="color:var(--text-muted);line-height:1.8;">${esc(description)}</p>` : ''}
+        </div>
+
+        <div class="tour-section">
+          <h3>Day-by-Day Itinerary</h3>
+          ${itineraryHtml}
+        </div>
+
+        <div class="tour-section">
+          <h3>What's Included & Excluded</h3>
+          <div class="included-list">${includedHtml}</div>
+        </div>
+
+        <div class="tour-section">
+          <h3>Reviews${ratingQty > 0 ? ` (${ratingQty})` : ''}</h3>
+          ${reviewsHtml}
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div>
+        <div class="booking-sidebar">
+          <div class="sidebar-price">
+            <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px;">Starting from</div>
+            ${priceHtml}
+            <div class="sidebar-price-note">per person · ${days} days · All inclusive</div>
+          </div>
+
+          <div class="sidebar-features">
+            <div class="sidebar-feature"><i class="fa-solid fa-circle-check"></i> Free cancellation (30 days prior)</div>
+            <div class="sidebar-feature"><i class="fa-solid fa-credit-card"></i> Book with 20% deposit (${fmtMoney(deposit)})</div>
+            <div class="sidebar-feature"><i class="fa-solid fa-lock"></i> Secure payment</div>
+            <div class="sidebar-feature"><i class="fa-solid fa-envelope"></i> Instant confirmation</div>
+            <div class="sidebar-feature"><i class="fa-solid fa-leaf"></i> Carbon-neutral safari</div>
+          </div>
+
+          <div class="form-group">
+            <label>Select Dates</label>
+            ${datePickerHtml}
+          </div>
+          <div class="form-group">
+            <label>Number of Travelers</label>
+            <select>
+              <option>1 Person</option>
+              <option>2 People</option>
+              <option>3–4 People</option>
+              <option>5–8 People</option>
+              <option>9–12 People</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:12px;"
+            onclick="openBookingModal('${esc(title)}', ${deposit})">
+            Book This Safari →
+          </button>
+          <button class="btn btn-outline-dark btn-sm" style="width:100%;justify-content:center;"
+            onclick="window.location='contact.html'">
+            Ask a Question
+          </button>
+
+          <div style="text-align:center;margin-top:16px;font-size:0.78rem;color:var(--text-muted);">
+            <i class="fa-solid fa-shield-halved"></i> Your payment info is 100% secure
+          </div>
+        </div>
+
+        <div style="background:var(--sand);border-radius:var(--radius);padding:20px;margin-top:20px;">
+          <h4 style="color:var(--forest);font-size:0.95rem;margin-bottom:12px;"><i class="fa-solid fa-leaf"></i> Eco & Ethics Promise</h4>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.65;">30% of this safari's revenue supports local conservation initiatives and community development projects in the region.</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Re-wire payment method tabs after render
+  wirePaymentMethods();
+}
+
+
+
+
+/* ============================================================
+   PAYMENT METHOD TABS
+============================================================ */
+function wirePaymentMethods() {
+  document.querySelectorAll('.payment-method').forEach(btn => {
+    btn.addEventListener('click', () => {
+
+      document.querySelectorAll('.payment-method')
+        .forEach(b => b.classList.remove('active'));
+
+      btn.classList.add('active');
+
+      const method = btn.dataset.method;
+
+      document.getElementById('paymentMethod').value =
+        method === 'bank' ? 'bank_transfer' : method;
+
+      document.getElementById('paypalDetails').style.display =
+        method === 'paypal' ? '' : 'none';
+
+      document.getElementById('mpesaDetails').style.display =
+        method === 'mpesa' ? '' : 'none';
+
+      document.getElementById('bankDetails').style.display =
+        method === 'bank' ? '' : 'none';
+    });
+  });
+}
+
+/* ============================================================
+   BOOKING MODAL
+============================================================ */
+function openBookingModal(tourName, deposit) {
+  document.getElementById('modalTourName').textContent = tourName;
+  document.getElementById('depositAmount').textContent = fmtMoney(deposit);
+  document.getElementById('depositDisplay').textContent = fmtMoney(deposit);
+  document.getElementById('tourId').value = window.currentTour._id;
+
+  // Derive a short bank reference from tour name
+  const ref = tourName.split(' ').slice(0, 2).map(w => w.toUpperCase()).join('-');
+  document.getElementById('bankRef').textContent = `${ref}-[Your Name]`;
+
+  openModal('bookingModal');
+}
+
+function handleBookingSubmit(e) {
+  e.preventDefault();
+  // Here you'd POST to your API; for now show a success toast
+  closeModal('bookingModal');
+  const toast = document.getElementById('toast');
+  if (toast) {
+    toast.textContent = '🎉 Booking confirmed! Check your email for details.';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+  }
+}
+
+/* ============================================================
+   SHOW ERROR
+============================================================ */
+function showPageError(msg) {
+  document.getElementById('pageContent').innerHTML = `
+    <div style="padding-top:76px;">
+      <div class="error-state">
+        <div class="error-icon">🌐</div>
+        <h3>Safari Not Found</h3>
+        <p>${esc(msg)}</p>
+        <a href="tours.html" class="btn btn-primary btn-lg">Browse All Safaris</a>
+      </div>
+    </div>`;
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+(async () => {
+  const id = getURLParam('id');
+
+  if (!id) {
+    showPageError('No safari selected. Please go back and choose a tour.');
+    return;
+  }
+
+  try {
+    const tour = await fetchTour(id);
+    renderPage(tour);
+  } catch (err) {
+    console.error('Failed to load tour:', err);
+    showPageError(err.message || 'Could not load this safari. Please try again.');
+  }
+})();
+
+
+// Handle PayPal return (booking-success.html or this page with ?paypalOrderId=)
+(async () => {
+  const params = new URLSearchParams(window.location.search);
+  const paypalOrderId = params.get('token'); // PayPal appends ?token= on return
+  const bookingId = params.get('bookingId');
+
+  if (paypalOrderId && bookingId) {
+    const token = localStorage.getItem('wr_token');
+    try {
+      const res = await fetch(`${API_BASE}/api/payments/paypal/capture`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ orderId: paypalOrderId, bookingId })
+      });
+      const data = await res.json();
+      if (data.success) showToast('Payment captured successfully! 🎉', '✅');
+      else showToast(data.message || 'Capture failed', '❌');
+    } catch (_) {
+      showToast('Could not confirm PayPal payment', '⚠️');
+    }
+  }
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ & Policies | Osimlai Adventures</title>
+  <meta name="description" content="Answers to your most common questions about booking safaris and volunteering with Osimlai Adventures. Booking policy, cancellation terms, travel insurance, and privacy policy." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    /* ===== STICKY SIDEBAR NAV ===== */
+    .faq-page-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 70px 5% 90px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+    .faq-sidebar {
+      position: sticky;
+      top: 100px;
+    }
+    .faq-nav {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .faq-nav h4 {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .faq-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 2px;
+      text-decoration: none;
+    }
+    .faq-nav-link:hover { background: var(--sand); color: var(--forest); }
+    .faq-nav-link.active { background: var(--forest); color: var(--white); font-weight: 600; }
+    .faq-nav-link .nav-icon { font-size: 1rem; }
+    .faq-nav-count {
+      margin-left: auto;
+      font-size: 0.72rem;
+      background: rgba(0,0,0,0.07);
+      color: inherit;
+      padding: 2px 8px;
+      border-radius: 100px;
+    }
+    .faq-nav-link.active .faq-nav-count { background: rgba(255,255,255,0.2); }
+
+    /* ===== MAIN CONTENT ===== */
+    .faq-main {}
+
+    /* Section blocks */
+    .policy-section {
+      margin-bottom: 72px;
+      scroll-margin-top: 100px;
+    }
+    .policy-section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--sand-dark);
+    }
+    .policy-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--forest), var(--forest-mid));
+      box-shadow: 0 4px 12px rgba(26,60,46,0.2);
+    }
+    .policy-section-header h2 { color: var(--forest); font-size: 1.6rem; font-family: 'Playfair Display', serif; }
+    .policy-section-header p { font-size: 0.88rem; color: var(--text-muted); margin-top: 3px; }
+
+    /* FAQ accordion (reuse from style.css but scoped) */
+    .faq-list { }
+    .faq-item { border-bottom: 1px solid #eee; }
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 18px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--forest);
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--forest-light); }
+    .faq-icon {
+      width: 26px; height: 26px;
+      background: var(--sand);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--forest);
+      transition: all 0.25s;
+    }
+    .faq-item.open .faq-icon { background: var(--forest); color: var(--white); transform: rotate(45deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.38s ease; }
+    .faq-answer p, .faq-answer ul, .faq-answer ol { padding-bottom: 18px; color: var(--text-muted); font-size: 0.92rem; line-height: 1.78; }
+    .faq-answer ul { list-style: disc; padding-left: 20px; }
+    .faq-answer ol { list-style: decimal; padding-left: 20px; }
+    .faq-answer ul li, .faq-answer ol li { margin-bottom: 6px; }
+
+    /* Policy prose sections */
+    .policy-prose {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px 36px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.05);
+      margin-bottom: 24px;
+    }
+    .policy-prose h3 {
+      color: var(--forest);
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+      margin-top: 24px;
+    }
+    .policy-prose h3:first-child { margin-top: 0; }
+    .policy-prose p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.8; margin-bottom: 12px; }
+    .policy-prose ul { list-style: none; padding: 0; margin-bottom: 12px; }
+    .policy-prose ul li {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      padding: 7px 0 7px 24px;
+      position: relative;
+      line-height: 1.6;
+      border-bottom: 1px dashed #f0f0f0;
+    }
+    .policy-prose ul li:last-child { border-bottom: none; }
+    .policy-prose ul li::before { content: '→'; position: absolute; left: 0; color: var(--forest-light); font-weight: 700; }
+    .policy-prose .highlight-box {
+      background: rgba(82,183,136,0.08);
+      border-left: 4px solid var(--forest-light);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      color: var(--forest);
+      font-weight: 500;
+      line-height: 1.65;
+    }
+    .policy-prose .warning-box {
+      background: rgba(212,160,23,0.08);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      color: #7a5800;
+      line-height: 1.65;
+    }
+
+    /* Cancellation table */
+    .cancel-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 20px;
+      font-size: 0.88rem;
+    }
+    .cancel-table th {
+      background: var(--forest);
+      color: var(--white);
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .cancel-table th:first-child { border-radius: var(--radius) 0 0 0; }
+    .cancel-table th:last-child { border-radius: 0 var(--radius) 0 0; }
+    .cancel-table td { padding: 11px 16px; border-bottom: 1px solid #f0f0f0; color: var(--text-muted); }
+    .cancel-table tr:last-child td { border-bottom: none; }
+    .cancel-table tr:nth-child(even) td { background: var(--sand); }
+    .cancel-table .green { color: #2d7a4f; font-weight: 600; }
+    .cancel-table .amber { color: #b07a00; font-weight: 600; }
+    .cancel-table .red { color: #c0392b; font-weight: 600; }
+
+    /* Last updated badge */
+    .last-updated {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--sand);
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+    }
+
+    /* Quick contact CTA card */
+    .faq-cta-card {
+      background: linear-gradient(135deg, var(--forest), var(--forest-mid));
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      color: var(--white);
+      margin-top: 16px;
+    }
+    .faq-cta-card h4 { color: var(--white); margin-bottom: 8px; }
+    .faq-cta-card p { font-size: 0.86rem; color: rgba(255,255,255,0.7); margin-bottom: 16px; line-height: 1.6; }
+
+    @media (max-width: 900px) {
+      .faq-page-layout { grid-template-columns: 1fr; }
+      .faq-sidebar { position: static; }
+      .faq-nav { display: flex; gap: 6px; flex-wrap: wrap; padding: 16px; }
+      .faq-nav h4 { display: none; }
+      .faq-nav-link { font-size: 0.8rem; padding: 7px 12px; }
+      .faq-nav-count { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">🌍</div>
+    Osimlai <span>Adventures</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">Home</a></li>
+    <li><a href="tours.html" class="nav-link">Safaris</a></li>
+    <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+    <li><a href="community.html" class="nav-link">Community</a></li>
+    <li><a href="about.html" class="nav-link">About</a></li>
+    <li><a href="blog.html" class="nav-link">Blog</a></li>
+    <li><a href="contact.html" class="nav-link">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="nav-cta">Sign In</a>
+    <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mobile-nav-link">🏠 Home</a>
+  <a href="tours.html" class="mobile-nav-link">🗺️ Safaris</a>
+  <a href="volunteer.html" class="mobile-nav-link">🌿 Volunteer</a>
+  <a href="community.html" class="mobile-nav-link">❤️ Community</a>
+  <a href="about.html" class="mobile-nav-link">👥 About Us</a>
+  <a href="blog.html" class="mobile-nav-link">📰 Blog</a>
+  <a href="contact.html" class="mobile-nav-link">📞 Contact</a>
+  <div class="mobile-actions">
+    <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+    <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
+  </div>
+</div>
+
+<!-- ===== PAGE HERO ===== -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span>›</span><span>FAQ & Policies</span>
+    </div>
+    <h1>Help Centre & Policies</h1>
+    <p>Everything you need to know before, during, and after your Osimlai experience — in plain, honest language.</p>
+  </div>
+</div>
+
+<!-- ===== MAIN LAYOUT ===== -->
+<div class="faq-page-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="faq-sidebar">
+    <nav class="faq-nav">
+      <h4>On This Page</h4>
+      <a href="#faq" class="faq-nav-link active"><span class="nav-icon"><i class="fa-solid fa-circle-question"></i></span> FAQs <span class="faq-nav-count">18</span></a>
+      <a href="#booking" class="faq-nav-link"><span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span> Booking Policy <span class="faq-nav-count">7</span></a>
+      <a href="#cancellation" class="faq-nav-link"><span class="nav-icon"><i class="fa-solid fa-arrow-rotate-left"></i></span> Cancellation Policy <span class="faq-nav-count">6</span></a>
+      <a href="#insurance" class="faq-nav-link"><span class="nav-icon"><i class="fa-solid fa-shield-alt"></i></span> Travel Insurance <span class="faq-nav-count">5</span></a>
+      <a href="#privacy" class="faq-nav-link"><span class="nav-icon"><i class="fa-solid fa-lock"></i></span> Privacy Policy <span class="faq-nav-count">8</span></a>
+    </nav>
+    <div class="faq-cta-card" style="margin-top:20px;">
+      <h4>Still have questions?</h4>
+      <p>Our team is online Mon–Fri 8 AM–6 PM EAT and usually replies within 2 hours.</p>
+      <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center;">Contact Us →</a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="faq-main">
+    <div class="last-updated">
+      <i class="fa-regular fa-calendar"></i> Last updated: January 2026
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <div class="policy-section" id="faq">
+      <div class="policy-section-header">
+        <div class="policy-icon"><i class="fa-solid fa-circle-question" style="color: #eee;"></i></div>
+        <div>
+          <h2>Frequently Asked Questions</h2>
+          <p>18 answers to our most common questions</p>
+        </div>
+      </div>
+
+      <!-- Booking & Planning -->
+      <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Booking & Planning</p>
+      <div class="faq-list">
+        <div class="faq-item open">
+          <button class="faq-question">How far in advance should I book?<span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>For peak season (July–October, Great Migration), book <strong>6–9 months ahead</strong> — premium tented camps sell out fast. For the shoulder seasons (November–February), 3–4 months is usually enough. For custom or group trips, contact us as early as possible. We recommend confirming gorilla trekking permits at least 4 months before travel.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How do I make a booking?<span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>You can book directly through our website, by email at hello@osimlaiadventures.com, or by phone/WhatsApp (+255 700 123 456). We'll send you a detailed itinerary and price breakdown before asking for any payment. A 20% deposit secures your booking.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Can I customise a safari?<span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>Absolutely. Every one of our listed packages can be adjusted — different lodges, extended nights, extra activities, combined destinations, or completely custom itineraries built from scratch. Tell us your ideal trip and we'll design it. There's no charge for the planning consultation.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What's the best time to visit East Africa?<span class="faq-icon">+</span></button>
+          <div class="faq-answer">
+            <p>East Africa has two main dry seasons which are typically best for wildlife viewing:</p>
+            <ul>
+              <li><strong>June–October:</strong> Long dry season, best for Maasai Mara / Great Migration (July–October) and Serengeti</li>
+              <li><strong>January–March:</strong> Short dry season, excellent for calving season in the Serengeti and quieter parks</li>
+              <li>Gorilla trekking in Uganda and Rwanda is possible year-round; the dry seasons (June–September, December–February) offer easier forest hiking</li>
+            </ul>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Do you cater for solo travellers?<span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>Yes — about 30% of our bookings are solo travellers. We offer dedicated solo-friendly group departures where you join a small group (max 12). Single supplements apply for private accommodation on solo bookings, but we'll always tell you the total cost upfront. Solo travellers consistently rate their Osimlai experience among our highest reviewers.</p></div>
+        </div>
+      </div>
+
+      <!-- Safari & Wildlife -->
+      <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin:32px 0 4px;">Safari & Wildlife</p>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">What's included in the safari price?<span class="faq-icon">+</span></button>
+          <div class="faq-answer">
+            <p>All Osimlai Adventures safari prices include:</p>
+            <ul>
+              <li>Accommodation (as specified in itinerary)</li>
+              <li>All game drives with certified guide</li>
+              <li>National park and conservation fees</li>
+              <li>Meals as described (B = breakfast, L = lunch, D = dinner)</li>
+              <li>Airport transfers at start and end of tour</li>
+              <li>24/7 emergency support line</li>
+            </ul>
+            <p>Not included: international flights, visa fees, travel insurance, tips, personal spending, and activities marked as optional.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Is it safe to safari in East Africa?<span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>East Africa welcomes over 3 million visitors annually with an excellent safety record. Tanzania, Kenya, Uganda, and Rwanda are all stable, welcoming countries with robust tourism infrastructure. All Osimlai guides are wilderness first-aid certified. We monitor travel advisories daily and provide pre-departure briefings that cover health, safety, and local customs.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What vaccines or health precautions do I need?<span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>Recommended vaccinations typically include: Hepatitis A & B, Typhoid, Yellow Fever (required for some countries), and a Tetanus booster. Anti-malaria prophylaxis is strongly advised for most East African destinations. Always consult your doctor or a travel health clinic 6–8 weeks before departure. We provide a detailed health checklist on booking.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How big are the safari groups?<span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>We cap our group departures at 12 guests to preserve the quality of the experience and minimise environmental impact. Gorilla trekking is limited to groups of 8, in line with permit regulations. Private safaris are available with no minimum group size — ideal for families, couples, or those who prefer a fully customised pace.</p></div>
+        </div>
+      </div>
+
+      <!-- Volunteering -->
+      <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin:32px 0 4px;">Volunteering</p>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">Do I need experience to volunteer?<span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>Most programs require no prior experience — enthusiasm and commitment are the main requirements. Medical and veterinary programs require relevant qualifications. Teaching programs welcome anyone with subject knowledge, even without formal teaching experience. Each program page lists prerequisites clearly.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What does the volunteer fee cover?<span class="faq-icon">+</span></button>
+          <div class="faq-answer">
+            <p>The volunteer program fee covers: airport pickup, accommodation in a volunteer house or homestay, meals (typically full board), orientation and safety training, project placement and supervision, and 24/7 in-country support. It does not cover international flights, visas, travel insurance, or personal spending.</p>
+            <p>At least 40% of every volunteer fee is reinvested directly into the host project or community.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What's the minimum volunteer duration?<span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>Minimum placements are typically 2 weeks. We find that volunteers need at least this time to settle in, learn the context, and contribute meaningfully. For conservation programs involving data collection or anti-poaching patrol, we recommend a minimum of 4 weeks. The maximum is open-ended — some volunteers stay for 6+ months.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Will I receive a certificate of participation?<span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>Yes. All volunteers receive an Osimlai participation certificate on completion, signed by the program director and noting the project, duration, and responsibilities. We can also provide a formal reference letter for academic or professional applications on request.</p></div>
+        </div>
+      </div>
+
+      <!-- Payments -->
+      <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin:32px 0 4px;">Payments</p>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">What payment methods do you accept?<span class="faq-icon">+</span></button>
+          <div class="faq-answer">
+            <p>We accept:</p>
+            <ul>
+              <li>Bank transfer (USD, GBP, EUR)</li>
+              <li>PayPal (personal and business accounts)</li>
+              <li>M-Pesa (for local bookings in Tanzania and Kenya)</li>
+              <li>Credit/debit card via our secure payment portal (Visa, Mastercard)</li>
+              <li>Wise / Revolut transfers</li>
+            </ul>
+            <p>We never store card details. All online payments use 256-bit SSL encryption.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Do I need to pay the full amount upfront?<span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>No. We require a 20% deposit to confirm your booking. The remaining 80% is due 60 days before your departure date. For last-minute bookings (within 60 days of travel), full payment is required at the time of booking. We'll send you clear payment reminders in advance.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== BOOKING POLICY ===== -->
+    <div class="policy-section" id="booking">
+      <div class="policy-section-header">
+        <div class="policy-icon"><i class="fa-solid fa-file-contract" style="color: #eee;"></i></div>
+        <div>
+          <h2>Booking Policy</h2>
+          <p>How bookings are made, confirmed, and managed</p>
+        </div>
+      </div>
+
+      <div class="policy-prose">
+        <div class="highlight-box">By making a booking with Osimlai Adventures Ltd, you agree to the following terms. Please read them carefully before confirming your reservation.</div>
+
+        <h3>1. Making a Booking</h3>
+        <p>Bookings can be made via our website, email, phone, or WhatsApp. A booking is only confirmed once you have received a written Booking Confirmation from Osimlai Adventures and the required deposit has been received. Verbal or informal confirmations do not constitute a binding reservation.</p>
+
+        <h3>2. Deposit & Payment</h3>
+        <ul>
+          <li>A deposit of 20% of the total booking cost is required to secure your place</li>
+          <li>The remaining balance is due 60 days before the departure date</li>
+          <li>For bookings made within 60 days of departure, full payment is required immediately</li>
+          <li>Gorilla trekking permits must be paid in full at time of booking due to permit non-refund rules</li>
+          <li>Osimlai Adventures reserves the right to release unconfirmed bookings if the deposit is not received within 5 business days of the initial reservation</li>
+        </ul>
+
+        <h3>3. Pricing</h3>
+        <p>All prices are quoted in US Dollars (USD) unless otherwise stated. Prices are correct at the time of publication but may be subject to change due to currency fluctuations, government tax changes, or supplier price increases. Any price change will be communicated to you before final payment is due.</p>
+        <div class="warning-box">⚠️ Quoted prices do not include international flights, visa fees, travel insurance, or items marked as optional in the itinerary.</div>
+
+        <h3>4. Itinerary Changes</h3>
+        <p>Osimlai Adventures reserves the right to make minor itinerary changes due to weather conditions, park closures, road conditions, or other circumstances beyond our control. We will always seek to provide an alternative of equal or greater value. Major itinerary changes will be communicated in advance wherever possible.</p>
+
+        <h3>5. Group Bookings</h3>
+        <p>Groups of 10 or more travellers are eligible for group discounts. A group leader must be designated to liaise with our team. Osimlai Adventures can provide one complimentary place for every 15 paying guests on standard group departures.</p>
+
+        <h3>6. Age Requirements</h3>
+        <ul>
+          <li>Standard safari tours: minimum age 6 years</li>
+          <li>Gorilla trekking permits: minimum age 15 years (Rwanda / Uganda regulations)</li>
+          <li>Volunteer programs: minimum age 18 years (or 16–17 with parental consent and guardian accompaniment)</li>
+          <li>Travellers under 18 must be accompanied by a parent or legal guardian</li>
+        </ul>
+
+        <h3>7. Travel Documents</h3>
+        <p>It is the traveller's sole responsibility to obtain a valid passport with at least 6 months' validity beyond the travel dates, and all required visas. Osimlai Adventures can provide visa guidance and invitation letters where needed, but accepts no liability for denied entry due to invalid travel documents.</p>
+      </div>
+    </div>
+
+    <!-- ===== CANCELLATION POLICY ===== -->
+    <div class="policy-section" id="cancellation">
+      <div class="policy-section-header">
+        <div class="policy-icon"><i class="fa-solid fa-arrow-rotate-left" style="color: #eee;"></i></div>
+        <div>
+          <h2>Cancellation Policy</h2>
+          <p>Cancellations, amendments, and refund terms</p>
+        </div>
+      </div>
+
+      <div class="policy-prose">
+        <div class="highlight-box">We understand that life is unpredictable. This policy is designed to be as fair as possible while protecting the costs we incur on your behalf from the moment your booking is confirmed.</div>
+
+        <h3>Cancellation by You</h3>
+        <p>All cancellations must be submitted in writing to hello@osimlaiadventures.com. The following charges apply based on how far in advance we receive your cancellation notice:</p>
+
+        <table class="cancel-table">
+          <thead>
+            <tr>
+              <th>Notice Before Departure</th>
+              <th>Cancellation Fee</th>
+              <th>Amount Refunded</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>More than 60 days</td>
+              <td class="green">Deposit only (20%)</td>
+              <td class="green">80% of total cost</td>
+            </tr>
+            <tr>
+              <td>45–60 days</td>
+              <td class="amber">35% of total cost</td>
+              <td class="amber">65% of total cost</td>
+            </tr>
+            <tr>
+              <td>30–44 days</td>
+              <td class="amber">50% of total cost</td>
+              <td class="amber">50% of total cost</td>
+            </tr>
+            <tr>
+              <td>15–29 days</td>
+              <td class="red">75% of total cost</td>
+              <td class="red">25% of total cost</td>
+            </tr>
+            <tr>
+              <td>Less than 14 days</td>
+              <td class="red">100% — no refund</td>
+              <td class="red">Nil</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning-box">⚠️ Gorilla trekking permits are non-refundable at any stage. This is a strict park authority rule beyond Osimlai Adventures' control. We strongly advise purchasing travel insurance that covers trip cancellation.</div>
+
+        <h3>Amendments</h3>
+        <p>Date changes or significant itinerary amendments are subject to a $75 administration fee, plus any additional costs incurred from suppliers. We'll always try to accommodate changes where possible. Amendments requested within 30 days of departure may not be possible and will be treated as a cancellation and re-booking.</p>
+
+        <h3>Cancellation by Osimlai Adventures</h3>
+        <p>In the rare event that Osimlai Adventures must cancel your trip (due to minimum group numbers not being met, force majeure, or operator failure), we will:</p>
+        <ul>
+          <li>Provide full written notice as early as possible</li>
+          <li>Offer an alternative safari of equivalent value at no additional cost</li>
+          <li>Or provide a full refund of all monies paid within 14 business days</li>
+        </ul>
+        <p>Osimlai Adventures is not liable for additional costs you may incur (flights, accommodation, etc.) due to a cancellation beyond our control.</p>
+
+        <h3>Force Majeure</h3>
+        <p>Osimlai Adventures shall not be liable for cancellations caused by circumstances beyond our reasonable control, including but not limited to: natural disasters, pandemics, government travel bans, civil unrest, or acts of terrorism. In such cases, we will make every effort to reschedule or provide a credit toward a future trip.</p>
+
+        <h3>How to Claim a Refund</h3>
+        <ul>
+          <li>Submit cancellation in writing to hello@osimlaiadventures.com</li>
+          <li>Include your booking reference number and reason for cancellation</li>
+          <li>Refunds are processed within 14 business days of confirmation</li>
+          <li>Refunds are issued to the original payment method only</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== TRAVEL INSURANCE ===== -->
+    <div class="policy-section" id="insurance">
+      <div class="policy-section-header">
+        <div class="policy-icon"><i class="fa-solid fa-shield-alt" style="color: #eee;"></i></div>
+        <div>
+          <h2>Travel Insurance</h2>
+          <p>Why it matters and what to look for</p>
+        </div>
+      </div>
+
+      <div class="policy-prose">
+        <div class="highlight-box">🛡️ Travel insurance is <strong>strongly recommended</strong> for all Osimlai Adventures bookings. For gorilla trekking and volunteer programs, it is mandatory.</div>
+
+        <h3>Why You Need It</h3>
+        <p>Africa is an extraordinary destination, but it is remote. A medical emergency in a national park, a flight cancellation, or a last-minute illness at home can all have serious financial consequences if you're uninsured. Travel insurance is one of the best investments you'll make for your trip.</p>
+
+        <h3>What Your Policy Should Cover</h3>
+        <ul>
+          <li><strong>Medical expenses and emergency evacuation</strong> — minimum $500,000 USD recommended. Medical evacuation by air in East Africa can cost $30,000–$80,000</li>
+          <li><strong>Trip cancellation and interruption</strong> — covers the full cost of your tour if you must cancel or cut short due to illness, bereavement, or other covered reasons</li>
+          <li><strong>Baggage and personal belongings</strong> — including camera equipment (declare high-value items separately)</li>
+          <li><strong>Personal liability</strong> — covers accidental damage or injury to others</li>
+          <li><strong>24-hour emergency assistance</strong> — a helpline that can coordinate evacuations and hospital admissions</li>
+        </ul>
+
+        <h3>Recommended Providers</h3>
+        <p>We do not receive commission from any insurer. These are providers our travellers have used with good results:</p>
+        <ul>
+          <li>World Nomads (widely used by adventure travellers)</li>
+          <li>Battleface (good for high-risk activities)</li>
+          <li>True Traveller (strong European option)</li>
+          <li>SafetyWing (flexible, monthly subscription option)</li>
+        </ul>
+        <p>Always read the policy small print. Ensure adventure activities like gorilla trekking, hot air ballooning, and bush walking are explicitly covered.</p>
+
+        <h3>Proof of Insurance</h3>
+        <p>For gorilla trekking, volunteer programs, and all travel that includes high-risk activities, Osimlai Adventures reserves the right to request proof of valid travel insurance before departure. We may not be able to facilitate your participation without it.</p>
+
+        <h3>Pre-Existing Medical Conditions</h3>
+        <p>Disclose all pre-existing medical conditions to your insurer and to Osimlai Adventures at the time of booking. Some destinations or activities may require medical clearance. We are here to help you plan safely — not to catch you out. Honesty protects you.</p>
+      </div>
+    </div>
+
+    <!-- ===== PRIVACY POLICY ===== -->
+    <div class="policy-section" id="privacy">
+      <div class="policy-section-header">
+        <div class="policy-icon"><i class="fa-solid fa-lock" style="color: #eee;"></i></div>
+        <div>
+          <h2>Privacy Policy</h2>
+          <p>How we collect, use, and protect your personal data</p>
+        </div>
+      </div>
+
+      <div class="policy-prose">
+        <p>Osimlai Adventures Ltd ("we", "us", "our") is committed to protecting the privacy of all individuals who interact with our website and services. This policy explains what data we collect, why we collect it, and how it is used.</p>
+
+        <h3>1. Data We Collect</h3>
+        <ul>
+          <li><strong>Contact information</strong> — name, email address, phone number, nationality</li>
+          <li><strong>Booking information</strong> — travel dates, group size, dietary or medical requirements</li>
+          <li><strong>Payment information</strong> — processed securely via third-party payment providers. We do not store card numbers</li>
+          <li><strong>Website usage data</strong> — pages visited, time spent, referring source (via cookies, see below)</li>
+          <li><strong>Communications</strong> — emails, WhatsApp messages, and enquiry form submissions</li>
+        </ul>
+
+        <h3>2. How We Use Your Data</h3>
+        <ul>
+          <li>To process and manage your booking or volunteer application</li>
+          <li>To communicate safari details, updates, and safety information</li>
+          <li>To personalise your experience and respond to enquiries</li>
+          <li>To send our newsletter (only with your explicit consent)</li>
+          <li>To comply with legal obligations (e.g. tax records, insurance requirements)</li>
+          <li>To improve our website and services through anonymised analytics</li>
+        </ul>
+
+        <h3>3. Data Sharing</h3>
+        <p>We do not sell or rent your personal data to third parties. We may share data with:</p>
+        <ul>
+          <li>Accommodation partners and local operators — only the minimum required to fulfil your booking</li>
+          <li>Payment processors (e.g. PayPal, Stripe) — governed by their own privacy policies</li>
+          <li>Government authorities — only where required by law (e.g. immigration)</li>
+          <li>Emergency services — in the event of a safety incident</li>
+        </ul>
+
+        <h3>4. Data Retention</h3>
+        <p>We retain personal data for 7 years after your last interaction with us, in accordance with Tanzanian tax and business regulations. You may request deletion of your data at any time, subject to our legal retention obligations.</p>
+
+        <h3>5. Cookies</h3>
+        <p>Our website uses essential cookies (required for core functionality) and analytics cookies (Google Analytics, anonymised). You can opt out of analytics cookies via your browser settings or our cookie banner. We do not use advertising cookies or share data with advertising networks.</p>
+
+        <h3>6. Your Rights</h3>
+        <p>You have the right to: access the personal data we hold about you; request correction of inaccurate data; request deletion of your data; withdraw consent for marketing communications at any time; and lodge a complaint with the relevant data protection authority.</p>
+
+        <h3>7. Data Security</h3>
+        <p>We implement industry-standard security measures including SSL encryption, access controls, and regular security reviews. No online data transmission is 100% secure; we take all reasonable precautions to protect your information.</p>
+
+        <h3>8. Contact for Data Enquiries</h3>
+        <p>To exercise any of your rights or ask questions about this policy, contact our Data Officer at: <strong>privacy@osimlaiadventures.com</strong> or write to Osimlai Adventures Ltd, Njiro Road, Arusha, Tanzania.</p>
+
+        <div class="highlight-box">This privacy policy was last reviewed in January 2026. We will notify registered users of any material changes by email.</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--gold-light)">Ready to Book?</span>
+    <h2>You're Fully Informed. Let's Go.</h2>
+    <p>Now that you know exactly how we work, take the next step and start planning the African adventure you deserve.</p>
+    <div class="cta-actions">
+      <a href="tours.html" class="btn btn-primary btn-lg">Browse Safaris</a>
+      <a href="contact.html" class="btn btn-outline btn-lg">Ask a Question</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="color:var(--white)">
+        <div class="logo-icon">🌍</div>
+        Osimlai <span>Adventures</span>
+      </a>
+      <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014.</p>
+      <div class="footer-social">
+        <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-btn" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" class="social-btn" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" class="social-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Quick Links</h4><ul>
+      <li><a href="tours.html">Safari Tours</a></li>
+      <li><a href="volunteer.html">Volunteer Programs</a></li>
+      <li><a href="community.html">Community Impact</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="blog.html">Travel Blog</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Destinations</h4><ul>
+      <li><a href="tours.html">Tanzania</a></li>
+      <li><a href="tours.html">Kenya</a></li>
+      <li><a href="tours.html">Uganda</a></li>
+      <li><a href="tours.html">Rwanda</a></li>
+      <li><a href="tours.html">Ethiopia</a></li>
+      <li><a href="tours.html">Botswana</a></li>
+      <li><a href="tours.html">Namibia</a></li>
+      <li><a href="tours.html">South Africa</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Policies</h4><ul>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="faq.html#booking">Booking Policy</a></li>
+      <li><a href="faq.html#cancellation">Cancellation Policy</a></li>
+      <li><a href="faq.html#insurance">Travel Insurance</a></li>
+      <li><a href="faq.html#privacy">Privacy Policy</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Osimlai Adventures. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
+  </div>
+</footer>
+
+<div id="toast" class="toast"></div>
+<script src="js/main.js"></script>
+<script>
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 20));
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('open'));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      // close siblings in the same list
+      btn.closest('.faq-list').querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-answer').style.maxHeight = '0';
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        item.querySelector('.faq-answer').style.maxHeight = item.querySelector('.faq-answer').scrollHeight + 'px';
+      }
+    });
+  });
+  // init first open
+  document.querySelectorAll('.faq-item.open .faq-answer').forEach(a => {
+    a.style.maxHeight = a.scrollHeight + 'px';
+  });
+
+  // Active sidebar link on scroll
+  const sections = document.querySelectorAll('.policy-section');
+  const navLinks = document.querySelectorAll('.faq-nav-link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 130) current = s.id;
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

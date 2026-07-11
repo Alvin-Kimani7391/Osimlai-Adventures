@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Blog | Osimlai Adventures</title>
+  <meta name="description" content="Stories, guides, and inspiration from the African wilderness. Expert advice on safaris, conservation volunteering, and responsible travel across East Africa with Osimlai Adventures." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    /* ---- FEATURED POST ---- */
+    .featured-post {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 0;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(0,0,0,0.06);
+      margin-bottom: 60px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .featured-post:hover { box-shadow: 0 20px 64px rgba(0,0,0,0.16); transform: translateY(-4px); }
+    .featured-post-img {
+      position: relative;
+      overflow: hidden;
+      min-height: 420px;
+    }
+    .featured-post-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .featured-post:hover .featured-post-img img { transform: scale(1.04); }
+    .featured-label {
+      position: absolute;
+      top: 20px; left: 20px;
+      background: var(--gold);
+      color: var(--forest);
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 100px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .featured-post-body {
+      padding: 48px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .featured-post-body .blog-category { margin-bottom: 12px; }
+    .featured-post-body h2 { color: var(--forest); font-size: clamp(1.5rem, 2.5vw, 2rem); margin-bottom: 16px; line-height: 1.3; font-family: 'Playfair Display', serif; }
+    .featured-post-body > p { color: var(--text-muted); font-size: 1rem; line-height: 1.75; margin-bottom: 28px; }
+    .featured-post-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-top: 20px;
+      border-top: 1px solid #f0f0f0;
+    }
+    .featured-post-meta .blog-author-img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+    .featured-author-name { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+    .featured-author-role { font-size: 0.78rem; color: var(--text-muted); }
+    .featured-post-stats {
+      margin-left: auto;
+      display: flex;
+      gap: 16px;
+    }
+    .featured-stat { font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+
+    /* ---- SIDEBAR ---- */
+    .blog-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 48px;
+      align-items: start;
+    }
+    .sidebar-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .sidebar-card h4 { color: var(--forest); font-size: 1rem; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid var(--sand-dark); font-family: 'Playfair Display', serif; }
+    .sidebar-category-list { display: flex; flex-direction: column; gap: 4px; }
+    .sidebar-cat {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .sidebar-cat:hover, .sidebar-cat.active { background: var(--forest); color: var(--white); }
+    .sidebar-cat-count {
+      font-size: 0.75rem;
+      background: var(--sand);
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: 100px;
+    }
+    .sidebar-cat:hover .sidebar-cat-count,
+    .sidebar-cat.active .sidebar-cat-count { background: rgba(255,255,255,0.2); color: var(--white); }
+
+    .popular-post {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f5f5f5;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .popular-post:last-child { border-bottom: none; padding-bottom: 0; }
+    .popular-post:hover h5 { color: var(--forest-light); }
+    .popular-post-img {
+      width: 64px; height: 64px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .popular-post-img img { width: 100%; height: 100%; object-fit: cover; }
+    .popular-post h5 { font-size: 0.85rem; color: var(--text); line-height: 1.4; margin-bottom: 4px; transition: var(--transition); }
+    .popular-post span { font-size: 0.75rem; color: var(--text-muted); }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-size: 0.78rem;
+      padding: 6px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 100px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .tag:hover { border-color: var(--forest); color: var(--forest); background: rgba(26,60,46,0.04); }
+
+    /* ---- LOAD MORE ---- */
+    .load-more-wrap { text-align: center; margin-top: 40px; }
+
+    @media (max-width: 1024px) {
+      .blog-layout { grid-template-columns: 1fr; }
+      .featured-post { grid-template-columns: 1fr; }
+      .featured-post-img { min-height: 280px; }
+      .featured-post-body { padding: 32px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">🌍</div>
+    Osimlai <span>Adventures</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">Home</a></li>
+    <li><a href="tours.html" class="nav-link">Safaris</a></li>
+    <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+    <li><a href="community.html" class="nav-link">Community</a></li>
+    <li><a href="about.html" class="nav-link">About</a></li>
+    <li><a href="blog.html" class="nav-link active">Blog</a></li>
+    <li><a href="contact.html" class="nav-link">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="nav-cta">Sign In</a>
+    <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
+  <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
+  <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+  <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
+  <div class="mobile-actions">
+    <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+    <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
+  </div>
+</div>
+
+<!-- ===== PAGE HERO ===== -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span>Blog</span>
+    </div>
+    <h1>Stories from the Wild</h1>
+    <p>Field notes, travel guides, conservation updates, and honest advice from the people who live and breathe Africa every day with Osimlai Adventures.</p>
+  </div>
+</div>
+
+<!-- ===== BLOG CONTENT ===== -->
+<section>
+  <div class="container">
+
+    <!-- Featured Post -->
+    <div class="featured-post" onclick="location.href='#'">
+      <div class="featured-post-img">
+        <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=900&auto=format&fit=crop" alt="Great Migration" />
+        <span class="featured-label"><i class="fa-solid fa-star"></i> Editor's Pick</span>
+      </div>
+      <div class="featured-post-body">
+        <span class="blog-category">Safari Guide</span>
+        <h2>The Great Migration: Everything You Need to Know Before You Go</h2>
+        <p>Over 1.5 million wildebeest, 200,000 zebra, and 500,000 gazelle move in a vast circle across the Serengeti-Mara ecosystem. Here's the definitive guide to witnessing one of nature's most extraordinary events — and the mistakes that will ruin it.</p>
+        <div class="featured-post-meta">
+          <img class="blog-author-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&face" alt="Joseph Ole Simel" />
+          <div>
+            <div class="featured-author-name">Joseph Ole Simel</div>
+            <div class="featured-author-role">Founder & Head Guide · 14 min read</div>
+          </div>
+          <div class="featured-post-stats">
+            <span class="featured-stat"><i class="fa-regular fa-calendar"></i> May 2026</span>
+            <span class="featured-stat"><i class="fa-regular fa-eye"></i> 12.4K</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <span class="filter-label">Filter:</span>
+      <div class="filter-chips">
+        <div class="chip active">All Posts</div>
+        <div class="chip">Safari Guides</div>
+        <div class="chip">Conservation</div>
+        <div class="chip">Volunteer Stories</div>
+        <div class="chip">Travel Tips</div>
+        <div class="chip">Wildlife</div>
+      </div>
+      <select class="filter-select" style="margin-left:auto;">
+        <option>Latest First</option>
+        <option>Most Popular</option>
+        <option>Oldest First</option>
+      </select>
+    </div>
+
+    <!-- Two-column Layout -->
+    <div class="blog-layout">
+      <!-- Main Posts -->
+      <div>
+        <div class="blog-grid">
+
+          <div class="blog-card" onclick="location.href='#'">
+            <div class="blog-card-img">
+              <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&auto=format&fit=crop" alt="Gorilla Trekking" loading="lazy" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-category">Wildlife</span>
+              <h3>What It's Really Like to Trek with Mountain Gorillas in Bwindi</h3>
+              <p>Nothing prepares you for locking eyes with a 200kg silverback from two metres away. Our guide shares what to expect, how to prepare, and why it will change you.</p>
+              <div class="blog-meta">
+                <div class="blog-author">
+                  <img class="blog-author-img" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=52&auto=format&fit=crop&face" alt="Sarah Nkya" />
+                  <span>Sarah Nkya · 9 min</span>
+                </div>
+                <span>Apr 2026</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-card" onclick="location.href='#'">
+            <div class="blog-card-img">
+              <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&auto=format&fit=crop" alt="Conservation" loading="lazy" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-category">Conservation</span>
+              <h3>The Anti-Poaching Technology Saving Tanzania's Black Rhinos</h3>
+              <p>From satellite collars to AI-powered camera traps, we go inside the high-tech effort to protect one of Tanzania's most endangered animals — and meet the rangers leading the charge.</p>
+              <div class="blog-meta">
+                <div class="blog-author">
+                  <img class="blog-author-img" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=52&auto=format&fit=crop&face" alt="Grace Mushi" />
+                  <span>Grace Mushi · 11 min</span>
+                </div>
+                <span>Apr 2026</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-card" onclick="location.href='#'">
+            <div class="blog-card-img">
+              <img src="https://images.unsplash.com/photo-1508002366005-75a695ee2d17?w=600&auto=format&fit=crop" alt="Volunteer" loading="lazy" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-category">Volunteer Stories</span>
+              <h3>"I Came for 4 Weeks and Stayed for 6 Months" — Sophie's Story</h3>
+              <p>A graphic designer from Amsterdam arrived to teach basic literacy in Arusha. She ended up helping build a school, launching a community library, and learning Swahili.</p>
+              <div class="blog-meta">
+                <div class="blog-author">
+                  <img class="blog-author-img" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=52&auto=format&fit=crop&face" alt="Editorial" />
+                  <span>Osimlai Editorial · 7 min</span>
+                </div>
+                <span><i class="fa-regular fa-calendar"></i> Mar 2026</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-card" onclick="location.href='#'">
+            <div class="blog-card-img">
+              <img src="https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=600&auto=format&fit=crop" alt="Serengeti" loading="lazy" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-category">Safari Guide</span>
+              <h3>Serengeti vs. Maasai Mara: Which Safari Should You Book?</h3>
+              <p>Same ecosystem, split by a border. But the experience can differ dramatically. We compare both options honestly — costs, wildlife density, crowd levels, and the right season for each.</p>
+              <div class="blog-meta">
+                <div class="blog-author">
+                  <img class="blog-author-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=52&auto=format&fit=crop&face" alt="Joseph Ole Simel" />
+                  <span>Joseph Ole Simel · 13 min</span>
+                </div>
+                <span>Mar 2026</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-card" onclick="location.href='#'">
+            <div class="blog-card-img">
+              <img src="https://images.unsplash.com/photo-1581123578069-5b61e9a1c90c?w=600&auto=format&fit=crop" alt="Savanna" loading="lazy" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-category">Travel Tips</span>
+              <h3>First Safari? 12 Things Your Agent Won't Tell You (But We Will)</h3>
+              <p>The things that genuinely surprise first-timers — from how cold African nights can be to why binoculars matter more than a telephoto lens. Honest advice from a decade on the ground.</p>
+              <div class="blog-meta">
+                <div class="blog-author">
+                  <img class="blog-author-img" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=52&auto=format&fit=crop&face" alt="Sarah Nkya" />
+                  <span>Sarah Nkya · 8 min</span>
+                </div>
+                <span>Feb 2026</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-card" onclick="location.href='#'">
+            <div class="blog-card-img">
+              <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=600&auto=format&fit=crop" alt="Community Health" loading="lazy" />
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-category">Conservation</span>
+              <h3>How Local Communities Are Becoming Africa's Best Wildlife Protectors</h3>
+              <p>When the people who live alongside wildlife benefit from its survival, poaching drops. We visit three communities who have transformed from adversaries of conservation into its frontline defenders.</p>
+              <div class="blog-meta">
+                <div class="blog-author">
+                  <img class="blog-author-img" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=52&auto=format&fit=crop&face" alt="Grace Mushi" />
+                  <span>Grace Mushi · 10 min</span>
+                </div>
+                <span>Jan 2026</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="load-more-wrap">
+          <button class="btn btn-outline-dark btn-lg">Load More Articles →</button>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside>
+        <!-- Newsletter -->
+        <div class="sidebar-card" style="background: var(--forest); border-color: transparent;">
+          <h4 style="color: var(--gold-light); border-color: rgba(255,255,255,0.15);"><i class="fa-solid fa-envelope-open-text"></i> Field Notes Newsletter</h4>
+          <p style="font-size:0.86rem;color:rgba(255,255,255,0.7);margin-bottom:16px;line-height:1.6;">Weekly dispatches from the African wilderness. No spam, unsubscribe any time.</p>
+          <input type="email" placeholder="Your email address" style="width:100%;padding:11px 14px;border-radius:var(--radius);border:none;font-size:0.88rem;margin-bottom:10px;outline:none;" />
+          <button class="btn btn-primary" style="width:100%;justify-content:center;">Subscribe Free</button>
+        </div>
+
+        <!-- Categories -->
+        <div class="sidebar-card">
+          <h4>Browse by Topic</h4>
+          <div class="sidebar-category-list">
+            <div class="sidebar-cat active"><i class="fa-solid fa-map-location-dot"></i> Safari Guides<span class="sidebar-cat-count">24</span></div>
+            <div class="sidebar-cat"><i class="fa-solid fa-paw"></i> Wildlife<span class="sidebar-cat-count">18</span></div>
+            <div class="sidebar-cat"><i class="fa-solid fa-leaf"></i> Conservation <span class="sidebar-cat-count">15</span></div>
+            <div class="sidebar-cat"><i class="fa-solid fa-hand-holding-heart"></i> Volunteer Stories <span class="sidebar-cat-count">12</span></div>
+            <div class="sidebar-cat"><i class="fa-solid fa-plane"></i> Travel Tips <span class="sidebar-cat-count">21</span></div>
+            <div class="sidebar-cat"><i class="fa-solid fa-house"></i> Culture & People <span class="sidebar-cat-count">9</span></div>
+          </div>
+        </div>
+
+        <!-- Popular Posts -->
+        <div class="sidebar-card">
+          <h4>Most Read This Month</h4>
+          <div class="popular-post">
+            <div class="popular-post-img">
+              <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=128&auto=format&fit=crop" alt="" />
+            </div>
+            <div>
+              <h5>The Great Migration: Everything You Need to Know</h5>
+              <span>12.4K views · Safari Guide</span>
+            </div>
+          </div>
+          <div class="popular-post">
+            <div class="popular-post-img">
+              <img src="https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=128&auto=format&fit=crop" alt="" />
+            </div>
+            <div>
+              <h5>Serengeti vs. Maasai Mara: Which to Book?</h5>
+              <span>8.9K views · Safari Guide</span>
+            </div>
+          </div>
+          <div class="popular-post">
+            <div class="popular-post-img">
+              <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=128&auto=format&fit=crop" alt="" />
+            </div>
+            <div>
+              <h5>Gorilla Trekking in Bwindi: The Real Experience</h5>
+              <span>7.1K views · Wildlife</span>
+            </div>
+          </div>
+          <div class="popular-post">
+            <div class="popular-post-img">
+              <img src="https://images.unsplash.com/photo-1581123578069-5b61e9a1c90c?w=128&auto=format&fit=crop" alt="" />
+            </div>
+            <div>
+              <h5>12 Things Your Agent Won't Tell You</h5>
+              <span>5.8K views · Travel Tips</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="sidebar-card">
+          <h4>Popular Tags</h4>
+          <div class="tag-cloud">
+            <span class="tag"><i class="fa-solid fa-map-marker"></i> Tanzania</span>
+            <span class="tag"><i class="fa-solid fa-map-marker"></i> Kenya</span>
+            <span class="tag"><i class="fa-solid fa-lion"></i> Big Five</span>
+            <span class="tag"><i class="fa-solid fa-map"></i> Safari</span>
+            <span class="tag"><i class="fa-solid fa-gorilla"></i> Gorillas</span>
+            <span class="tag"><i class="fa-solid fa-hand-holding-heart"></i> Volunteering</span>
+            <span class="tag"><i class="fa-solid fa-leaf"></i> Conservation</span>
+            <span class="tag"><i class="fa-solid fa-road"></i> Migration</span>
+            <span class="tag"><i class="fa-solid fa-mountain"></i> Kilimanjaro</span>
+            <span class="tag"><i class="fa-solid fa-leaf"></i> Eco-Travel</span>
+            <span class="tag"><i class="fa-solid fa-map-marker"></i> Uganda</span>
+            <span class="tag"><i class="fa-solid fa-dollar-sign"></i> Budget Safari</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--gold-light)"><i class="fa-solid fa-flag-checkered"></i> Ready to Go?</span>
+    <h2>Turn Inspiration Into an Adventure</h2>
+    <p>You've read the stories. Now it's time to live one. Browse our safari packages and volunteer programs.</p>
+    <div class="cta-actions">
+      <a href="tours.html" class="btn btn-primary btn-lg">Browse Safaris</a>
+      <a href="volunteer.html" class="btn btn-outline btn-lg">Volunteer Programs</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="color:var(--white)">
+        <div class="logo-icon">🌍</div>
+        Osimlai <span>Adventures</span>
+      </a>
+      <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014. Certified eco-tourism operator and conservation partner.</p>
+      <div class="footer-social">
+        <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-btn" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" class="social-btn" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" class="social-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Quick Links</h4><ul>
+      <li><a href="tours.html">Safari Tours</a></li>
+      <li><a href="volunteer.html">Volunteer Programs</a></li>
+      <li><a href="community.html">Community Impact</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="blog.html">Travel Blog</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Destinations</h4><ul>
+      <li><a href="tours.html">Tanzania</a></li>
+      <li><a href="tours.html">Kenya</a></li>
+      <li><a href="tours.html">Uganda</a></li>
+      <li><a href="tours.html">Rwanda</a></li>
+      <li><a href="tours.html">Ethiopia</a></li>
+      <li><a href="tours.html">Botswana</a></li>
+      <li><a href="tours.html">Namibia</a></li>
+      <li><a href="tours.html">South Africa</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Support</h4><ul>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="faq.html#booking">Booking Policy</a></li>
+      <li><a href="faq.html#cancellation">Cancellation Policy</a></li>
+      <li><a href="faq.html#insurance">Travel Insurance</a></li>
+      <li><a href="faq.html#terms">Terms & Conditions</a></li>
+      <li><a href="faq.html#privacy">Privacy Policy</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Osimlai Adventures. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
+  </div>
+</footer>
+
+<div id="toast" class="toast"></div>
+<script src="js/main.js"></script>
+<script>
+  const navbar = document.getElementById('navbar');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+  // Filter chips
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+  // Sidebar cats
+  document.querySelectorAll('.sidebar-cat').forEach(cat => {
+    cat.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-cat').forEach(c => c.classList.remove('active'));
+      cat.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

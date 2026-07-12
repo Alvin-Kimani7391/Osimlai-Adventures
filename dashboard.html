@@ -3,28 +3,129 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WildRoots Africa | Tours & Volunteer Programs</title>
-  <meta name="description" content="Experience authentic African adventures and meaningful volunteer programs. Safari tours, wildlife conservation, community development across East Africa." />
-  <meta property="og:title" content="WildRoots Africa | Tours & Volunteer Programs" />
-  <meta property="og:description" content="Experience authentic African adventures and meaningful volunteer programs." />
+  <title>International Volunteer Home Tz | Volunteer & Safari Programs</title>
+  <meta name="description" content="Volunteer in wildlife conservation, education, healthcare, environment and community development across East Africa — plus authentic safaris. Real placements, live availability." />
+  <meta property="og:title" content="International Volunteer Home Tz | Volunteer & Safari Programs" />
+  <meta property="og:description" content="Volunteer in wildlife conservation, education, healthcare, environment and community development across East Africa — plus authentic safaris." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    /* ── Hero photo swap: volunteering-led, inline so it wins over style.css ── */
+    .hero-img{
+      background-image:
+        linear-gradient(180deg, rgba(10,20,15,0.55) 0%, rgba(10,20,15,0.75) 100%),
+        url('https://images.unsplash.com/photo-1509233725247-49e657c54213?w=1600&auto=format&fit=crop');
+      background-size:cover;
+      background-position:center;
+    }
+    .hero-badge i{ color:#e8c565; }
+
+    /* ── Volunteer categories (homepage teaser) ── */
+    .cat-teaser-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:18px; }
+    .cat-teaser{
+      position:relative; border-radius:16px; overflow:hidden; text-decoration:none; display:block;
+      height:230px; box-shadow:0 4px 18px rgba(16,24,40,0.08);
+      transition:box-shadow .25s ease, transform .25s ease;
+    }
+    .cat-teaser:hover{ box-shadow:0 14px 36px rgba(16,24,40,0.18); transform:translateY(-3px); }
+    .cat-teaser img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+    .cat-teaser:hover img{ transform:scale(1.08); }
+    .cat-teaser::after{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,20,15,0.9) 0%, rgba(10,20,15,0.25) 60%, rgba(10,20,15,0.05) 100%); }
+    .cat-teaser-body{ position:relative; z-index:2; height:100%; display:flex; flex-direction:column; justify-content:flex-end; padding:18px; color:#fff; }
+    .cat-teaser-body i{ font-size:1.15rem; margin-bottom:8px; color:#e8c565; }
+    .cat-teaser-body h4{ font-size:0.98rem; font-weight:800; line-height:1.25; margin-bottom:4px; font-family:'Playfair Display',serif; }
+    .cat-teaser-body span{ font-size:0.75rem; color:rgba(255,255,255,0.8); font-weight:600; }
+
+    /* ── Featured volunteer programs (dynamic) ── */
+    .fv-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+    .fv-card{ background:var(--white,#fff); border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(26,60,46,0.07); border:1px solid rgba(0,0,0,0.05); transition:box-shadow .2s ease, transform .2s ease; display:flex; flex-direction:column; }
+    .fv-card:hover{ box-shadow:0 12px 40px rgba(26,60,46,0.14); transform:translateY(-3px); }
+    .fv-card-img{ position:relative; height:190px; overflow:hidden; }
+    .fv-card-img img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+    .fv-card:hover .fv-card-img img{ transform:scale(1.06); }
+    .fv-card-img .fv-badge{ position:absolute; top:12px; left:12px; background:var(--forest,#1a3c2e); color:#fff; font-size:0.68rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; padding:4px 10px; border-radius:6px; }
+    .fv-card-body{ padding:20px 22px 22px; display:flex; flex-direction:column; flex:1; }
+    .fv-tags{ display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
+    .fv-tag{ background:var(--sand,#f5f0e8); color:var(--forest,#1a3c2e); font-size:0.72rem; font-weight:700; padding:3px 10px; border-radius:100px; }
+    .fv-card-body h3{ font-size:1.08rem; font-weight:800; color:#101828; margin-bottom:8px; line-height:1.3; }
+    .fv-card-body p{ font-size:0.84rem; color:#667085; line-height:1.6; margin-bottom:16px; flex:1; }
+    .fv-meta{ display:flex; flex-wrap:wrap; gap:10px; font-size:0.78rem; color:#475467; margin-bottom:16px; }
+    .fv-meta span{ display:flex; align-items:center; gap:5px; }
+    .fv-meta i{ color:var(--forest,#1a3c2e); }
+    .fv-card-footer{ display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid #f0f0f0; margin-top:auto; }
+    .fv-price{ font-weight:900; color:var(--forest,#1a3c2e); font-size:1.05rem; }
+    .fv-price span{ font-size:0.7rem; font-weight:400; color:#667085; }
+    .fv-skeleton{ background:#fff; border-radius:16px; overflow:hidden; border:1px solid #eee; height:400px; }
+    .fv-skeleton .sk-img{ height:190px; background:linear-gradient(90deg,#e8e8e8 25%,#f5f5f5 50%,#e8e8e8 75%); background-size:200% 100%; animation:idxShimmer 1.4s infinite; }
+    .fv-skeleton .sk-body{ padding:20px 22px; display:flex; flex-direction:column; gap:10px; }
+    .fv-skeleton .sk-line{ height:12px; border-radius:6px; background:linear-gradient(90deg,#e8e8e8 25%,#f5f5f5 50%,#e8e8e8 75%); background-size:200% 100%; animation:idxShimmer 1.4s infinite; }
+    @keyframes idxShimmer{ 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    /* ── Dynamic gallery (fetched from API) ── */
+    .idx-gallery-grid{ column-count:4; column-gap:16px; }
+    .idx-gallery-item{ break-inside:avoid; margin-bottom:16px; position:relative; border-radius:14px; overflow:hidden; cursor:pointer; opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease; }
+    .idx-gallery-item.in-view{ opacity:1; transform:translateY(0); }
+    .idx-gallery-item img{ width:100%; display:block; transition:transform .5s ease; }
+    .idx-gallery-item:hover img{ transform:scale(1.06); }
+    .idx-gallery-item .idx-g-overlay{ position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,20,15,0.85) 0%, transparent 55%); display:flex; flex-direction:column; justify-content:flex-end; padding:14px; opacity:0; transition:opacity .25s ease; }
+    .idx-gallery-item:hover .idx-g-overlay{ opacity:1; }
+    .idx-g-overlay .tag{ color:#e8c565; font-size:0.68rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:3px; }
+    .idx-g-overlay .title{ color:#fff; font-size:0.85rem; font-weight:700; }
+    .idx-gallery-chips{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:30px; }
+    .idx-gchip{ padding:7px 16px; border-radius:100px; background:var(--sand,#f5f0e8); color:var(--forest,#1a3c2e); font-size:0.82rem; font-weight:700; cursor:pointer; border:none; transition:all .16s ease; }
+    .idx-gchip.active{ background:var(--forest,#1a3c2e); color:#fff; }
+    .idx-lightbox{ position:fixed; inset:0; background:rgba(10,14,12,0.94); z-index:1000; display:none; align-items:center; justify-content:center; padding:24px; }
+    .idx-lightbox.active{ display:flex; }
+    .idx-lightbox img{ max-width:88vw; max-height:78vh; border-radius:10px; object-fit:contain; }
+    .idx-lb-info{ position:absolute; bottom:28px; left:0; right:0; text-align:center; color:#fff; }
+    .idx-lb-info .t{ font-weight:700; font-size:1rem; margin-bottom:4px; }
+    .idx-lb-info .l{ font-size:0.82rem; color:rgba(255,255,255,0.7); }
+    .idx-lb-close{ position:absolute; top:24px; right:28px; color:#fff; font-size:1.6rem; background:none; border:none; cursor:pointer; }
+    .idx-lb-nav{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.12); border:none; color:#fff; width:44px; height:44px; border-radius:50%; font-size:1.1rem; cursor:pointer; }
+    .idx-lb-prev{ left:24px; } .idx-lb-next{ right:24px; }
+
+    /* ── Culture strip (new) ── */
+    .culture-strip{ background:var(--sand,#f5f0e8); padding:70px 24px; }
+    .culture-grid{ max-width:1160px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
+    .culture-imgs{ display:grid; grid-template-columns:1.2fr 1fr; grid-template-rows:1fr 1fr; gap:14px; height:380px; }
+    .culture-imgs img{ width:100%; height:100%; object-fit:cover; border-radius:16px; }
+    .culture-imgs img:first-child{ grid-row:1 / span 2; }
+    .culture-copy .eyebrow{ display:inline-flex; align-items:center; gap:8px; color:var(--forest,#1a3c2e); font-weight:700; font-size:0.76rem; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:16px; }
+    .culture-copy h2{ font-family:'Playfair Display',serif; font-size:clamp(1.8rem,3.2vw,2.4rem); font-weight:800; color:#101828; margin-bottom:16px; line-height:1.2; }
+    .culture-copy p{ color:#475467; font-size:0.98rem; line-height:1.75; margin-bottom:16px; }
+    .culture-copy ul{ list-style:none; padding:0; margin:0 0 24px; display:grid; gap:10px; }
+    .culture-copy ul li{ display:flex; align-items:flex-start; gap:10px; color:#344054; font-size:0.92rem; }
+    .culture-copy ul li i{ color:var(--forest,#1a3c2e); margin-top:3px; }
+
+    @media (max-width:980px){
+      .cat-teaser-grid{ grid-template-columns:repeat(3,1fr); }
+      .fv-grid{ grid-template-columns:repeat(2,1fr); }
+      .idx-gallery-grid{ column-count:3; }
+      .culture-grid{ grid-template-columns:1fr; }
+      .culture-imgs{ height:300px; }
+    }
+    @media (max-width:680px){
+      .cat-teaser-grid{ grid-template-columns:repeat(2,1fr); }
+      .fv-grid{ grid-template-columns:1fr; }
+      .idx-gallery-grid{ column-count:2; }
+    }
+  </style>
 </head>
 <body>
 
 <!-- ===== NAVBAR ===== -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="logo">
-    <div class="logo-icon">🌿</div>
-    Wild<span>Roots</span> Africa
+    <div class="logo-icon">🌍</div>
+    International <span>Volunteer Home Tz</span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link active">Home</a></li>
-    <li><a href="tours.html" class="nav-link">Tours</a></li>
-    <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+    <li><a href="volunteer2.html" class="nav-link">Volunteer</a></li>
+    <li><a href="tours.html" class="nav-link">Safaris</a></li>
+    <li><a href="community.html" class="nav-link">Community</a></li>
     <li><a href="about.html" class="nav-link">About</a></li>
     <li><a href="blog.html" class="nav-link">Blog</a></li>
     <li><a href="contact.html" class="nav-link">Contact</a></li>
@@ -32,7 +133,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   <div class="nav-actions">
     <a href="login.html" class="nav-cta">Sign In</a>
     <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
-    <a onclick="confirmLogout()" class="btn btn-outline-dark btn-sm" style="margin-left:12px;">Logout</a>
   </div>
   <button class="hamburger" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
@@ -42,8 +142,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
-  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Tours</a>
   <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
   <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
   <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
   <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
@@ -53,37 +154,37 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   </div>
 </div>
 
-<!-- ===== HERO ===== -->
+<!-- ===== HERO (volunteering-led) ===== -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-pattern"></div>
   <div class="hero-img"></div>
   <div class="hero-content">
     <div class="hero-badge">
-  <i class="fas fa-award"></i>
-  Africa's #1 Eco-Tourism & Volunteer Platform
-</div>
-    <h1>Where Adventure <em>Meets</em> Purpose</h1>
-    <p>Explore breathtaking safaris, immersive cultural experiences, and life-changing volunteer programs across East Africa.</p>
+      <i class="fas fa-hands-helping"></i>
+      East Africa's Leading Volunteer & Safari Travel Operator
+    </div>
+    <h1>Volunteer With <em>Purpose</em>. Explore With <em>Wonder</em>.</h1>
+    <p>Join hands-on placements in wildlife conservation, education, healthcare, environment and community development alongside the many peoples of East Africa — Swahili coastal communities, Chagga farmers on Kilimanjaro's slopes, Kikuyu and Luo neighborhoods, Maasai and Waarusha pastoralists, and more — then see the landscapes and cultures that inspired the work, on a safari built by the same local team.</p>
     <div class="hero-actions">
-      <a href="tours.html" class="btn btn-primary btn-lg">Explore Tours</a>
-      <a href="volunteer.html" class="btn btn-outline btn-lg">Volunteer Programs</a>
+      <a href="volunteer.html" class="btn btn-primary btn-lg">Explore Volunteer Programs</a>
+      <a href="tours.html" class="btn btn-outline btn-lg">Browse Safaris</a>
     </div>
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="hero-stat-num">2,400<span>+</span></div>
-        <div class="hero-stat-label">Happy Travelers</div>
+        <div class="hero-stat-num">1,200<span>+</span></div>
+        <div class="hero-stat-label">Volunteers Placed</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">48<span>+</span></div>
-        <div class="hero-stat-label">Tour Packages</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">12<span>+</span></div>
+        <div class="hero-stat-num">15<span>+</span></div>
         <div class="hero-stat-label">Volunteer Programs</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">8<span></span></div>
+        <div class="hero-stat-num">3,200<span>+</span></div>
+        <div class="hero-stat-label">Happy Travelers</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">12<span></span></div>
         <div class="hero-stat-label">African Countries</div>
       </div>
     </div>
@@ -94,27 +195,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <div class="search-section">
   <div class="search-card">
     <div class="search-tabs">
-      <div class="search-tab active">
-  <i class="fas fa-map-location-dot"></i> Tours
-</div>
-
-<div class="search-tab">
-  <i class="fas fa-seedling"></i> Volunteer
-</div>
+      <div class="search-tab" data-tab="safaris">
+        <i class="fas fa-map-location-dot"></i> Safaris
+      </div>
+      <div class="search-tab active" data-tab="volunteer">
+        <i class="fas fa-seedling"></i> Volunteer
+      </div>
     </div>
     <div class="search-form">
       <div class="search-field">
-        <label>Destination</label>
-        <input type="text" placeholder="Kenya, Tanzania, Uganda..." />
+        <label>Category / Destination</label>
+        <input type="text" placeholder="Wildlife, Education, Kenya, Tanzania..." />
       </div>
       <div class="search-field">
         <label>Duration</label>
         <select>
           <option value="">Any Duration</option>
-          <option>1–3 Days</option>
-          <option>4–7 Days</option>
-          <option>8–14 Days</option>
-          <option>15+ Days</option>
+          <option>2–4 Weeks</option>
+          <option>5–8 Weeks</option>
+          <option>9–16 Weeks</option>
+          <option>16+ Weeks</option>
         </select>
       </div>
       <div class="search-field">
@@ -134,34 +234,120 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   </div>
 </div>
 
-<!-- ===== FEATURED TOURS ===== -->
-<section style="padding-top: 20px;">
+<!-- ===== VOLUNTEER CATEGORIES (static entities, live counts) ===== -->
+<section style="padding-top:60px;">
   <div class="container">
     <div class="section-header">
-      <span class="eyebrow">Most Popular</span>
+      <span class="eyebrow">Make a Difference</span>
+      <h2>Five Ways to Volunteer</h2>
+      <p>Every category links to a live listing of open placements — pick a cause and see exactly what's available right now.</p>
+    </div>
+    <div class="cat-teaser-grid" id="catTeaserGrid">
+      <a class="cat-teaser" href="category.html?cat=wildlife">
+        <img src="https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=500&auto=format&fit=crop" alt="Wildlife conservation volunteering in East Africa" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1521651201144-634f700b36ef?w=500&auto=format&fit=crop'"/>
+        <div class="cat-teaser-body">
+          <i class="fa-solid fa-paw"></i>
+          <h4>Wildlife Conservation</h4>
+          <span data-cat-count="wildlife">Loading programs…</span>
+        </div>
+      </a>
+      <a class="cat-teaser" href="category.html?cat=education">
+        <img src="https://images.unsplash.com/photo-1497375638960-ca80c1a5c9c4?w=500&auto=format&fit=crop" alt="East African schoolchildren in a classroom" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=500&auto=format&fit=crop'"/>
+        <div class="cat-teaser-body">
+          <i class="fa-solid fa-book"></i>
+          <h4>Education</h4>
+          <span data-cat-count="education">Loading programs…</span>
+        </div>
+      </a>
+      <a class="cat-teaser" href="category.html?cat=healthcare">
+        <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?w=500&auto=format&fit=crop" alt="Healthcare volunteering in an East African community" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=500&auto=format&fit=crop'"/>
+        <div class="cat-teaser-body">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <h4>Healthcare</h4>
+          <span data-cat-count="healthcare">Loading programs…</span>
+        </div>
+      </a>
+      <a class="cat-teaser" href="category.html?cat=environment">
+        <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=500&auto=format&fit=crop" alt="Environmental volunteering, East Africa" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1516214104703-d870798883c5?w=500&auto=format&fit=crop'"/>
+        <div class="cat-teaser-body">
+          <i class="fa-solid fa-leaf"></i>
+          <h4>Environment</h4>
+          <span data-cat-count="environment">Loading programs…</span>
+        </div>
+      </a>
+      <a class="cat-teaser" href="category.html?cat=community">
+        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=500&auto=format&fit=crop" alt="Community development volunteering with East African families" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=500&auto=format&fit=crop'"/>
+        <div class="cat-teaser-body">
+          <i class="fa-solid fa-hands-helping"></i>
+          <h4>Community Development</h4>
+          <span data-cat-count="community">Loading programs…</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURED VOLUNTEER PROGRAMS (dynamic, detailed) ===== -->
+<section class="volunteer-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Open Right Now</span>
+      <h2>Featured Volunteer Placements</h2>
+      <p>Live listings pulled straight from our placements database — availability and pricing update automatically.</p>
+    </div>
+    <div class="fv-grid" id="featuredVolunteerGrid">
+      <div class="fv-skeleton"><div class="sk-img"></div><div class="sk-body"><div class="sk-line" style="width:40%"></div><div class="sk-line" style="width:80%;height:18px;"></div><div class="sk-line" style="width:95%"></div><div class="sk-line" style="width:60%"></div></div></div>
+      <div class="fv-skeleton"><div class="sk-img"></div><div class="sk-body"><div class="sk-line" style="width:40%"></div><div class="sk-line" style="width:80%;height:18px;"></div><div class="sk-line" style="width:95%"></div><div class="sk-line" style="width:60%"></div></div></div>
+      <div class="fv-skeleton"><div class="sk-img"></div><div class="sk-body"><div class="sk-line" style="width:40%"></div><div class="sk-line" style="width:80%;height:18px;"></div><div class="sk-line" style="width:95%"></div><div class="sk-line" style="width:60%"></div></div></div>
+    </div>
+    <div style="text-align:center;margin-top:44px;">
+      <a href="volunteer.html" class="btn btn-primary btn-lg">Explore All Volunteer Programs →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CULTURE STRIP (broadened: many peoples of East Africa) ===== -->
+<section class="culture-strip">
+  <div class="culture-grid">
+    <div class="culture-imgs">
+      <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&auto=format&fit=crop" alt="East African family, Tanzania" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1590650046871-92c887180603?w=600&auto=format&fit=crop" alt="East African children smiling" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=600&auto=format&fit=crop" alt="East African women at a community market" loading="lazy"/>
+    </div>
+    <div class="culture-copy">
+      <span class="eyebrow"><i class="fa-solid fa-earth-africa"></i> Rooted In East Africa</span>
+      <h2>Live and volunteer alongside the many peoples of East Africa</h2>
+      <p>Beyond the placement itself, every program is an invitation into the daily life of the region — from Swahili fishing towns on the coast, to Chagga farming villages on Kilimanjaro's slopes, Kikuyu and Luo neighborhoods, Kalenjin highlands, and Maasai and Waarusha communities near Arusha. Our local coordinators are drawn from these same communities, so your welcome is genuine, not staged for tourists.</p>
+      <ul>
+        <li><i class="fa-solid fa-check"></i> Home-stays and cultural exchange with local families across the region</li>
+        <li><i class="fa-solid fa-check"></i> Swahili language basics for every volunteer, plus local phrases where relevant</li>
+        <li><i class="fa-solid fa-check"></i> Community-led projects, never top-down "voluntourism"</li>
+      </ul>
+      <a href="about.html" class="btn btn-outline-dark">Learn About Our Local Team</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURED SAFARIS (kept — touring still matters) ===== -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Still Room For Adventure</span>
       <h2>Featured Safari Packages</h2>
-      <p>Handpicked experiences that deliver unforgettable African adventures with expert guides and premium service.</p>
+      <p>After the placement — or instead of one — explore the wilderness and cultures that make East Africa unforgettable.</p>
     </div>
     <div class="tours-grid">
 
       <div class="tour-card" onclick="window.location='tour-detail.html'">
         <div class="tour-card-img">
-          <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&auto=format&fit=crop" alt="Maasai Mara Safari" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&auto=format&fit=crop" alt="Maasai Mara Safari" loading="lazy" />
           <span class="tour-badge">BESTSELLER</span>
         </div>
         <div class="tour-card-body">
           <div class="tour-card-meta">
-            <div class="tour-meta-item">
-  <i class="fas fa-location-dot"></i> Kenya
-</div>
-
-<div class="tour-meta-item">
-  <i class="fas fa-clock"></i> 7 Days
-</div>
-
-<div class="tour-meta-item">
-  <i class="fas fa-users"></i> Max 12
-</div>
+            <div class="tour-meta-item"><i class="fas fa-location-dot"></i> Kenya</div>
+            <div class="tour-meta-item"><i class="fas fa-clock"></i> 7 Days</div>
+            <div class="tour-meta-item"><i class="fas fa-users"></i> Max 12</div>
           </div>
           <h3>Maasai Mara Great Migration</h3>
           <p>Witness the world's greatest wildlife spectacle. Track lions, elephants, and the iconic wildebeest migration.</p>
@@ -182,16 +368,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         </div>
         <div class="tour-card-body">
           <div class="tour-card-meta">
-           
-            <div class="tour-meta-item">
-  <i class="fas fa-location-dot"></i> Tanzania
-</div>
-            <div class="tour-meta-item">
-  <i class="fas fa-clock"></i> 10 Days
-</div>
-            <div class="tour-meta-item">
-  <i class="fas fa-users"></i> Max 10
-</div>
+            <div class="tour-meta-item"><i class="fas fa-location-dot"></i> Tanzania</div>
+            <div class="tour-meta-item"><i class="fas fa-clock"></i> 10 Days</div>
+            <div class="tour-meta-item"><i class="fas fa-users"></i> Max 10</div>
           </div>
           <h3>Serengeti & Ngorongoro Discovery</h3>
           <p>Explore the endless plains, volcanic crater, and encounter Africa's Big Five in their natural habitat.</p>
@@ -207,26 +386,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
       <div class="tour-card" onclick="window.location='tour-detail.html'">
         <div class="tour-card-img">
-          <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&auto=format&fit=crop" alt="Gorilla Trekking" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&auto=format&fit=crop" alt="Cultural Village & Community Visit, East Africa" loading="lazy" />
         </div>
         <div class="tour-card-body">
           <div class="tour-card-meta">
-            <div class="tour-meta-item">
-  <i class="fas fa-location-dot"></i> Uganda
-</div>
-            <div class="tour-meta-item">
-  <i class="fas fa-clock"></i> 5 Days
-</div>
-            <div class="tour-meta-item">
-  <i class="fas fa-users"></i> Max 8
-</div>
+            <div class="tour-meta-item"><i class="fas fa-location-dot"></i> Tanzania</div>
+            <div class="tour-meta-item"><i class="fas fa-clock"></i> 5 Days</div>
+            <div class="tour-meta-item"><i class="fas fa-users"></i> Max 8</div>
           </div>
-          <h3>Bwindi Gorilla Trekking</h3>
-          <p>Come face-to-face with endangered mountain gorillas in the ancient Bwindi Impenetrable Forest.</p>
+          <h3>Cultural Villages & Ngorongoro Highlands</h3>
+          <p>Spend time with Maasai, Chagga and Waarusha communities near Arusha, share a meal and stories, then descend into the Ngorongoro Crater.</p>
           <div class="tour-card-footer">
             <div class="tour-price">
               <span class="tour-price-from">From</span>
-              <span class="tour-price-amt">$3,200 <span>/ person</span></span>
+              <span class="tour-price-amt">$1,650 <span>/ person</span></span>
             </div>
             <div class="tour-rating">★★★★★ 5.0 (74)</div>
           </div>
@@ -235,7 +408,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
     </div>
     <div style="text-align:center;margin-top:44px;">
-      <a href="tours.html" class="btn btn-outline-dark btn-lg">View All 48 Tours →</a>
+      <a href="tours.html" class="btn btn-outline-dark btn-lg">View All 52 Safaris →</a>
     </div>
   </div>
 </section>
@@ -245,14 +418,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   <div class="container">
     <div class="section-header">
       <span class="eyebrow">Why Choose Us</span>
-      <h2>The WildRoots Difference</h2>
+      <h2>The International Volunteer Home Tz Difference</h2>
       <p>We deliver more than trips — we create transformative experiences built on trust, sustainability, and deep local knowledge.</p>
     </div>
     <div class="features-grid">
       <div class="feature-card">
         <div class="feature-icon"><i class="fas fa-compass"></i></div>
         <h3>Expert Local Guides</h3>
-        <p>Every tour is led by certified, passionate guides who were born and raised in the regions you'll explore.</p>
+        <p>Every safari and volunteer program is led by passionate local guides and coordinators born and raised in the regions you'll work and travel in.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon"><i class="fas fa-leaf"></i></div>
@@ -260,9 +433,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         <p>We operate under strict sustainability principles, partnering only with eco-lodges and conservation-first operators.</p>
       </div>
       <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-hand-holding-heart"></i></div>
+        <h3>Locally-Led Placements</h3>
+        <p>Every volunteer program is hosted by a vetted local partner — the people who actually know what the community needs.</p>
+      </div>
+      <div class="feature-card">
         <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
         <h3>Fully Insured & Safe</h3>
-        <p>All tours include comprehensive travel insurance, 24/7 emergency support, and safety-briefed guides.</p>
+        <p>All tours and placements include comprehensive travel insurance, 24/7 emergency support, and safety-briefed guides.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon"><i class="fas fa-credit-card"></i></div>
@@ -270,103 +448,128 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         <p>Book with just 20% deposit. Pay via PayPal, M-Pesa, or bank transfer. Full refund up to 30 days before.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-handshake"></i></div>
-        <h3>Community Impact</h3>
-        <p>30% of every booking goes directly to local community development projects and wildlife conservation funds.</p>
-      </div>
-      <div class="feature-card">
         <div class="feature-icon"><i class="fas fa-star"></i></div>
         <h3>5-Star Rated</h3>
-        <p>Over 2,400 five-star reviews on TripAdvisor. We don't just promise excellence — we deliver it, consistently.</p>
+        <p>Over 3,200 five-star reviews from travelers and volunteers alike. We don't just promise excellence — we deliver it.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== VOLUNTEER ===== -->
-<section class="volunteer-section">
+<!-- ===== COMMUNITY GIVEBACK ===== -->
+<section class="community-section">
   <div class="container">
     <div class="section-header">
-      <span class="eyebrow">Make a Difference</span>
-      <h2>Volunteer Programs</h2>
-      <p>Give your time, skills, and heart to projects that create lasting change for wildlife and communities across Africa.</p>
+      <span class="eyebrow">Our Impact</span>
+      <h2>Community Giveback Programs</h2>
+      <p>At International Volunteer Home Tz, we believe travel should leave a positive footprint. Every booking contributes to meaningful change.</p>
     </div>
-    <div class="volunteer-grid">
 
-      <div class="volunteer-card" onclick="window.location='volunteer.html'">
-        <div class="volunteer-card-img">
-          <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=500&auto=format&fit=crop" alt="Wildlife Conservation" loading="lazy" />
+    <div class="community-grid">
+      <div class="community-content">
+        <div class="community-stats-grid">
+          <div class="community-stat-card">
+            <div class="community-stat-number" data-count="3200">0</div>
+            <div class="community-stat-label">Lives Impacted</div>
+            <div class="community-stat-icon">🌍</div>
+          </div>
+          <div class="community-stat-card">
+            <div class="community-stat-number" data-count="85">0</div>
+            <div class="community-stat-label">Projects Funded</div>
+            <div class="community-stat-icon">🏗️</div>
+          </div>
+          <div class="community-stat-card">
+            <div class="community-stat-number" data-count="1200">0</div>
+            <div class="community-stat-label">Children Educated</div>
+            <div class="community-stat-icon">📚</div>
+          </div>
+          <div class="community-stat-card">
+            <div class="community-stat-number" data-count="450">0</div>
+            <div class="community-stat-label">Trees Planted</div>
+            <div class="community-stat-icon">🌳</div>
+          </div>
         </div>
-        <div class="volunteer-card-body">
-          <div class="volunteer-tags">
-            <span class="volunteer-tag">Wildlife</span>
-            <span class="volunteer-tag">Conservation</span>
-          </div>
-          <h3>Wildlife Conservation Ranger</h3>
-          <p>Join anti-poaching patrols, track endangered species, and assist with wildlife data collection in national reserves.</p>
-          <div class="volunteer-card-meta">
-            <div class="volunteer-meta-item">
-  <i class="fas fa-location-dot"></i> Kenya
-</div>
 
-<div class="volunteer-meta-item">
-  <i class="fas fa-clock"></i> 4–12 Weeks
-</div>
-
-<div class="volunteer-meta-item">
-  <i class="fas fa-dollar-sign"></i> From $850
-</div>
+        <div class="community-impact-areas">
+          <h3>Where Your Contribution Goes</h3>
+          <div class="impact-areas-grid">
+            <div class="impact-area">
+              <div class="impact-icon"><i class="fas fa-tree"></i></div>
+              <div class="impact-info">
+                <h4>Wildlife Conservation</h4>
+                <div class="impact-bar"><div class="impact-bar-fill" style="width:30%"></div></div>
+                <span class="impact-percent">30%</span>
+              </div>
+            </div>
+            <div class="impact-area">
+              <div class="impact-icon"><i class="fas fa-school"></i></div>
+              <div class="impact-info">
+                <h4>Education & Schools</h4>
+                <div class="impact-bar"><div class="impact-bar-fill" style="width:25%"></div></div>
+                <span class="impact-percent">25%</span>
+              </div>
+            </div>
+            <div class="impact-area">
+              <div class="impact-icon"><i class="fas fa-hand-holding-medical"></i></div>
+              <div class="impact-info">
+                <h4>Healthcare Access</h4>
+                <div class="impact-bar"><div class="impact-bar-fill" style="width:20%"></div></div>
+                <span class="impact-percent">20%</span>
+              </div>
+            </div>
+            <div class="impact-area">
+              <div class="impact-icon"><i class="fas fa-water"></i></div>
+              <div class="impact-info">
+                <h4>Clean Water & Sanitation</h4>
+                <div class="impact-bar"><div class="impact-bar-fill" style="width:15%"></div></div>
+                <span class="impact-percent">15%</span>
+              </div>
+            </div>
+            <div class="impact-area">
+              <div class="impact-icon"><i class="fas fa-users"></i></div>
+              <div class="impact-info">
+                <h4>Women's Empowerment</h4>
+                <div class="impact-bar"><div class="impact-bar-fill" style="width:10%"></div></div>
+                <span class="impact-percent">10%</span>
+              </div>
+            </div>
           </div>
+        </div>
+
+        <div class="community-cta">
+          <a href="community.html" class="btn btn-primary btn-lg">
+            <i class="fas fa-hand-holding-heart"></i> Learn More About Our Impact
+          </a>
         </div>
       </div>
 
-      <div class="volunteer-card" onclick="window.location='volunteer.html'">
-        <div class="volunteer-card-img">
-          <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500&auto=format&fit=crop" alt="Teaching" loading="lazy" />
+      <div class="community-image-wrapper">
+        <div class="community-image">
+          <img src="https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=800&auto=format&fit=crop" alt="East African women, community impact" loading="lazy" />
+          <div class="community-image-overlay">
+            <div class="overlay-content">
+              <div class="overlay-stat">
+                <div class="overlay-stat-number">$2.4M+</div>
+                <div class="overlay-stat-label">Total Community Investment</div>
+              </div>
+              <div class="overlay-stat">
+                <div class="overlay-stat-number">98%</div>
+                <div class="overlay-stat-label">Of Funds Go Directly to Projects</div>
+              </div>
+              <div class="overlay-stat">
+                <div class="overlay-stat-number">12+</div>
+                <div class="overlay-stat-label">Communities Supported</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="volunteer-card-body">
-          <div class="volunteer-tags">
-            <span class="volunteer-tag">Education</span>
-            <span class="volunteer-tag">Community</span>
-          </div>
-          <h3>Rural Education Volunteer</h3>
-          <p>Teach English, maths, or STEM subjects in underfunded rural schools and empower the next generation.</p>
-          <div class="volunteer-card-meta">
-            <div class="volunteer-meta-item"><i class="fas fa-location-dot"></i> Tanzania</div>
-            <div class="volunteer-meta-item"><i class="fas fa-clock"></i> 2–24 Weeks</div>
-            <div class="volunteer-meta-item"><i class="fas fa-dollar-sign"></i> From $650</div>
-          </div>
+
+        <div class="community-quote">
+          <div class="quote-icon">"</div>
+          <p>"Travel with purpose. Every safari, every trek, every volunteer hour plants a seed of change."</p>
+          <div class="quote-author">— International Volunteer Home Tz Impact Team</div>
         </div>
       </div>
-
-      <div class="volunteer-card" onclick="window.location='volunteer.html'">
-        <div class="volunteer-card-img">
-          <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=500&auto=format&fit=crop" alt="Medical" loading="lazy" />
-        </div>
-        <div class="volunteer-card-body">
-          <div class="volunteer-tags">
-            <span class="volunteer-tag">Medical</span>
-            <span class="volunteer-tag">Health</span>
-          </div>
-          <h3>Community Health Outreach</h3>
-          <p>Support mobile clinics, health education campaigns, and maternal health programs in remote villages.</p>
-          <div class="volunteer-card-meta">
-            <div class="volunteer-meta-item">
-  <i class="fas fa-location-dot"></i> Uganda
-</div>
-            <div class="volunteer-meta-item">
-  <i class="fas fa-clock"></i> 4–16 Weeks
-</div>
-            <div class="volunteer-meta-item">
-  <i class="fas fa-dollar-sign"></i> From $780
-</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div style="text-align:center;margin-top:44px;">
-      <a href="volunteer.html" class="btn btn-primary btn-lg">Explore All Programs →</a>
     </div>
   </div>
 </section>
@@ -375,16 +578,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <div class="stats-strip">
   <div class="stats-inner">
     <div class="stat-item">
-      <div class="stat-num" data-target="2400" data-suffix="+">2,400+</div>
+      <div class="stat-num" data-target="1200" data-suffix="+">1,200+</div>
+      <div class="stat-label">Volunteers Placed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="3200" data-suffix="+">3,200+</div>
       <div class="stat-label">Travelers Served</div>
     </div>
     <div class="stat-item">
-      <div class="stat-num" data-target="48" data-suffix="+">48+</div>
-      <div class="stat-label">Tour Packages</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num" data-target="850" data-suffix="+">850+</div>
-      <div class="stat-label">Volunteers Placed</div>
+      <div class="stat-num" data-target="52" data-suffix="+">52+</div>
+      <div class="stat-label">Safari Packages</div>
     </div>
     <div class="stat-item">
       <div class="stat-num" data-target="98" data-suffix="%">98%</div>
@@ -393,74 +596,57 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   </div>
 </div>
 
-<!-- ===== GALLERY ===== -->
+<!-- ===== GALLERY (dynamic, fetched from /api/gallery) ===== -->
 <section>
   <div class="container">
     <div class="section-header">
       <span class="eyebrow">Our Gallery</span>
       <h2>Moments That Last Forever</h2>
-      <p>Real photos from real adventures. Every frame tells a story of connection, wonder, and discovery.</p>
+      <p>Real photos from real placements and safaris — pulled live from our gallery, volunteering moments first.</p>
     </div>
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=700&auto=format&fit=crop" alt="Safari" loading="lazy" />
-      </div>
-      <div class="gallery-item">
-        <img src="https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=400&auto=format&fit=crop" alt="Wildlife" loading="lazy" />
-      </div>
-      <div class="gallery-item">
-        <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=400&auto=format&fit=crop" alt="Gorillas" loading="lazy" />
-      </div>
-      <div class="gallery-item">
-        <img src="https://images.unsplash.com/photo-1581123578069-5b61e9a1c90c?w=400&auto=format&fit=crop" alt="Savanna" loading="lazy" />
-      </div>
-      <div class="gallery-item">
-        <img src="https://images.unsplash.com/photo-1508002366005-75a695ee2d17?w=400&auto=format&fit=crop" alt="Volunteer" loading="lazy" />
-      </div>
+
+    <div class="idx-gallery-chips" id="idxGalleryChips">
+      <button class="idx-gchip active" data-filter="all">All</button>
+      <button class="idx-gchip" data-filter="volunteer">Volunteering</button>
+      <button class="idx-gchip" data-filter="wildlife">Wildlife</button>
+      <button class="idx-gchip" data-filter="safari">Safari</button>
+      <button class="idx-gchip" data-filter="community">Community</button>
     </div>
+
+    <div class="idx-gallery-grid" id="idxGalleryGrid">
+      <!-- populated by js/index-dynamic.js -->
+    </div>
+
     <div style="text-align:center;margin-top:28px;">
       <a href="gallery.html" class="btn btn-outline-dark">View Full Gallery →</a>
     </div>
   </div>
 </section>
 
+<!-- Lightbox for homepage gallery preview -->
+<div class="idx-lightbox" id="idxLightbox">
+  <button class="idx-lb-close" id="idxLbClose">✕</button>
+  <button class="idx-lb-nav idx-lb-prev" id="idxLbPrev">‹</button>
+  <img id="idxLbImg" src="" alt="" />
+  <button class="idx-lb-nav idx-lb-next" id="idxLbNext">›</button>
+  <div class="idx-lb-info">
+    <div class="t" id="idxLbTitle"></div>
+    <div class="l" id="idxLbLocation"></div>
+  </div>
+</div>
+
 <!-- ===== TESTIMONIALS ===== -->
 <section class="testimonials-section">
   <div class="container">
     <div class="section-header">
       <span class="eyebrow">Real Stories</span>
-      <h2>What Our Travelers Say</h2>
-      <p>Don't take our word for it. Here's what people who've lived the WildRoots experience have to say.</p>
+      <h2>What Our Volunteers & Travelers Say</h2>
+      <p>Don't take our word for it. Here's what people who've lived the experience have to say.</p>
     </div>
     <div class="testimonials-grid">
 
       <div class="testimonial-card">
-        <div class="testimonial-stars">
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-</div>
-        <div class="testimonial-quote">"</div>
-        <p>The Maasai Mara safari was beyond anything I could have imagined. Watching the wildebeest crossing was one of the most powerful moments of my life. WildRoots' guide James knew every animal by name.</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">SL</div>
-          <div>
-            <div class="testimonial-name">Sarah Lindström</div>
-            <div class="testimonial-role">Travel Writer, Sweden · Safari Tour</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="testimonial-stars">
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-</div>
+        <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
         <div class="testimonial-quote">"</div>
         <p>I spent 8 weeks volunteering in wildlife conservation. The team was incredibly supportive, the work was genuinely impactful, and I left with lifelong friends and a completely different outlook.</p>
         <div class="testimonial-author">
@@ -473,20 +659,27 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
       </div>
 
       <div class="testimonial-card">
-        <div class="testimonial-stars">
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-  <i class="fas fa-star"></i>
-</div>
+        <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
         <div class="testimonial-quote">"</div>
-        <p>Booked a last-minute gorilla trek and WildRoots made it seamless. Their team handled everything — permits, accommodation, transfers. The experience itself was absolutely priceless.</p>
+        <p>Teaching at a rural school for 6 weeks changed how I think about education entirely. The coordinators checked in constantly and the host family treated me like their own.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">RT</div>
+          <div>
+            <div class="testimonial-name">Rina Torres</div>
+            <div class="testimonial-role">Education Volunteer, Philippines · 6 Weeks</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        <div class="testimonial-quote">"</div>
+        <p>Booked a last-minute cultural village visit after my volunteer placement ended and International Volunteer Home Tz made it seamless — permits, accommodation, transfers, all handled.</p>
         <div class="testimonial-author">
           <div class="testimonial-avatar">AO</div>
           <div>
             <div class="testimonial-name">Amara Okonkwo</div>
-            <div class="testimonial-role">Tech Entrepreneur, Nigeria · Gorilla Trek</div>
+            <div class="testimonial-role">Tech Entrepreneur, Nigeria · Cultural Village Visit</div>
           </div>
         </div>
       </div>
@@ -500,9 +693,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   <div class="container">
     <span class="eyebrow" style="color:var(--gold-light)">Ready to Begin?</span>
     <h2>Your African Adventure Starts Here</h2>
-    <p>Join thousands of travelers and volunteers who have already discovered the magic of Africa with WildRoots.</p>
+    <p>Join thousands of travelers and volunteers who have already discovered the magic of East Africa with International Volunteer Home Tz.</p>
     <div class="cta-actions">
-      <a href="tours.html" class="btn btn-primary btn-lg">Browse Tours</a>
+      <a href="volunteer.html" class="btn btn-primary btn-lg">Explore Volunteer Programs</a>
       <a href="contact.html" class="btn btn-outline btn-lg">Talk to an Expert</a>
     </div>
   </div>
@@ -526,33 +719,25 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   <div class="footer-grid">
     <div class="footer-brand">
       <a href="index.html" class="logo" style="color:var(--white)">
-        <div class="logo-icon">🌿</div>
-        Wild<span>Roots</span> Africa
+        <div class="logo-icon">🌍</div>
+       International <span>Volunteer Home Tz</span>
       </a>
-      <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014. Certified eco-tourism operator and conservation partner.</p>
+      <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014. Certified eco-tourism operator and community development partner.</p>
       <div class="footer-social">
-        <a href="#" class="social-btn">
-  <i class="fab fa-facebook-f"></i>
-</a>
-        <a href="#" class="social-btn" aria-label="Instagram">
-  <i class="fab fa-instagram"></i>
-</a>
-        <a href="#" class="social-btn" aria-label="Twitter">
-  <i class="fab fa-x-twitter"></i>
-</a>
-        <a href="#" class="social-btn" aria-label="YouTube">
-  <i class="fab fa-youtube"></i>
-</a>
-        <a href="#" class="social-btn" aria-label="WhatsApp">
-  <i class="fab fa-whatsapp"></i>
-</a>
+        <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-x-twitter"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
     <div class="footer-col">
       <h4>Quick Links</h4>
       <ul>
-        <li><a href="tours.html">Safari Tours</a></li>
         <li><a href="volunteer.html">Volunteer Programs</a></li>
+        <li><a href="tours.html">Safari Tours</a></li>
+        <li><a href="community.html">Community Impact</a></li>
+        <li><a href="my-portal.html">My Portal</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="blog.html">Travel Blog</a></li>
         <li><a href="gallery.html">Photo Gallery</a></li>
@@ -560,36 +745,36 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Destinations</h4>
+      <h4>Volunteer Categories</h4>
       <ul>
-        <li><a href="tours.html">Kenya</a></li>
-        <li><a href="tours.html">Tanzania</a></li>
-        <li><a href="tours.html">Uganda</a></li>
-        <li><a href="tours.html">Rwanda</a></li>
-        <li><a href="tours.html">Ethiopia</a></li>
-        <li><a href="tours.html">Botswana</a></li>
+        <li><a href="category.html?cat=wildlife">Wildlife Conservation</a></li>
+        <li><a href="category.html?cat=education">Education</a></li>
+        <li><a href="category.html?cat=healthcare">Healthcare</a></li>
+        <li><a href="category.html?cat=environment">Environment</a></li>
+        <li><a href="category.html?cat=community">Community Development</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Support</h4>
       <ul>
         <li><a href="faq.html">FAQ</a></li>
-      <li><a href="faq.html#booking">Booking Policy</a></li>
-      <li><a href="faq.html#cancellation">Cancellation Policy</a></li>
-      <li><a href="faq.html#insurance">Travel Insurance</a></li>
-       <li><a href="faq.html">Visa Information</a></li>
-      <li><a href="faq.html#privacy">Privacy Policy</a></li>
-       
+        <li><a href="faq.html#booking">Booking Policy</a></li>
+        <li><a href="faq.html#cancellation">Cancellation Policy</a></li>
+        <li><a href="faq.html#insurance">Travel Insurance</a></li>
+        <li><a href="faq.html#visa">Visa Information</a></li>
+        <li><a href="faq.html#privacy">Privacy Policy</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 WildRoots Africa. All rights reserved. Licensed Eco-Tourism Operator.</p>
-    <p>🌿 Committed to sustainable tourism & wildlife conservation</p>
+    <p>© 2026 International Volunteer Home Tz. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
   </div>
 </footer>
 
 <div id="toast" class="toast"></div>
 <script src="js/main.js"></script>
+<script src="js/index-dynamic.js"></script>
+<script src="js/index.js"></script>
 </body>
 </html>

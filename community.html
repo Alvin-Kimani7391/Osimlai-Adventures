@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Community Impact | Osimlai Adventures</title>
-  <meta name="description" content="Discover how Osimlai Adventures gives back to communities through wildlife conservation, education, healthcare, and sustainable development projects across Africa." />
+  <title>Community Impact | International Volunteer Home Tz</title>
+  <meta name="description" content="Discover how International Volunteer Home Tz gives back to communities through wildlife conservation, education, healthcare, and sustainable development projects across East Africa." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
@@ -266,52 +266,113 @@
       color: var(--text-muted);
     }
 
-    /* Responsive */
+    /* ── NEW: Community Partners & Impact Map ── */
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .partner-card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      text-align: center;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .partner-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .partner-card .partner-icon {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+      color: var(--forest);
+    }
+    .partner-card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .partner-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ── NEW: Volunteer Voices (extra testimonials) ── */
+    .voices-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .voice-card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      border: 1px solid var(--border);
+      text-align: center;
+      transition: var(--transition);
+    }
+    .voice-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .voice-card .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--forest-pale);
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--forest);
+    }
+    .voice-card blockquote {
+      font-style: italic;
+      color: var(--text-2);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .voice-card .voice-author {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 0.85rem;
+    }
+    .voice-card .voice-role {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Responsive updates ── */
     @media (max-width: 1024px) {
-      .story-grid {
-        grid-template-columns: 1fr;
-      }
-      .story-image {
-        min-height: 240px;
-      }
-      .programs-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .impact-banner {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .story-grid { grid-template-columns: 1fr; }
+      .story-image { min-height: 240px; }
+      .programs-grid { grid-template-columns: repeat(2, 1fr); }
+      .impact-banner { grid-template-columns: repeat(2, 1fr); }
+      .partners-grid { grid-template-columns: repeat(2, 1fr); }
+      .voices-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 768px) {
-      .community-hero h1 {
-        font-size: 2.2rem;
-      }
-      .story-content {
-        padding: 24px;
-      }
-      .programs-grid {
-        grid-template-columns: 1fr;
-      }
-      .impact-banner {
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-      .impact-banner-item {
-        padding: 16px;
-      }
-      .impact-banner-number {
-        font-size: 1.8rem;
-      }
-      .community-testimonial {
-        padding: 24px;
-      }
+      .community-hero h1 { font-size: 2.2rem; }
+      .story-content { padding: 24px; }
+      .programs-grid { grid-template-columns: 1fr; }
+      .impact-banner { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .impact-banner-item { padding: 16px; }
+      .impact-banner-number { font-size: 1.8rem; }
+      .community-testimonial { padding: 24px; }
+      .partners-grid { grid-template-columns: 1fr 1fr; }
+      .voices-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
-      .impact-banner {
-        grid-template-columns: 1fr;
-      }
-      .community-hero h1 {
-        font-size: 1.8rem;
-      }
+      .impact-banner { grid-template-columns: 1fr; }
+      .community-hero h1 { font-size: 1.8rem; }
+      .partners-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -321,12 +382,12 @@
 <nav class="navbar" id="navbar">
   <a href="index.html" class="logo">
     <div class="logo-icon">🌍</div>
-    Osimlai <span>Adventures</span>
+    International <span>Volunteer Home Tz</span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link">Home</a></li>
-    <li><a href="tours.html" class="nav-link">Safaris</a></li>
     <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+    <li><a href="tours.html" class="nav-link">Safaris</a></li>
     <li><a href="community.html" class="nav-link active">Community</a></li>
     <li><a href="about.html" class="nav-link">About</a></li>
     <li><a href="blog.html" class="nav-link">Blog</a></li>
@@ -344,8 +405,8 @@
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
-  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
   <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
   <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
   <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
   <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
@@ -361,7 +422,7 @@
   <div class="container">
     <div class="hero-badge">🌱 Making a Difference</div>
     <h1>Community Giveback<br>Programs</h1>
-    <p>Every adventure with Osimlai Adventures creates lasting impact. From wildlife conservation to community development, your journey helps build a better Africa.</p>
+    <p>Every placement and every safari with International Volunteer Home Tz creates lasting impact. From wildlife conservation to community development across East Africa's many peoples and places, your journey helps build a better future.</p>
   </div>
 </section>
 
@@ -395,21 +456,21 @@
     <div class="section-header">
       <span class="eyebrow">Real Stories</span>
       <h2>Impact Stories from the Field</h2>
-      <p>Every project tells a story of hope, resilience, and community spirit. Here are just a few.</p>
+      <p>Every project tells a story of hope, resilience, and community spirit — from coastal towns to highland villages. Here are just a few.</p>
     </div>
 
-    <!-- Story 1 -->
+    <!-- Story 1 - Wildlife -->
     <div class="story-card">
       <div class="story-grid">
-        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&auto=format&fit=crop');">
+        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=700&auto=format&fit=crop');">
           <span class="story-tag">Wildlife</span>
         </div>
         <div class="story-content">
           <div class="story-eyebrow">Conservation Success</div>
           <h3>Saving the Elephants of Amboseli</h3>
-          <p>Through anti-poaching patrols and community education, we've helped reduce elephant poaching in the Amboseli ecosystem by 67% over the past three years. Local rangers, trained and funded by Osimlai, now protect over 1,200 elephants across the region.</p>
+          <p>Through anti-poaching patrols and community education, we've helped reduce elephant poaching in the Amboseli ecosystem by 67% over the past three years. Local rangers, trained and funded by International Volunteer Home Tz, now protect over 1,200 elephants across the region.</p>
           <div class="story-quote">
-            "The elephants are our heritage. With Osimlai's support, we're ensuring they survive for generations to come."
+            "The elephants are our heritage. With this support, we're ensuring they survive for generations to come."
           </div>
           <div class="story-meta">
             <span><i class="fas fa-location-dot"></i> Amboseli, Kenya</span>
@@ -420,7 +481,7 @@
       </div>
     </div>
 
-    <!-- Story 2 -->
+    <!-- Story 2 - Education -->
     <div class="story-card">
       <div class="story-grid">
         <div class="story-content">
@@ -435,17 +496,17 @@
             <span><i class="fas fa-calendar"></i> Since 2021</span>
             <span><i class="fas fa-school"></i> 800+ students</span>
           </div>
-        </div>
-        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&auto=format&fit=crop');">
+        </div>                                                
+        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1497375638960-ca80c1a5c9c4?w=700&auto=format&fit=crop');">
           <span class="story-tag">Education</span>
         </div>
       </div>
     </div>
 
-    <!-- Story 3 -->
+    <!-- Story 3 - Healthcare -->
     <div class="story-card">
       <div class="story-grid">
-        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=600&auto=format&fit=crop');">
+        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1584515933487-779824d29309?w=700&auto=format&fit=crop');">
           <span class="story-tag">Healthcare</span>
         </div>
         <div class="story-content">
@@ -460,6 +521,28 @@
             <span><i class="fas fa-calendar"></i> Since 2023</span>
             <span><i class="fas fa-heartbeat"></i> 5,000+ patients served</span>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Story 4 - Environment (NEW) -->
+    <div class="story-card">
+      <div class="story-grid">
+        <div class="story-content">
+          <div class="story-eyebrow">Environment</div>
+          <h3>Reforesting the Rift Valley</h3>
+          <p>Working with local communities, we've planted over 450 indigenous trees across 5 hectares of degraded land in the Rift Valley. This initiative not only restores habitat for wildlife but also combats soil erosion and supports local livelihoods.</p>
+          <div class="story-quote">
+            "The trees are bringing life back to our land. We see more birds, more water, and more hope for our children."
+          </div>
+          <div class="story-meta">
+            <span><i class="fas fa-location-dot"></i> Rift Valley, Kenya</span>
+            <span><i class="fas fa-calendar"></i> Since 2023</span>
+            <span><i class="fas fa-seedling"></i> 450+ trees planted</span>
+          </div>
+        </div>
+        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=700&auto=format&fit=crop');">
+          <span class="story-tag">Environment</span>
         </div>
       </div>
     </div>
@@ -519,7 +602,7 @@
       <div class="program-card">
         <div class="program-icon"><i class="fas fa-users"></i></div>
         <h4>Women's Empowerment</h4>
-        <p>Skills training, micro-enterprise support, and leadership programs for women in rural communities.</p>
+        <p>Skills training, micro-enterprise support, and leadership programs for women in rural and coastal communities.</p>
         <div class="program-stats">
           <span><i class="fas fa-female"></i> 350+ women trained</span>
           <span><i class="fas fa-handshake"></i> 45 businesses started</span>
@@ -539,14 +622,78 @@
   </div>
 </section>
 
+<!-- ===== COMMUNITY PARTNERS (NEW) ===== -->
+<section style="padding: 60px 0;">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Our Partners</span>
+      <h2>Community Partners</h2>
+      <p>We work hand-in-hand with local organizations to ensure our impact is sustainable and community-led.</p>
+    </div>
+    <div class="partners-grid">
+      <div class="partner-card">
+        <div class="partner-icon">🦏</div>
+        <h4>Amboseli Trust</h4>
+        <p>Elephant conservation & community education</p>
+      </div>
+      <div class="partner-card">
+        <div class="partner-icon">📚</div>
+        <h4>Schools for Africa</h4>
+        <p>Building classrooms & training teachers</p>
+      </div>
+      <div class="partner-card">
+        <div class="partner-icon">🏥</div>
+        <h4>HealthBridge Uganda</h4>
+        <p>Mobile clinics & maternal health</p>
+      </div>
+      <div class="partner-card">
+        <div class="partner-icon">🌿</div>
+        <h4>Green Rift Initiative</h4>
+        <p>Reforestation & environmental education</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VOLUNTEER VOICES (NEW) ===== -->
+<section style="background: var(--bg); padding: 60px 0;">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Volunteer Voices</span>
+      <h2>Stories from Our Volunteers</h2>
+      <p>Real experiences from people who've traveled with purpose.</p>
+    </div>
+    <div class="voices-grid">
+      <div class="voice-card">
+        <div class="avatar">🌍</div>
+        <blockquote>"I came for the wildlife, but I left with a whole new perspective on community. The people I met and the work we did together changed my life."</blockquote>
+        <div class="voice-author">— Emma Wilson</div>
+        <div class="voice-role">Wildlife Conservation, 2025</div>
+      </div>
+      <div class="voice-card">
+        <div class="avatar">📖</div>
+        <blockquote>"Teaching in a rural Tanzanian school was the most humbling experience. The children's joy and curiosity reminded me why education matters so much."</blockquote>
+        <div class="voice-author">— James Ochieng</div>
+        <div class="voice-role">Education Program, 2024</div>
+      </div>
+      <div class="voice-card">
+        <div class="avatar">💚</div>
+        <blockquote>"The mobile clinic team welcomed me like family. Every day we saved lives. I've never felt more useful in my entire life."</blockquote>
+        <div class="voice-author">— Dr. Sarah Kim</div>
+        <div class="voice-role">Healthcare Volunteer, 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== TESTIMONIAL ===== -->
 <section style="padding: 60px 0;">
   <div class="container">
     <div class="community-testimonial">
       <div class="quote-mark">"</div>
-      <p>Traveling with Osimlai was more than a vacation — it was a chance to make a real difference. Knowing that my safari contributed to wildlife conservation and community education made the experience even more meaningful. I'm already planning my next trip!</p>
+      <p>Volunteering with International Volunteer Home Tz was more than a placement — it was a chance to make a real difference. Knowing that my time contributed to wildlife conservation and community education made the experience even more meaningful. I'm already planning my next trip!</p>
       <div class="author">— Sarah Lindström</div>
-      <div class="role">Travel Writer, Sweden · Safari Tour 2025</div>
+      <div class="role">Travel Writer, Sweden · Volunteer & Safari 2025</div>
     </div>
   </div>
 </section>
@@ -556,10 +703,10 @@
   <div class="container">
     <span class="eyebrow" style="color:var(--gold-light)">Join the Movement</span>
     <h2>Travel with Purpose</h2>
-    <p>Every booking with Osimlai Adventures supports community development and wildlife conservation across Africa. Your adventure makes a difference.</p>
+    <p>Every booking with International Volunteer Home Tz supports community development and wildlife conservation across East Africa. Your journey makes a difference.</p>
     <div class="cta-actions">
-      <a href="tours.html" class="btn btn-primary btn-lg">Book a Safari</a>
-      <a href="volunteer.html" class="btn btn-outline btn-lg">Volunteer Programs</a>
+      <a href="volunteer.html" class="btn btn-primary btn-lg">Explore Volunteer Programs</a>
+      <a href="tours.html" class="btn btn-outline btn-lg">Book a Safari</a>
     </div>
   </div>
 </section>
@@ -583,7 +730,7 @@
     <div class="footer-brand">
       <a href="index.html" class="logo" style="color:var(--white)">
         <div class="logo-icon">🌍</div>
-        Osimlai <span>Adventures</span>
+        International <span>Volunteer Home Tz</span>
       </a>
       <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014. Certified eco-tourism operator and community development partner.</p>
       <div class="footer-social">
@@ -597,23 +744,24 @@
     <div class="footer-col">
       <h4>Quick Links</h4>
       <ul>
-        <li><a href="tours.html">Safari Tours</a></li>
         <li><a href="volunteer.html">Volunteer Programs</a></li>
+        <li><a href="tours.html">Safari Tours</a></li>
         <li><a href="community.html">Community Impact</a></li>
+        <li><a href="my-portal.html">My Portal</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="blog.html">Travel Blog</a></li>
+        <li><a href="gallery.html">Photo Gallery</a></li>
         <li><a href="contact.html">Contact Us</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Destinations</h4>
+      <h4>Volunteer Categories</h4>
       <ul>
-        <li><a href="tours.html">Kenya</a></li>
-        <li><a href="tours.html">Tanzania</a></li>
-        <li><a href="tours.html">Uganda</a></li>
-        <li><a href="tours.html">Rwanda</a></li>
-        <li><a href="tours.html">Botswana</a></li>
-        <li><a href="tours.html">South Africa</a></li>
+        <li><a href="category.html?cat=wildlife">Wildlife Conservation</a></li>
+        <li><a href="category.html?cat=education">Education</a></li>
+        <li><a href="category.html?cat=healthcare">Healthcare</a></li>
+        <li><a href="category.html?cat=environment">Environment</a></li>
+        <li><a href="category.html?cat=community">Community Development</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -622,12 +770,14 @@
         <li><a href="faq.html">FAQ</a></li>
         <li><a href="faq.html#booking">Booking Policy</a></li>
         <li><a href="faq.html#cancellation">Cancellation Policy</a></li>
+        <li><a href="faq.html#insurance">Travel Insurance</a></li>
+        <li><a href="faq.html#visa">Visa Information</a></li>
         <li><a href="faq.html#privacy">Privacy Policy</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 Osimlai Adventures. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>© 2026 International Volunteer Home Tz. All rights reserved. Licensed Eco-Tourism Operator.</p>
     <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
   </div>
 </footer>
@@ -660,7 +810,6 @@ document.addEventListener('DOMContentLoaded', function() {
         current = target;
         clearInterval(timer);
       }
-      // Preserve the suffix (+, %, etc.)
       const suffix = text.replace(/[0-9]/g, '');
       el.textContent = current.toLocaleString() + suffix;
     }, stepTime);
@@ -682,7 +831,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Story card hover effect enhancement
+// Story card hover effect
 document.querySelectorAll('.story-card').forEach(card => {
   card.addEventListener('mouseenter', function() {
     this.style.boxShadow = '0 12px 40px rgba(16,24,40,0.12)';
@@ -702,8 +851,18 @@ document.querySelectorAll('.program-card').forEach(card => {
   });
 });
 
-console.log('🌍 Osimlai Adventures — Community Impact Page Loaded');
-console.log('💚 Every adventure makes a difference.');
+// Partner cards hover effect
+document.querySelectorAll('.partner-card').forEach(card => {
+  card.addEventListener('mouseenter', function() {
+    this.style.borderColor = 'var(--forest-light)';
+  });
+  card.addEventListener('mouseleave', function() {
+    this.style.borderColor = 'var(--border)';
+  });
+});
+
+console.log('🌍 International Volunteer Home Tz — Community Impact Page Loaded');
+console.log('💚 Every placement and every safari makes a difference.');
 </script>
 
 </body>

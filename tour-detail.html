@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tour Details | Osimlai Adventures</title>
-  <meta name="description" content="Safari tour details - Osimlai Adventures" />
+  <title>Tour Details | International Volunteer Home Tz</title>
+  <meta name="description" content="Safari tour details - International Volunteer Home Tz" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
@@ -156,21 +156,158 @@
     .review-date { font-size: 0.78rem; color: var(--text-muted); }
     .review-stars { color: var(--gold); font-size: 0.85rem; }
     .review-text { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
-    .gallery-mini {
+
+    /* ── EXPLORABLE GALLERY ── */
+    .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
       gap: 8px;
       margin-bottom: 32px;
+      border-radius: var(--radius);
+      overflow: hidden;
     }
-    .gallery-mini img {
-      height: 90px;
-      width: 100%;
-      object-fit: cover;
-      border-radius: 8px;
+    .gallery-grid .gallery-main {
+      grid-row: 1 / 3;
+      grid-column: 1 / 2;
       cursor: pointer;
-      transition: opacity 0.2s;
+      position: relative;
+      overflow: hidden;
     }
-    .gallery-mini img:hover { opacity: 0.85; }
+    .gallery-grid .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 320px;
+      transition: transform 0.4s ease;
+    }
+    .gallery-grid .gallery-main:hover img { transform: scale(1.03); }
+    .gallery-grid .gallery-thumb {
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      min-height: 100px;
+    }
+    .gallery-grid .gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .gallery-grid .gallery-thumb:hover img { transform: scale(1.05); }
+    .gallery-grid .gallery-thumb .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .gallery-grid .gallery-thumb:hover .gallery-overlay { opacity: 1; }
+
+    .gallery-grid .gallery-main .gallery-expand-hint {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      padding: 8px 14px;
+      border-radius: 100px;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255,255,255,0.15);
+      pointer-events: none;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.94);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    .lightbox.active { display: flex; }
+    .lightbox-inner {
+      position: relative;
+      max-width: 1000px;
+      width: 92vw;
+      animation: lbIn 0.25s ease;
+    }
+    @keyframes lbIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .lightbox-img {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      display: block;
+      max-height: 78vh;
+      object-fit: contain;
+    }
+    .lightbox-caption {
+      margin-top: 14px;
+      text-align: center;
+    }
+    .lightbox-caption h4 { color: var(--white); font-size: 1rem; margin-bottom: 4px; font-family: 'Playfair Display', serif; }
+    .lightbox-caption p { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+    .lb-close {
+      position: fixed;
+      top: 20px; right: 24px;
+      font-size: 1.6rem;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      z-index: 10000;
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+      border: none;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.2); color: var(--white); }
+    .lb-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px; height: 48px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      color: var(--white);
+      cursor: pointer;
+      z-index: 10000;
+      transition: background 0.2s;
+      border: 1px solid rgba(255,255,255,0.2);
+      border: none;
+    }
+    .lb-nav:hover { background: rgba(255,255,255,0.2); }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
+    .lb-counter {
+      position: fixed;
+      top: 24px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      background: rgba(0,0,0,0.4);
+      padding: 6px 14px;
+      border-radius: 100px;
+      z-index: 10000;
+    }
 
     /* ── Skeleton loading ── */
     .skeleton {
@@ -181,7 +318,6 @@
     }
     @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-    /* ── Error state ── */
     .error-state {
       text-align: center;
       padding: 80px 24px;
@@ -192,7 +328,6 @@
     .error-state h3 { font-size: 1.4rem; font-weight: 700; color: var(--forest); margin-bottom: 10px; }
     .error-state p { color: var(--text-muted); margin-bottom: 24px; }
 
-    /* Hero skeleton */
     .hero-skeleton {
       height: 60vh;
       min-height: 420px;
@@ -225,7 +360,6 @@
     .payment-method:hover { border-color: var(--forest-light); }
     .payment-method.active { border-color: var(--forest); background: var(--forest-pale); color: var(--forest); }
 
-    /* ── Social Icons ── */
     .social-btn {
       width: 40px; height: 40px;
       border-radius: 50%;
@@ -244,7 +378,17 @@
       .tour-detail-layout { grid-template-columns: 1fr; }
       .booking-sidebar { position: static; }
       .included-list { grid-template-columns: 1fr; }
-      .gallery-mini { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .gallery-grid .gallery-main {
+        grid-row: 1 / 2;
+        grid-column: 1 / 3;
+        min-height: 240px;
+      }
+      .gallery-grid .gallery-main img { min-height: 240px; }
+      .lb-nav { display: none; }
     }
   </style>
 </head>
@@ -253,12 +397,12 @@
 <nav class="navbar scrolled" id="navbar">
   <a href="index.html" class="logo" style="color:var(--forest)">
     <div class="logo-icon">🌍</div>
-    Osimlai <span>Adventures</span>
+    International <span>Volunteer Home Tz</span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link" style="color:var(--text)">Home</a></li>
-    <li><a href="tours.html" class="nav-link active" style="color:var(--text)">Safaris</a></li>
     <li><a href="volunteer.html" class="nav-link" style="color:var(--text)">Volunteer</a></li>
+    <li><a href="tours.html" class="nav-link active" style="color:var(--text)">Safaris</a></li>
     <li><a href="community.html" class="nav-link" style="color:var(--text)">Community</a></li>
     <li><a href="about.html" class="nav-link" style="color:var(--text)">About</a></li>
     <li><a href="blog.html" class="nav-link" style="color:var(--text)">Blog</a></li>
@@ -275,8 +419,8 @@
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
-  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
   <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
   <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
   <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
   <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
@@ -292,12 +436,7 @@
   <div class="hero-skeleton" id="heroSkeleton"></div>
   <div class="tour-detail-layout" id="skeletonLayout">
     <div>
-      <div class="gallery-mini" style="margin-bottom:32px;">
-        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
-        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
-        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
-        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
-      </div>
+      <div class="skeleton" style="height:320px;border-radius:16px;margin-bottom:32px;"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;">
         <div class="skeleton" style="height:40px;width:130px;border-radius:8px;"></div>
         <div class="skeleton" style="height:40px;width:130px;border-radius:8px;"></div>
@@ -310,6 +449,21 @@
     </div>
     <div>
       <div class="skeleton" style="height:360px;border-radius:16px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev">‹</button>
+  <button class="lb-nav lb-next" id="lbNext">›</button>
+  <span class="lb-counter" id="lbCounter"></span>
+  <div class="lightbox-inner">
+    <img class="lightbox-img" id="lbImg" src="" alt="" />
+    <div class="lightbox-caption">
+      <h4 id="lbTitle"></h4>
+      <p id="lbLocation"></p>
     </div>
   </div>
 </div>
@@ -380,7 +534,7 @@
         </div>
         <div id="bankDetails" style="display:none;background:var(--sand);padding:14px;border-radius:var(--radius);margin-bottom:14px;font-size:0.85rem;color:var(--text-muted);line-height:1.75;">
           <i class="fa-solid fa-building-columns"></i> Bank: CRDB Bank Tanzania<br>
-          Account: Osimlai Adventures Ltd<br>
+          Account: International Volunteer Home Tz<br>
           Account No: 0150263XXX<br>
           Reference: <span id="bankRef">SAFARI-[Your Name]</span>
           <hr style="border:none;border-top:1px solid #ddd;margin:12px 0;" />
@@ -422,7 +576,7 @@
     <div class="footer-brand">
       <a href="index.html" class="logo" style="color:var(--white)">
         <div class="logo-icon">🌍</div>
-        Osimlai <span>Adventures</span>
+        International <span>Volunteer Home Tz</span>
       </a>
       <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014.</p>
       <div class="footer-social">
@@ -460,7 +614,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 Osimlai Adventures. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>© 2026 International Volunteer Home Tz. All rights reserved. Licensed Eco-Tourism Operator.</p>
     <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
   </div>
 </footer>
@@ -500,11 +654,9 @@ function getURLParam(key) {
    FETCH TOUR
 ============================================================ */
 async function fetchTour(id) {
-  // Try by ID first
   const res = await fetch(`${API_BASE}/api/tours/${id}`);
   if (!res.ok) throw new Error(`Safari not found (${res.status})`);
   const data = await res.json();
-  // Handle various API response shapes
   return data.tour || data.data?.tour || data.data || data;
 }
 
@@ -512,9 +664,7 @@ async function fetchTour(id) {
    RENDER PAGE
 ============================================================ */
 function renderPage(tour) {
-
   window.currentTour = tour;
-  // Resolve fields
   const title       = tour.title || 'Safari Tour';
   const country     = tour.country || tour.destination || '';
   const days        = tour.duration?.days || tour.duration || '—';
@@ -533,13 +683,14 @@ function renderPage(tour) {
   const startDates  = tour.startDates || [];
   const guides      = tour.guides || [];
 
-  // Images
+  // Images for gallery (first 5)
   const allImages = [
     tour.coverImage?.url || tour.imageCover,
     ...(tour.images || []).map(i => i?.url || i),
   ].filter(Boolean);
   while (allImages.length < 4) allImages.push(FALLBACK_IMG);
   const heroImg = allImages[0];
+  const galleryImages = allImages.slice(0, 5);
 
   // Itinerary
   const itinerary = tour.itinerary || tour.schedule || [];
@@ -557,22 +708,49 @@ function renderPage(tour) {
   else if (ratingQty >= 80) badgeHtml = `<span style="background:var(--gold);color:var(--forest);padding:5px 14px;border-radius:100px;font-size:0.78rem;font-weight:700;">BESTSELLER</span>`;
   else if (rating >= 4.8 && ratingQty >= 20) badgeHtml = `<span style="background:var(--gold);color:var(--forest);padding:5px 14px;border-radius:100px;font-size:0.78rem;font-weight:700;">TOP RATED</span>`;
 
-  // Rating display
   const ratingDisplay = rating > 0
     ? `<span style="color:var(--gold);font-weight:700;">${starHTML(rating)} ${rating.toFixed(1)} (${ratingQty} reviews)</span>`
     : `<span style="color:rgba(255,255,255,0.6);">No reviews yet</span>`;
 
-  // Price display for sidebar
   const priceHtml = priceDisc && priceDisc < price
     ? `<span style="font-size:1rem;text-decoration:line-through;color:#999;font-weight:400;">${fmtMoney(price)}</span>
        <span class="sidebar-price-main">${fmtMoney(priceDisc)}</span>`
     : `<span class="sidebar-price-main">${fmtMoney(price)}</span>`;
 
-  // Gallery HTML (up to 4 images)
-  const galleryHtml = allImages.slice(0, 4).map((img, i) =>
-    `<img src="${esc(img)}" alt="${esc(title)} image ${i + 1}" loading="lazy"
-       onerror="this.src='${FALLBACK_IMG}'" />`
-  ).join('');
+  // ── EXPLORABLE GALLERY HTML ──
+  let galleryHtml = '';
+  if (galleryImages.length >= 4) {
+    const mainImg = galleryImages[0];
+    const thumbs = galleryImages.slice(1, 5);
+    while (thumbs.length < 4) thumbs.push(FALLBACK_IMG);
+    galleryHtml = `
+      <div class="gallery-grid">
+        <div class="gallery-main" data-index="0" onclick="openLightbox(0)">
+          <img src="${esc(mainImg)}" alt="${esc(title)}" onerror="this.src='${FALLBACK_IMG}'" />
+          <div class="gallery-expand-hint"><i class="fa-solid fa-expand"></i> Explore</div>
+        </div>
+        ${thumbs.map((img, i) => `
+          <div class="gallery-thumb" data-index="${i + 1}" onclick="openLightbox(${i + 1})">
+            <img src="${esc(img)}" alt="${esc(title)} ${i + 1}" onerror="this.src='${FALLBACK_IMG}'" />
+            ${i === 3 ? `<div class="gallery-overlay">+${Math.max(0, allImages.length - 5)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+    // Store all images for lightbox
+    window._galleryImages = allImages;
+  } else {
+    // Fallback: single image
+    galleryHtml = `
+      <div style="border-radius:var(--radius);overflow:hidden;margin-bottom:32px;cursor:pointer;" onclick="openLightbox(0)">
+        <img src="${esc(heroImg)}" alt="${esc(title)}" style="width:100%;height:320px;object-fit:cover;" onerror="this.src='${FALLBACK_IMG}'" />
+        <div style="text-align:center;padding:8px;background:var(--sand);font-size:0.78rem;color:var(--text-muted);">
+          <i class="fa-solid fa-expand"></i> Click to explore
+        </div>
+      </div>
+    `;
+    window._galleryImages = [heroImg];
+  }
 
   // Itinerary HTML
   let itineraryHtml = '';
@@ -586,7 +764,6 @@ function renderPage(tour) {
         </div>
       </div>`).join('');
   } else {
-    // Fallback: generate generic itinerary from days count
     const dayCount = typeof days === 'number' ? days : 7;
     const generic = [
       { title: 'Arrival & Welcome Briefing', desc: `Meet your guide and transfer to accommodation. Welcome dinner and safari orientation.` },
@@ -605,7 +782,7 @@ function renderPage(tour) {
     }).join('');
   }
 
-  // Included / excluded HTML
+  // Included / excluded
   const defaultIncluded = ['Airport transfers', `${nights} nights accommodation`, 'All meals (full board)', 'Expert guide', 'All game drives', 'Park entry fees', 'Bottled water'];
   const defaultExcluded = ['International flights', 'Travel insurance', 'Personal items', 'Alcoholic beverages', 'Visa fees'];
   const incItems = included.length > 0 ? included : defaultIncluded;
@@ -616,10 +793,9 @@ function renderPage(tour) {
     ...excItems.map(item => `<div class="included-item no"><i class="fa-solid fa-circle-xmark"></i> ${esc(typeof item === 'string' ? item : item.item || item.name || '')}</div>`),
   ].join('');
 
-  // Reviews HTML
+  // Reviews
   let reviewsHtml = '';
   if (reviews.length > 0) {
-    // Rating breakdown
     const pct5 = Math.round((reviews.filter(r => r.rating >= 4.5).length / reviews.length) * 100);
     const pct4 = Math.round((reviews.filter(r => r.rating >= 3.5 && r.rating < 4.5).length / reviews.length) * 100);
     const pct3 = 100 - pct5 - pct4;
@@ -665,7 +841,7 @@ function renderPage(tour) {
     reviewsHtml = `<p style="color:var(--text-muted);font-size:0.9rem;">No reviews yet. Be the first to experience this safari!</p>`;
   }
 
-  // Start dates for sidebar select
+  // Start dates
   let dateOptionsHtml = '<option value="">Choose a date</option>';
   if (startDates.length > 0) {
     startDates.forEach(d => {
@@ -681,21 +857,14 @@ function renderPage(tour) {
     ? `<select>${dateOptionsHtml}</select>`
     : `<input type="date" min="${new Date().toISOString().slice(0,10)}" />`;
 
-  // Difficulty pill label
   const diffLabel = { easy: 'Easy', medium: 'Moderate', difficult: 'Challenging' }[difficulty?.toLowerCase()] || (difficulty || 'All Fitness Levels');
-
-  // Guide info pill
   const guideHtml = guides.length > 0
     ? `<div class="tour-info-pill"><i class="fa-solid fa-user-tie"></i> ${esc(guides[0]?.name || 'Expert Guide')}</div>`
     : '';
-
-  // Accommodation type
   const accommodation = tour.accommodation || tour.accommodationType || 'Lodge';
 
-  // Page title update
-  document.title = `${title} | Osimlai Adventures`;
+  document.title = `${title} | International Volunteer Home Tz`;
 
-  // Inject everything
   document.getElementById('pageContent').innerHTML = `
     <!-- Hero -->
     <div class="tour-detail-hero" style="padding-top:76px;">
@@ -719,7 +888,7 @@ function renderPage(tour) {
     <div class="tour-detail-layout">
       <!-- MAIN CONTENT -->
       <div>
-        <div class="gallery-mini">${galleryHtml}</div>
+        ${galleryHtml}
 
         <div class="tour-info-pills">
           <div class="tour-info-pill"><i class="fa-solid fa-clock"></i> ${days} Day${days !== 1 ? 's' : ''} / ${nights} Night${nights !== 1 ? 's' : ''}</div>
@@ -807,12 +976,72 @@ function renderPage(tour) {
     </div>
   `;
 
-  // Re-wire payment method tabs after render
   wirePaymentMethods();
+  initLightbox();
 }
 
+/* ============================================================
+   LIGHTBOX (Explorable Gallery)
+============================================================ */
+let lightboxImages = [];
+let currentLightboxIndex = 0;
 
+function initLightbox() {
+  // Store images from window._galleryImages
+  lightboxImages = window._galleryImages || [];
+}
 
+function openLightbox(index) {
+  if (!lightboxImages || lightboxImages.length === 0) return;
+  currentLightboxIndex = index;
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lbImg');
+  const title = document.getElementById('lbTitle');
+  const location = document.getElementById('lbLocation');
+  const counter = document.getElementById('lbCounter');
+
+  img.src = lightboxImages[currentLightboxIndex] || FALLBACK_IMG;
+  img.alt = 'Safari image ' + (currentLightboxIndex + 1);
+  // Try to get tour title from page
+  const tourTitle = document.querySelector('.tour-detail-hero-content h1')?.textContent || 'Safari Tour';
+  title.textContent = tourTitle;
+  location.textContent = `Image ${currentLightboxIndex + 1} of ${lightboxImages.length}`;
+  counter.textContent = `${currentLightboxIndex + 1} / ${lightboxImages.length}`;
+
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function navigateLightbox(direction) {
+  if (!lightboxImages || lightboxImages.length === 0) return;
+  currentLightboxIndex = (currentLightboxIndex + direction + lightboxImages.length) % lightboxImages.length;
+  const img = document.getElementById('lbImg');
+  const counter = document.getElementById('lbCounter');
+  img.src = lightboxImages[currentLightboxIndex] || FALLBACK_IMG;
+  counter.textContent = `${currentLightboxIndex + 1} / ${lightboxImages.length}`;
+}
+
+// Lightbox event listeners
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('lbClose')?.addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev')?.addEventListener('click', () => navigateLightbox(-1));
+  document.getElementById('lbNext')?.addEventListener('click', () => navigateLightbox(1));
+  document.getElementById('lightbox')?.addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e) {
+    const lb = document.getElementById('lightbox');
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+  });
+});
 
 /* ============================================================
    PAYMENT METHOD TABS
@@ -820,25 +1049,13 @@ function renderPage(tour) {
 function wirePaymentMethods() {
   document.querySelectorAll('.payment-method').forEach(btn => {
     btn.addEventListener('click', () => {
-
-      document.querySelectorAll('.payment-method')
-        .forEach(b => b.classList.remove('active'));
-
+      document.querySelectorAll('.payment-method').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
       const method = btn.dataset.method;
-
-      document.getElementById('paymentMethod').value =
-        method === 'bank' ? 'bank_transfer' : method;
-
-      document.getElementById('paypalDetails').style.display =
-        method === 'paypal' ? '' : 'none';
-
-      document.getElementById('mpesaDetails').style.display =
-        method === 'mpesa' ? '' : 'none';
-
-      document.getElementById('bankDetails').style.display =
-        method === 'bank' ? '' : 'none';
+      document.getElementById('paymentMethod').value = method === 'bank' ? 'bank_transfer' : method;
+      document.getElementById('paypalDetails').style.display = method === 'paypal' ? '' : 'none';
+      document.getElementById('mpesaDetails').style.display = method === 'mpesa' ? '' : 'none';
+      document.getElementById('bankDetails').style.display = method === 'bank' ? '' : 'none';
     });
   });
 }
@@ -850,18 +1067,14 @@ function openBookingModal(tourName, deposit) {
   document.getElementById('modalTourName').textContent = tourName;
   document.getElementById('depositAmount').textContent = fmtMoney(deposit);
   document.getElementById('depositDisplay').textContent = fmtMoney(deposit);
-  document.getElementById('tourId').value = window.currentTour._id;
-
-  // Derive a short bank reference from tour name
+  document.getElementById('tourId').value = window.currentTour?._id || '';
   const ref = tourName.split(' ').slice(0, 2).map(w => w.toUpperCase()).join('-');
   document.getElementById('bankRef').textContent = `${ref}-[Your Name]`;
-
   openModal('bookingModal');
 }
 
 function handleBookingSubmit(e) {
   e.preventDefault();
-  // Here you'd POST to your API; for now show a success toast
   closeModal('bookingModal');
   const toast = document.getElementById('toast');
   if (toast) {
@@ -891,12 +1104,10 @@ function showPageError(msg) {
 ============================================================ */
 (async () => {
   const id = getURLParam('id');
-
   if (!id) {
     showPageError('No safari selected. Please go back and choose a tour.');
     return;
   }
-
   try {
     const tour = await fetchTour(id);
     renderPage(tour);
@@ -906,22 +1117,17 @@ function showPageError(msg) {
   }
 })();
 
-
-// Handle PayPal return (booking-success.html or this page with ?paypalOrderId=)
+// Handle PayPal return
 (async () => {
   const params = new URLSearchParams(window.location.search);
-  const paypalOrderId = params.get('token'); // PayPal appends ?token= on return
+  const paypalOrderId = params.get('token');
   const bookingId = params.get('bookingId');
-
   if (paypalOrderId && bookingId) {
     const token = localStorage.getItem('wr_token');
     try {
       const res = await fetch(`${API_BASE}/api/payments/paypal/capture`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ orderId: paypalOrderId, bookingId })
       });
       const data = await res.json();
@@ -932,7 +1138,6 @@ function showPageError(msg) {
     }
   }
 })();
-
 </script>
 </body>
 </html>

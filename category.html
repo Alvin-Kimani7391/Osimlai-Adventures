@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title id="pageTitle">Volunteer Programs | International Volunteer Home Tz</title>
+<meta name="description" id="pageDesc" content="Browse open volunteer placements with International Volunteer Home Tz." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+  :root{
+    --cat-accent:#1a3c2e;
+    --cat-accent-soft:#eef6f1;
+  }
+
+  /* ── Skeleton ── */
+  .skeleton{ background:linear-gradient(90deg,#e8e8e8 25%,#f5f5f5 50%,#e8e8e8 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:8px; }
+  @keyframes shimmer{ 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  .vol-skeleton{ background:#fff; border-radius:16px; overflow:hidden; border:1px solid #e8e8e8; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:28px; }
+  .vol-skeleton-img{ height:240px; }
+  .vol-skeleton-body{ padding:26px; display:flex; flex-direction:column; gap:12px; }
+  .skeleton-line{ height:14px; }
+  .skeleton-line.short{ width:50%; } .skeleton-line.long{ width:92%; } .skeleton-line.med{ width:72%; } .skeleton-line.title{ height:22px; width:65%; }
+
+  /* ── Category hero ── */
+  .cat-hero{
+    position:relative; color:#fff; padding:140px 24px 84px; overflow:hidden;
+    background:linear-gradient(160deg, color-mix(in srgb, var(--cat-accent) 88%, black) 0%, var(--cat-accent) 65%, color-mix(in srgb, var(--cat-accent) 70%, #52b788) 100%);
+  }
+  .cat-hero::before{ content:''; position:absolute; inset:0; background-image:radial-gradient(circle at 88% 15%, rgba(255,255,255,0.14), transparent 45%); pointer-events:none; }
+  .cat-hero-inner{ position:relative; max-width:820px; }
+  .cat-hero .breadcrumb{ color:rgba(255,255,255,0.65); font-size:0.82rem; margin-bottom:20px; }
+  .cat-hero .breadcrumb a{ color:rgba(255,255,255,0.85); }
+  .cat-hero-icon{
+    width:58px; height:58px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); font-size:1.5rem; margin-bottom:20px;
+  }
+  .cat-hero h1{ font-family:'Playfair Display',serif; font-size:clamp(2.1rem,4.6vw,3rem); font-weight:800; margin-bottom:16px; line-height:1.15; }
+  .cat-hero p{ font-size:1.02rem; line-height:1.7; color:rgba(255,255,255,0.85); max-width:620px; }
+
+  .cat-hero-stats{ display:flex; gap:34px; margin-top:32px; flex-wrap:wrap; }
+  .cat-hero-stats div{ }
+  .cat-hero-stats .n{ font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:800; }
+  .cat-hero-stats .l{ font-size:0.76rem; color:rgba(255,255,255,0.65); text-transform:uppercase; letter-spacing:0.06em; }
+
+  /* ── Other categories pill nav ── */
+  .cat-pillnav{ display:flex; gap:10px; flex-wrap:wrap; padding:20px 24px; max-width:1160px; margin:0 auto; }
+  .cat-pill{
+    display:inline-flex; align-items:center; gap:7px;
+    padding:8px 16px; border-radius:100px; font-size:0.83rem; font-weight:600;
+    background:#f0f2f5; color:#475467; text-decoration:none; transition:all .16s ease;
+  }
+  .cat-pill:hover{ background:var(--cat-accent-soft); color:var(--cat-accent); }
+  .cat-pill.active{ background:var(--cat-accent); color:#fff; }
+
+  .container-cat{ max-width:1160px; margin:0 auto; padding:0 24px 90px; }
+
+  /* ── About-this-category panel (new: highlights + mini gallery + cultural note) ── */
+  .about-cat-panel{
+    background:#fff; border:1px solid #e8e8e8; border-radius:18px; padding:32px;
+    margin:30px 0 10px; display:grid; grid-template-columns:1.3fr 1fr; gap:32px;
+  }
+  .about-cat-copy h3{ font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:800; color:#101828; margin-bottom:10px; }
+  .about-cat-copy p{ font-size:0.9rem; color:#475467; line-height:1.75; margin-bottom:16px; }
+  .about-highlights{ list-style:none; padding:0; margin:0 0 18px; display:grid; gap:10px; }
+  .about-highlights li{ display:flex; gap:10px; align-items:flex-start; font-size:0.87rem; color:#344054; }
+  .about-highlights li i{ color:var(--cat-accent); margin-top:3px; flex-shrink:0; }
+  .cultural-note{ background:var(--cat-accent-soft); border-left:3px solid var(--cat-accent); border-radius:0 10px 10px 0; padding:14px 16px; font-size:0.86rem; color:#344054; line-height:1.65; }
+  .cultural-note strong{ color:var(--cat-accent); display:block; margin-bottom:4px; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em; }
+  .about-cat-gallery{ display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:10px; height:280px; }
+  .about-cat-gallery img{ width:100%; height:100%; object-fit:cover; border-radius:12px; }
+  .about-cat-gallery img:first-child{ grid-row:1 / span 2; }
+
+  /* ── Filter bar ── */
+  .filters-panel{
+    background:#fff; border:1px solid #e8e8e8; border-radius:16px;
+    padding:20px 22px; margin:26px 0 24px;
+    display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr auto; gap:14px; align-items:end;
+  }
+  .filter-field label{ display:block; font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#667085; margin-bottom:7px; }
+  .filter-field .form-control{
+    width:100%; padding:9px 12px; border:1.5px solid #e4e7ec; border-radius:8px; font-size:0.87rem;
+    color:#101828; font-family:inherit; outline:none; background:#fff; transition:border-color .16s;
+  }
+  .filter-field .form-control:focus{ border-color:var(--cat-accent); }
+  .filter-field.search-field{ position:relative; }
+  .filter-field.search-field i{ position:absolute; left:12px; top:38px; color:#98a2b3; font-size:0.85rem; }
+  .filter-field.search-field input{ padding-left:32px; }
+  .btn-reset-filters{
+    padding:9px 16px; border:1.5px solid #e4e7ec; border-radius:8px; background:#fff; color:#475467;
+    font-size:0.83rem; font-weight:600; cursor:pointer; white-space:nowrap;
+  }
+  .btn-reset-filters:hover{ background:#f9fafb; }
+
+  .results-info{ font-size:0.88rem; color:#667085; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  .results-info strong{ color:#101828; }
+
+  /* ── Detailed program card ── */
+  .prog-card{
+    background:#fff; border-radius:18px; overflow:hidden; border:1px solid rgba(0,0,0,0.06);
+    box-shadow:0 4px 24px rgba(26,60,46,0.06); margin-bottom:30px;
+    transition:box-shadow .2s ease, transform .2s ease;
+  }
+  .prog-card:hover{ box-shadow:0 10px 40px rgba(26,60,46,0.13); transform:translateY(-2px); }
+  .prog-inner{ display:grid; grid-template-columns:360px 1fr; }
+  .prog-img-wrap{ position:relative; overflow:hidden; min-height:100%; }
+  .prog-img-wrap img{ width:100%; height:100%; object-fit:cover; min-height:300px; transition:transform .5s ease; }
+  .prog-card:hover .prog-img-wrap img{ transform:scale(1.05); }
+  .prog-badges{ position:absolute; top:14px; left:14px; display:flex; flex-direction:column; gap:6px; }
+  .prog-badge{ background:var(--cat-accent); color:#fff; font-size:0.7rem; font-weight:800; letter-spacing:0.04em; padding:5px 10px; border-radius:6px; text-transform:uppercase; }
+  .prog-badge.spots{ background:#b91c1c; }
+  .prog-content{ padding:28px 30px; display:flex; flex-direction:column; }
+  .prog-top-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:14px; margin-bottom:8px; }
+  .prog-title{ font-family:'Playfair Display',serif; font-size:1.32rem; font-weight:800; color:#101828; line-height:1.25; }
+  .prog-rating{ white-space:nowrap; font-size:0.86rem; color:#d4a017; font-weight:700; }
+  .prog-rating span.count{ color:#98a2b3; font-weight:400; font-size:0.78rem; }
+  .prog-location{ font-size:0.86rem; color:#667085; margin-bottom:14px; display:flex; align-items:center; gap:6px; }
+  .prog-desc{ font-size:0.9rem; line-height:1.75; color:#475467; margin-bottom:18px; }
+
+  .prog-detail-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:18px; }
+  .prog-detail-item{ background:#f8f9fa; border-radius:10px; padding:10px 12px; }
+  .prog-detail-item .lbl{ font-size:0.68rem; text-transform:uppercase; letter-spacing:0.05em; color:#98a2b3; font-weight:700; margin-bottom:3px; }
+  .prog-detail-item .val{ font-size:0.86rem; font-weight:700; color:#101828; }
+  .prog-detail-item .val i{ color:var(--cat-accent); margin-right:5px; }
+
+  .prog-taglist{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .prog-tag{ background:var(--cat-accent-soft); color:var(--cat-accent); font-size:0.78rem; font-weight:600; padding:5px 12px; border-radius:100px; display:flex; align-items:center; gap:5px; }
+
+  .prog-footer{ display:flex; align-items:center; justify-content:space-between; padding-top:18px; border-top:1px solid #f0f0f0; margin-top:auto; flex-wrap:wrap; gap:14px; }
+  .prog-price-from{ font-size:0.74rem; color:#667085; }
+  .prog-price{ font-size:1.4rem; font-weight:900; color:var(--cat-accent); }
+  .prog-price span{ font-size:0.76rem; font-weight:400; color:#667085; }
+  .prog-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
+  /* ── Empty / error ── */
+  .empty-state{ text-align:center; padding:70px 24px; background:#fff; border-radius:16px; border:1px solid #e8e8e8; }
+  .empty-state .empty-icon{ font-size:3.4rem; margin-bottom:16px; }
+  .empty-state h3{ font-size:1.25rem; font-weight:700; margin-bottom:8px; }
+  .empty-state p{ color:#667085; font-size:0.94rem; max-width:420px; margin:0 auto; }
+
+  /* ── Sample schedule (new) ── */
+  .schedule-panel{ background:#fff; border:1px solid #e8e8e8; border-radius:16px; padding:26px 28px; margin-bottom:26px; }
+  .schedule-panel h3{ font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:800; color:#101828; margin-bottom:16px; }
+  .schedule-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+  .schedule-day{ background:#f8f9fa; border-radius:10px; padding:12px 14px; }
+  .schedule-day .d{ font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:var(--cat-accent); margin-bottom:6px; }
+  .schedule-day .t{ font-size:0.82rem; color:#475467; line-height:1.5; }
+
+  /* ── Modal (Quick Apply) ── */
+  .modal-overlay{ position:fixed; inset:0; background:rgba(16,24,40,0.55); z-index:900; display:none; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
+  .modal-overlay.open{ display:flex; }
+  .modal{ background:#fff; border-radius:16px; width:100%; max-width:660px; max-height:92vh; overflow-y:auto; box-shadow:0 20px 60px rgba(16,24,40,0.18); animation:modalIn .22s ease; }
+  @keyframes modalIn{ from{opacity:0;transform:translateY(20px) scale(.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+  .modal-header{ display:flex; align-items:center; justify-content:space-between; padding:22px 26px 18px; border-bottom:1px solid #e4e7ec; position:sticky; top:0; background:#fff; z-index:10; }
+  .modal-header h3{ font-size:1.05rem; font-weight:800; color:#101828; }
+  .modal-program-info{ background:var(--cat-accent-soft); border-left:3px solid var(--cat-accent); padding:12px 16px; border-radius:0 8px 8px 0; margin-bottom:22px; font-size:0.84rem; }
+  .modal-program-info strong{ color:#101828; font-size:0.95rem; display:block; margin-bottom:4px; }
+  .modal-program-info span{ color:#667085; }
+  .modal-close{ width:30px; height:30px; background:#f0f2f5; border-radius:8px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1rem; color:#667085; transition:all .15s; }
+  .modal-close:hover{ background:#fef2f2; color:#b91c1c; }
+  .modal-body{ padding:22px 26px 26px; }
+  .form-group{ margin-bottom:16px; }
+  .form-group label{ display:block; font-size:0.76rem; font-weight:700; color:#344054; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em; }
+  .form-group label .req{ color:#b91c1c; }
+  .form-control{ width:100%; padding:9px 13px; border:1.5px solid #e4e7ec; border-radius:8px; font-size:0.88rem; color:#101828; font-family:inherit; outline:none; transition:border-color .18s, box-shadow .18s; background:#fff; }
+  .form-control:focus{ border-color:var(--cat-accent); box-shadow:0 0 0 3px var(--cat-accent-soft); }
+  .form-control.error{ border-color:#b91c1c; }
+  textarea.form-control{ resize:vertical; min-height:88px; }
+  .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .form-section-label{ font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#667085; margin:20px 0 12px; display:flex; align-items:center; gap:10px; }
+  .form-section-label::after{ content:''; flex:1; height:1px; background:#e4e7ec; }
+  .login-notice{ background:#fffbeb; border:1.5px solid #f4c842; border-radius:10px; padding:14px 16px; font-size:0.84rem; color:#92400e; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+  .login-notice a{ color:var(--cat-accent); font-weight:700; text-decoration:underline; }
+  .btn-submit-vol{ width:100%; padding:12px; background:var(--cat-accent); color:#fff; border:none; border-radius:10px; font-size:0.95rem; font-weight:700; cursor:pointer; transition:background .18s, transform .15s; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:8px; font-family:inherit; }
+  .btn-submit-vol:hover:not(:disabled){ transform:translateY(-1px); filter:brightness(1.1); }
+  .btn-submit-vol:disabled{ opacity:.65; cursor:not-allowed; transform:none; }
+  .btn-submit-vol .spinner{ width:16px; height:16px; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation:spin .6s linear infinite; display:none; }
+  .btn-submit-vol.loading .spinner{ display:block; }
+  .btn-submit-vol.loading .btn-label{ opacity:.7; }
+  @keyframes spin{ to{transform:rotate(360deg)} }
+  .modal-success{ text-align:center; padding:40px 24px; }
+  .modal-success .success-icon{ font-size:3.5rem; margin-bottom:16px; }
+  .modal-success h3{ font-size:1.2rem; font-weight:800; color:var(--cat-accent); margin-bottom:8px; }
+  .modal-success p{ color:#667085; font-size:0.9rem; line-height:1.6; }
+
+  @media (max-width:900px){
+    .prog-inner{ grid-template-columns:1fr; }
+    .prog-img-wrap img{ min-height:220px; max-height:260px; }
+    .prog-detail-grid{ grid-template-columns:repeat(2,1fr); }
+    .filters-panel{ grid-template-columns:1fr 1fr; }
+    .form-row{ grid-template-columns:1fr; }
+    .about-cat-panel{ grid-template-columns:1fr; }
+    .about-cat-gallery{ height:220px; }
+    .schedule-grid{ grid-template-columns:repeat(2,1fr); }
+  }
+  @media (max-width:560px){
+    .prog-content{ padding:22px; }
+    .filters-panel{ grid-template-columns:1fr; }
+    .cat-hero{ padding:120px 20px 64px; }
+    .schedule-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <a href="index.html" class="logo" style="color:var(--forest)">
+    <div class="logo-icon">🌍</div>
+    International <span>Volunteer Home Tz</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link" style="color:var(--text)">Home</a></li>
+    <li><a href="tours.html" class="nav-link" style="color:var(--text)">Safaris</a></li>
+    <li><a href="volunteer.html" class="nav-link active" style="color:var(--text)">Volunteer</a></li>
+    <li><a href="community.html" class="nav-link" style="color:var(--text)">Community</a></li>
+    <li><a href="about.html" class="nav-link" style="color:var(--text)">About</a></li>
+    <li><a href="blog.html" class="nav-link" style="color:var(--text)">Blog</a></li>
+    <li><a href="contact.html" class="nav-link" style="color:var(--text)">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="nav-cta" style="color:var(--text)">Sign In</a>
+    <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span style="background:var(--forest)"></span>
+    <span style="background:var(--forest)"></span>
+    <span style="background:var(--forest)"></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
+  <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
+  <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+  <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
+  <div class="mobile-actions">
+    <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+    <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
+  </div>
+</div>
+
+<!-- CATEGORY HERO (populated by JS from static CATEGORIES config) -->
+<header class="cat-hero" id="catHero">
+  <div class="cat-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> › <a href="volunteer.html">Volunteer</a> › <span id="breadcrumbCat">Category</span></div>
+    <div class="cat-hero-icon"><i class="fa-solid fa-leaf" id="catHeroIcon"></i></div>
+    <h1 id="catHeroTitle">Volunteer Programs</h1>
+    <p id="catHeroDesc">Loading category…</p>
+    <div class="cat-hero-stats">
+      <div><div class="n" id="statCount">–</div><div class="l">Open Programs</div></div>
+      <div><div class="n" id="statCountries">–</div><div class="l">Countries</div></div>
+      <div><div class="n" id="statFrom">–</div><div class="l">From / Week</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- OTHER CATEGORIES PILLS -->
+<nav class="cat-pillnav" id="pillNav"></nav>
+
+<div class="container-cat">
+
+  <!-- ABOUT THIS CATEGORY (new: highlights, cultural note, mini gallery) -->
+  <div class="about-cat-panel">
+    <div class="about-cat-copy">
+      <h3 id="aboutCatTitle">What you'll actually do</h3>
+      <p id="aboutCatIntro">Loading details…</p>
+      <ul class="about-highlights" id="aboutHighlights"></ul>
+      <div class="cultural-note">
+        <strong>Cultural Context</strong>
+        <span id="culturalNote">Loading…</span>
+      </div>
+    </div>
+    <div class="about-cat-gallery" id="aboutCatGallery">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <!-- SAMPLE WEEKLY SCHEDULE (new) -->
+  <div class="schedule-panel">
+    <h3><i class="fa-regular fa-calendar" style="color:var(--cat-accent);margin-right:8px;"></i>A Typical Week</h3>
+    <div class="schedule-grid" id="scheduleGrid"></div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters-panel">
+    <div class="filter-field search-field">
+      <label>Search</label>
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input class="form-control" type="text" id="fSearch" placeholder="Search this category…" />
+    </div>
+    <div class="filter-field">
+      <label>Country</label>
+      <select class="form-control" id="fCountry"><option value="">All countries</option></select>
+    </div>
+    <div class="filter-field">
+      <label>Duration</label>
+      <select class="form-control" id="fDuration">
+        <option value="">Any length</option>
+        <option value="short">2–4 weeks</option>
+        <option value="mid">5–8 weeks</option>
+        <option value="long">9+ weeks</option>
+      </select>
+    </div>
+    <div class="filter-field">
+      <label>Sort by</label>
+      <select class="form-control" id="fSort">
+        <option value="recommended">Recommended</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Highest Rated</option>
+        <option value="duration">Shortest Duration</option>
+      </select>
+    </div>
+    <button class="btn-reset-filters" id="resetFilters">Reset</button>
+  </div>
+
+  <div class="results-info" id="resultsInfo" style="display:none;">
+    <span>Showing <strong id="resultsCount">0</strong> program<span id="resultsPlural">s</span></span>
+  </div>
+
+  <div id="programsContainer">
+    <div class="vol-skeleton"><div class="skeleton vol-skeleton-img"></div><div class="vol-skeleton-body"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line title"></div><div class="skeleton skeleton-line long"></div><div class="skeleton skeleton-line med"></div></div></div>
+    <div class="vol-skeleton"><div class="skeleton vol-skeleton-img"></div><div class="vol-skeleton-body"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line title"></div><div class="skeleton skeleton-line long"></div><div class="skeleton skeleton-line med"></div></div></div>
+  </div>
+</div>
+
+<section class="cta-section">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--gold-light)">Not Sure Which Program Fits?</span>
+    <h2>Talk to Our Volunteer Team</h2>
+    <p>Our coordinators are former volunteers themselves. Tell them your dates and interests, and they'll shortlist programs for you.</p>
+    <div class="cta-actions">
+      <a href="contact.html" class="btn btn-primary btn-lg">Contact Us</a>
+      <a href="volunteer.html" class="btn btn-outline btn-lg">All Categories</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="color:var(--white)">
+        <div class="logo-icon">🌍</div>
+        International <span>Volunteer Home Tz</span>
+      </a>
+      <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Programs</h4>
+      <ul>
+        <li><a href="category.html?cat=wildlife">Wildlife Conservation</a></li>
+        <li><a href="category.html?cat=education">Education</a></li>
+        <li><a href="category.html?cat=healthcare">Healthcare</a></li>
+        <li><a href="category.html?cat=environment">Environment</a></li>
+        <li><a href="category.html?cat=community">Community Development</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Safaris</h4>
+      <ul>
+        <li><a href="tours.html">Wildlife Safaris</a></li>
+        <li><a href="tours.html">Cultural Village Visits</a></li>
+        <li><a href="tours.html">Mountain Climbing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="faq.html">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 International Volunteer Home Tz. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
+  </div>
+</footer>
+
+<!-- APPLY MODAL -->
+<div class="modal-overlay" id="applyModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🌍 Volunteer Application</h3>
+      <button class="modal-close" onclick="closeApplyModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <div class="modal-program-info" id="modalProgramInfo">
+        <strong id="modalProgramName">Loading program…</strong>
+        <span id="modalProgramMeta"></span>
+      </div>
+      <div class="login-notice" id="loginNotice" style="display:none;">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span>You need to <a href="login.html">sign in</a> or <a href="register.html">create an account</a> before submitting an application.</span>
+      </div>
+      <p style="color:#667085;font-size:0.86rem;margin-bottom:22px;">We review all applications within 48 hours. Our volunteer coordinator will contact you to discuss the program in detail.</p>
+      <form id="volunteerApplyForm" novalidate>
+        <input type="hidden" name="program" id="applyProgramId" />
+        <div class="form-section-label">Personal Details</div>
+        <div class="form-row">
+          <div class="form-group"><label>First Name <span class="req">*</span></label><input class="form-control" type="text" name="firstName" placeholder="Jane" required /></div>
+          <div class="form-group"><label>Last Name <span class="req">*</span></label><input class="form-control" type="text" name="lastName" placeholder="Doe" required /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Email <span class="req">*</span></label><input class="form-control" type="email" name="email" placeholder="jane@example.com" required /></div>
+          <div class="form-group"><label>Phone / WhatsApp <span class="req">*</span></label><input class="form-control" type="tel" name="phone" placeholder="+1 234 567 8900" required /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Nationality <span class="req">*</span></label><input class="form-control" type="text" name="nationality" placeholder="e.g. British" required /></div>
+          <div class="form-group"><label>Date of Birth <span class="req">*</span></label><input class="form-control" type="date" name="dateOfBirth" required /></div>
+        </div>
+        <div class="form-section-label">Program Preferences</div>
+        <div class="form-row">
+          <div class="form-group"><label>Preferred Start Date <span class="req">*</span></label><input class="form-control" type="date" name="startDate" required /></div>
+          <div class="form-group">
+            <label>Duration <span class="req">*</span></label>
+            <select class="form-control" name="duration" required>
+              <option value="">Select duration…</option>
+              <option value="2 weeks">2 Weeks</option><option value="4 weeks">4 Weeks</option>
+              <option value="6 weeks">6 Weeks</option><option value="8 weeks">8 Weeks</option>
+              <option value="12 weeks">12 Weeks</option><option value="16 weeks">16 Weeks</option>
+              <option value="24 weeks">24 Weeks</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:6px;">
+          <label>Would you like a home-stay with a local family?</label>
+          <select class="form-control" name="homestayPreference">
+            <option value="yes">Yes, I'd like a home-stay</option>
+            <option value="no">No, shared volunteer house is fine</option>
+            <option value="undecided">Not sure yet — advise me</option>
+          </select>
+        </div>
+        <div class="form-section-label">Background & Motivation</div>
+        <div class="form-group"><label>Relevant Skills & Experience</label><textarea class="form-control" name="skills" placeholder="Tell us about your relevant background, qualifications, or experience…"></textarea></div>
+        <div class="form-group"><label>Motivation Statement <span class="req">*</span></label><textarea class="form-control" name="motivation" placeholder="Why do you want to volunteer with International Volunteer Home Tz? What do you hope to contribute and gain?" required></textarea></div>
+        <div class="form-group"><label>Languages Spoken</label><input class="form-control" type="text" name="languages" placeholder="e.g. English, French, Swahili (comma separated)" /></div>
+        <div class="form-group"><label>Dietary Requirements</label><input class="form-control" type="text" name="dietaryRequirements" placeholder="e.g. Vegetarian, Gluten-free, None" /></div>
+        <div class="form-group"><label>Medical Conditions (optional)</label><input class="form-control" type="text" name="medicalConditions" placeholder="Any conditions we should be aware of" /></div>
+        <div class="form-section-label">Emergency Contact</div>
+        <div class="form-row">
+          <div class="form-group"><label>Contact Name <span class="req">*</span></label><input class="form-control" type="text" name="emergencyName" placeholder="Full name" required /></div>
+          <div class="form-group"><label>Contact Phone <span class="req">*</span></label><input class="form-control" type="tel" name="emergencyPhone" placeholder="+1 234 567 8900" required /></div>
+        </div>
+        <div class="form-group" style="display:flex;align-items:center;gap:10px;margin-top:4px;">
+          <input type="checkbox" name="hasPassport" id="hasPassport" style="width:auto;flex-shrink:0;" />
+          <label for="hasPassport" style="text-transform:none;letter-spacing:0;font-weight:500;font-size:0.88rem;margin-bottom:0;color:#344054;">I have a valid passport</label>
+        </div>
+        <button type="submit" class="btn-submit-vol" id="submitVolBtn">
+          <span class="spinner"></span><span class="btn-label">Submit Application →</span>
+        </button>
+        <p style="font-size:0.77rem;color:#667085;text-align:center;margin-top:10px;">We respond to all applications within 48 hours.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/* ============================================================
+   CONFIG — categories are static entities, projects are dynamic
+   Broadened to reflect the full diversity of East African peoples:
+   Swahili coastal communities, Chagga, Kikuyu, Luo, Kalenjin,
+   Maasai/Waarusha, and many others — children, women and men alike.
+============================================================ */
+const API = 'https://wild-tours.onrender.com/api';
+
+const CATEGORIES = {
+  wildlife: {
+    label: 'Wildlife Conservation',
+    icon: 'fa-paw',
+    accent: '#b5651d',
+    tagline: 'Hands-on species protection',
+    description: "Work alongside rangers, vets and local game scouts on rescue, monitoring and anti-poaching efforts protecting Africa's most iconic wildlife.",
+    heroImg: 'https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=1200&auto=format&fit=crop',
+    intro: "Wildlife placements sit at the edge of conservation areas near the Serengeti, Ngorongoro and Tarangire, where communities of many backgrounds — Maasai pastoralists, Waarusha farmers, and staff drawn from across Tanzania and Kenya — have coexisted with wildlife for generations. You'll work alongside professional rangers, vets and local scouts on real monitoring and protection work — not staged animal encounters.",
+    highlights: [
+      'Daily patrols and camera-trap monitoring with field rangers',
+      'Assist visiting vets with wildlife health checks and rescues',
+      'Learn traditional tracking and coexistence knowledge from local scouts',
+      'Contribute to human-wildlife conflict mitigation projects'
+    ],
+    culturalNote: "Wildlife programs are hosted on land bordering several community groups, including Maasai group ranches and mixed farming villages. Elder scouts from different backgrounds often lead morning briefings, and volunteers follow the same conservation protocols the community itself uses.",
+    gallery: [
+      'https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=500&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1521651201144-634f700b36ef?w=500&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&auto=format&fit=crop'
+    ],
+    schedule: [
+      ['Mon','Dawn patrol & wildlife counts'],
+      ['Tue','Camera-trap data review'],
+      ['Wed','Vet clinic assist / rescue call-outs'],
+      ['Thu','Community coexistence workshop'],
+      ['Fri','Habitat monitoring & reporting']
+    ]
+  },
+  education: {
+    label: 'Education',
+    icon: 'fa-book',
+    accent: '#2b6cb0',
+    tagline: 'Teach, mentor, inspire',
+    description: 'Support classroom teaching, literacy programs and after-school mentoring in schools and community learning centers across East Africa.',
+    heroImg: 'https://images.unsplash.com/photo-1497375638960-ca80c1a5c9c4?w=1200&auto=format&fit=crop',
+    intro: "Education placements run in primary schools and community learning centers across East Africa — from Swahili coastal towns to inland farming villages and pastoralist communities near Arusha — where access to quality education can still be limited, especially for girls. You'll co-teach alongside qualified local teachers rather than lead a classroom alone.",
+    highlights: [
+      'Co-teach English, math or science with a local teacher',
+      'Run after-school literacy and reading clubs',
+      'Support girls\' education initiatives across partner communities',
+      'Help build low-cost teaching materials and libraries'
+    ],
+    culturalNote: "Lessons often blend English and Swahili, and school calendars follow the Tanzanian or Kenyan academic year. In some pastoralist areas, attendance can shift with the cattle-herding season — volunteers help schools adapt rather than expecting a fixed routine.",
+    gallery: [
+      'https://images.unsplash.com/photo-1497375638960-ca80c1a5c9c4?w=500&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=500&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1590650046871-92c887180603?w=500&auto=format&fit=crop'
+    ],
+    schedule: [
+      ['Mon','Co-teach morning classes'],
+      ['Tue','Lesson planning with local teacher'],
+      ['Wed','After-school literacy club'],
+      ['Thu','Teaching materials workshop'],
+      ['Fri','Girls\' mentoring circle']
+    ]
+  },
+  healthcare: {
+    label: 'Healthcare',
+    icon: 'fa-heart-pulse',
+    accent: '#c0392b',
+    tagline: 'Support frontline care',
+    description: 'Assist clinic staff, health outreach camps and maternal-care initiatives serving rural, coastal and under-resourced communities.',
+    heroImg: 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=1200&auto=format&fit=crop',
+    intro: "Healthcare placements support rural clinics and mobile outreach camps that serve dispersed communities — from Swahili coastal towns to inland villages and pastoralist bomas, where the nearest hospital can be hours away. Depending on your qualifications, you may assist with triage, health education, or logistics for vaccination and maternal-health drives.",
+    highlights: [
+      'Support triage and patient flow at rural and coastal clinics',
+      'Join mobile outreach camps to remote communities',
+      'Assist maternal and child health education sessions',
+      'Help track and report on vaccination campaign coverage'
+    ],
+    culturalNote: "Many communities combine traditional remedies with clinical care. Volunteers are trained to respect this — health workers build trust by working with traditional healers and community elders, not against them.",
+    gallery: [
+      'https://images.unsplash.com/photo-1584515933487-779824d29309?w=500&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=500&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1580281657702-257584239a55?w=500&auto=format&fit=crop'
+    ],
+    schedule: [
+      ['Mon','Clinic triage support'],
+      ['Tue','Maternal health education session'],
+      ['Wed','Mobile outreach camp travel day'],
+      ['Thu','Vaccination drive assistance'],
+      ['Fri','Health records & reporting']
+    ]
+  },
+  environment: {
+    label: 'Environment',
+    icon: 'fa-leaf',
+    accent: '#2d6a4f',
+    tagline: 'Restore & protect ecosystems',
+    description: 'Take part in reforestation, watershed protection and climate-resilience projects run with local conservation trusts.',
+    heroImg: 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=1200&auto=format&fit=crop',
+    intro: "Environmental placements focus on reforestation and water-source protection across the Great Rift Valley, working with land trusts formed by Chagga farmers, Maasai and Waarusha pastoralists, and other neighboring communities to restore land degraded by drought and overuse — balancing conservation with the livelihoods that depend on it.",
+    highlights: [
+      'Plant and maintain indigenous tree nurseries',
+      'Support borehole and water-catchment restoration',
+      'Map and monitor land regeneration with community elders',
+      'Run environmental education sessions in local schools'
+    ],
+    culturalNote: "Land-use decisions here are often made collectively by community elders across different groups. Projects are only greenlit once a village council agrees — so volunteers work at the pace of genuine consensus, not a fixed project timeline.",
+    gallery: [
+      'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=500&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1516214104703-d870798883c5?w=500&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=500&auto=format&fit=crop'
+    ],
+    schedule: [
+      ['Mon','Tree nursery planting'],
+      ['Tue','Water-source restoration work'],
+      ['Wed','Land mapping with community elders'],
+      ['Thu','School environmental education'],
+      ['Fri','Land trust community meeting']
+    ]
+  },
+  community: {
+    label: 'Community Development',
+    icon: 'fa-hands-helping',
+    accent: '#b8860b',
+    tagline: 'Build alongside communities',
+    description: 'Contribute to construction, clean-water access and livelihood programs designed and led by East African communities themselves.',
+    heroImg: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1200&auto=format&fit=crop',
+    intro: "Community development placements are based directly in villages, coastal towns and pastoralist bomas across northern Tanzania, working on projects each community has identified as priorities — from clean-water access to women's craft and weaving cooperatives that generate independent income.",
+    highlights: [
+      'Help build classrooms, water points and community centers',
+      'Support women-led craft, beadwork and weaving cooperatives',
+      'Assist clean-water access and sanitation projects',
+      'Take part in cultural exchange evenings hosted by the community'
+    ],
+    culturalNote: "Community development here is community-led by design: local leadership decides the project, and volunteers provide the extra hands and skills. Expect to spend real time simply being part of daily life — cooking, chores, and conversation included — with families of whichever community hosts the project.",
+    gallery: [
+      'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=500&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=500&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=500&auto=format&fit=crop'
+    ],
+    schedule: [
+      ['Mon','Construction / water project work'],
+      ['Tue','Women\'s cooperative support'],
+      ['Wed','Daily community life & chores'],
+      ['Thu','Community meeting & planning'],
+      ['Fri','Cultural exchange evening']
+    ]
+  }
+};
+
+/* ============================================================
+   STATE
+============================================================ */
+const params = new URLSearchParams(window.location.search);
+let activeSlug = params.get('cat');
+if (!CATEGORIES[activeSlug]) activeSlug = 'wildlife';
+const activeCat = CATEGORIES[activeSlug];
+
+let allPrograms = [];    // full fetch, unfiltered by API (safety net)
+let catPrograms = [];    // filtered to this category
+let selectedProgram = null;
+
+/* ============================================================
+   AUTH HELPERS (shared pattern across the site)
+============================================================ */
+function getToken(){ return localStorage.getItem('wr_token'); }
+function getUser(){ try { return JSON.parse(localStorage.getItem('wr_user') || 'null'); } catch(e){ return null; } }
+function isLoggedIn(){ return !!getToken() && !!getUser(); }
+
+function updateNavForAuth() {
+  const token = localStorage.getItem('wr_token');
+  const userRaw = localStorage.getItem('wr_user');
+  const navActions = document.querySelector('.nav-actions');
+  if (!navActions || !token || !userRaw) return;
+  try {
+    const user = JSON.parse(userRaw);
+    const firstName = user.firstName || user.name?.split(' ')[0] || 'Traveler';
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    navActions.innerHTML = `
+      <span style="font-weight:600; color: var(--primary, #2d7a3a);">${greeting}, ${firstName} 👋</span>
+      <a href="my-portal.html" class="btn btn-outline-dark btn-sm" style="margin-left:10px;">My Portal</a>
+      <a onclick="if(confirm('Are you sure you want to log out?')){localStorage.removeItem('wr_token');localStorage.removeItem('wr_user');window.location.href='login.html';}" class="btn btn-outline-dark btn-sm" style="margin-left:12px; cursor:pointer;">Logout</a>`;
+  } catch(e) { localStorage.removeItem('wr_user'); localStorage.removeItem('wr_token'); }
+}
+updateNavForAuth();
+
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => { mobileMenu.classList.toggle('open'); hamburger.classList.toggle('active'); });
+}
+
+/* ============================================================
+   TOAST
+============================================================ */
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.style.display = 'none', 400); }, 3500);
+}
+
+/* ============================================================
+   RENDER STATIC CATEGORY HERO + PILL NAV + ABOUT PANEL + SCHEDULE
+============================================================ */
+function renderCategoryChrome() {
+  document.documentElement.style.setProperty('--cat-accent', activeCat.accent);
+  document.title = `${activeCat.label} Volunteer Programs | International Volunteer Home Tz`;
+  document.getElementById('pageDesc').setAttribute('content', activeCat.description);
+  document.getElementById('breadcrumbCat').textContent = activeCat.label;
+  document.getElementById('catHeroIcon').className = `fa-solid ${activeCat.icon}`;
+  document.getElementById('catHeroTitle').textContent = activeCat.label + ' Volunteer Programs';
+  document.getElementById('catHeroDesc').textContent = activeCat.description;
+  document.getElementById('catHero').style.setProperty('background-image', `linear-gradient(160deg, rgba(10,10,10,.55), rgba(10,10,10,.25)), url('${activeCat.heroImg}')`);
+  document.getElementById('catHero').style.backgroundSize = 'cover';
+  document.getElementById('catHero').style.backgroundPosition = 'center';
+
+  const pillNav = document.getElementById('pillNav');
+  pillNav.innerHTML = Object.entries(CATEGORIES).map(([slug, c]) => `
+    <a href="category.html?cat=${slug}" class="cat-pill ${slug === activeSlug ? 'active' : ''}">
+      <i class="fa-solid ${c.icon}"></i> ${c.label}
+    </a>`).join('');
+
+  // About-this-category panel
+  document.getElementById('aboutCatTitle').textContent = `What you'll actually do — ${activeCat.label}`;
+  document.getElementById('aboutCatIntro').textContent = activeCat.intro;
+  document.getElementById('aboutHighlights').innerHTML = activeCat.highlights.map(h => `<li><i class="fa-solid fa-check"></i> ${escHtml(h)}</li>`).join('');
+  document.getElementById('culturalNote').textContent = activeCat.culturalNote;
+  document.getElementById('aboutCatGallery').innerHTML = activeCat.gallery.map((src, i) => `<img src="${src}" alt="${escHtml(activeCat.label)} volunteering photo ${i+1}" loading="lazy" onerror="this.src='${activeCat.heroImg}'"/>`).join('');
+
+  // Sample weekly schedule
+  document.getElementById('scheduleGrid').innerHTML = activeCat.schedule.map(([day, task]) => `
+    <div class="schedule-day"><div class="d">${escHtml(day)}</div><div class="t">${escHtml(task)}</div></div>`).join('');
+}
+renderCategoryChrome();
+
+/* ============================================================
+   FETCH PROGRAMS FROM API
+============================================================ */
+async function fetchPrograms() {
+  try {
+    // Try server-side category filter first; client-side filter always runs as a safety net
+    const res = await fetch(`${API}/volunteer?category=${activeSlug}&limit=200`);
+    if (!res.ok) throw new Error(`Server error ${res.status}`);
+    const data = await res.json();
+    allPrograms = data.programs || data.data?.programs || data.data || [];
+
+    catPrograms = allPrograms.filter(p => (p.category || '').toLowerCase().includes(activeSlug));
+    // If the API already scoped it correctly and nothing matched the substring check
+    // (e.g. differently-worded category names), fall back to trusting the API response.
+    if (catPrograms.length === 0 && allPrograms.length > 0) catPrograms = allPrograms;
+
+    populateCountryFilter(catPrograms);
+    updateHeroStats(catPrograms);
+    applyFiltersAndRender();
+  } catch (err) {
+    console.error('Failed to fetch programs:', err);
+    showError(err.message);
+  }
+}
+
+function updateHeroStats(programs) {
+  document.getElementById('statCount').textContent = programs.length;
+  const countries = new Set(programs.map(p => (p.country || '').trim()).filter(Boolean));
+  document.getElementById('statCountries').textContent = countries.size || '—';
+  const fees = programs.map(p => Number(p.programFee || p.fee || 0)).filter(f => f > 0);
+  document.getElementById('statFrom').textContent = fees.length ? `$${Math.min(...fees).toLocaleString()}` : '—';
+}
+
+function populateCountryFilter(programs) {
+  const sel = document.getElementById('fCountry');
+  const countries = [...new Set(programs.map(p => (p.country || '').trim()).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="">All countries</option>' + countries.map(c => `<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('');
+}
+
+function showError(msg) {
+  document.getElementById('programsContainer').innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">🌐</div>
+      <h3>Couldn't load programs</h3>
+      <p>${escHtml(msg)}. Please refresh the page or try again shortly.</p>
+      <button onclick="location.reload()" class="btn btn-primary btn-lg" style="margin-top:20px;">Retry</button>
+    </div>`;
+}
+
+/* ============================================================
+   FILTER + SORT + RENDER
+============================================================ */
+function getDurationWeeks(p) {
+  if (p.duration && typeof p.duration === 'object' && p.duration.min != null) return Number(p.duration.min);
+  if (typeof p.duration === 'string') { const m = p.duration.match(/\d+/); return m ? Number(m[0]) : 0; }
+  return 0;
+}
+
+function applyFiltersAndRender() {
+  let list = [...catPrograms];
+
+  const q = document.getElementById('fSearch').value.trim().toLowerCase();
+  if (q) {
+    list = list.filter(p => `${p.title || ''} ${p.shortDescription || ''} ${p.description || ''} ${p.location || ''} ${p.country || ''}`.toLowerCase().includes(q));
+  }
+
+  const country = document.getElementById('fCountry').value;
+  if (country) list = list.filter(p => (p.country || '').trim() === country);
+
+  const dur = document.getElementById('fDuration').value;
+  if (dur) {
+    list = list.filter(p => {
+      const wk = getDurationWeeks(p);
+      if (dur === 'short') return wk <= 4;
+      if (dur === 'mid') return wk >= 5 && wk <= 8;
+      if (dur === 'long') return wk >= 9;
+      return true;
+    });
+  }
+
+  const sort = document.getElementById('fSort').value;
+  if (sort === 'price-asc') list.sort((a,b) => Number(a.programFee||a.fee||0) - Number(b.programFee||b.fee||0));
+  else if (sort === 'price-desc') list.sort((a,b) => Number(b.programFee||b.fee||0) - Number(a.programFee||a.fee||0));
+  else if (sort === 'rating') list.sort((a,b) => Number(b.ratingsAverage||0) - Number(a.ratingsAverage||0));
+  else if (sort === 'duration') list.sort((a,b) => getDurationWeeks(a) - getDurationWeeks(b));
+  else list.sort((a,b) => (b.featured === true) - (a.featured === true));
+
+  const info = document.getElementById('resultsInfo');
+  document.getElementById('resultsCount').textContent = list.length;
+  document.getElementById('resultsPlural').textContent = list.length === 1 ? '' : 's';
+  info.style.display = 'flex';
+
+  renderPrograms(list);
+}
+
+function renderPrograms(programs) {
+  const container = document.getElementById('programsContainer');
+  if (programs.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <h3>No ${escHtml(activeCat.label.toLowerCase())} programs match your filters</h3>
+        <p>Try widening your search, or browse another category — we're always adding new placements.</p>
+        <button onclick="document.getElementById('resetFilters').click()" class="btn btn-primary btn-lg" style="margin-top:20px;">Reset Filters</button>
+      </div>`;
+    return;
+  }
+  container.innerHTML = programs.map(renderProgramCard).join('');
+}
+
+function renderProgramCard(p) {
+  const img = p.coverImage?.url || p.images?.[0]?.url || activeCat.heroImg;
+  const title = escHtml(p.title || `${activeCat.label} Program`);
+  const desc = escHtml(p.shortDescription || p.summary || (p.description || '').slice(0, 240) || 'An impactful volunteer placement that makes a real difference on the ground.');
+  const country = escHtml(p.country || '');
+  const location = escHtml(p.location || p.town || '');
+  const locStr = [location, country].filter(Boolean).join(', ') || 'Location on request';
+
+  let durStr = '—';
+  if (p.duration) {
+    if (typeof p.duration === 'object' && p.duration.min != null) {
+      const unit = p.duration.unit || 'weeks';
+      durStr = (p.duration.max && p.duration.max !== p.duration.min) ? `${p.duration.min}–${p.duration.max} ${unit}` : `${p.duration.min} ${unit}`;
+    } else durStr = String(p.duration);
+  }
+
+  const fee = Number(p.programFee || p.fee || 0);
+  const feeStr = fee > 0 ? `$${fee.toLocaleString()}` : 'Contact us';
+
+  const ageMin = p.ageMin || p.minAge, ageMax = p.ageMax || p.maxAge;
+  let ageStr = '—';
+  if (ageMin && ageMax) ageStr = `${ageMin}–${ageMax} yrs`;
+  else if (ageMin) ageStr = `${ageMin}+ yrs`;
+
+  const accomType = p.accommodation?.type || p.accommodationType || '';
+  const accomLabel = { 'host-family':'Host Family', 'shared-house':'Shared House', 'bush-camp':'Bush Camp', 'guesthouse':'Guesthouse', 'lodge':'Eco Lodge' }[accomType] || accomType || '—';
+
+  const spots = p.spotsAvailable;
+  const rating = p.ratingsAverage ? `<span class="prog-rating">★ ${Number(p.ratingsAverage).toFixed(1)} <span class="count">(${p.ratingsQuantity || 0})</span></span>` : '';
+
+  const skills = (p.skillsRequired || p.requirements || []).slice(0,4).map(s => `<span class="prog-tag"><i class="fa-solid fa-check"></i> ${escHtml(s)}</span>`).join('');
+  const meals = p.meals ? `<span class="prog-tag"><i class="fa-solid fa-utensils"></i> ${escHtml(String(p.meals))} included</span>` : '';
+  const feeCoverage = (p.feeCoverage || []).slice(0,3).map(f => `<span class="prog-tag"><i class="fa-solid fa-circle-check"></i> ${escHtml(f)}</span>`).join('');
+
+  const badges = [];
+  if (p.featured) badges.push(`<span class="prog-badge">Featured</span>`);
+  if (spots != null && spots <= 5) badges.push(`<span class="prog-badge spots">${spots} spots left</span>`);
+
+  const programData = encodeURIComponent(JSON.stringify({
+    _id: p._id || p.id, title: p.title, country, location: locStr, duration: durStr, fee: feeStr
+  }));
+  const detailUrl = `volunteer-explore.html?id=${p._id || p.id}`;
+
+  return `
+    <div class="prog-card">
+      <div class="prog-inner">
+        <div class="prog-img-wrap">
+          <a href="${detailUrl}">
+            <img src="${img}" alt="${title}" loading="lazy" onerror="this.src='${activeCat.heroImg}'"/>
+          </a>
+          ${badges.length ? `<div class="prog-badges">${badges.join('')}</div>` : ''}
+        </div>
+        <div class="prog-content">
+          <div class="prog-top-row">
+            <a href="${detailUrl}" style="text-decoration:none;color:inherit;"><h2 class="prog-title">${title}</h2></a>
+            ${rating}
+          </div>
+          <div class="prog-location"><i class="fa-solid fa-location-dot"></i> ${locStr}</div>
+          <p class="prog-desc">${desc}</p>
+
+          <div class="prog-detail-grid">
+            <div class="prog-detail-item"><div class="lbl">Duration</div><div class="val"><i class="fa-regular fa-clock"></i>${escHtml(durStr)}</div></div>
+            <div class="prog-detail-item"><div class="lbl">Min. Age</div><div class="val"><i class="fa-regular fa-user"></i>${escHtml(ageStr)}</div></div>
+            <div class="prog-detail-item"><div class="lbl">Stay Type</div><div class="val"><i class="fa-solid fa-bed"></i>${escHtml(accomLabel)}</div></div>
+            <div class="prog-detail-item"><div class="lbl">Spots Left</div><div class="val"><i class="fa-solid fa-users"></i>${spots != null ? spots : '—'}</div></div>
+          </div>
+
+          ${(skills || meals || feeCoverage) ? `<div class="prog-taglist">${skills}${meals}${feeCoverage}</div>` : ''}
+
+          <div class="prog-footer">
+            <div>
+              <div class="prog-price-from">Program fee from</div>
+              <div class="prog-price">${feeStr} <span>/ program</span></div>
+            </div>
+            <div class="prog-actions">
+              <a href="${detailUrl}" class="btn btn-outline-dark btn-sm">View Full Details</a>
+              <button class="btn btn-primary btn-sm" onclick="openApplyModal('${programData}')">Quick Apply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ============================================================
+   FILTER EVENT WIRING
+============================================================ */
+['fCountry','fDuration','fSort'].forEach(id => document.getElementById(id).addEventListener('change', applyFiltersAndRender));
+let searchDebounce;
+document.getElementById('fSearch').addEventListener('input', () => { clearTimeout(searchDebounce); searchDebounce = setTimeout(applyFiltersAndRender, 250); });
+document.getElementById('resetFilters').addEventListener('click', () => {
+  document.getElementById('fSearch').value = '';
+  document.getElementById('fCountry').value = '';
+  document.getElementById('fDuration').value = '';
+  document.getElementById('fSort').value = 'recommended';
+  applyFiltersAndRender();
+});
+
+/* ============================================================
+   APPLY MODAL
+============================================================ */
+function openApplyModal(programDataEncoded) {
+  try { selectedProgram = JSON.parse(decodeURIComponent(programDataEncoded)); } catch(e) { selectedProgram = null; }
+  if (selectedProgram) {
+    document.getElementById('modalProgramName').textContent = selectedProgram.title || 'Volunteer Program';
+    document.getElementById('modalProgramMeta').textContent = [selectedProgram.location, selectedProgram.duration, selectedProgram.fee].filter(Boolean).join(' · ');
+    document.getElementById('applyProgramId').value = selectedProgram._id || '';
+  }
+  document.getElementById('loginNotice').style.display = isLoggedIn() ? 'none' : 'flex';
+  const user = getUser();
+  if (user) {
+    const form = document.getElementById('volunteerApplyForm');
+    const setVal = (name, val) => { const el = form.querySelector(`[name="${name}"]`); if (el && val) el.value = val; };
+    setVal('firstName', user.firstName); setVal('lastName', user.lastName);
+    setVal('email', user.email); setVal('phone', user.phone || ''); setVal('nationality', user.nationality || '');
+  }
+  document.getElementById('applyModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeApplyModal() {
+  document.getElementById('applyModal').classList.remove('open');
+  document.body.style.overflow = '';
+  const form = document.getElementById('volunteerApplyForm');
+  const successEl = document.getElementById('applySuccess');
+  if (successEl) successEl.remove();
+  if (form) form.style.display = '';
+}
+document.getElementById('applyModal').addEventListener('click', e => { if (e.target === document.getElementById('applyModal')) closeApplyModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeApplyModal(); });
+
+document.getElementById('volunteerApplyForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  if (!isLoggedIn()) { showToast('Please sign in before submitting an application.'); document.getElementById('loginNotice').style.display = 'flex'; return; }
+
+  const btn = document.getElementById('submitVolBtn');
+  btn.disabled = true; btn.classList.add('loading');
+  const form = e.target;
+  const fd = new FormData(form);
+
+  const payload = {
+    program: fd.get('program') || (selectedProgram?._id) || '',
+    personalInfo: { firstName: fd.get('firstName'), lastName: fd.get('lastName'), email: fd.get('email'), phone: fd.get('phone'), nationality: fd.get('nationality'), dateOfBirth: fd.get('dateOfBirth') },
+    emergencyContact: { name: fd.get('emergencyName'), phone: fd.get('emergencyPhone') },
+    programDetails: { startDate: fd.get('startDate'), duration: fd.get('duration'), homestayPreference: fd.get('homestayPreference') },
+    skills: fd.get('skills') ? fd.get('skills').split(',').map(s=>s.trim()).filter(Boolean) : [],
+    languages: fd.get('languages') ? fd.get('languages').split(',').map(s=>s.trim()).filter(Boolean) : [],
+    motivation: fd.get('motivation'),
+    medicalConditions: fd.get('medicalConditions') || '',
+    dietaryRequirements: fd.get('dietaryRequirements') || '',
+    hasPassport: fd.get('hasPassport') === 'on',
+  };
+
+  const required = ['firstName','lastName','email','phone','nationality','startDate','duration','motivation','emergencyName','emergencyPhone'];
+  for (const field of required) {
+    const val = form.querySelector(`[name="${field}"]`);
+    if (!val || !val.value.trim()) {
+      val?.classList.add('error'); val?.focus();
+      showToast(`Please fill in the ${field.replace(/([A-Z])/g,' $1').toLowerCase()} field.`);
+      btn.disabled = false; btn.classList.remove('loading');
+      return;
+    }
+    val.classList.remove('error');
+  }
+
+  try {
+    const res = await fetch(`${API}/volunteer/apply`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getToken()}` },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      form.style.display = 'none';
+      const success = document.createElement('div');
+      success.id = 'applySuccess';
+      success.className = 'modal-success';
+      success.innerHTML = `
+        <div class="success-icon">🎉</div>
+        <h3>Application Submitted!</h3>
+        <p>Thank you, <strong>${escHtml(fd.get('firstName'))}</strong>! Your application for <strong>${escHtml(selectedProgram?.title || 'the program')}</strong> has been received.</p>
+        <p style="margin-top:10px;">Our volunteer coordinator will review it and contact you at <strong>${escHtml(fd.get('email'))}</strong> within 48 hours.</p>
+        <button class="btn btn-primary" style="margin-top:24px;" onclick="closeApplyModal()">Close</button>`;
+      form.parentNode.appendChild(success);
+      form.reset();
+    } else {
+      showToast(data.message || 'Submission failed. Please try again.');
+    }
+  } catch (err) {
+    showToast('Network error. Please check your connection and try again.');
+  } finally {
+    btn.disabled = false; btn.classList.remove('loading');
+  }
+});
+
+/* ============================================================
+   HELPERS
+============================================================ */
+function escHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+fetchPrograms();
+</script>
+
+</body>
+</html>

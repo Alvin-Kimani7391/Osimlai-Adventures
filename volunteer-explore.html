@@ -116,21 +116,157 @@
     }
     .sidebar-feature:last-child { border-bottom: none; }
 
-    .gallery-mini {
+    /* ── EXPLORABLE GALLERY (same as tour-detail) ── */
+    .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
       gap: 8px;
       margin-bottom: 32px;
+      border-radius: var(--radius);
+      overflow: hidden;
     }
-    .gallery-mini img {
-      height: 90px;
-      width: 100%;
-      object-fit: cover;
-      border-radius: 8px;
+    .gallery-grid .gallery-main {
+      grid-row: 1 / 3;
+      grid-column: 1 / 2;
       cursor: pointer;
-      transition: opacity 0.2s;
+      position: relative;
+      overflow: hidden;
     }
-    .gallery-mini img:hover { opacity: 0.85; }
+    .gallery-grid .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 320px;
+      transition: transform 0.4s ease;
+    }
+    .gallery-grid .gallery-main:hover img { transform: scale(1.03); }
+    .gallery-grid .gallery-thumb {
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      min-height: 100px;
+    }
+    .gallery-grid .gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .gallery-grid .gallery-thumb:hover img { transform: scale(1.05); }
+    .gallery-grid .gallery-thumb .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .gallery-grid .gallery-thumb:hover .gallery-overlay { opacity: 1; }
+
+    .gallery-grid .gallery-main .gallery-expand-hint {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      padding: 8px 14px;
+      border-radius: 100px;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255,255,255,0.15);
+      pointer-events: none;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.94);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    .lightbox.active { display: flex; }
+    .lightbox-inner {
+      position: relative;
+      max-width: 1000px;
+      width: 92vw;
+      animation: lbIn 0.25s ease;
+    }
+    @keyframes lbIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .lightbox-img {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      display: block;
+      max-height: 78vh;
+      object-fit: contain;
+    }
+    .lightbox-caption {
+      margin-top: 14px;
+      text-align: center;
+    }
+    .lightbox-caption h4 { color: var(--white); font-size: 1rem; margin-bottom: 4px; font-family: 'Playfair Display', serif; }
+    .lightbox-caption p { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+    .lb-close {
+      position: fixed;
+      top: 20px; right: 24px;
+      font-size: 1.6rem;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      z-index: 10000;
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+      border: none;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.2); color: var(--white); }
+    .lb-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px; height: 48px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      color: var(--white);
+      cursor: pointer;
+      z-index: 10000;
+      transition: background 0.2s;
+      border: 1px solid rgba(255,255,255,0.2);
+      border: none;
+    }
+    .lb-nav:hover { background: rgba(255,255,255,0.2); }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
+    .lb-counter {
+      position: fixed;
+      top: 24px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      background: rgba(0,0,0,0.4);
+      padding: 6px 14px;
+      border-radius: 100px;
+      z-index: 10000;
+    }
 
     /* ── skeleton ── */
     .skeleton {
@@ -435,9 +571,19 @@
       .tour-detail-layout { grid-template-columns: 1fr; }
       .booking-sidebar { position: static; }
       .included-list { grid-template-columns: 1fr; }
-      .gallery-mini { grid-template-columns: repeat(2, 1fr); }
       .form-row { grid-template-columns: 1fr; }
       .info-grid { grid-template-columns: 1fr; }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .gallery-grid .gallery-main {
+        grid-row: 1 / 2;
+        grid-column: 1 / 3;
+        min-height: 240px;
+      }
+      .gallery-grid .gallery-main img { min-height: 240px; }
+      .lb-nav { display: none; }
     }
   </style>
 </head>
@@ -486,12 +632,7 @@
   <div class="hero-skeleton" id="heroSkeleton"></div>
   <div class="tour-detail-layout" id="skeletonLayout">
     <div>
-      <div class="gallery-mini" style="margin-bottom:32px;">
-        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
-        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
-        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
-        <div class="skeleton" style="height:90px;border-radius:8px;"></div>
-      </div>
+      <div class="skeleton" style="height:320px;border-radius:16px;margin-bottom:32px;"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;">
         <div class="skeleton" style="height:40px;width:130px;border-radius:8px;"></div>
         <div class="skeleton" style="height:40px;width:130px;border-radius:8px;"></div>
@@ -504,6 +645,21 @@
     </div>
     <div>
       <div class="skeleton" style="height:360px;border-radius:16px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev">‹</button>
+  <button class="lb-nav lb-next" id="lbNext">›</button>
+  <span class="lb-counter" id="lbCounter"></span>
+  <div class="lightbox-inner">
+    <img class="lightbox-img" id="lbImg" src="" alt="" />
+    <div class="lightbox-caption">
+      <h4 id="lbTitle"></h4>
+      <p id="lbLocation"></p>
     </div>
   </div>
 </div>
@@ -727,6 +883,67 @@ function showToast(msg) {
 }
 
 /* ============================================================
+   LIGHTBOX (Explorable Gallery)
+============================================================ */
+let lightboxImages = [];
+let currentLightboxIndex = 0;
+
+function initLightbox(images) {
+  lightboxImages = images || [];
+}
+
+function openLightbox(index) {
+  if (!lightboxImages || lightboxImages.length === 0) return;
+  currentLightboxIndex = index;
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lbImg');
+  const title = document.getElementById('lbTitle');
+  const location = document.getElementById('lbLocation');
+  const counter = document.getElementById('lbCounter');
+
+  img.src = lightboxImages[currentLightboxIndex] || FALLBACK_IMG;
+  img.alt = 'Volunteer program image ' + (currentLightboxIndex + 1);
+  const programTitle = document.querySelector('.tour-detail-hero-content h1')?.textContent || 'Volunteer Program';
+  title.textContent = programTitle;
+  location.textContent = `Image ${currentLightboxIndex + 1} of ${lightboxImages.length}`;
+  counter.textContent = `${currentLightboxIndex + 1} / ${lightboxImages.length}`;
+
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function navigateLightbox(direction) {
+  if (!lightboxImages || lightboxImages.length === 0) return;
+  currentLightboxIndex = (currentLightboxIndex + direction + lightboxImages.length) % lightboxImages.length;
+  const img = document.getElementById('lbImg');
+  const counter = document.getElementById('lbCounter');
+  img.src = lightboxImages[currentLightboxIndex] || FALLBACK_IMG;
+  counter.textContent = `${currentLightboxIndex + 1} / ${lightboxImages.length}`;
+}
+
+// Lightbox event listeners
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('lbClose')?.addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev')?.addEventListener('click', () => navigateLightbox(-1));
+  document.getElementById('lbNext')?.addEventListener('click', () => navigateLightbox(1));
+  document.getElementById('lightbox')?.addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e) {
+    const lb = document.getElementById('lightbox');
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+  });
+});
+
+/* ============================================================
    FETCH VOLUNTEER PROGRAM
 ============================================================ */
 async function fetchVolunteerProgram(id) {
@@ -745,7 +962,7 @@ async function fetchVolunteerProgram(id) {
 }
 
 /* ============================================================
-   RENDER PAGE (IVHQ-inspired detailed layout)
+   RENDER PAGE (IVHQ-inspired detailed layout with explorable gallery)
 ============================================================ */
 function renderPage(program) {
   window.currentProgram = program;
@@ -802,13 +1019,16 @@ function renderPage(program) {
     'homestay': 'Homestay',
   }[accomType] || accomType || '';
 
-  // Images
+  // Images for gallery
   const allImages = [
     program.coverImage?.url || program.imageCover,
     ...(program.images || []).map(i => i?.url || i),
   ].filter(Boolean);
   while (allImages.length < 4) allImages.push(FALLBACK_IMG);
   const heroImg = allImages[0];
+
+  // Store images for lightbox
+  initLightbox(allImages);
 
   // Schedule
   const schedule = program.itinerary || program.schedule || [];
@@ -832,7 +1052,7 @@ function renderPage(program) {
     ? `<span style="color:var(--gold);font-weight:700;">${starHTML(rating)} ${rating.toFixed(1)} (${ratingQty} reviews)</span>`
     : `<span style="color:rgba(255,255,255,0.6);">No reviews yet</span>`;
 
-  // ---- build pills (key details like IVHQ) ----
+  // ---- build pills ----
   const pills = [
     { icon: 'fa-solid fa-bullseye', text: program.purpose || 'Community Support' },
     { icon: 'fa-solid fa-calendar', text: program.startDates?.length ? `${program.startDates.length} dates available` : 'Year-round' },
@@ -849,11 +1069,36 @@ function renderPage(program) {
     `<div class="tour-info-pill"><i class="${p.icon}"></i> ${esc(p.text)}</div>`
   ).join('');
 
-  // ---- gallery ----
-  const galleryHtml = allImages.slice(0, 4).map((img, i) =>
-    `<img src="${esc(img)}" alt="${esc(title)} image ${i + 1}" loading="lazy"
-       onerror="this.src='${FALLBACK_IMG}'" />`
-  ).join('');
+  // ---- EXPLORABLE GALLERY HTML ----
+  let galleryHtml = '';
+  if (allImages.length >= 4) {
+    const mainImg = allImages[0];
+    const thumbs = allImages.slice(1, 5);
+    while (thumbs.length < 4) thumbs.push(FALLBACK_IMG);
+    galleryHtml = `
+      <div class="gallery-grid">
+        <div class="gallery-main" data-index="0" onclick="openLightbox(0)">
+          <img src="${esc(mainImg)}" alt="${esc(title)}" onerror="this.src='${FALLBACK_IMG}'" />
+          <div class="gallery-expand-hint"><i class="fa-solid fa-expand"></i> Explore</div>
+        </div>
+        ${thumbs.map((img, i) => `
+          <div class="gallery-thumb" data-index="${i + 1}" onclick="openLightbox(${i + 1})">
+            <img src="${esc(img)}" alt="${esc(title)} ${i + 1}" onerror="this.src='${FALLBACK_IMG}'" />
+            ${i === 3 ? `<div class="gallery-overlay">+${Math.max(0, allImages.length - 5)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  } else {
+    galleryHtml = `
+      <div style="border-radius:var(--radius);overflow:hidden;margin-bottom:32px;cursor:pointer;" onclick="openLightbox(0)">
+        <img src="${esc(heroImg)}" alt="${esc(title)}" style="width:100%;height:320px;object-fit:cover;" onerror="this.src='${FALLBACK_IMG}'" />
+        <div style="text-align:center;padding:8px;background:var(--sand);font-size:0.78rem;color:var(--text-muted);">
+          <i class="fa-solid fa-expand"></i> Click to explore
+        </div>
+      </div>
+    `;
+  }
 
   // ---- schedule ----
   let scheduleHtml = '';
@@ -865,7 +1110,6 @@ function renderPage(program) {
       </div>
     `).join('');
   } else {
-    // fallback: weekly overview
     const genericDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     scheduleHtml = genericDays.map((day, i) => `
       <div class="schedule-item">
@@ -893,12 +1137,12 @@ function renderPage(program) {
     ...excItems.map(item => `<div class="included-item no"><i class="fa-solid fa-circle-xmark"></i> ${esc(typeof item === 'string' ? item : item.item || item.name || '')}</div>`),
   ].join('');
 
-  // ---- pricing table (if fee data available) ----
+  // ---- pricing table ----
   let pricingHtml = '';
   if (fee > 0) {
     const durations = [1, 2, 4, 6, 8, 12];
     const pricingRows = durations.map(w => {
-      const weeklyFee = Math.round(fee / 4); // assume 4 weeks base
+      const weeklyFee = Math.round(fee / 4);
       const total = weeklyFee * w;
       return `<tr><td>${w} week${w > 1 ? 's' : ''}</td><td>${fmtMoney(total)}</td><td>${fmtMoney(Math.round(total / w))}/week</td></tr>`;
     }).join('');
@@ -919,7 +1163,7 @@ function renderPage(program) {
     `;
   }
 
-  // ---- extra info cards (IVHQ-style) ----
+  // ---- extra info cards ----
   const extraInfoHtml = `
     <div class="info-grid">
       <div class="info-card">
@@ -1029,7 +1273,7 @@ function renderPage(program) {
     <div class="tour-detail-layout">
       <!-- MAIN CONTENT -->
       <div>
-        <div class="gallery-mini">${galleryHtml}</div>
+        ${galleryHtml}
 
         <div class="tour-info-pills">${pillsHtml}</div>
 

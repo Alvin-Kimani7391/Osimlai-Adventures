@@ -12,17 +12,32 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <style>
-    /* ── Hero photo swap: volunteering-led, inline so it wins over style.css ── */
+    /* ── Hero photo ── */
     .hero-img{
       background-image:
-        linear-gradient(180deg, rgba(10,20,15,0.55) 0%, rgba(10,20,15,0.75) 100%),
-        url('https://images.unsplash.com/photo-1509233725247-49e657c54213?w=1600&auto=format&fit=crop');
+        linear-gradient(180deg, rgba(10,20,15,0.35) 0%, rgba(10,20,15,0.85) 100%),
+        url('https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1600&auto=format&fit=crop');
       background-size:cover;
       background-position:center;
     }
     .hero-badge i{ color:#e8c565; }
 
-    /* ── Volunteer categories (homepage teaser) ── */
+    /* ── Trust line ── */
+    .hero-trust{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      color:rgba(255,255,255,0.92); font-size:0.92rem; font-weight:600;
+      margin-top:-0.4rem; margin-bottom:2rem;
+    }
+    .hero-trust .trust-pill{
+      display:inline-flex; align-items:center; gap:5px;
+      background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.22);
+      padding:4px 10px; border-radius:100px; font-size:0.8rem;
+    }
+    .hero-trust i.fa-star{ color:#1db67a; }
+    .hero-trust .trust-source{ display:inline-flex; align-items:center; gap:5px; color:rgba(255,255,255,0.75); font-weight:700; }
+    .hero-trust .trust-source i{ color:#1db67a; }
+
+    /* ── Volunteer categories ── */
     .cat-teaser-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:18px; }
     .cat-teaser{
       position:relative; border-radius:16px; overflow:hidden; text-decoration:none; display:block;
@@ -38,7 +53,7 @@
     .cat-teaser-body h4{ font-size:0.98rem; font-weight:800; line-height:1.25; margin-bottom:4px; font-family:'Playfair Display',serif; }
     .cat-teaser-body span{ font-size:0.75rem; color:rgba(255,255,255,0.8); font-weight:600; }
 
-    /* ── Featured volunteer programs (dynamic) ── */
+    /* ── Featured volunteer programs ── */
     .fv-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
     .fv-card{ background:var(--white,#fff); border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(26,60,46,0.07); border:1px solid rgba(0,0,0,0.05); transition:box-shadow .2s ease, transform .2s ease; display:flex; flex-direction:column; }
     .fv-card:hover{ box-shadow:0 12px 40px rgba(26,60,46,0.14); transform:translateY(-3px); }
@@ -63,7 +78,7 @@
     .fv-skeleton .sk-line{ height:12px; border-radius:6px; background:linear-gradient(90deg,#e8e8e8 25%,#f5f5f5 50%,#e8e8e8 75%); background-size:200% 100%; animation:idxShimmer 1.4s infinite; }
     @keyframes idxShimmer{ 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-    /* ── Dynamic gallery (fetched from API) ── */
+    /* ── Dynamic gallery ── */
     .idx-gallery-grid{ column-count:4; column-gap:16px; }
     .idx-gallery-item{ break-inside:avoid; margin-bottom:16px; position:relative; border-radius:14px; overflow:hidden; cursor:pointer; opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease; }
     .idx-gallery-item.in-view{ opacity:1; transform:translateY(0); }
@@ -76,6 +91,7 @@
     .idx-gallery-chips{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:30px; }
     .idx-gchip{ padding:7px 16px; border-radius:100px; background:var(--sand,#f5f0e8); color:var(--forest,#1a3c2e); font-size:0.82rem; font-weight:700; cursor:pointer; border:none; transition:all .16s ease; }
     .idx-gchip.active{ background:var(--forest,#1a3c2e); color:#fff; }
+    .idx-gallery-grid .idx-gallery-item:nth-child(n+9){ display:none !important; }
     .idx-lightbox{ position:fixed; inset:0; background:rgba(10,14,12,0.94); z-index:1000; display:none; align-items:center; justify-content:center; padding:24px; }
     .idx-lightbox.active{ display:flex; }
     .idx-lightbox img{ max-width:88vw; max-height:78vh; border-radius:10px; object-fit:contain; }
@@ -86,7 +102,7 @@
     .idx-lb-nav{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.12); border:none; color:#fff; width:44px; height:44px; border-radius:50%; font-size:1.1rem; cursor:pointer; }
     .idx-lb-prev{ left:24px; } .idx-lb-next{ right:24px; }
 
-    /* ── Culture strip (new) ── */
+    /* ── Culture strip ── */
     .culture-strip{ background:var(--sand,#f5f0e8); padding:70px 24px; }
     .culture-grid{ max-width:1160px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
     .culture-imgs{ display:grid; grid-template-columns:1.2fr 1fr; grid-template-rows:1fr 1fr; gap:14px; height:380px; }
@@ -99,6 +115,195 @@
     .culture-copy ul li{ display:flex; align-items:flex-start; gap:10px; color:#344054; font-size:0.92rem; }
     .culture-copy ul li i{ color:var(--forest,#1a3c2e); margin-top:3px; }
 
+    /* ── NAVBAR: TWO-LINE LOGO like IVHQ reference ── */
+    .navbar .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--forest, #1a3c2e);
+      flex-shrink: 0;
+    }
+    .navbar .logo .logo-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+    .logo-text .line1 {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted, #667085);
+      font-weight: 700;
+    }
+    .logo-text .line2 {
+      font-size: 1rem;
+      color: var(--forest, #1a3c2e);
+    }
+    .logo-text .line2 em {
+      font-style: normal;
+      color: var(--gold, #e8c565);
+    }
+    .navbar.scrolled .logo-text .line1 { color: #98a2b3; }
+    .navbar.scrolled .logo-text .line2 { color: var(--forest, #1a3c2e); }
+    /* Short version for very small screens */
+    .logo-text .line2-short { display: none; }
+    @media (max-width: 420px) {
+      .logo-text .line2 { display: none; }
+      .logo-text .line2-short { display: inline; font-size: 0.9rem; }
+    }
+
+    .nav-actions{ position:relative; display:flex; align-items:center; gap:8px; flex-shrink:0; flex-wrap:wrap; justify-content:flex-end; }
+    .nav-actions .nav-cta { font-weight:600; color:var(--forest,#1a3c2e); font-size:0.82rem; text-decoration:none; padding:4px 8px; border-radius:6px; }
+    .nav-actions .nav-cta:hover { background:rgba(26,60,46,0.06); }
+    .nav-actions .btn { flex-shrink:0; font-size:0.78rem; padding:6px 14px; }
+
+    .user-chip{
+      display:flex; align-items:center; gap:8px;
+      background:rgba(255,255,255,0.12);
+      border:1px solid rgba(255,255,255,0.2);
+      padding:4px 10px 4px 4px;
+      border-radius:100px;
+      cursor:pointer;
+      max-width:160px;
+      transition:background .18s ease;
+    }
+    .user-chip:hover{ background:rgba(255,255,255,0.2); }
+    .navbar.scrolled .user-chip{ background:rgba(26,60,46,0.06); border-color:rgba(26,60,46,0.14); }
+    .navbar.scrolled .user-chip:hover{ background:rgba(26,60,46,0.1); }
+    .user-chip .avatar{
+      width:28px; height:28px; border-radius:50%; flex-shrink:0;
+      background:var(--gold); color:var(--forest);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:800; font-size:0.7rem;
+    }
+    .user-chip .greeting{
+      font-size:0.78rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      max-width:90px; color:rgba(255,255,255,0.95);
+    }
+    .navbar.scrolled .user-chip .greeting{ color:var(--text); }
+    .user-chip i.fa-chevron-down{ font-size:0.6rem; color:rgba(255,255,255,0.6); flex-shrink:0; }
+    .navbar.scrolled .user-chip i.fa-chevron-down{ color:#98a2b3; }
+    .user-chip.open i.fa-chevron-down{ transform:rotate(180deg); }
+    .user-menu{
+      position:absolute; top:calc(100% + 8px); right:0;
+      background:#fff; border-radius:12px; min-width:180px;
+      box-shadow:0 12px 40px rgba(16,24,40,0.18);
+      padding:6px; display:none; z-index:1100;
+      border:1px solid rgba(0,0,0,0.06);
+    }
+    .user-menu.open{ display:block; }
+    .user-menu a, .user-menu button{
+      display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+      padding:9px 12px; border-radius:8px; font-size:0.82rem; font-weight:600; color:#344054;
+      background:none; border:none; cursor:pointer; font-family:inherit;
+    }
+    .user-menu a:hover, .user-menu button:hover{ background:var(--sand,#f5f0e8); color:var(--forest,#1a3c2e); }
+    .user-menu i{ width:16px; color:#98a2b3; }
+    .user-menu .divider{ height:1px; background:#f0f0f0; margin:4px 4px; }
+
+    .mobile-user-chip{
+      display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #f0f0f0; margin-bottom:4px;
+    }
+    .mobile-user-chip .avatar{
+      width:40px; height:40px; border-radius:50%; background:var(--gold); color:var(--forest);
+      display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0;
+    }
+    .mobile-user-chip .info{ min-width:0; }
+    .mobile-user-chip .name{ font-weight:700; color:var(--forest); font-size:0.88rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .mobile-user-chip .email{ font-size:0.72rem; color:#667085; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    /* ── Mobile icon row (heart / Apply / hamburger) ── */
+    .mobile-header-actions{ display:none; align-items:center; gap:8px; flex-shrink:0; }
+    .icon-btn-outline{
+      width:36px; height:36px; border-radius:10px;
+      border:1.5px solid rgba(255,255,255,0.4);
+      background:rgba(255,255,255,0.05);
+      color:#fff; display:flex; align-items:center; justify-content:center;
+      font-size:0.95rem; flex-shrink:0; transition:var(--transition);
+    }
+    .navbar.scrolled .icon-btn-outline{ border-color:#e4e7ec; background:#fff; color:var(--forest); }
+    .icon-btn-outline:hover{ background:rgba(255,255,255,0.15); }
+    .navbar.scrolled .icon-btn-outline:hover{ background:var(--sand); }
+    .btn-apply-pill{
+      background:var(--forest-light,#52b788); color:#fff; font-weight:800; font-size:0.78rem;
+      padding:0 14px; height:36px; display:flex; align-items:center; justify-content:center;
+      border-radius:10px; white-space:nowrap; flex-shrink:0; letter-spacing:0.02em;
+      transition:var(--transition); text-decoration:none;
+    }
+    .btn-apply-pill:hover{ background:#3fa374; }
+    .hamburger-box{
+      display:none; flex-direction:column; justify-content:center; align-items:center; gap:4px;
+      width:36px; height:36px; border-radius:10px; border:1.5px solid rgba(255,255,255,0.4);
+      background:rgba(255,255,255,0.05); cursor:pointer; flex-shrink:0; padding:0;
+    }
+    .navbar.scrolled .hamburger-box{ border-color:#e4e7ec; background:#fff; }
+    .hamburger-box span{ width:15px; height:2px; background:#fff; border-radius:2px; display:block; transition:var(--transition); }
+    .navbar.scrolled .hamburger-box span{ background:var(--forest); }
+    .hamburger-box.active span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+    .hamburger-box.active span:nth-child(2){ opacity:0; }
+    .hamburger-box.active span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+    .hamburger{ display:flex; flex-direction:column; gap:4px; background:none; border:none; cursor:pointer; padding:8px 4px; flex-shrink:0; }
+    .hamburger span{ width:22px; height:2px; background:var(--forest); border-radius:2px; transition:var(--transition); display:block; }
+    .navbar.scrolled .hamburger span{ background:var(--forest); }
+    .hamburger.active span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+    .hamburger.active span:nth-child(2){ opacity:0; }
+    .hamburger.active span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+
+    @media (max-width:992px){
+      .nav-links, .nav-actions{ display:none !important; }
+      .mobile-header-actions{ display:flex !important; }
+      .hamburger-box{ display:flex !important; }
+      .hamburger{ display:none !important; }
+    }
+
+    /* ── Mobile quick panel ── */
+    .mobile-quickpanel{ display:none; }
+    @media (max-width:680px){
+      .hero{ min-height:auto; height:64vh; max-height:560px; }
+      .hero-content{ padding:104px 20px 28px; display:flex; flex-direction:column; justify-content:flex-end; height:100%; }
+      .hero-badge{ font-size:0.7rem; padding:6px 12px; margin-bottom:0.9rem; }
+      .hero h1{ font-size:1.7rem; max-width:100%; margin-bottom:0.6rem; }
+      .hero p{ display:none; }
+      .hero-actions{ display:none; }
+      .hero-stats{ display:none; }
+      .hero-trust{ margin-bottom:0; }
+      .search-section{ }
+      .mobile-quickpanel{
+        display:block; background:#fff; margin-top:-1px; padding:18px 5% 8px;
+        position:relative; z-index:10;
+      }
+      .mqp-stats{
+        display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
+        background:var(--sand,#f5f0e8); border-radius:14px; padding:14px 10px; margin-bottom:14px;
+      }
+      .mqp-stat{ display:flex; flex-direction:column; align-items:center; gap:4px; text-align:center; }
+      .mqp-stat i{ color:var(--forest,#1a3c2e); font-size:1rem; }
+      .mqp-stat .n{ font-weight:800; color:var(--forest,#1a3c2e); font-size:0.95rem; }
+      .mqp-stat .l{ font-size:0.68rem; color:#667085; font-weight:600; }
+      .mqp-dropdown{
+        display:flex; align-items:center; justify-content:space-between; gap:10px;
+        background:#f0f2f5; border-radius:12px; padding:14px 16px; margin-bottom:10px;
+        text-decoration:none;
+      }
+      .mqp-dd-title{ font-size:0.92rem; font-weight:700; color:#101828; }
+      .mqp-dd-sub{ font-size:0.78rem; color:#667085; margin-top:2px; }
+      .mqp-dropdown i{ color:#667085; flex-shrink:0; }
+      .mqp-search-btn{
+        display:flex; align-items:center; justify-content:center;
+        background:var(--forest,#1a3c2e); color:#fff; font-weight:800; font-size:0.98rem;
+        padding:15px; border-radius:12px; margin-top:6px; text-decoration:none;
+        letter-spacing:0.03em;
+      }
+      .mqp-search-btn:hover{ background:var(--forest-mid,#2d6a4f); }
+    }
+
     @media (max-width:980px){
       .cat-teaser-grid{ grid-template-columns:repeat(3,1fr); }
       .fv-grid{ grid-template-columns:repeat(2,1fr); }
@@ -107,19 +312,29 @@
       .culture-imgs{ height:300px; }
     }
     @media (max-width:680px){
-      .cat-teaser-grid{ grid-template-columns:repeat(2,1fr); }
+      .cat-teaser-grid{ grid-template-columns:repeat(2,1fr); gap:12px; }
       .fv-grid{ grid-template-columns:1fr; }
       .idx-gallery-grid{ column-count:2; }
+      .hero-stat-num{ font-size:1.5rem; }
+    }
+    @media (max-width:420px){
+      .cat-teaser{ height:180px; }
+      .cat-teaser-body h4{ font-size:0.88rem; }
+      section{ padding:48px 5%; }
     }
   </style>
 </head>
 <body>
 
-<!-- ===== NAVBAR ===== -->
+<!-- ===== NAVBAR (IVHQ-style two-line logo) ===== -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="logo">
     <div class="logo-icon">🌍</div>
-    International <span>Volunteer Home Tz</span>
+    <span class="logo-text">
+      <span class="line1">International</span>
+      <span class="line2">Volunteer <em>Home Tz</em></span>
+      <span class="line2-short">IVH <em>Tz</em></span>
+    </span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link active">Home</a></li>
@@ -130,9 +345,17 @@
     <li><a href="blog.html" class="nav-link">Blog</a></li>
     <li><a href="contact.html" class="nav-link">Contact</a></li>
   </ul>
-  <div class="nav-actions">
+  <div class="nav-actions" id="navActions">
     <a href="login.html" class="nav-cta">Sign In</a>
     <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <!-- Mobile icon row -->
+  <div class="mobile-header-actions">
+    <button class="icon-btn-outline" aria-label="Wishlist" type="button"><i class="fa-regular fa-heart"></i></button>
+    <a href="volunteer.html" class="btn-apply-pill">Apply</a>
+    <button class="hamburger-box" id="hamburgerBox" aria-label="Open menu" type="button">
+      <span></span><span></span><span></span>
+    </button>
   </div>
   <button class="hamburger" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
@@ -141,20 +364,21 @@
 
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
+  <div id="mobileUserChip"></div>
   <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
-  <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="volunteer2.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
   <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
   <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
   <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
   <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
   <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
-  <div class="mobile-actions">
+  <div class="mobile-actions" id="mobileActions">
     <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
     <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
   </div>
 </div>
 
-<!-- ===== HERO (volunteering-led) ===== -->
+<!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-pattern"></div>
@@ -166,6 +390,10 @@
     </div>
     <h1>Volunteer With <em>Purpose</em>. Explore With <em>Wonder</em>.</h1>
     <p>Join hands-on placements in wildlife conservation, education, healthcare, environment and community development alongside the many peoples of East Africa — Swahili coastal communities, Chagga farmers on Kilimanjaro's slopes, Kikuyu and Luo neighborhoods, Maasai and Waarusha pastoralists, and more — then see the landscapes and cultures that inspired the work, on a safari built by the same local team.</p>
+    <div class="hero-trust">
+      <span class="trust-pill"><i class="fa-solid fa-star"></i> Excellent 4.9 / 5</span>
+      <span class="trust-source"><i class="fa-solid fa-shield-heart"></i> 3,200+ Verified Reviews</span>
+    </div>
     <div class="hero-actions">
       <a href="volunteer.html" class="btn btn-primary btn-lg">Explore Volunteer Programs</a>
       <a href="tours.html" class="btn btn-outline btn-lg">Browse Safaris</a>
@@ -190,6 +418,7 @@
     </div>
   </div>
 </section>
+
 
 <!-- ===== SEARCH ===== -->
 <div class="search-section">
@@ -234,7 +463,7 @@
   </div>
 </div>
 
-<!-- ===== VOLUNTEER CATEGORIES (static entities, live counts) ===== -->
+<!-- ===== VOLUNTEER CATEGORIES ===== -->
 <section style="padding-top:60px;">
   <div class="container">
     <div class="section-header">
@@ -287,7 +516,7 @@
   </div>
 </section>
 
-<!-- ===== FEATURED VOLUNTEER PROGRAMS (dynamic, detailed) ===== -->
+<!-- ===== FEATURED VOLUNTEER PROGRAMS ===== -->
 <section class="volunteer-section">
   <div class="container">
     <div class="section-header">
@@ -306,7 +535,7 @@
   </div>
 </section>
 
-<!-- ===== CULTURE STRIP (broadened: many peoples of East Africa) ===== -->
+<!-- ===== CULTURE STRIP ===== -->
 <section class="culture-strip">
   <div class="culture-grid">
     <div class="culture-imgs">
@@ -328,7 +557,7 @@
   </div>
 </section>
 
-<!-- ===== FEATURED SAFARIS (kept — touring still matters) ===== -->
+<!-- ===== FEATURED SAFARIS ===== -->
 <section>
   <div class="container">
     <div class="section-header">
@@ -596,13 +825,13 @@
   </div>
 </div>
 
-<!-- ===== GALLERY (dynamic, fetched from /api/gallery) ===== -->
+<!-- ===== GALLERY ===== -->
 <section>
   <div class="container">
     <div class="section-header">
       <span class="eyebrow">Our Gallery</span>
       <h2>Moments That Last Forever</h2>
-      <p>Real photos from real placements and safaris — pulled live from our gallery, volunteering moments first.</p>
+      <p>A few favorites from real placements and safaris — see the full collection on our Gallery page.</p>
     </div>
 
     <div class="idx-gallery-chips" id="idxGalleryChips">
@@ -613,7 +842,7 @@
       <button class="idx-gchip" data-filter="community">Community</button>
     </div>
 
-    <div class="idx-gallery-grid" id="idxGalleryGrid">
+    <div class="idx-gallery-grid" id="idxGalleryGrid" data-max-items="8">
       <!-- populated by js/index-dynamic.js -->
     </div>
 
@@ -623,7 +852,7 @@
   </div>
 </section>
 
-<!-- Lightbox for homepage gallery preview -->
+<!-- Lightbox -->
 <div class="idx-lightbox" id="idxLightbox">
   <button class="idx-lb-close" id="idxLbClose">✕</button>
   <button class="idx-lb-nav idx-lb-prev" id="idxLbPrev">‹</button>
@@ -776,5 +1005,158 @@
 <script src="js/main.js"></script>
 <script src="js/index-dynamic.js"></script>
 <script src="js/index.js"></script>
+<script>
+/* ============================================================
+   DYNAMIC HEADER
+============================================================ */
+(function () {
+  function getUser() {
+    try { return JSON.parse(localStorage.getItem('wr_user') || 'null'); } catch (e) { return null; }
+  }
+  function getToken() { return localStorage.getItem('wr_token'); }
+  function initials(name) {
+    if (!name) return '?';
+    const parts = name.trim().split(/\s+/);
+    return ((parts[0]?.[0] || '') + (parts[1]?.[0] || '')).toUpperCase() || name[0].toUpperCase();
+  }
+  function escHtml(str) {
+    return String(str ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+  }
+  function greetingWord() {
+    const h = new Date().getHours();
+    return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  }
+  function logout() {
+    localStorage.removeItem('wr_token');
+    localStorage.removeItem('wr_user');
+    window.location.href = 'login.html';
+  }
+  window.ivhLogout = logout;
+
+  function renderDesktop(user) {
+    const navActions = document.getElementById('navActions');
+    if (!navActions) return;
+    const fullName = user.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : (user.name || 'Traveler');
+    const first = user.firstName || (user.name || 'Traveler').split(' ')[0];
+    navActions.innerHTML = `
+      <div class="user-chip" id="userChipBtn">
+        <div class="avatar">${escHtml(initials(fullName))}</div>
+        <span class="greeting">${greetingWord()}, ${escHtml(first)}</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+      <div class="user-menu" id="userMenu">
+        <a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>
+        <a href="my-portal.html#applications"><i class="fa-solid fa-clipboard-list"></i> My Applications</a>
+        <div class="divider"></div>
+        <button type="button" onclick="if(confirm('Are you sure you want to log out?')) ivhLogout();"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </div>`;
+
+    const chip = document.getElementById('userChipBtn');
+    const menu = document.getElementById('userMenu');
+    chip.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = menu.classList.toggle('open');
+      chip.classList.toggle('open', isOpen);
+    });
+    document.addEventListener('click', (e) => {
+      if (!navActions.contains(e.target)) { menu.classList.remove('open'); chip.classList.remove('open'); }
+    });
+  }
+
+  function renderMobile(user) {
+    const chipWrap = document.getElementById('mobileUserChip');
+    const actionsWrap = document.getElementById('mobileActions');
+    if (!chipWrap || !actionsWrap) return;
+    const fullName = user.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : (user.name || 'Traveler');
+    chipWrap.innerHTML = `
+      <div class="mobile-user-chip">
+        <div class="avatar">${escHtml(initials(fullName))}</div>
+        <div class="info">
+          <div class="name">${greetingWord()}, ${escHtml(fullName)}</div>
+          <div class="email">${escHtml(user.email || '')}</div>
+        </div>
+      </div>`;
+    actionsWrap.innerHTML = `
+      <a href="my-portal.html" class="btn btn-outline-dark" style="justify-content:center;"><i class="fa-solid fa-user" style="margin-right:6px;"></i> My Portal</a>
+      <a onclick="if(confirm('Are you sure you want to log out?')) ivhLogout();" class="btn btn-primary" style="justify-content:center;cursor:pointer;">Logout</a>`;
+  }
+
+  function renderLoggedOut() {
+    const navActions = document.getElementById('navActions');
+    const chipWrap = document.getElementById('mobileUserChip');
+    const actionsWrap = document.getElementById('mobileActions');
+    if (navActions && !navActions.querySelector('.user-chip')) {
+      navActions.innerHTML = `<a href="login.html" class="nav-cta">Sign In</a><a href="register.html" class="btn btn-primary btn-sm">Get Started</a>`;
+    }
+    if (chipWrap) chipWrap.innerHTML = '';
+    if (actionsWrap) {
+      actionsWrap.innerHTML = `
+        <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+        <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>`;
+    }
+  }
+
+  let lastState = null;
+  function syncAuthUI() {
+    const user = getUser();
+    const token = getToken();
+    const state = (user && token) ? (user.email || user.firstName || '1') : '0';
+    if (state === lastState) return;
+    lastState = state;
+    if (user && token) { renderDesktop(user); renderMobile(user); }
+    else { renderLoggedOut(); }
+  }
+
+  syncAuthUI();
+  window.addEventListener('storage', syncAuthUI);
+  setInterval(syncAuthUI, 1500);
+  document.addEventListener('DOMContentLoaded', syncAuthUI);
+})();
+
+/* ============================================================
+   HAMBURGER
+============================================================ */
+(function () {
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (!mobileMenu) return;
+
+  function bindToggle(btn) {
+    if (!btn || btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      btn.classList.toggle('active');
+      document.querySelectorAll('#hamburger, #hamburgerBox').forEach(b => {
+        if (b !== btn) b.classList.toggle('active', btn.classList.contains('active'));
+      });
+    });
+  }
+  bindToggle(document.getElementById('hamburger'));
+  bindToggle(document.getElementById('hamburgerBox'));
+
+  mobileMenu.querySelectorAll('.mobile-nav-link').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      document.querySelectorAll('#hamburger, #hamburgerBox').forEach(b => b.classList.remove('active'));
+    });
+  });
+})();
+
+/* ============================================================
+   GALLERY CAP
+============================================================ */
+(function () {
+  const grid = document.getElementById('idxGalleryGrid');
+  if (!grid) return;
+  const MAX_ITEMS = parseInt(grid.dataset.maxItems || '8', 10);
+  function trim() {
+    const items = grid.querySelectorAll('.idx-gallery-item');
+    items.forEach((el, i) => { el.style.display = i < MAX_ITEMS ? '' : 'none'; });
+  }
+  const obs = new MutationObserver(() => trim());
+  obs.observe(grid, { childList: true });
+  trim();
+})();
+</script>
 </body>
 </html>

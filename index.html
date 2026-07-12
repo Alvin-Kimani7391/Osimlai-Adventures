@@ -26,10 +26,10 @@ html, body {
 }
 
     /* ── Hero photo ── */
-    .hero-img{
+   .hero-img{
       background-image:
         linear-gradient(180deg, rgba(10,20,15,0.35) 0%, rgba(10,20,15,0.85) 100%),
-        url('https://images.unsplash.com/photo-1497375638960-ca80c1a5c9c4?w=1600&auto=format&fit=crop');
+        url('https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1600&auto=format&fit=crop');
       background-size:cover;
       background-position:center;
     }
@@ -296,9 +296,10 @@ html, body {
       .hero-content{ padding:104px 20px 28px; display:flex; flex-direction:column; justify-content:flex-end; height:100%; }
       .hero-badge{ font-size:0.7rem; padding:6px 12px; margin-bottom:0.9rem; }
       .hero h1{ font-size:1.7rem; max-width:100%; margin-bottom:0.6rem; }
-      .hero p{  }
-      .hero-actions{  }
-      .hero-stats{  }
+       .hero p{ display:none; }
+      .hero-actions{ display:none; }
+      .hero-stats{ display:none; }
+      .hero-trust{ margin-bottom:0; }
       .hero-trust{
         margin-bottom:0.9rem;
         display:flex;
@@ -416,13 +417,14 @@ html, body {
     <div class="logo-icon">🌍</div>
     <span class="logo-text">
       <span class="line1">International</span>
+      <span class="line2">Volunteer <em>Home Tz</em></span>
       <span class="line2-short">Volunteer <em>Home Tz</em></span>
      
     </span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link active">Home</a></li>
-    <li><a href="volunteer2.html" class="nav-link">Volunteer</a></li>
+    <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
     <li><a href="tours.html" class="nav-link">Safaris</a></li>
     <li><a href="community.html" class="nav-link">Community</a></li>
     <li><a href="about.html" class="nav-link">About</a></li>
@@ -450,7 +452,7 @@ html, body {
 <div class="mobile-menu" id="mobileMenu">
   <div id="mobileUserChip"></div>
   <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
-  <a href="volunteer2.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
   <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
   <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
   <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
@@ -1243,4 +1245,4 @@ html, body {
 })();
 </script>
 </body>
-</html>
+</html> 

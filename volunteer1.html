@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volunteer Programs | International Volunteer Home Tz</title>
+  <meta name="description" content="Join life-changing volunteer programs in wildlife conservation, education, healthcare, and community development across Africa with Osimlai Adventures." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    /* ── Skeleton loading ── */
+    .skeleton {
+      background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    .vol-skeleton {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #e8e8e8;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 32px;
+    }
+    .vol-skeleton-img  { height: 260px; }
+    .vol-skeleton-body { padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+    .skeleton-line     { height: 14px; }
+    .skeleton-line.short { width: 55%; }
+    .skeleton-line.long  { width: 92%; }
+    .skeleton-line.med   { width: 72%; }
+    .skeleton-line.title { height: 22px; width: 70%; }
+
+    /* ── Program cards ── */
+    .vol-detail-card {
+      background: var(--white, #fff);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(26,60,46,0.08);
+      border: 1px solid rgba(0,0,0,0.06);
+      margin-bottom: 36px;
+      transition: box-shadow 0.22s ease, transform 0.22s ease;
+    }
+    .vol-detail-card:hover {
+      box-shadow: 0 8px 40px rgba(26,60,46,0.14);
+      transform: translateY(-2px);
+    }
+    .vol-card-inner {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+    }
+    .vol-card-img-wrap {
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+    }
+    .vol-card-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .vol-detail-card:hover .vol-card-img-wrap img { transform: scale(1.04); }
+    .vol-card-content { padding: 32px; display: flex; flex-direction: column; }
+    .vol-card-title {
+      color: var(--forest, #1a3c2e);
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+      font-weight: 800;
+      line-height: 1.25;
+      font-family: 'Playfair Display', serif;
+    }
+    .vol-card-desc {
+      color: var(--text-muted, #667085);
+      font-size: 0.91rem;
+      line-height: 1.75;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+    .vol-card-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .vol-spec {
+      background: #f0f8f4;
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--forest, #1a3c2e);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .vol-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 18px;
+      border-top: 1px solid #f0f0f0;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: auto;
+    }
+    .vol-price { font-size: 1.35rem; font-weight: 900; color: var(--forest, #1a3c2e); }
+    .vol-price span { font-size: 0.78rem; font-weight: 400; color: var(--text-muted, #667085); display:block; margin-top:2px;}
+    .vol-price-from { font-size: 0.75rem; color: var(--text-muted,#667085); margin-bottom: 2px; }
+
+    /* Volunteer tags */
+    .volunteer-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .volunteer-tag {
+      background: rgba(26,60,46,0.08);
+      color: var(--forest, #1a3c2e);
+      border-radius: 100px;
+      padding: 3px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* ── Empty / error state ── */
+    .empty-state {
+      text-align: center;
+      padding: 64px 24px;
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #e8e8e8;
+    }
+    .empty-state .empty-icon { font-size: 3.5rem; margin-bottom: 16px; }
+    .empty-state h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+    .empty-state p  { color: #667085; font-size: 0.95rem; max-width: 400px; margin: 0 auto; }
+
+    /* ── Results info ── */
+    .results-info {
+      font-size: 0.88rem;
+      color: #667085;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .results-info strong { color: #101828; }
+
+    /* ── Modal overrides ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(16,24,40,0.55);
+      z-index: 900;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 660px;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(16,24,40,0.18);
+      animation: modalIn 0.22s ease;
+    }
+    @keyframes modalIn {
+      from { opacity:0; transform:translateY(20px) scale(0.97); }
+      to   { opacity:1; transform:translateY(0)  scale(1); }
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 26px 18px;
+      border-bottom: 1px solid #e4e7ec;
+      position: sticky; top: 0;
+      background: #fff;
+      z-index: 10;
+    }
+    .modal-header h3 { font-size: 1.05rem; font-weight: 800; color: #101828; }
+    .modal-program-info {
+      background: #f0f8f4;
+      border-left: 3px solid #52b788;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 22px;
+      font-size: 0.84rem;
+    }
+    .modal-program-info strong { color: #1a3c2e; font-size: 0.95rem; display: block; margin-bottom: 4px; }
+    .modal-program-info span { color: #667085; }
+    .modal-close {
+      width: 30px; height: 30px;
+      background: #f0f2f5;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: #667085;
+      transition: all 0.15s;
+    }
+    .modal-close:hover { background: #fef2f2; color: #b91c1c; }
+    .modal-body { padding: 22px 26px 26px; }
+
+    /* ── Form ── */
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #344054;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .form-group label .req { color: #b91c1c; }
+    .form-control {
+      width: 100%;
+      padding: 9px 13px;
+      border: 1.5px solid #e4e7ec;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: #101828;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s;
+      background: #fff;
+    }
+    .form-control:focus {
+      border-color: #52b788;
+      box-shadow: 0 0 0 3px rgba(82,183,136,0.12);
+    }
+    .form-control.error { border-color: #b91c1c; }
+    textarea.form-control { resize: vertical; min-height: 88px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #667085;
+      margin: 20px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .form-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e4e7ec;
+    }
+
+    /* ── Submit button ── */
+    .btn-submit-vol {
+      width: 100%;
+      padding: 12px;
+      background: var(--forest, #1a3c2e);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-family: inherit;
+    }
+    .btn-submit-vol:hover:not(:disabled) { background: #2d6a4f; transform: translateY(-1px); }
+    .btn-submit-vol:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+    .btn-submit-vol .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+    .btn-submit-vol.loading .spinner { display: block; }
+    .btn-submit-vol.loading .btn-label { opacity: 0.7; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Login notice ── */
+    .login-notice {
+      background: #fffbeb;
+      border: 1.5px solid #f4c842;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 0.84rem;
+      color: #92400e;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .login-notice a { color: #1a3c2e; font-weight: 700; text-decoration: underline; }
+
+    /* ── Success state ── */
+    .modal-success {
+      text-align: center;
+      padding: 40px 24px;
+    }
+    .modal-success .success-icon { font-size: 3.5rem; margin-bottom: 16px; }
+    .modal-success h3 { font-size: 1.2rem; font-weight: 800; color: #1a3c2e; margin-bottom: 8px; }
+    .modal-success p { color: #667085; font-size: 0.9rem; line-height: 1.6; }
+
+    /* ── Filter chip interactivity ── */
+    .chip { cursor: pointer; }
+
+    /* ── Responsive ── */
+    @media (max-width: 820px) {
+      .vol-card-inner { grid-template-columns: 1fr; }
+      .vol-card-img-wrap { min-height: 220px; max-height: 260px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .vol-card-content { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <a href="index.html" class="logo" style="color:var(--forest)">
+    <div class="logo-icon">🌍</div>
+    International <span>Volunteer Home Tz</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link" style="color:var(--text)">Home</a></li>
+    <li><a href="tours.html" class="nav-link" style="color:var(--text)">Safaris</a></li>
+    <li><a href="volunteer.html" class="nav-link active" style="color:var(--text)">Volunteer</a></li>
+    <li><a href="community.html" class="nav-link" style="color:var(--text)">Community</a></li>
+    <li><a href="about.html" class="nav-link" style="color:var(--text)">About</a></li>
+    <li><a href="blog.html" class="nav-link" style="color:var(--text)">Blog</a></li>
+    <li><a href="contact.html" class="nav-link" style="color:var(--text)">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="nav-cta" style="color:var(--text)">Sign In</a>
+    <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span style="background:var(--forest)"></span>
+    <span style="background:var(--forest)"></span>
+    <span style="background:var(--forest)"></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
+  <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
+  <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
+  <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
+  <div class="mobile-actions">
+    <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+    <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
+  </div>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a> › <span>Volunteer</span></div>
+    <h1>Volunteer Programs</h1>
+    <p id="heroSubtitle">Make a genuine, measurable difference in Africa's wildlife and communities with Osimlai Adventures.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+
+    <!-- Impact Stats -->
+    <div style="background:var(--sand,#f5f0e8);border-radius:16px;padding:32px;margin-bottom:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:20px;text-align:center;">
+      <div>
+        <div style="font-size:2rem;font-weight:900;color:var(--forest,#1a3c2e);">1,200+</div>
+        <div style="font-size:0.82rem;color:var(--text-muted,#667085);margin-top:4px;">Volunteers Placed</div>
+      </div>
+      <div>
+        <div style="font-size:2rem;font-weight:900;color:var(--forest,#1a3c2e);" id="statPrograms">–</div>
+        <div style="font-size:0.82rem;color:var(--text-muted,#667085);margin-top:4px;">Active Programs</div>
+      </div>
+      <div>
+        <div style="font-size:2rem;font-weight:900;color:var(--forest,#1a3c2e);">12</div>
+        <div style="font-size:0.82rem;color:var(--text-muted,#667085);margin-top:4px;">Countries</div>
+      </div>
+      <div>
+        <div style="font-size:2rem;font-weight:900;color:var(--forest,#1a3c2e);">4.9★</div>
+        <div style="font-size:0.82rem;color:var(--text-muted,#667085);margin-top:4px;">Average Rating</div>
+      </div>
+    </div>
+
+    <!-- Category filter chips -->
+    <div class="filter-bar" style="margin-bottom:16px;">
+      <span class="filter-label">Program Type:</span>
+      <div class="filter-chips" id="categoryChips">
+        <div class="chip active" data-category="all">All Programs</div>
+        <div class="chip" data-category="wildlife"><i class="fa-solid fa-paw"></i> Wildlife</div>
+        <div class="chip" data-category="education"><i class="fa-solid fa-book"></i> Education</div>
+        <div class="chip" data-category="healthcare"><i class="fa-solid fa-heartbeat"></i> Healthcare</div>
+        <div class="chip" data-category="environment"><i class="fa-solid fa-leaf"></i> Environment</div>
+        <div class="chip" data-category="community"><i class="fa-solid fa-hands-helping"></i> Community</div>
+      </div>
+    </div>
+
+    <!-- Results info -->
+    <div class="results-info" id="resultsInfo" style="display:none;">
+      <span>Showing <strong id="resultsCount">0</strong> program<span id="resultsPlural">s</span></span>
+      <button id="clearFiltersBtn" style="display:none;font-size:0.82rem;color:#667085;background:none;border:none;cursor:pointer;text-decoration:underline;" onclick="clearAllFilters()">Clear filters</button>
+    </div>
+
+    <!-- Programs container -->
+    <div id="programsContainer">
+      <!-- Skeleton cards -->
+      <div class="vol-skeleton" id="sk1">
+        <div class="skeleton vol-skeleton-img"></div>
+        <div class="vol-skeleton-body">
+          <div class="skeleton skeleton-line short"></div>
+          <div class="skeleton skeleton-line title"></div>
+          <div class="skeleton skeleton-line long"></div>
+          <div class="skeleton skeleton-line med"></div>
+          <div class="skeleton skeleton-line short"></div>
+        </div>
+      </div>
+      <div class="vol-skeleton" id="sk2">
+        <div class="skeleton vol-skeleton-img"></div>
+        <div class="vol-skeleton-body">
+          <div class="skeleton skeleton-line short"></div>
+          <div class="skeleton skeleton-line title"></div>
+          <div class="skeleton skeleton-line long"></div>
+          <div class="skeleton skeleton-line med"></div>
+          <div class="skeleton skeleton-line short"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     APPLY MODAL
+═══════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="applyModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🌍 Volunteer Application</h3>
+      <button class="modal-close" onclick="closeApplyModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+
+      <!-- Program info banner -->
+      <div class="modal-program-info" id="modalProgramInfo">
+        <strong id="modalProgramName">Loading program…</strong>
+        <span id="modalProgramMeta"></span>
+      </div>
+
+      <!-- Login notice (shown when logged out) -->
+      <div class="login-notice" id="loginNotice" style="display:none;">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span>You need to <a href="login.html">sign in</a> or <a href="register.html">create an account</a> before submitting an application.</span>
+      </div>
+
+      <p style="color:var(--text-muted,#667085);font-size:0.86rem;margin-bottom:22px;">
+        We review all applications within 48 hours. Our volunteer coordinator will contact you to discuss the program in detail.
+      </p>
+
+      <form id="volunteerApplyForm" novalidate>
+        <!-- Hidden: program id -->
+        <input type="hidden" name="program" id="applyProgramId" />
+
+        <div class="form-section-label">Personal Details</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name <span class="req">*</span></label>
+            <input class="form-control" type="text" name="firstName" placeholder="Jane" required />
+          </div>
+          <div class="form-group">
+            <label>Last Name <span class="req">*</span></label>
+            <input class="form-control" type="text" name="lastName" placeholder="Doe" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email <span class="req">*</span></label>
+            <input class="form-control" type="email" name="email" placeholder="jane@example.com" required />
+          </div>
+          <div class="form-group">
+            <label>Phone / WhatsApp <span class="req">*</span></label>
+            <input class="form-control" type="tel" name="phone" placeholder="+1 234 567 8900" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nationality <span class="req">*</span></label>
+            <input class="form-control" type="text" name="nationality" placeholder="e.g. British" required />
+          </div>
+          <div class="form-group">
+            <label>Date of Birth <span class="req">*</span></label>
+            <input class="form-control" type="date" name="dateOfBirth" required />
+          </div>
+        </div>
+
+        <div class="form-section-label">Program Preferences</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Preferred Start Date <span class="req">*</span></label>
+            <input class="form-control" type="date" name="startDate" required />
+          </div>
+          <div class="form-group">
+            <label>Duration <span class="req">*</span></label>
+            <select class="form-control" name="duration" required>
+              <option value="">Select duration…</option>
+              <option value="2 weeks">2 Weeks</option>
+              <option value="4 weeks">4 Weeks</option>
+              <option value="6 weeks">6 Weeks</option>
+              <option value="8 weeks">8 Weeks</option>
+              <option value="12 weeks">12 Weeks</option>
+              <option value="16 weeks">16 Weeks</option>
+              <option value="24 weeks">24 Weeks</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-section-label">Background & Motivation</div>
+        <div class="form-group">
+          <label>Relevant Skills & Experience</label>
+          <textarea class="form-control" name="skills" placeholder="Tell us about your relevant background, qualifications, or experience…"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Motivation Statement <span class="req">*</span></label>
+          <textarea class="form-control" name="motivation" placeholder="Why do you want to volunteer with Osimlai Adventures? What do you hope to contribute and gain?" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Languages Spoken</label>
+          <input class="form-control" type="text" name="languages" placeholder="e.g. English, French, Swahili (comma separated)" />
+        </div>
+        <div class="form-group">
+          <label>Dietary Requirements</label>
+          <input class="form-control" type="text" name="dietaryRequirements" placeholder="e.g. Vegetarian, Gluten-free, None" />
+        </div>
+        <div class="form-group">
+          <label>Medical Conditions (optional)</label>
+          <input class="form-control" type="text" name="medicalConditions" placeholder="Any conditions we should be aware of" />
+        </div>
+
+        <div class="form-section-label">Emergency Contact</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Contact Name <span class="req">*</span></label>
+            <input class="form-control" type="text" name="emergencyName" placeholder="Full name" required />
+          </div>
+          <div class="form-group">
+            <label>Contact Phone <span class="req">*</span></label>
+            <input class="form-control" type="tel" name="emergencyPhone" placeholder="+1 234 567 8900" required />
+          </div>
+        </div>
+
+        <div class="form-group" style="display:flex;align-items:center;gap:10px;margin-top:4px;">
+          <input type="checkbox" name="hasPassport" id="hasPassport" style="width:auto;flex-shrink:0;" />
+          <label for="hasPassport" style="text-transform:none;letter-spacing:0;font-weight:500;font-size:0.88rem;margin-bottom:0;color:#344054;">I have a valid passport</label>
+        </div>
+
+        <button type="submit" class="btn-submit-vol" id="submitVolBtn">
+          <span class="spinner"></span>
+          <span class="btn-label">Submit Application →</span>
+        </button>
+        <p style="font-size:0.77rem;color:var(--text-muted,#667085);text-align:center;margin-top:10px;">We respond to all applications within 48 hours.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<section class="cta-section">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--gold-light)">Have Questions?</span>
+    <h2>Talk to Our Volunteer Team</h2>
+    <p>Our volunteer coordinators are former volunteers themselves. They'll answer every question and help you choose the right program.</p>
+    <div class="cta-actions">
+      <a href="contact.html" class="btn btn-primary btn-lg">Contact Us</a>
+      <a href="faq.html" class="btn btn-outline btn-lg">Read FAQ</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="color:var(--white)">
+        <div class="logo-icon">🌍</div>
+        Osimlai <span>Adventures</span>
+      </a>
+      <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Programs</h4>
+      <ul>
+        <li><a href="#">Wildlife Conservation</a></li>
+        <li><a href="#">Education</a></li>
+        <li><a href="#">Healthcare</a></li>
+        <li><a href="#">Environment</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Safaris</h4>
+      <ul>
+        <li><a href="tours.html">Wildlife Safaris</a></li>
+        <li><a href="tours.html">Gorilla Trekking</a></li>
+        <li><a href="tours.html">Mountain Climbing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="faq.html">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Osimlai Adventures. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
+  </div>
+</footer>
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+/* ============================================================
+   CONFIG
+============================================================ */
+const API = 'https://wild-tours.onrender.com/api';
+
+/* ============================================================
+   STATE
+============================================================ */
+let allPrograms  = [];
+let activeCategory = 'all';
+// Which program the user clicked "Apply Now" on
+let selectedProgram = null;
+
+/* ============================================================
+   AUTH HELPERS
+============================================================ */
+function getToken() { return localStorage.getItem('wr_token'); }
+function getUser() {
+  try { return JSON.parse(localStorage.getItem('wr_user') || 'null'); }
+  catch(e) { return null; }
+}
+function isLoggedIn() { return !!getToken() && !!getUser(); }
+
+
+function logout(){ localStorage.removeItem('wr_token'); localStorage.removeItem('wr_user'); window.location.href='login.html'; }
+function confirmLogout(){ if(confirm('Are you sure you want to log out?')) logout(); }
+
+/* ===== AUTH NAV UPDATE ===== */
+function updateNavForAuth() {
+  const token = localStorage.getItem('wr_token');
+  const userRaw = localStorage.getItem('wr_user');
+  const navActions = document.querySelector('.nav-actions');
+
+  if (!navActions) return;
+
+  if (token && userRaw) {
+    try {
+      const user = JSON.parse(userRaw);
+      const firstName = user.firstName || user.name?.split(' ')[0] || 'Traveler';
+
+      const hour = new Date().getHours();
+      const greeting =
+        hour < 12 ? 'Good morning' :
+        hour < 17 ? 'Good afternoon' :
+                    'Good evening';
+
+      navActions.innerHTML = `
+        <span style="font-weight:600; color: var(--primary, #2d7a3a);">
+          ${greeting}, ${firstName} 👋
+        </span>
+         <a href="my-portal.html" class="btn btn-outline-dark btn-sm" style="margin-left:10px;">My Portal</a>
+        <a onclick="confirmLogout()" class="btn btn-outline-dark btn-sm" style="margin-left:12px; cursor:pointer;">
+          Logout
+        </a>
+      `;
+    } catch (e) {
+      // Corrupted user data — clear and show default
+      localStorage.removeItem('wr_user');
+      localStorage.removeItem('wr_token');
+    }
+  }
+}
+
+updateNavForAuth();
+
+
+
+/* ============================================================
+   TOAST
+============================================================ */
+function showToast(msg, type = 'success') {
+  // Use the site's existing showToast if available, otherwise roll our own
+  if (typeof window.showToast === 'function') {
+    window.showToast(msg);
+    return;
+  }
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.style.display = 'none', 400); }, 3500);
+}
+
+/* ============================================================
+   FETCH PROGRAMS FROM API
+============================================================ */
+async function fetchPrograms() {
+  try {
+    // Public endpoint — only returns isActive:true programs
+    const res = await fetch(`${API}/volunteer?limit=100`);
+    if (!res.ok) throw new Error(`Server error ${res.status}`);
+    const data = await res.json();
+
+    // Handle different response shapes
+    allPrograms = data.programs || data.data?.programs || data.data || [];
+
+    removeSkeleton();
+
+    // Update hero subtitle & stat counter
+    if (allPrograms.length > 0) {
+      document.getElementById('heroSubtitle').textContent =
+        `Make a genuine, measurable difference in Africa's wildlife and communities. Browse ${allPrograms.length} active program${allPrograms.length !== 1 ? 's' : ''}.`;
+      document.getElementById('statPrograms').textContent = allPrograms.length;
+    } else {
+      document.getElementById('statPrograms').textContent = '0';
+    }
+
+    applyFilterAndRender();
+
+  } catch (err) {
+    console.error('Failed to fetch programs:', err);
+    removeSkeleton();
+    showError(err.message);
+  }
+}
+
+function removeSkeleton() {
+  ['sk1','sk2'].forEach(id => { const el = document.getElementById(id); if (el) el.remove(); });
+}
+
+function showError(msg) {
+  document.getElementById('programsContainer').innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">🌐</div>
+      <h3>Couldn't load programs</h3>
+      <p>${escHtml(msg)}. Please refresh the page or try again shortly.</p>
+      <button onclick="location.reload()" class="btn btn-primary btn-lg" style="margin-top:20px;">Retry</button>
+    </div>`;
+}
+
+/* ============================================================
+   FILTER & RENDER
+============================================================ */
+function applyFilterAndRender() {
+  let filtered = allPrograms;
+
+  if (activeCategory !== 'all') {
+    filtered = allPrograms.filter(p => {
+      const cat = (p.category || '').toLowerCase();
+      return cat.includes(activeCategory);
+    });
+  }
+
+  // Results info
+  const resultsInfo = document.getElementById('resultsInfo');
+  document.getElementById('resultsCount').textContent = filtered.length;
+  document.getElementById('resultsPlural').textContent = filtered.length === 1 ? '' : 's';
+  resultsInfo.style.display = 'flex';
+  document.getElementById('clearFiltersBtn').style.display = activeCategory !== 'all' ? '' : 'none';
+
+  renderPrograms(filtered);
+}
+
+function clearAllFilters() {
+  activeCategory = 'all';
+  document.querySelectorAll('#categoryChips .chip').forEach(c => c.classList.toggle('active', c.dataset.category === 'all'));
+  applyFilterAndRender();
+}
+
+function renderPrograms(programs) {
+  const container = document.getElementById('programsContainer');
+
+  if (programs.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <h3>No programs in this category</h3>
+        <p>Try a different filter or check back soon — we're always adding new placements.</p>
+        <button onclick="clearAllFilters()" class="btn btn-primary btn-lg" style="margin-top:20px;">Show All Programs</button>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = programs.map(p => renderProgramCard(p)).join('');
+}
+
+function renderProgramCard(p) {
+  // ── Image ──
+  const img = p.coverImage?.url
+    || p.images?.[0]?.url
+    || 'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&auto=format&fit=crop';
+
+  // ── Title & description ──
+  const title    = escHtml(p.title || 'Volunteer Program');
+  const desc     = escHtml(p.shortDescription || p.summary || (p.description || '').slice(0, 200));
+  const country  = escHtml(p.country || '');
+  const location = escHtml(p.location || p.town || '');
+  const locStr   = [location, country].filter(Boolean).join(', ');
+
+  // ── Duration ──
+  let durStr = '—';
+  if (p.duration) {
+    if (typeof p.duration === 'object' && p.duration.min != null) {
+      const unit = p.duration.unit || 'weeks';
+      durStr = p.duration.max && p.duration.max !== p.duration.min
+        ? `${p.duration.min}–${p.duration.max} ${unit}`
+        : `${p.duration.min} ${unit}`;
+    } else {
+      durStr = String(p.duration);
+    }
+  }
+
+  // ── Fee ──
+  const fee = Number(p.programFee || p.fee || 0);
+  const feeStr = fee > 0 ? `$${fee.toLocaleString()}` : 'Contact us';
+
+  // ── Age ──
+  const ageMin = p.ageMin || p.minAge;
+  const ageMax = p.ageMax || p.maxAge;
+  let ageStr = '';
+  if (ageMin && ageMax) ageStr = `Age ${ageMin}–${ageMax}`;
+  else if (ageMin) ageStr = `Age ${ageMin}+`;
+
+  // ── Accommodation ──
+  const accomType = p.accommodation?.type || p.accommodationType || '';
+  const accomLabel = {
+    'host-family': 'Host Family',
+    'shared-house': 'Shared House',
+    'bush-camp': 'Bush Camp',
+    'guesthouse': 'Guesthouse',
+    'lodge': 'Eco Lodge',
+  }[accomType] || accomType || '';
+
+  // ── Category tags ──
+  const catIcon = {
+    wildlife: '<i class="fa-solid fa-paw"></i>',
+    education: '<i class="fa-solid fa-book"></i>',
+    healthcare: '<i class="fa-solid fa-heartbeat"></i>',
+    environment: '<i class="fa-solid fa-leaf"></i>',
+    community: '<i class="fa-solid fa-hands-helping"></i>',
+    construction: '<i class="fa-solid fa-hard-hat"></i>',
+    sports: '<i class="fa-solid fa-futbol"></i>',
+  };
+  const cat = (p.category || '').toLowerCase();
+  const catLabel = p.category
+    ? `<span class="volunteer-tag">${catIcon[cat] || '🌍'} ${escHtml(p.category)}</span>`
+    : '';
+
+  // ── Badge ──
+  const badge = p.featured
+    ? `<span class="tour-badge" style="position:absolute;top:14px;left:14px;">FEATURED</span>`
+    : (p.ratingsQuantity >= 20 && (p.ratingsAverage || 0) >= 4.8
+        ? `<span class="tour-badge" style="position:absolute;top:14px;left:14px;">TOP RATED</span>`
+        : '');
+
+  // ── Rating ──
+  const rating = p.ratingsAverage
+    ? `<span style="color:var(--gold,#d4a017);font-weight:700;">★ ${Number(p.ratingsAverage).toFixed(1)}</span>${p.ratingsQuantity ? ` <span style="color:#667085;font-size:0.78rem;">(${p.ratingsQuantity})</span>` : ''}`
+    : '';
+
+  // ── Fee covers notice ──
+  const feeCoverage = (p.feeCoverage || []).slice(0, 2).map(f => escHtml(f)).join(', ');
+  const feeNote = feeCoverage || (p.meals ? `includes ${escHtml(String(p.meals))}` : '');
+
+  // ── Serialize program data for Quick Apply ──
+  const programData = encodeURIComponent(JSON.stringify({
+    _id:      p._id || p.id,
+    title:    p.title,
+    country:  country,
+    location: locStr,
+    duration: durStr,
+    fee:      feeStr,
+  }));
+
+  // ── Detail page URL ──
+  const detailUrl = `volunteer-explore.html?id=${p._id || p.id}`;
+
+  return `
+    <div class="vol-detail-card">
+      <div class="vol-card-inner">
+        <div class="vol-card-img-wrap">
+          <a href="${detailUrl}">
+            <img
+              src="${img}"
+              alt="${title}"
+              loading="lazy"
+              onerror="this.src='https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&auto=format&fit=crop'"
+            />
+          </a>
+          ${badge}
+        </div>
+        <div class="vol-card-content">
+          <div class="volunteer-tags">
+            ${catLabel}
+            ${rating ? `<span class="volunteer-tag">${rating}</span>` : ''}
+          </div>
+          <a href="${detailUrl}" style="text-decoration:none;color:inherit;">
+            <h2 class="vol-card-title">${title}</h2>
+          </a>
+          <p class="vol-card-desc">${desc || 'An impactful volunteer experience that makes a real difference.'}</p>
+          <div class="vol-card-specs">
+            ${locStr ? `<span class="vol-spec"><i class="fa-solid fa-location-dot"></i> ${locStr}</span>` : ''}
+            ${durStr !== '—' ? `<span class="vol-spec"><i class="fa-solid fa-clock"></i> ${escHtml(durStr)}</span>` : ''}
+            ${ageStr ? `<span class="vol-spec"><i class="fa-solid fa-user"></i> ${escHtml(ageStr)}</span>` : ''}
+            ${accomLabel ? `<span class="vol-spec"><i class="fa-solid fa-bed"></i> ${escHtml(accomLabel)}</span>` : ''}
+            ${p.spotsAvailable != null ? `<span class="vol-spec"><i class="fa-solid fa-users"></i> ${p.spotsAvailable} spots left</span>` : ''}
+          </div>
+          <div class="vol-card-footer">
+            <div>
+              <div class="vol-price-from">Program fee from</div>
+              <div class="vol-price">${feeStr} <span>${feeNote ? `(${feeNote})` : ''}</span></div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <a href="${detailUrl}" class="btn btn-primary">View Details →</a>
+              <button class="btn btn-outline-dark btn-sm" onclick="openApplyModal('${programData}')">Quick Apply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ============================================================
+   APPLY MODAL
+============================================================ */
+function openApplyModal(programDataEncoded) {
+  try { selectedProgram = JSON.parse(decodeURIComponent(programDataEncoded)); }
+  catch(e) { selectedProgram = null; }
+
+  // Populate program info banner
+  if (selectedProgram) {
+    document.getElementById('modalProgramName').textContent = selectedProgram.title || 'Volunteer Program';
+    const meta = [selectedProgram.location, selectedProgram.duration, selectedProgram.fee].filter(Boolean).join(' · ');
+    document.getElementById('modalProgramMeta').textContent = meta;
+    document.getElementById('applyProgramId').value = selectedProgram._id || '';
+  }
+
+  // Show/hide login notice
+  document.getElementById('loginNotice').style.display = isLoggedIn() ? 'none' : 'flex';
+
+  // Pre-fill email/name if logged in
+  const user = getUser();
+  if (user) {
+    const form = document.getElementById('volunteerApplyForm');
+    const setVal = (name, val) => { const el = form.querySelector(`[name="${name}"]`); if (el && val) el.value = val; };
+    setVal('firstName', user.firstName);
+    setVal('lastName', user.lastName);
+    setVal('email', user.email);
+    setVal('phone', user.phone || '');
+    setVal('nationality', user.nationality || '');
+  }
+
+  document.getElementById('applyModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeApplyModal() {
+  document.getElementById('applyModal').classList.remove('open');
+  document.body.style.overflow = '';
+  // Reset success state if shown
+  const form = document.getElementById('volunteerApplyForm');
+  const successEl = document.getElementById('applySuccess');
+  if (successEl) successEl.remove();
+  if (form) form.style.display = '';
+}
+
+// Close on overlay click
+document.getElementById('applyModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('applyModal')) closeApplyModal();
+});
+
+/* ============================================================
+   SUBMIT APPLICATION FORM
+============================================================ */
+document.getElementById('volunteerApplyForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  // Auth check
+  if (!isLoggedIn()) {
+    showToast('Please sign in before submitting an application.');
+    document.getElementById('loginNotice').style.display = 'flex';
+    return;
+  }
+
+  const btn = document.getElementById('submitVolBtn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  const form = e.target;
+  const fd = new FormData(form);
+
+  const payload = {
+    program: fd.get('program') || (selectedProgram?._id) || '',
+
+    personalInfo: {
+      firstName:   fd.get('firstName'),
+      lastName:    fd.get('lastName'),
+      email:       fd.get('email'),
+      phone:       fd.get('phone'),
+      nationality: fd.get('nationality'),
+      dateOfBirth: fd.get('dateOfBirth'),
+    },
+
+    emergencyContact: {
+      name:  fd.get('emergencyName'),
+      phone: fd.get('emergencyPhone'),
+    },
+
+    programDetails: {
+      startDate: fd.get('startDate'),
+      duration:  fd.get('duration'),
+    },
+
+    skills:               fd.get('skills')    ? fd.get('skills').split(',').map(s => s.trim()).filter(Boolean) : [],
+    languages:            fd.get('languages') ? fd.get('languages').split(',').map(s => s.trim()).filter(Boolean) : [],
+    motivation:           fd.get('motivation'),
+    medicalConditions:    fd.get('medicalConditions') || '',
+    dietaryRequirements:  fd.get('dietaryRequirements') || '',
+    hasPassport:          fd.get('hasPassport') === 'on',
+  };
+
+  // Basic validation
+  const required = ['firstName','lastName','email','phone','nationality','startDate','duration','motivation','emergencyName','emergencyPhone'];
+  for (const field of required) {
+    const val = form.querySelector(`[name="${field}"]`);
+    if (!val || !val.value.trim()) {
+      val?.classList.add('error');
+      val?.focus();
+      showToast(`Please fill in the ${field.replace(/([A-Z])/g,' $1').toLowerCase()} field.`);
+      btn.disabled = false;
+      btn.classList.remove('loading');
+      return;
+    }
+    val.classList.remove('error');
+  }
+
+  try {
+    const res = await fetch(`${API}/volunteer/apply`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      // Replace form with success message
+      form.style.display = 'none';
+      const success = document.createElement('div');
+      success.id = 'applySuccess';
+      success.className = 'modal-success';
+      success.innerHTML = `
+        <div class="success-icon">🎉</div>
+        <h3>Application Submitted!</h3>
+        <p>Thank you, <strong>${escHtml(fd.get('firstName'))}</strong>! Your application for <strong>${escHtml(selectedProgram?.title || 'the program')}</strong> has been received.</p>
+        <p style="margin-top:10px;">Our volunteer coordinator will review it and contact you at <strong>${escHtml(fd.get('email'))}</strong> within 48 hours.</p>
+        <button class="btn btn-primary" style="margin-top:24px;" onclick="closeApplyModal()">Close</button>`;
+      form.parentNode.appendChild(success);
+      form.reset();
+    } else {
+      showToast(data.message || 'Submission failed. Please try again.', 'error');
+    }
+
+  } catch (err) {
+    showToast('Network error. Please check your connection and try again.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+  }
+});
+
+/* ============================================================
+   CATEGORY FILTER CHIPS
+============================================================ */
+document.getElementById('categoryChips').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  document.querySelectorAll('#categoryChips .chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  activeCategory = chip.dataset.category;
+  applyFilterAndRender();
+});
+
+/* ============================================================
+   HELPERS
+============================================================ */
+function escHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => (
+    { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+  ));
+}
+
+// ESC to close modal
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeApplyModal();
+});
+
+/* ============================================================
+   INIT
+============================================================ */
+fetchPrograms();
+</script>
+
+</body>
+</html>

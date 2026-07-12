@@ -12,11 +12,11 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <style>
-    /* ── Hero photo swap: volunteering-led, inline so it wins over style.css ── */
+    /* ── Hero photo swap: community-service led, inline so it wins over style.css ── */
     .hero-img{
       background-image:
         linear-gradient(180deg, rgba(10,20,15,0.55) 0%, rgba(10,20,15,0.75) 100%),
-        url('https://images.unsplash.com/photo-1509233725247-49e657c54213?w=1600&auto=format&fit=crop');
+        url('https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1600&auto=format&fit=crop');
       background-size:cover;
       background-position:center;
     }
@@ -63,7 +63,7 @@
     .fv-skeleton .sk-line{ height:12px; border-radius:6px; background:linear-gradient(90deg,#e8e8e8 25%,#f5f5f5 50%,#e8e8e8 75%); background-size:200% 100%; animation:idxShimmer 1.4s infinite; }
     @keyframes idxShimmer{ 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-    /* ── Dynamic gallery (fetched from API) ── */
+    /* ── Dynamic gallery (fetched from API) — show a curated few, not everything ── */
     .idx-gallery-grid{ column-count:4; column-gap:16px; }
     .idx-gallery-item{ break-inside:avoid; margin-bottom:16px; position:relative; border-radius:14px; overflow:hidden; cursor:pointer; opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease; }
     .idx-gallery-item.in-view{ opacity:1; transform:translateY(0); }
@@ -76,6 +76,8 @@
     .idx-gallery-chips{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:30px; }
     .idx-gchip{ padding:7px 16px; border-radius:100px; background:var(--sand,#f5f0e8); color:var(--forest,#1a3c2e); font-size:0.82rem; font-weight:700; cursor:pointer; border:none; transition:all .16s ease; }
     .idx-gchip.active{ background:var(--forest,#1a3c2e); color:#fff; }
+    /* Cap the homepage teaser to the first 8 images regardless of how many the API returns — full set lives on gallery.html */
+    .idx-gallery-grid .idx-gallery-item:nth-child(n+9){ display:none !important; }
     .idx-lightbox{ position:fixed; inset:0; background:rgba(10,14,12,0.94); z-index:1000; display:none; align-items:center; justify-content:center; padding:24px; }
     .idx-lightbox.active{ display:flex; }
     .idx-lightbox img{ max-width:88vw; max-height:78vh; border-radius:10px; object-fit:contain; }
@@ -86,7 +88,7 @@
     .idx-lb-nav{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.12); border:none; color:#fff; width:44px; height:44px; border-radius:50%; font-size:1.1rem; cursor:pointer; }
     .idx-lb-prev{ left:24px; } .idx-lb-next{ right:24px; }
 
-    /* ── Culture strip (new) ── */
+    /* ── Culture strip ── */
     .culture-strip{ background:var(--sand,#f5f0e8); padding:70px 24px; }
     .culture-grid{ max-width:1160px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
     .culture-imgs{ display:grid; grid-template-columns:1.2fr 1fr; grid-template-rows:1fr 1fr; gap:14px; height:380px; }
@@ -98,6 +100,80 @@
     .culture-copy ul{ list-style:none; padding:0; margin:0 0 24px; display:grid; gap:10px; }
     .culture-copy ul li{ display:flex; align-items:flex-start; gap:10px; color:#344054; font-size:0.92rem; }
     .culture-copy ul li i{ color:var(--forest,#1a3c2e); margin-top:3px; }
+
+    /* ── Dynamic header additions: user chip + dropdown, responsive logo ── */
+    .logo-text{ display:inline-flex; flex-direction:column; line-height:1.05; }
+    .logo-text em{ font-style:normal; color:var(--gold); }
+    .logo-text .logo-short{ display:none; }
+    .nav-actions{ position:relative; }
+    .user-chip{
+      display:flex; align-items:center; gap:10px;
+      background:rgba(255,255,255,0.12);
+      border:1px solid rgba(255,255,255,0.22);
+      padding:6px 14px 6px 6px;
+      border-radius:100px;
+      cursor:pointer;
+      max-width:220px;
+      transition:background .18s ease;
+    }
+    .user-chip:hover{ background:rgba(255,255,255,0.2); }
+    .navbar.scrolled .user-chip{ background:rgba(26,60,46,0.06); border-color:rgba(26,60,46,0.14); }
+    .navbar.scrolled .user-chip:hover{ background:rgba(26,60,46,0.1); }
+    .user-chip .avatar{
+      width:32px; height:32px; border-radius:50%; flex-shrink:0;
+      background:var(--gold); color:var(--forest);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:800; font-size:0.82rem;
+    }
+    .user-chip .greeting{
+      font-size:0.85rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      max-width:130px; color:rgba(255,255,255,0.95);
+    }
+    .navbar.scrolled .user-chip .greeting{ color:var(--text); }
+    .user-chip i.fa-chevron-down{ font-size:0.7rem; color:rgba(255,255,255,0.7); flex-shrink:0; transition:transform .18s ease; }
+    .navbar.scrolled .user-chip i.fa-chevron-down{ color:#98a2b3; }
+    .user-chip.open i.fa-chevron-down{ transform:rotate(180deg); }
+    .user-menu{
+      position:absolute; top:calc(100% + 12px); right:0;
+      background:#fff; border-radius:14px; min-width:200px;
+      box-shadow:0 16px 48px rgba(16,24,40,0.2);
+      padding:8px; display:none; z-index:1100;
+      border:1px solid rgba(0,0,0,0.06);
+    }
+    .user-menu.open{ display:block; }
+    .user-menu a, .user-menu button{
+      display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+      padding:11px 12px; border-radius:9px; font-size:0.87rem; font-weight:600; color:#344054;
+      background:none; border:none; cursor:pointer; font-family:inherit;
+    }
+    .user-menu a:hover, .user-menu button:hover{ background:var(--sand,#f5f0e8); color:var(--forest,#1a3c2e); }
+    .user-menu i{ width:16px; color:#98a2b3; }
+    .user-menu .divider{ height:1px; background:#f0f0f0; margin:6px 4px; }
+    .mobile-user-chip{
+      display:flex; align-items:center; gap:12px; padding:16px 0; border-bottom:1px solid #f0f0f0; margin-bottom:6px;
+    }
+    .mobile-user-chip .avatar{
+      width:44px; height:44px; border-radius:50%; background:var(--gold); color:var(--forest);
+      display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem; flex-shrink:0;
+    }
+    .mobile-user-chip .info{ min-width:0; }
+    .mobile-user-chip .name{ font-weight:700; color:var(--forest); font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .mobile-user-chip .email{ font-size:0.78rem; color:#667085; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    /* ── Header responsiveness: shrink before the hamburger takes over ── */
+    @media (max-width:1180px){
+      .nav-links{ gap:20px; }
+      .nav-link{ font-size:0.85rem; }
+      .logo-text{ font-size:0.98rem; }
+    }
+    @media (max-width:992px){
+      .nav-links, .nav-actions{ display:none !important; }
+      .hamburger{ display:flex !important; }
+    }
+    @media (max-width:420px){
+      .logo-text .logo-full{ display:none; }
+      .logo-text .logo-short{ display:inline; }
+    }
 
     @media (max-width:980px){
       .cat-teaser-grid{ grid-template-columns:repeat(3,1fr); }
@@ -119,7 +195,10 @@
 <nav class="navbar" id="navbar">
   <a href="index.html" class="logo">
     <div class="logo-icon">🌍</div>
-    International <span>Volunteer Home Tz</span>
+    <span class="logo-text">
+      <span class="logo-full">International <em>Volunteer Home Tz</em></span>
+      <span class="logo-short">IVH <em>Tz</em></span>
+    </span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link active">Home</a></li>
@@ -130,7 +209,7 @@
     <li><a href="blog.html" class="nav-link">Blog</a></li>
     <li><a href="contact.html" class="nav-link">Contact</a></li>
   </ul>
-  <div class="nav-actions">
+  <div class="nav-actions" id="navActions">
     <a href="login.html" class="nav-cta">Sign In</a>
     <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
   </div>
@@ -141,6 +220,7 @@
 
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
+  <div id="mobileUserChip"></div>
   <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
   <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
   <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
@@ -148,13 +228,13 @@
   <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
   <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
   <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
-  <div class="mobile-actions">
+  <div class="mobile-actions" id="mobileActions">
     <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
     <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
   </div>
 </div>
 
-<!-- ===== HERO (volunteering-led) ===== -->
+<!-- ===== HERO (community service-led) ===== -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-pattern"></div>
@@ -596,13 +676,13 @@
   </div>
 </div>
 
-<!-- ===== GALLERY (dynamic, fetched from /api/gallery) ===== -->
+<!-- ===== GALLERY (dynamic, fetched from /api/gallery — homepage shows a curated few only) ===== -->
 <section>
   <div class="container">
     <div class="section-header">
       <span class="eyebrow">Our Gallery</span>
       <h2>Moments That Last Forever</h2>
-      <p>Real photos from real placements and safaris — pulled live from our gallery, volunteering moments first.</p>
+      <p>A few favorites from real placements and safaris — see the full collection on our Gallery page.</p>
     </div>
 
     <div class="idx-gallery-chips" id="idxGalleryChips">
@@ -613,8 +693,8 @@
       <button class="idx-gchip" data-filter="community">Community</button>
     </div>
 
-    <div class="idx-gallery-grid" id="idxGalleryGrid">
-      <!-- populated by js/index-dynamic.js -->
+    <div class="idx-gallery-grid" id="idxGalleryGrid" data-max-items="8">
+      <!-- populated by js/index-dynamic.js; capped to 8 items via CSS + JS observer below -->
     </div>
 
     <div style="text-align:center;margin-top:28px;">
@@ -776,5 +856,155 @@
 <script src="js/main.js"></script>
 <script src="js/index-dynamic.js"></script>
 <script src="js/index.js"></script>
+<script>
+/* ============================================================
+   DYNAMIC HEADER — works regardless of what main.js does.
+   Renders a compact avatar + name chip (desktop) and a matching
+   mobile block, both truncating long names so nothing overlaps.
+   Runs after the other scripts and re-checks periodically in case
+   main.js writes to localStorage asynchronously after login.
+============================================================ */
+(function () {
+  function getUser() {
+    try { return JSON.parse(localStorage.getItem('wr_user') || 'null'); } catch (e) { return null; }
+  }
+  function getToken() { return localStorage.getItem('wr_token'); }
+  function initials(name) {
+    if (!name) return '?';
+    const parts = name.trim().split(/\s+/);
+    return ((parts[0]?.[0] || '') + (parts[1]?.[0] || '')).toUpperCase() || name[0].toUpperCase();
+  }
+  function escHtml(str) {
+    return String(str ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+  }
+  function greetingWord() {
+    const h = new Date().getHours();
+    return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  }
+  function logout() {
+    localStorage.removeItem('wr_token');
+    localStorage.removeItem('wr_user');
+    window.location.href = 'login.html';
+  }
+  window.ivhLogout = logout;
+
+  function renderDesktop(user) {
+    const navActions = document.getElementById('navActions');
+    if (!navActions) return;
+    const fullName = user.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : (user.name || 'Traveler');
+    const first = user.firstName || (user.name || 'Traveler').split(' ')[0];
+    navActions.innerHTML = `
+      <div class="user-chip" id="userChipBtn">
+        <div class="avatar">${escHtml(initials(fullName))}</div>
+        <span class="greeting">${greetingWord()}, ${escHtml(first)}</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+      <div class="user-menu" id="userMenu">
+        <a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>
+        <a href="my-portal.html#applications"><i class="fa-solid fa-clipboard-list"></i> My Applications</a>
+        <div class="divider"></div>
+        <button type="button" onclick="if(confirm('Are you sure you want to log out?')) ivhLogout();"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </div>`;
+
+    const chip = document.getElementById('userChipBtn');
+    const menu = document.getElementById('userMenu');
+    chip.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = menu.classList.toggle('open');
+      chip.classList.toggle('open', isOpen);
+    });
+    document.addEventListener('click', (e) => {
+      if (!navActions.contains(e.target)) { menu.classList.remove('open'); chip.classList.remove('open'); }
+    });
+  }
+
+  function renderMobile(user) {
+    const chipWrap = document.getElementById('mobileUserChip');
+    const actionsWrap = document.getElementById('mobileActions');
+    if (!chipWrap || !actionsWrap) return;
+    const fullName = user.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : (user.name || 'Traveler');
+    chipWrap.innerHTML = `
+      <div class="mobile-user-chip">
+        <div class="avatar">${escHtml(initials(fullName))}</div>
+        <div class="info">
+          <div class="name">${greetingWord()}, ${escHtml(fullName)}</div>
+          <div class="email">${escHtml(user.email || '')}</div>
+        </div>
+      </div>`;
+    actionsWrap.innerHTML = `
+      <a href="my-portal.html" class="btn btn-outline-dark" style="justify-content:center;"><i class="fa-solid fa-user" style="margin-right:6px;"></i> My Portal</a>
+      <a onclick="if(confirm('Are you sure you want to log out?')) ivhLogout();" class="btn btn-primary" style="justify-content:center;cursor:pointer;">Logout</a>`;
+  }
+
+  function renderLoggedOut() {
+    const navActions = document.getElementById('navActions');
+    const chipWrap = document.getElementById('mobileUserChip');
+    const actionsWrap = document.getElementById('mobileActions');
+    if (navActions && !navActions.querySelector('.user-chip')) {
+      navActions.innerHTML = `<a href="login.html" class="nav-cta">Sign In</a><a href="register.html" class="btn btn-primary btn-sm">Get Started</a>`;
+    }
+    if (chipWrap) chipWrap.innerHTML = '';
+    if (actionsWrap) {
+      actionsWrap.innerHTML = `
+        <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+        <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>`;
+    }
+  }
+
+  let lastState = null;
+  function syncAuthUI() {
+    const user = getUser();
+    const token = getToken();
+    const state = (user && token) ? (user.email || user.firstName || '1') : '0';
+    if (state === lastState) return;
+    lastState = state;
+    if (user && token) { renderDesktop(user); renderMobile(user); }
+    else { renderLoggedOut(); }
+  }
+
+  syncAuthUI();
+  window.addEventListener('storage', syncAuthUI);
+  setInterval(syncAuthUI, 1500);
+  document.addEventListener('DOMContentLoaded', syncAuthUI);
+})();
+
+/* ============================================================
+   HAMBURGER — bound here defensively in case main.js binds
+   before these elements exist, or not at all.
+============================================================ */
+(function () {
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (!hamburger || !mobileMenu || hamburger.dataset.bound) return;
+  hamburger.dataset.bound = '1';
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('active');
+  });
+  mobileMenu.querySelectorAll('.mobile-nav-link').forEach(a => {
+    a.addEventListener('click', () => { mobileMenu.classList.remove('open'); hamburger.classList.remove('active'); });
+  });
+})();
+
+/* ============================================================
+   GALLERY CAP — keep the homepage teaser to a curated few images
+   no matter how many index-dynamic.js renders. CSS already hides
+   anything past the 8th; this just trims the DOM once it settles
+   so filter-chip clicks in index-dynamic.js don't briefly flash
+   extra images before the CSS rule applies.
+============================================================ */
+(function () {
+  const grid = document.getElementById('idxGalleryGrid');
+  if (!grid) return;
+  const MAX_ITEMS = parseInt(grid.dataset.maxItems || '8', 10);
+  function trim() {
+    const items = grid.querySelectorAll('.idx-gallery-item');
+    items.forEach((el, i) => { el.style.display = i < MAX_ITEMS ? '' : 'none'; });
+  }
+  const obs = new MutationObserver(() => trim());
+  obs.observe(grid, { childList: true });
+  trim();
+})();
+</script>
 </body>
 </html>

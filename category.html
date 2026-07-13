@@ -41,7 +41,6 @@
   .cat-hero p{ font-size:1.02rem; line-height:1.7; color:rgba(255,255,255,0.85); max-width:620px; }
 
   .cat-hero-stats{ display:flex; gap:34px; margin-top:32px; flex-wrap:wrap; }
-  .cat-hero-stats div{ }
   .cat-hero-stats .n{ font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:800; }
   .cat-hero-stats .l{ font-size:0.76rem; color:rgba(255,255,255,0.65); text-transform:uppercase; letter-spacing:0.06em; }
 
@@ -57,7 +56,7 @@
 
   .container-cat{ max-width:1160px; margin:0 auto; padding:0 24px 90px; }
 
-  /* ── About-this-category panel (new: highlights + mini gallery + cultural note) ── */
+  /* ── About-this-category panel ── */
   .about-cat-panel{
     background:#fff; border:1px solid #e8e8e8; border-radius:18px; padding:32px;
     margin:30px 0 10px; display:grid; grid-template-columns:1.3fr 1fr; gap:32px;
@@ -140,7 +139,7 @@
   .empty-state h3{ font-size:1.25rem; font-weight:700; margin-bottom:8px; }
   .empty-state p{ color:#667085; font-size:0.94rem; max-width:420px; margin:0 auto; }
 
-  /* ── Sample schedule (new) ── */
+  /* ── Sample schedule ── */
   .schedule-panel{ background:#fff; border:1px solid #e8e8e8; border-radius:16px; padding:26px 28px; margin-bottom:26px; }
   .schedule-panel h3{ font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:800; color:#101828; margin-bottom:16px; }
   .schedule-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
@@ -148,7 +147,7 @@
   .schedule-day .d{ font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:var(--cat-accent); margin-bottom:6px; }
   .schedule-day .t{ font-size:0.82rem; color:#475467; line-height:1.5; }
 
-  /* ── Modal (Quick Apply) ── */
+  /* ── Modal ── */
   .modal-overlay{ position:fixed; inset:0; background:rgba(16,24,40,0.55); z-index:900; display:none; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
   .modal-overlay.open{ display:flex; }
   .modal{ background:#fff; border-radius:16px; width:100%; max-width:660px; max-height:92vh; overflow-y:auto; box-shadow:0 20px 60px rgba(16,24,40,0.18); animation:modalIn .22s ease; }
@@ -185,6 +184,275 @@
   .modal-success h3{ font-size:1.2rem; font-weight:800; color:var(--cat-accent); margin-bottom:8px; }
   .modal-success p{ color:#667085; font-size:0.9rem; line-height:1.6; }
 
+  /* ── NAVBAR: FULLY STYLED with white background on scroll ── */
+  .navbar {
+    background: transparent !important;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    padding: 12px 24px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .navbar.scrolled {
+    background: #ffffff !important;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  }
+  .navbar .nav-link {
+    color: rgba(255,255,255,0.85);
+    transition: color 0.3s ease;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.88rem;
+  }
+  .navbar.scrolled .nav-link {
+    color: #1a3c2e !important;
+  }
+  .navbar .nav-link.active {
+    color: #e8c565 !important;
+  }
+  .navbar.scrolled .nav-link.active {
+    color: #1a3c2e !important;
+    font-weight: 800;
+  }
+  .navbar .logo-text .line1 {
+    color: rgba(255,255,255,0.7);
+    transition: color 0.3s ease;
+  }
+  .navbar.scrolled .logo-text .line1 {
+    color: #98a2b3 !important;
+  }
+  .navbar .logo-text .line2 {
+    color: #ffffff;
+    transition: color 0.3s ease;
+  }
+  .navbar.scrolled .logo-text .line2 {
+    color: #1a3c2e !important;
+  }
+  .navbar .logo-text .line2 em {
+    color: #e8c565;
+    transition: color 0.3s ease;
+  }
+  .navbar.scrolled .logo-text .line2 em {
+    color: #e8c565 !important;
+  }
+  .navbar .nav-cta {
+    color: rgba(255,255,255,0.85);
+    transition: color 0.3s ease;
+  }
+  .navbar.scrolled .nav-cta {
+    color: #1a3c2e !important;
+  }
+  .navbar .btn-primary {
+    background: #e8c565;
+    color: #1a3c2e;
+    border: 1px solid #e8c565;
+  }
+  .navbar.scrolled .btn-primary {
+    background: #1a3c2e;
+    color: #ffffff;
+    border-color: #1a3c2e;
+  }
+  .navbar .icon-btn-outline {
+    border-color: rgba(255,255,255,0.4);
+    color: #ffffff;
+    background: rgba(255,255,255,0.05);
+  }
+  .navbar.scrolled .icon-btn-outline {
+    border-color: #e4e7ec !important;
+    color: #1a3c2e !important;
+    background: #ffffff !important;
+  }
+  .navbar .hamburger-box {
+    border-color: rgba(255,255,255,0.4);
+  }
+  .navbar.scrolled .hamburger-box {
+    border-color: #e4e7ec !important;
+    background: #ffffff !important;
+  }
+  .navbar .hamburger-box span {
+    background: #ffffff;
+  }
+  .navbar.scrolled .hamburger-box span {
+    background: #1a3c2e !important;
+  }
+  .navbar .btn-apply-pill {
+    background: #52b788;
+    color: #ffffff;
+  }
+  .navbar.scrolled .btn-apply-pill {
+    background: #1a3c2e !important;
+    color: #ffffff !important;
+  }
+  .navbar .user-chip {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.2);
+  }
+  .navbar.scrolled .user-chip {
+    background: rgba(26,60,46,0.06) !important;
+    border-color: rgba(26,60,46,0.14) !important;
+  }
+  .navbar .user-chip .greeting {
+    color: rgba(255,255,255,0.95);
+  }
+  .navbar.scrolled .user-chip .greeting {
+    color: #1a3c2e !important;
+  }
+  .navbar .user-chip .avatar {
+    background: #e8c565;
+    color: #1a3c2e;
+  }
+
+  .navbar .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .navbar .logo .logo-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    font-weight: 800;
+    font-size: 0.85rem;
+  }
+  .logo-text .line1 {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .logo-text .line2 {
+    font-size: 1rem;
+  }
+  .logo-text .line2 em {
+    font-style: normal;
+  }
+  .logo-text .line2-short { display: none; }
+  @media (max-width: 420px) {
+    .logo-text .line2 { display: none; }
+    .logo-text .line2-short { display: inline; font-size: 0.9rem; }
+  }
+
+  .nav-actions{ position:relative; display:flex; align-items:center; gap:8px; flex-shrink:0; flex-wrap:wrap; justify-content:flex-end; }
+  .nav-actions .nav-cta { font-weight:600; font-size:0.82rem; text-decoration:none; padding:4px 8px; border-radius:6px; }
+  .nav-actions .nav-cta:hover { background:rgba(255,255,255,0.1); }
+  .navbar.scrolled .nav-cta:hover { background:rgba(26,60,46,0.06); }
+  .nav-actions .btn { flex-shrink:0; font-size:0.78rem; padding:6px 14px; }
+
+  .user-chip{
+    display:flex; align-items:center; gap:8px;
+    padding:4px 10px 4px 4px;
+    border-radius:100px;
+    cursor:pointer;
+    max-width:160px;
+    transition:background .18s ease;
+  }
+  .user-chip:hover{ background:rgba(255,255,255,0.2); }
+  .navbar.scrolled .user-chip:hover{ background:rgba(26,60,46,0.1); }
+  .user-chip .avatar{
+    width:28px; height:28px; border-radius:50%; flex-shrink:0;
+    background:var(--gold); color:var(--forest);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:0.7rem;
+  }
+  .user-chip .greeting{
+    font-size:0.78rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    max-width:90px;
+  }
+  .user-chip i.fa-chevron-down{ font-size:0.6rem; flex-shrink:0; transition:transform .18s ease; }
+  .user-chip.open i.fa-chevron-down{ transform:rotate(180deg); }
+  .user-menu{
+    position:absolute; top:calc(100% + 8px); right:0;
+    background:#fff; border-radius:12px; min-width:180px;
+    box-shadow:0 12px 40px rgba(16,24,40,0.18);
+    padding:6px; display:none; z-index:1100;
+    border:1px solid rgba(0,0,0,0.06);
+  }
+  .user-menu.open{ display:block; }
+  .user-menu a, .user-menu button{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+    padding:9px 12px; border-radius:8px; font-size:0.82rem; font-weight:600; color:#344054;
+    background:none; border:none; cursor:pointer; font-family:inherit;
+  }
+  .user-menu a:hover, .user-menu button:hover{ background:var(--sand,#f5f0e8); color:var(--forest,#1a3c2e); }
+  .user-menu i{ width:16px; color:#98a2b3; }
+  .user-menu .divider{ height:1px; background:#f0f0f0; margin:4px 4px; }
+
+  .mobile-user-chip{
+    display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #f0f0f0; margin-bottom:4px;
+  }
+  .mobile-user-chip .avatar{
+    width:40px; height:40px; border-radius:50%; background:var(--gold); color:var(--forest);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0;
+  }
+  .mobile-user-chip .info{ min-width:0; }
+  .mobile-user-chip .name{ font-weight:700; color:var(--forest); font-size:0.88rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .mobile-user-chip .email{ font-size:0.72rem; color:#667085; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  /* ── Mobile icon row ── */
+  .mobile-header-actions{ display:none; align-items:center; gap:8px; flex-shrink:0; }
+  .icon-btn-outline{
+    width:36px; height:36px; border-radius:10px;
+    border:1.5px solid;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.95rem; flex-shrink:0; transition:all .3s ease;
+    background:transparent;
+  }
+  .icon-btn-outline:hover{ background:rgba(255,255,255,0.15); }
+  .navbar.scrolled .icon-btn-outline:hover{ background:var(--sand); }
+  .btn-apply-pill{
+    font-weight:800; font-size:0.78rem;
+    padding:0 14px; height:36px; display:flex; align-items:center; justify-content:center;
+    border-radius:10px; white-space:nowrap; flex-shrink:0; letter-spacing:0.02em;
+    transition:all .3s ease; text-decoration:none;
+  }
+  .hamburger-box{
+    display:none; flex-direction:column; justify-content:center; align-items:center; gap:4px;
+    width:36px; height:36px; border-radius:10px; border:1.5px solid;
+    cursor:pointer; flex-shrink:0; padding:0; transition:all .3s ease;
+    background:transparent;
+  }
+  .hamburger-box span{ width:15px; height:2px; border-radius:2px; display:block; transition:all .3s ease; }
+  .hamburger-box.active span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+  .hamburger-box.active span:nth-child(2){ opacity:0; }
+  .hamburger-box.active span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+  .hamburger{ display:flex; flex-direction:column; gap:4px; background:none; border:none; cursor:pointer; padding:8px 4px; flex-shrink:0; }
+  .hamburger span{ width:22px; height:2px; border-radius:2px; transition:all .3s ease; display:block; }
+  .hamburger.active span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+  .hamburger.active span:nth-child(2){ opacity:0; }
+  .hamburger.active span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+
+  @media (max-width:992px){
+    .nav-links, .nav-actions{ display:none !important; }
+    .mobile-header-actions{ display:flex !important; }
+    .hamburger-box{ display:flex !important; }
+    .hamburger{ display:none !important; }
+    .navbar{
+      padding-left:16px;
+      padding-right:16px;
+      gap:8px;
+      flex-wrap:nowrap;
+    }
+    .navbar .logo{ min-width:0; overflow:hidden; }
+    .logo-text{ min-width:0; overflow:hidden; }
+    .mobile-header-actions{ gap:6px; }
+  }
+  @media (max-width:400px){
+    .btn-apply-pill{ padding:0 10px; font-size:0.72rem; }
+    .icon-btn-outline, .hamburger-box{ width:34px; height:34px; }
+  }
+
   @media (max-width:900px){
     .prog-inner{ grid-template-columns:1fr; }
     .prog-img-wrap img{ min-height:220px; max-height:260px; }
@@ -205,46 +473,59 @@
 </head>
 <body>
 
-<nav class="navbar scrolled" id="navbar">
-  <a href="index.html" class="logo" style="color:var(--forest)">
+<!-- ===== NAVBAR (IVHQ-style two-line logo) ===== -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="logo">
     <div class="logo-icon">🌍</div>
-    International <span>Volunteer Home Tz</span>
+    <span class="logo-text">
+      <span class="line1">International</span>
+      <span class="line2">Volunteer <em>Home Tz</em></span>
+      <span class="line2-short">Volunteer <em>Home Tz</em></span>
+    </span>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html" class="nav-link" style="color:var(--text)">Home</a></li>
-    <li><a href="tours.html" class="nav-link" style="color:var(--text)">Safaris</a></li>
-    <li><a href="volunteer.html" class="nav-link active" style="color:var(--text)">Volunteer</a></li>
-    <li><a href="community.html" class="nav-link" style="color:var(--text)">Community</a></li>
-    <li><a href="about.html" class="nav-link" style="color:var(--text)">About</a></li>
-    <li><a href="blog.html" class="nav-link" style="color:var(--text)">Blog</a></li>
-    <li><a href="contact.html" class="nav-link" style="color:var(--text)">Contact</a></li>
+    <li><a href="index.html" class="nav-link">Home</a></li>
+    <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+    <li><a href="tours.html" class="nav-link">Safaris</a></li>
+    <li><a href="community.html" class="nav-link">Community</a></li>
+    <li><a href="about.html" class="nav-link">About</a></li>
+    <li><a href="blog.html" class="nav-link">Blog</a></li>
+    <li><a href="contact.html" class="nav-link">Contact</a></li>
   </ul>
-  <div class="nav-actions">
-    <a href="login.html" class="nav-cta" style="color:var(--text)">Sign In</a>
+  <div class="nav-actions" id="navActions">
+    <a href="login.html" class="nav-cta">Sign In</a>
     <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
   </div>
+  <!-- Mobile icon row -->
+  <div class="mobile-header-actions">
+    <button class="icon-btn-outline" aria-label="Wishlist" type="button"><i class="fa-regular fa-heart"></i></button>
+    <a href="volunteer.html" class="btn-apply-pill">Apply</a>
+    <button class="hamburger-box" id="hamburgerBox" aria-label="Open menu" type="button">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
   <button class="hamburger" id="hamburger" aria-label="Open menu">
-    <span style="background:var(--forest)"></span>
-    <span style="background:var(--forest)"></span>
-    <span style="background:var(--forest)"></span>
+    <span></span><span></span><span></span>
   </button>
 </nav>
 
+<!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
+  <div id="mobileUserChip"></div>
   <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
-  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
   <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
   <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
   <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
   <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
   <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
-  <div class="mobile-actions">
+  <div class="mobile-actions" id="mobileActions">
     <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
     <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
   </div>
 </div>
 
-<!-- CATEGORY HERO (populated by JS from static CATEGORIES config) -->
+<!-- CATEGORY HERO -->
 <header class="cat-hero" id="catHero">
   <div class="cat-hero-inner">
     <div class="breadcrumb"><a href="index.html">Home</a> › <a href="volunteer.html">Volunteer</a> › <span id="breadcrumbCat">Category</span></div>
@@ -264,7 +545,7 @@
 
 <div class="container-cat">
 
-  <!-- ABOUT THIS CATEGORY (new: highlights, cultural note, mini gallery) -->
+  <!-- ABOUT THIS CATEGORY -->
   <div class="about-cat-panel">
     <div class="about-cat-copy">
       <h3 id="aboutCatTitle">What you'll actually do</h3>
@@ -280,7 +561,7 @@
     </div>
   </div>
 
-  <!-- SAMPLE WEEKLY SCHEDULE (new) -->
+  <!-- SAMPLE WEEKLY SCHEDULE -->
   <div class="schedule-panel">
     <h3><i class="fa-regular fa-calendar" style="color:var(--cat-accent);margin-right:8px;"></i>A Typical Week</h3>
     <div class="schedule-grid" id="scheduleGrid"></div>
@@ -466,10 +747,7 @@
 
 <script>
 /* ============================================================
-   CONFIG — categories are static entities, projects are dynamic
-   Broadened to reflect the full diversity of East African peoples:
-   Swahili coastal communities, Chagga, Kikuyu, Luo, Kalenjin,
-   Maasai/Waarusha, and many others — children, women and men alike.
+   CONFIG — categories are static entities
 ============================================================ */
 const API = 'https://wild-tours.onrender.com/api';
 
@@ -624,40 +902,16 @@ let activeSlug = params.get('cat');
 if (!CATEGORIES[activeSlug]) activeSlug = 'wildlife';
 const activeCat = CATEGORIES[activeSlug];
 
-let allPrograms = [];    // full fetch, unfiltered by API (safety net)
-let catPrograms = [];    // filtered to this category
+let allPrograms = [];
+let catPrograms = [];
 let selectedProgram = null;
 
 /* ============================================================
-   AUTH HELPERS (shared pattern across the site)
+   AUTH HELPERS
 ============================================================ */
 function getToken(){ return localStorage.getItem('wr_token'); }
 function getUser(){ try { return JSON.parse(localStorage.getItem('wr_user') || 'null'); } catch(e){ return null; } }
 function isLoggedIn(){ return !!getToken() && !!getUser(); }
-
-function updateNavForAuth() {
-  const token = localStorage.getItem('wr_token');
-  const userRaw = localStorage.getItem('wr_user');
-  const navActions = document.querySelector('.nav-actions');
-  if (!navActions || !token || !userRaw) return;
-  try {
-    const user = JSON.parse(userRaw);
-    const firstName = user.firstName || user.name?.split(' ')[0] || 'Traveler';
-    const hour = new Date().getHours();
-    const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-    navActions.innerHTML = `
-      <span style="font-weight:600; color: var(--primary, #2d7a3a);">${greeting}, ${firstName} 👋</span>
-      <a href="my-portal.html" class="btn btn-outline-dark btn-sm" style="margin-left:10px;">My Portal</a>
-      <a onclick="if(confirm('Are you sure you want to log out?')){localStorage.removeItem('wr_token');localStorage.removeItem('wr_user');window.location.href='login.html';}" class="btn btn-outline-dark btn-sm" style="margin-left:12px; cursor:pointer;">Logout</a>`;
-  } catch(e) { localStorage.removeItem('wr_user'); localStorage.removeItem('wr_token'); }
-}
-updateNavForAuth();
-
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobileMenu');
-if (hamburger && mobileMenu) {
-  hamburger.addEventListener('click', () => { mobileMenu.classList.toggle('open'); hamburger.classList.toggle('active'); });
-}
 
 /* ============================================================
    TOAST
@@ -673,7 +927,45 @@ function showToast(msg) {
 }
 
 /* ============================================================
-   RENDER STATIC CATEGORY HERO + PILL NAV + ABOUT PANEL + SCHEDULE
+   SCROLL HEADER
+============================================================ */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 20) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
+
+/* ============================================================
+   HAMBURGER
+============================================================ */
+const hamburger = document.getElementById('hamburger');
+const hamburgerBox = document.getElementById('hamburgerBox');
+const mobileMenu = document.getElementById('mobileMenu');
+
+function toggleMenu() {
+  mobileMenu.classList.toggle('open');
+  if (hamburger) hamburger.classList.toggle('active');
+  if (hamburgerBox) hamburgerBox.classList.toggle('active');
+}
+
+if (hamburger) hamburger.addEventListener('click', toggleMenu);
+if (hamburgerBox) hamburgerBox.addEventListener('click', toggleMenu);
+
+if (mobileMenu) {
+  mobileMenu.querySelectorAll('.mobile-nav-link').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      if (hamburger) hamburger.classList.remove('active');
+      if (hamburgerBox) hamburgerBox.classList.remove('active');
+    });
+  });
+}
+
+/* ============================================================
+   RENDER STATIC CATEGORY CHROME
 ============================================================ */
 function renderCategoryChrome() {
   document.documentElement.style.setProperty('--cat-accent', activeCat.accent);
@@ -693,14 +985,11 @@ function renderCategoryChrome() {
       <i class="fa-solid ${c.icon}"></i> ${c.label}
     </a>`).join('');
 
-  // About-this-category panel
   document.getElementById('aboutCatTitle').textContent = `What you'll actually do — ${activeCat.label}`;
   document.getElementById('aboutCatIntro').textContent = activeCat.intro;
   document.getElementById('aboutHighlights').innerHTML = activeCat.highlights.map(h => `<li><i class="fa-solid fa-check"></i> ${escHtml(h)}</li>`).join('');
   document.getElementById('culturalNote').textContent = activeCat.culturalNote;
   document.getElementById('aboutCatGallery').innerHTML = activeCat.gallery.map((src, i) => `<img src="${src}" alt="${escHtml(activeCat.label)} volunteering photo ${i+1}" loading="lazy" onerror="this.src='${activeCat.heroImg}'"/>`).join('');
-
-  // Sample weekly schedule
   document.getElementById('scheduleGrid').innerHTML = activeCat.schedule.map(([day, task]) => `
     <div class="schedule-day"><div class="d">${escHtml(day)}</div><div class="t">${escHtml(task)}</div></div>`).join('');
 }
@@ -711,15 +1000,11 @@ renderCategoryChrome();
 ============================================================ */
 async function fetchPrograms() {
   try {
-    // Try server-side category filter first; client-side filter always runs as a safety net
     const res = await fetch(`${API}/volunteer?category=${activeSlug}&limit=200`);
     if (!res.ok) throw new Error(`Server error ${res.status}`);
     const data = await res.json();
     allPrograms = data.programs || data.data?.programs || data.data || [];
-
     catPrograms = allPrograms.filter(p => (p.category || '').toLowerCase().includes(activeSlug));
-    // If the API already scoped it correctly and nothing matched the substring check
-    // (e.g. differently-worded category names), fall back to trusting the API response.
     if (catPrograms.length === 0 && allPrograms.length > 0) catPrograms = allPrograms;
 
     populateCountryFilter(catPrograms);

@@ -144,6 +144,235 @@
     /* ---- LOAD MORE ---- */
     .load-more-wrap { text-align: center; margin-top: 40px; }
 
+    /* ── NAVBAR ── */
+    .navbar {
+      background: transparent !important;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      padding: 12px 24px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .navbar.scrolled {
+      background: #ffffff !important;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+    .navbar .nav-link {
+      color: rgba(255,255,255,0.85);
+      transition: color 0.3s ease;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .navbar.scrolled .nav-link { color: #1a3c2e !important; }
+    .navbar .nav-link.active { color: #e8c565 !important; }
+    .navbar.scrolled .nav-link.active { color: #1a3c2e !important; font-weight: 800; }
+
+    .navbar .logo-text .line1 { color: rgba(255,255,255,0.7); transition: color 0.3s ease; }
+    .navbar.scrolled .logo-text .line1 { color: #98a2b3 !important; }
+    .navbar .logo-text .line2 { color: #ffffff; transition: color 0.3s ease; }
+    .navbar.scrolled .logo-text .line2 { color: #1a3c2e !important; }
+    .navbar .logo-text .line2 em { color: #e8c565; transition: color 0.3s ease; }
+    .navbar.scrolled .logo-text .line2 em { color: #e8c565 !important; }
+
+    .navbar .nav-cta { color: rgba(255,255,255,0.85); transition: color 0.3s ease; }
+    .navbar.scrolled .nav-cta { color: #1a3c2e !important; }
+
+    .navbar .btn-primary { background: #e8c565; color: #1a3c2e; border: 1px solid #e8c565; }
+    .navbar.scrolled .btn-primary { background: #1a3c2e; color: #ffffff; border-color: #1a3c2e; }
+
+    .navbar .icon-btn-outline {
+      border-color: rgba(255,255,255,0.4);
+      color: #ffffff;
+      background: rgba(255,255,255,0.05);
+    }
+    .navbar.scrolled .icon-btn-outline {
+      border-color: #e4e7ec !important;
+      color: #1a3c2e !important;
+      background: #ffffff !important;
+    }
+
+    .navbar .hamburger-box { border-color: rgba(255,255,255,0.4); }
+    .navbar.scrolled .hamburger-box { border-color: #e4e7ec !important; background: #ffffff !important; }
+    .navbar .hamburger-box span { background: #ffffff; }
+    .navbar.scrolled .hamburger-box span { background: #1a3c2e !important; }
+
+    .navbar .btn-apply-pill { background: #52b788; color: #ffffff; }
+    .navbar.scrolled .btn-apply-pill { background: #1a3c2e !important; color: #ffffff !important; }
+
+    .navbar .user-chip { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); }
+    .navbar.scrolled .user-chip { background: rgba(26,60,46,0.06) !important; border-color: rgba(26,60,46,0.14) !important; }
+    .navbar .user-chip .greeting { color: rgba(255,255,255,0.95); }
+    .navbar.scrolled .user-chip .greeting { color: #1a3c2e !important; }
+    .navbar .user-chip .avatar { background: #e8c565; color: #1a3c2e; }
+
+    .navbar .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .navbar .logo .logo-icon { font-size: 1.3rem; flex-shrink: 0; }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+    .logo-text .line1 {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .logo-text .line2 { font-size: 1rem; }
+    .logo-text .line2 em { font-style: normal; }
+    .logo-text .line2-short { display: none; }
+
+    @media (max-width: 420px) {
+      .logo-text .line2 { display: none; }
+      .logo-text .line2-short { display: inline; font-size: 0.9rem; }
+    }
+
+    .nav-actions {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav-actions .nav-cta {
+      font-weight: 600;
+      font-size: 0.82rem;
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .nav-actions .nav-cta:hover { background: rgba(255,255,255,0.1); }
+    .navbar.scrolled .nav-cta:hover { background: rgba(26,60,46,0.06); }
+    .nav-actions .btn { flex-shrink: 0; font-size: 0.78rem; padding: 6px 14px; }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px 4px 4px;
+      border-radius: 100px;
+      cursor: pointer;
+      max-width: 160px;
+      transition: background .18s ease;
+    }
+    .user-chip:hover { background: rgba(255,255,255,0.2); }
+    .navbar.scrolled .user-chip:hover { background: rgba(26,60,46,0.1); }
+    .user-chip .avatar {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      background: var(--gold); color: var(--forest);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.7rem;
+    }
+    .user-chip .greeting {
+      font-size: 0.78rem; font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      max-width: 90px;
+    }
+    .user-chip i.fa-chevron-down { font-size: 0.6rem; flex-shrink: 0; transition: transform .18s ease; }
+    .user-chip.open i.fa-chevron-down { transform: rotate(180deg); }
+
+    .user-menu {
+      position: absolute; top: calc(100% + 8px); right: 0;
+      background: #fff; border-radius: 12px; min-width: 180px;
+      box-shadow: 0 12px 40px rgba(16,24,40,0.18);
+      padding: 6px; display: none; z-index: 1100;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .user-menu.open { display: block; }
+    .user-menu a, .user-menu button {
+      display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+      padding: 9px 12px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; color: #344054;
+      background: none; border: none; cursor: pointer; font-family: inherit; text-decoration: none;
+    }
+    .user-menu a:hover, .user-menu button:hover { background: var(--sand, #f5f0e8); color: var(--forest, #1a3c2e); }
+    .user-menu i { width: 16px; color: #98a2b3; }
+    .user-menu .divider { height: 1px; background: #f0f0f0; margin: 4px; }
+
+    .mobile-user-chip {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid #f0f0f0; margin-bottom: 4px;
+    }
+    .mobile-user-chip .avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--gold); color: var(--forest);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.9rem; flex-shrink: 0;
+    }
+    .mobile-user-chip .info { min-width: 0; }
+    .mobile-user-chip .name { font-weight: 700; color: var(--forest); font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mobile-user-chip .email { font-size: 0.72rem; color: #667085; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .mobile-header-actions { display: none; align-items: center; gap: 8px; flex-shrink: 0; }
+    .icon-btn-outline {
+      width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; flex-shrink: 0; transition: all .3s ease;
+      background: transparent; cursor: pointer;
+    }
+    .icon-btn-outline:hover { background: rgba(255,255,255,0.15); }
+    .navbar.scrolled .icon-btn-outline:hover { background: var(--sand); }
+
+    .btn-apply-pill {
+      font-weight: 800; font-size: 0.78rem;
+      padding: 0 14px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 10px; white-space: nowrap; flex-shrink: 0;
+      letter-spacing: 0.02em; transition: all .3s ease; text-decoration: none;
+    }
+
+    .hamburger-box {
+      display: none; flex-direction: column; justify-content: center;
+      align-items: center; gap: 4px; width: 36px; height: 36px;
+      border-radius: 10px; border: 1.5px solid; cursor: pointer;
+      flex-shrink: 0; padding: 0; transition: all .3s ease; background: transparent;
+    }
+    .hamburger-box span { width: 15px; height: 2px; border-radius: 2px; display: block; transition: all .3s ease; }
+    .hamburger-box.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger-box.active span:nth-child(2) { opacity: 0; }
+    .hamburger-box.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .hamburger {
+      display: flex; flex-direction: column; gap: 4px;
+      background: none; border: none; cursor: pointer; padding: 8px 4px; flex-shrink: 0;
+    }
+    .hamburger span { width: 22px; height: 2px; border-radius: 2px; transition: all .3s ease; display: block; }
+    .hamburger.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    @media (max-width: 992px) {
+      .nav-links, .nav-actions { display: none !important; }
+      .mobile-header-actions { display: flex !important; }
+      .hamburger-box { display: flex !important; }
+      .hamburger { display: none !important; }
+      .navbar { padding-left: 16px; padding-right: 16px; gap: 8px; flex-wrap: nowrap; }
+      .navbar .logo { min-width: 0; overflow: hidden; }
+      .logo-text { min-width: 0; overflow: hidden; }
+      .mobile-header-actions { gap: 6px; }
+    }
+    @media (max-width: 400px) {
+      .btn-apply-pill { padding: 0 10px; font-size: 0.72rem; }
+      .icon-btn-outline, .hamburger-box { width: 34px; height: 34px; }
+    }
+
     @media (max-width: 1024px) {
       .blog-layout { grid-template-columns: 1fr; }
       .featured-post { grid-template-columns: 1fr; }
@@ -157,9 +386,20 @@
 <!-- ===== NAVBAR ===== -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="logo">
-    <div class="logo-icon">🌍</div>
-    International <span>Volunteer Home Tz</span>
+    <div class="logo-icon">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="11" cy="11" r="10" stroke="#e8c565" stroke-width="1.8"/>
+        <ellipse cx="11" cy="11" rx="4.5" ry="10" stroke="#e8c565" stroke-width="1.2"/>
+        <line x1="1" y1="11" x2="21" y2="11" stroke="#e8c565" stroke-width="1.2"/>
+      </svg>
+    </div>
+    <span class="logo-text">
+      <span class="line1">International</span>
+      <span class="line2">Volunteer <em>Home Tz</em></span>
+      <span class="line2-short">Volunteer <em>Home Tz</em></span>
+    </span>
   </a>
+
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link">Home</a></li>
     <li><a href="tours.html" class="nav-link">Safaris</a></li>
@@ -169,16 +409,31 @@
     <li><a href="blog.html" class="nav-link active">Blog</a></li>
     <li><a href="contact.html" class="nav-link">Contact</a></li>
   </ul>
-  <div class="nav-actions">
+
+  <div class="nav-actions" id="navActions">
     <a href="login.html" class="nav-cta">Sign In</a>
     <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
   </div>
+
+  <!-- Mobile icon row -->
+  <div class="mobile-header-actions">
+    <button class="icon-btn-outline" aria-label="Wishlist" type="button">
+      <i class="fa-regular fa-heart"></i>
+    </button>
+    <a href="volunteer.html" class="btn-apply-pill">Apply</a>
+    <button class="hamburger-box" id="hamburgerBox" aria-label="Open menu" type="button">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
   <button class="hamburger" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
+<!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
+  <div id="mobileUserChip"></div>
   <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
   <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
   <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
@@ -186,7 +441,7 @@
   <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
   <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
   <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
-  <div class="mobile-actions">
+  <div class="mobile-actions" id="mobileActions">
     <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
     <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
   </div>
@@ -524,30 +779,138 @@
 
 <div id="toast" class="toast"></div>
 <script src="js/main.js"></script>
+
 <script>
-  const navbar = document.getElementById('navbar');
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 20);
+/* ============================================================
+   BLOG PAGE — self-contained IIFE
+============================================================ */
+(function () {
+
+  /* ============================================================
+     AUTH NAV
+  ============================================================ */
+  function updateNavForAuth() {
+    var token = localStorage.getItem('wr_token');
+    var userRaw = localStorage.getItem('wr_user');
+    var navActions = document.getElementById('navActions');
+    if (!navActions || !token || !userRaw) return;
+    try {
+      var user = JSON.parse(userRaw);
+      var firstName = user.firstName || (user.name ? user.name.split(' ')[0] : 'Traveler') || 'Traveler';
+      var hour = new Date().getHours();
+      var greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+
+      navActions.innerHTML =
+        '<div class="user-chip" id="userChipBtn">' +
+          '<div class="avatar">' + (firstName[0] || 'T') + '</div>' +
+          '<span class="greeting">' + greeting + ', ' + escHtml(firstName) + '</span>' +
+          '<i class="fa-solid fa-chevron-down"></i>' +
+        '</div>' +
+        '<div class="user-menu" id="userMenu">' +
+          '<a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>' +
+          '<a href="my-portal.html#applications"><i class="fa-solid fa-clipboard-list"></i> My Applications</a>' +
+          '<div class="divider"></div>' +
+          '<button id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>' +
+        '</div>';
+
+      var chip = document.getElementById('userChipBtn');
+      var menu = document.getElementById('userMenu');
+      var logBtn = document.getElementById('logoutBtn');
+
+      if (chip && menu) {
+        chip.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var isOpen = menu.classList.toggle('open');
+          chip.classList.toggle('open', isOpen);
+        });
+        document.addEventListener('click', function (e) {
+          if (!navActions.contains(e.target)) {
+            menu.classList.remove('open');
+            chip.classList.remove('open');
+          }
+        });
+      }
+      if (logBtn) {
+        logBtn.addEventListener('click', function () {
+          if (confirm('Are you sure you want to log out?')) {
+            localStorage.removeItem('wr_token');
+            localStorage.removeItem('wr_user');
+            window.location.href = 'login.html';
+          }
+        });
+      }
+    } catch (e) {
+      localStorage.removeItem('wr_user');
+      localStorage.removeItem('wr_token');
+    }
+  }
+  updateNavForAuth();
+
+  /* ============================================================
+     SCROLL HEADER
+  ============================================================ */
+  var navbarEl = document.getElementById('navbar');
+  window.addEventListener('scroll', function () {
+    navbarEl.classList.toggle('scrolled', window.scrollY > 20);
   });
-  hamburger.addEventListener('click', () => {
-    mobileMenu.classList.toggle('open');
-  });
-  // Filter chips
-  document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+
+  /* ============================================================
+     HAMBURGER
+  ============================================================ */
+  var hamburgerEl = document.getElementById('hamburger');
+  var hamburgerBoxEl = document.getElementById('hamburgerBox');
+  var mobileMenuEl = document.getElementById('mobileMenu');
+
+  function toggleMenu() {
+    if (mobileMenuEl) mobileMenuEl.classList.toggle('open');
+    if (hamburgerEl) hamburgerEl.classList.toggle('active');
+    if (hamburgerBoxEl) hamburgerBoxEl.classList.toggle('active');
+  }
+
+  if (hamburgerEl) hamburgerEl.addEventListener('click', toggleMenu);
+  if (hamburgerBoxEl) hamburgerBoxEl.addEventListener('click', toggleMenu);
+
+  if (mobileMenuEl) {
+    mobileMenuEl.querySelectorAll('.mobile-nav-link').forEach(function (a) {
+      a.addEventListener('click', function () {
+        mobileMenuEl.classList.remove('open');
+        if (hamburgerEl) hamburgerEl.classList.remove('active');
+        if (hamburgerBoxEl) hamburgerBoxEl.classList.remove('active');
+      });
+    });
+  }
+
+  /* ============================================================
+     HELPERS
+  ============================================================ */
+  function escHtml(str) {
+    return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* ============================================================
+     FILTER CHIPS
+  ============================================================ */
+  document.querySelectorAll('.chip').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      document.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('active'); });
       chip.classList.add('active');
     });
   });
-  // Sidebar cats
-  document.querySelectorAll('.sidebar-cat').forEach(cat => {
-    cat.addEventListener('click', () => {
-      document.querySelectorAll('.sidebar-cat').forEach(c => c.classList.remove('active'));
+
+  /* ============================================================
+     SIDEBAR CATS
+  ============================================================ */
+  document.querySelectorAll('.sidebar-cat').forEach(function (cat) {
+    cat.addEventListener('click', function () {
+      document.querySelectorAll('.sidebar-cat').forEach(function (c) { c.classList.remove('active'); });
       cat.classList.add('active');
     });
   });
+
+})(); /* end IIFE */
 </script>
+
 </body>
 </html>

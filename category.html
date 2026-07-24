@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title id="pageTitle">Volunteer Programs | International Volunteer Home Tz</title>
-<meta name="description" id="pageDesc" content="Browse open volunteer placements with International Volunteer Home Tz." />
+<title id="pageTitle">Volunteer Programs | International Volunteer HT</title>
+<meta name="description" id="pageDesc" content="Browse open volunteer placements with International Volunteer HT." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css" />
@@ -493,14 +493,15 @@ html, body {
     <div class="logo-icon">🌍</div>
     <span class="logo-text">
       <span class="line1">International</span>
-      <span class="line2">Volunteer <em>Home Tz</em></span>
-      <span class="line2-short">Volunteer <em>Home Tz</em></span>
+      <span class="line2">Volunteer <em>HT</em></span>
+      <span class="line2-short">Volunteer <em>HT</em></span>
     </span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link">Home</a></li>
     <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
     <li><a href="tours.html" class="nav-link">Safaris</a></li>
+    <li><a href="accommodation.html" class="nav-link">Stays</a></li>
     <li><a href="community.html" class="nav-link">Community</a></li>
     <li><a href="about.html" class="nav-link">About</a></li>
     <li><a href="blog.html" class="nav-link">Blog</a></li>
@@ -529,6 +530,7 @@ html, body {
   <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
   <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
   <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="accommodation.html" class="mobile-nav-link"><i class="fas fa-bed"></i> Stays</a>
   <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
   <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
   <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
@@ -641,7 +643,7 @@ html, body {
     <div class="footer-brand">
       <a href="index.html" class="logo" style="color:var(--white)">
         <div class="logo-icon">🌍</div>
-        International <span>Volunteer Home Tz</span>
+        International <span>Volunteer HT</span>
       </a>
       <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014.</p>
     </div>
@@ -674,7 +676,7 @@ html, body {
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 International Volunteer Home Tz. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>© 2026 International Volunteer HT. All rights reserved. Licensed Eco-Tourism Operator.</p>
     <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
   </div>
 </footer>
@@ -767,146 +769,181 @@ const API = 'https://wild-tours.onrender.com/api';
 
 const CATEGORIES = {
   wildlife: {
-    label: 'Wildlife Conservation',
+    label: 'Environment & Wildlife Conservation',
     icon: 'fa-paw',
-    accent: '#b5651d',
-    tagline: 'Hands-on species protection',
-    description: "Work alongside rangers, vets and local game scouts on rescue, monitoring and anti-poaching efforts protecting Africa's most iconic wildlife.",
-    heroImg: 'https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=1200&auto=format&fit=crop',
-    intro: "Wildlife placements sit at the edge of conservation areas near the Serengeti, Ngorongoro and Tarangire, where communities of many backgrounds — Maasai pastoralists, Waarusha farmers, and staff drawn from across Tanzania and Kenya — have coexisted with wildlife for generations. You'll work alongside professional rangers, vets and local scouts on real monitoring and protection work — not staged animal encounters.",
+    accent: '#3b7a57',
+    tagline: 'Protect wildlife and nature',
+    description: 'Support conservation projects that protect wildlife, restore habitats, and preserve Tanzania’s natural environment.',
+    heroImg: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1400&auto=format&fit=crop',
+
+    intro: "Volunteer alongside experienced conservation teams working to protect wildlife and restore natural ecosystems. Activities may include habitat restoration, wildlife monitoring, environmental education, biodiversity surveys, and conservation research that supports long-term sustainability.",
+
     highlights: [
-      'Daily patrols and camera-trap monitoring with field rangers',
-      'Assist visiting vets with wildlife health checks and rescues',
-      'Learn traditional tracking and coexistence knowledge from local scouts',
-      'Contribute to human-wildlife conflict mitigation projects'
+      'Wildlife monitoring and conservation support',
+      'Habitat restoration projects',
+      'Tree planting and ecosystem recovery',
+      'Environmental education activities'
     ],
-    culturalNote: "Wildlife programs are hosted on land bordering several community groups, including Maasai group ranches and mixed farming villages. Elder scouts from different backgrounds often lead morning briefings, and volunteers follow the same conservation protocols the community itself uses.",
+
+    culturalNote: "Every project is led by experienced conservation professionals and local partner organizations committed to protecting Tanzania's natural heritage.",
+
     gallery: [
-      'https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=500&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1521651201144-634f700b36ef?w=500&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=700&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1549366021-9f761d040a94?w=700&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1508817628294-5a453fa0b8fb?w=700&auto=format&fit=crop'
     ],
+
     schedule: [
-      ['Mon','Dawn patrol & wildlife counts'],
-      ['Tue','Camera-trap data review'],
-      ['Wed','Vet clinic assist / rescue call-outs'],
-      ['Thu','Community coexistence workshop'],
-      ['Fri','Habitat monitoring & reporting']
+      ['Mon','Wildlife monitoring'],
+      ['Tue','Habitat restoration'],
+      ['Wed','Environmental education'],
+      ['Thu','Field conservation work'],
+      ['Fri','Data collection & reporting']
     ]
   },
+
   education: {
     label: 'Education',
     icon: 'fa-book',
     accent: '#2b6cb0',
-    tagline: 'Teach, mentor, inspire',
-    description: 'Support classroom teaching, literacy programs and after-school mentoring in schools and community learning centers across East Africa.',
-    heroImg: 'https://images.unsplash.com/photo-1497375638960-ca80c1a5c9c4?w=1200&auto=format&fit=crop',
-    intro: "Education placements run in primary schools and community learning centers across East Africa — from Swahili coastal towns to inland farming villages and pastoralist communities near Arusha — where access to quality education can still be limited, especially for girls. You'll co-teach alongside qualified local teachers rather than lead a classroom alone.",
+    tagline: 'Teach, mentor and inspire',
+    description: 'Support schools and learning centres by helping children and young people gain confidence through education.',
+
+    heroImg: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1400&auto=format&fit=crop',
+
+    intro: "Education volunteers work alongside teachers in schools and community learning centres, helping improve learning through classroom assistance, reading support, mentoring, sports, creative activities, and English language practice.",
+
     highlights: [
-      'Co-teach English, math or science with a local teacher',
-      'Run after-school literacy and reading clubs',
-      'Support girls\' education initiatives across partner communities',
-      'Help build low-cost teaching materials and libraries'
+      'Support classroom learning',
+      'Reading and literacy programmes',
+      'English language assistance',
+      'Sports and creative learning activities'
     ],
-    culturalNote: "Lessons often blend English and Swahili, and school calendars follow the Tanzanian or Kenyan academic year. In some pastoralist areas, attendance can shift with the cattle-herding season — volunteers help schools adapt rather than expecting a fixed routine.",
+
+    culturalNote: "Volunteers work alongside qualified teachers to complement existing education programmes while encouraging creativity and active learning.",
+
     gallery: [
-      'https://images.unsplash.com/photo-1497375638960-ca80c1a5c9c4?w=500&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=500&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1590650046871-92c887180603?w=500&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=700&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1513258496099-48168024aec0?w=700&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1544717305-2782549b5136?w=700&auto=format&fit=crop'
     ],
+
     schedule: [
-      ['Mon','Co-teach morning classes'],
-      ['Tue','Lesson planning with local teacher'],
-      ['Wed','After-school literacy club'],
-      ['Thu','Teaching materials workshop'],
-      ['Fri','Girls\' mentoring circle']
+      ['Mon','Classroom support'],
+      ['Tue','Lesson preparation'],
+      ['Wed','Reading club'],
+      ['Thu','Creative learning activities'],
+      ['Fri','Student mentoring']
     ]
   },
+
   healthcare: {
     label: 'Healthcare',
     icon: 'fa-heart-pulse',
-    accent: '#c0392b',
-    tagline: 'Support frontline care',
-    description: 'Assist clinic staff, health outreach camps and maternal-care initiatives serving rural, coastal and under-resourced communities.',
-    heroImg: 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=1200&auto=format&fit=crop',
-    intro: "Healthcare placements support rural clinics and mobile outreach camps that serve dispersed communities — from Swahili coastal towns to inland villages and pastoralist bomas, where the nearest hospital can be hours away. Depending on your qualifications, you may assist with triage, health education, or logistics for vaccination and maternal-health drives.",
+    accent: '#cf3e3e',
+    tagline: 'Support community healthcare',
+    description: 'Assist healthcare professionals through clinics, outreach programmes, and health education initiatives.',
+
+    heroImg: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1400&auto=format&fit=crop',
+
+    intro: "Healthcare volunteers assist qualified professionals in clinics, community health programmes, outreach campaigns, and health education initiatives that improve access to essential healthcare services.",
+
     highlights: [
-      'Support triage and patient flow at rural and coastal clinics',
-      'Join mobile outreach camps to remote communities',
-      'Assist maternal and child health education sessions',
-      'Help track and report on vaccination campaign coverage'
+      'Support community clinics',
+      'Health education programmes',
+      'Medical outreach activities',
+      'Public health awareness'
     ],
-    culturalNote: "Many communities combine traditional remedies with clinical care. Volunteers are trained to respect this — health workers build trust by working with traditional healers and community elders, not against them.",
+
+    culturalNote: "Healthcare activities are supervised by qualified professionals, with volunteer responsibilities matched to individual experience and qualifications.",
+
     gallery: [
-      'https://images.unsplash.com/photo-1584515933487-779824d29309?w=500&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=500&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1580281657702-257584239a55?w=500&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1584515933487-779824d29309?w=700&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1580281657702-257584239a55?w=700&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=700&auto=format&fit=crop'
     ],
+
     schedule: [
-      ['Mon','Clinic triage support'],
-      ['Tue','Maternal health education session'],
-      ['Wed','Mobile outreach camp travel day'],
-      ['Thu','Vaccination drive assistance'],
-      ['Fri','Health records & reporting']
+      ['Mon','Clinic support'],
+      ['Tue','Community outreach'],
+      ['Wed','Health education'],
+      ['Thu','Medical assistance'],
+      ['Fri','Programme reporting']
     ]
   },
+
   environment: {
-    label: 'Environment',
-    icon: 'fa-leaf',
-    accent: '#2d6a4f',
-    tagline: 'Restore & protect ecosystems',
-    description: 'Take part in reforestation, watershed protection and climate-resilience projects run with local conservation trusts.',
-    heroImg: 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=1200&auto=format&fit=crop',
-    intro: "Environmental placements focus on reforestation and water-source protection across the Great Rift Valley, working with land trusts formed by Chagga farmers, Maasai and Waarusha pastoralists, and other neighboring communities to restore land degraded by drought and overuse — balancing conservation with the livelihoods that depend on it.",
+    label: 'Women & Girls Empowerment',
+    icon: 'fa-venus',
+    accent: '#c96b8f',
+    tagline: 'Empower women and girls',
+    description: 'Support programmes that promote education, leadership, entrepreneurship, and life skills for women and girls.',
+
+    heroImg: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1400&auto=format&fit=crop',
+
+    intro: "Volunteer with programmes that create opportunities for women and girls through education, mentoring, leadership development, entrepreneurship, life skills training, and confidence-building activities.",
+
     highlights: [
-      'Plant and maintain indigenous tree nurseries',
-      'Support borehole and water-catchment restoration',
-      'Map and monitor land regeneration with community elders',
-      'Run environmental education sessions in local schools'
+      'Girls education support',
+      'Women entrepreneurship initiatives',
+      'Leadership development',
+      'Life skills and mentoring'
     ],
-    culturalNote: "Land-use decisions here are often made collectively by community elders across different groups. Projects are only greenlit once a village council agrees — so volunteers work at the pace of genuine consensus, not a fixed project timeline.",
+
+    culturalNote: "Projects are delivered alongside experienced local organisations dedicated to improving opportunities for women and girls through sustainable community initiatives.",
+
     gallery: [
-      'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=500&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1516214104703-d870798883c5?w=500&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=500&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=700&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=700&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=700&auto=format&fit=crop'
     ],
+
     schedule: [
-      ['Mon','Tree nursery planting'],
-      ['Tue','Water-source restoration work'],
-      ['Wed','Land mapping with community elders'],
-      ['Thu','School environmental education'],
-      ['Fri','Land trust community meeting']
+      ['Mon','Mentoring sessions'],
+      ['Tue','Skills workshops'],
+      ['Wed','Education support'],
+      ['Thu','Leadership activities'],
+      ['Fri','Community outreach']
     ]
   },
+
   community: {
-    label: 'Community Development',
-    icon: 'fa-hands-helping',
-    accent: '#b8860b',
-    tagline: 'Build alongside communities',
-    description: 'Contribute to construction, clean-water access and livelihood programs designed and led by East African communities themselves.',
-    heroImg: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1200&auto=format&fit=crop',
-    intro: "Community development placements are based directly in villages, coastal towns and pastoralist bomas across northern Tanzania, working on projects each community has identified as priorities — from clean-water access to women's craft and weaving cooperatives that generate independent income.",
-    highlights: [
-      'Help build classrooms, water points and community centers',
-      'Support women-led craft, beadwork and weaving cooperatives',
-      'Assist clean-water access and sanitation projects',
-      'Take part in cultural exchange evenings hosted by the community'
-    ],
-    culturalNote: "Community development here is community-led by design: local leadership decides the project, and volunteers provide the extra hands and skills. Expect to spend real time simply being part of daily life — cooking, chores, and conversation included — with families of whichever community hosts the project.",
-    gallery: [
-      'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=500&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=500&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=500&auto=format&fit=crop'
-    ],
-    schedule: [
-      ['Mon','Construction / water project work'],
-      ['Tue','Women\'s cooperative support'],
-      ['Wed','Daily community life & chores'],
-      ['Thu','Community meeting & planning'],
-      ['Fri','Cultural exchange evening']
-    ]
-  }
+  label: 'Community Development',
+  icon: 'fa-hands-helping',
+  accent: '#b8860b',
+  tagline: 'Build alongside communities',
+  description: 'Support sustainable community projects that improve education, livelihoods, water access, and local infrastructure across Tanzania.',
+
+  heroImg: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1200&auto=format&fit=crop',
+
+  intro: "Community Development placements immerse volunteers in rural Tanzanian communities where you'll work alongside local leaders, families and youth groups on projects identified by the community itself. From improving schools and water access to supporting income-generating initiatives, every project is designed to create sustainable local impact while encouraging meaningful cultural exchange.",
+
+  highlights: [
+    'Help improve schools and community facilities',
+    'Support clean water and sanitation initiatives',
+    'Work with local youth and women’s groups',
+    'Experience authentic daily life in a Tanzanian community'
+  ],
+
+  culturalNote: "Many projects are hosted in Maasai communities in northern Tanzania, where volunteers are welcomed by local families and community leaders. Respecting local customs and learning from one another is an important part of the experience.",
+
+  gallery: [
+    'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=500&auto=format&fit=crop'
+  ],
+
+  schedule: [
+    ['Mon','Community orientation & project planning'],
+    ['Tue','Construction or renovation activities'],
+    ['Wed','Youth & women’s group engagement'],
+    ['Thu','Water and sanitation initiatives'],
+    ['Fri','Community cultural exchange & project review']
+  ]
+}
 };
+
+
 
 /* ============================================================
    STATE

@@ -21,47 +21,7 @@ function fmtMoney(n) {
 /* ─────────────────────────────────────────────
    AUTH NAV  (desktop + mobile menu)
 ───────────────────────────────────────────── */
-function updateNavForAuth() {
-  const token   = localStorage.getItem('wr_token');
-  const userRaw = localStorage.getItem('wr_user');
 
-  if (!token || !userRaw) return; // keep default Sign In / Get Started
-
-  try {
-    const user = JSON.parse(userRaw);
-    const firstName = user.firstName || user.name?.split(' ')[0] || 'Traveler';
-    const hour = new Date().getHours();
-    const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-
-    // ── Desktop nav-actions ──
-    const navActions = document.querySelector('.nav-actions');
-    if (navActions) {
-      navActions.innerHTML = `
-        <span style="font-weight:600;color:var(--forest,#1a3c2e);white-space:nowrap;">
-          ${greeting}, ${escHtml(firstName)} 👋
-        </span>
-        <a href="my-portal.html" class="btn btn-outline-dark btn-sm" style="margin-left:10px;">My Portal</a>
-        <a onclick="confirmLogout()" class="btn btn-outline-dark btn-sm" style="margin-left:8px;cursor:pointer;">Logout</a>
-      `;
-    }
-
-    // ── Mobile menu actions ──
-    const mobileActions = document.querySelector('.mobile-actions');
-    if (mobileActions) {
-      mobileActions.innerHTML = `
-        <span style="font-weight:600;color:var(--forest,#1a3c2e);text-align:center;padding:8px 0;">
-          ${greeting}, ${escHtml(firstName)} 👋
-        </span>
-        <a href="my-portal.html" class="btn btn-outline-dark" style="justify-content:center;">My Portal</a>
-        <a onclick="confirmLogout()" class="btn btn-primary" style="justify-content:center;cursor:pointer;">Logout</a>
-      `;
-    }
-  } catch (e) {
-    // Corrupted storage — clear it
-    localStorage.removeItem('wr_token');
-    localStorage.removeItem('wr_user');
-  }
-}
 
 /* ─────────────────────────────────────────────
    SKELETON HELPERS

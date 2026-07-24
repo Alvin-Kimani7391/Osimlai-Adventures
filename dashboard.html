@@ -128,13 +128,141 @@ html, body {
     .culture-copy ul li{ display:flex; align-items:flex-start; gap:10px; color:#344054; font-size:0.92rem; }
     .culture-copy ul li i{ color:var(--forest,#1a3c2e); margin-top:3px; }
 
-    /* ── NAVBAR: TWO-LINE LOGO like IVHQ reference ── */
+    /* ── NAVBAR: FULLY STYLED with white background on scroll (matches volunteer.html) ── */
+    .navbar {
+      background: transparent !important;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      padding: 12px 24px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .navbar.scrolled {
+      background: #ffffff !important;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+    /* Nav links — dark on scroll */
+    .navbar .nav-link {
+      color: rgba(255,255,255,0.85);
+      transition: color 0.3s ease;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .navbar.scrolled .nav-link {
+      color: #1a3c2e !important;
+    }
+    .navbar .nav-link.active {
+      color: #e8c565 !important;
+    }
+    .navbar.scrolled .nav-link.active {
+      color: #1a3c2e !important;
+      font-weight: 800;
+    }
+    /* Logo colors */
+    .navbar .logo-text .line1 {
+      color: rgba(255,255,255,0.7);
+      transition: color 0.3s ease;
+    }
+    .navbar.scrolled .logo-text .line1 {
+      color: #98a2b3 !important;
+    }
+    .navbar .logo-text .line2 {
+      color: #ffffff;
+      transition: color 0.3s ease;
+    }
+    .navbar.scrolled .logo-text .line2 {
+      color: #1a3c2e !important;
+    }
+    .navbar .logo-text .line2 em {
+      color: #e8c565;
+      transition: color 0.3s ease;
+    }
+    .navbar.scrolled .logo-text .line2 em {
+      color: #e8c565 !important;
+    }
+    /* Nav CTA buttons */
+    .navbar .nav-cta {
+      color: rgba(255,255,255,0.85);
+      transition: color 0.3s ease;
+    }
+    .navbar.scrolled .nav-cta {
+      color: #1a3c2e !important;
+    }
+    .navbar .btn-primary {
+      background: #e8c565;
+      color: #1a3c2e;
+      border: 1px solid #e8c565;
+    }
+    .navbar.scrolled .btn-primary {
+      background: #1a3c2e;
+      color: #ffffff;
+      border-color: #1a3c2e;
+    }
+    /* Mobile icon row */
+    .navbar .icon-btn-outline {
+      border-color: rgba(255,255,255,0.4);
+      color: #ffffff;
+      background: rgba(255,255,255,0.05);
+    }
+    .navbar.scrolled .icon-btn-outline {
+      border-color: #e4e7ec !important;
+      color: #1a3c2e !important;
+      background: #ffffff !important;
+    }
+    .navbar .hamburger-box {
+      border-color: rgba(255,255,255,0.4);
+    }
+    .navbar.scrolled .hamburger-box {
+      border-color: #e4e7ec !important;
+      background: #ffffff !important;
+    }
+    .navbar .hamburger-box span {
+      background: #ffffff;
+    }
+    .navbar.scrolled .hamburger-box span {
+      background: #1a3c2e !important;
+    }
+    .navbar .btn-apply-pill {
+      background: #52b788;
+      color: #ffffff;
+    }
+    .navbar.scrolled .btn-apply-pill {
+      background: #1a3c2e !important;
+      color: #ffffff !important;
+    }
+    /* User chip */
+    .navbar .user-chip {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .navbar.scrolled .user-chip {
+      background: rgba(26,60,46,0.06) !important;
+      border-color: rgba(26,60,46,0.14) !important;
+    }
+    .navbar .user-chip .greeting {
+      color: rgba(255,255,255,0.95);
+    }
+    .navbar.scrolled .user-chip .greeting {
+      color: #1a3c2e !important;
+    }
+    .navbar .user-chip .avatar {
+      background: #e8c565;
+      color: #1a3c2e;
+    }
+
+    /* ── Logo styles ── */
     .navbar .logo {
       display: flex;
       align-items: center;
       gap: 8px;
       text-decoration: none;
-      color: var(--forest, #1a3c2e);
       flex-shrink: 0;
     }
     .navbar .logo .logo-icon {
@@ -152,20 +280,14 @@ html, body {
       font-size: 0.72rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--text-muted, #667085);
       font-weight: 700;
     }
     .logo-text .line2 {
       font-size: 1rem;
-      color: var(--forest, #1a3c2e);
     }
     .logo-text .line2 em {
       font-style: normal;
-      color: var(--gold, #e8c565);
     }
-    .navbar.scrolled .logo-text .line1 { color: #98a2b3; }
-    .navbar.scrolled .logo-text .line2 { color: var(--forest, #1a3c2e); }
-    /* Short version for very small screens */
     .logo-text .line2-short { display: none; }
     @media (max-width: 420px) {
       .logo-text .line2 { display: none; }
@@ -173,14 +295,13 @@ html, body {
     }
 
     .nav-actions{ position:relative; display:flex; align-items:center; gap:8px; flex-shrink:0; flex-wrap:wrap; justify-content:flex-end; }
-    .nav-actions .nav-cta { font-weight:600; color:var(--forest,#1a3c2e); font-size:0.82rem; text-decoration:none; padding:4px 8px; border-radius:6px; }
-    .nav-actions .nav-cta:hover { background:rgba(26,60,46,0.06); }
+    .nav-actions .nav-cta { font-weight:600; font-size:0.82rem; text-decoration:none; padding:4px 8px; border-radius:6px; }
+    .nav-actions .nav-cta:hover { background:rgba(255,255,255,0.1); }
+    .navbar.scrolled .nav-cta:hover { background:rgba(26,60,46,0.06); }
     .nav-actions .btn { flex-shrink:0; font-size:0.78rem; padding:6px 14px; }
 
     .user-chip{
       display:flex; align-items:center; gap:8px;
-      background:rgba(255,255,255,0.12);
-      border:1px solid rgba(255,255,255,0.2);
       padding:4px 10px 4px 4px;
       border-radius:100px;
       cursor:pointer;
@@ -188,7 +309,6 @@ html, body {
       transition:background .18s ease;
     }
     .user-chip:hover{ background:rgba(255,255,255,0.2); }
-    .navbar.scrolled .user-chip{ background:rgba(26,60,46,0.06); border-color:rgba(26,60,46,0.14); }
     .navbar.scrolled .user-chip:hover{ background:rgba(26,60,46,0.1); }
     .user-chip .avatar{
       width:28px; height:28px; border-radius:50%; flex-shrink:0;
@@ -198,11 +318,9 @@ html, body {
     }
     .user-chip .greeting{
       font-size:0.78rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-      max-width:90px; color:rgba(255,255,255,0.95);
+      max-width:90px;
     }
-    .navbar.scrolled .user-chip .greeting{ color:var(--text); }
-    .user-chip i.fa-chevron-down{ font-size:0.6rem; color:rgba(255,255,255,0.6); flex-shrink:0; }
-    .navbar.scrolled .user-chip i.fa-chevron-down{ color:#98a2b3; }
+    .user-chip i.fa-chevron-down{ font-size:0.6rem; flex-shrink:0; transition:transform .18s ease; }
     .user-chip.open i.fa-chevron-down{ transform:rotate(180deg); }
     .user-menu{
       position:absolute; top:calc(100% + 8px); right:0;
@@ -236,35 +354,31 @@ html, body {
     .mobile-header-actions{ display:none; align-items:center; gap:8px; flex-shrink:0; }
     .icon-btn-outline{
       width:36px; height:36px; border-radius:10px;
-      border:1.5px solid rgba(255,255,255,0.4);
-      background:rgba(255,255,255,0.05);
-      color:#fff; display:flex; align-items:center; justify-content:center;
-      font-size:0.95rem; flex-shrink:0; transition:var(--transition);
+      border:1.5px solid;
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.95rem; flex-shrink:0; transition:all .3s ease;
+      background:transparent;
     }
-    .navbar.scrolled .icon-btn-outline{ border-color:#e4e7ec; background:#fff; color:var(--forest); }
     .icon-btn-outline:hover{ background:rgba(255,255,255,0.15); }
     .navbar.scrolled .icon-btn-outline:hover{ background:var(--sand); }
     .btn-apply-pill{
-      background:var(--forest-light,#52b788); color:#fff; font-weight:800; font-size:0.78rem;
+      font-weight:800; font-size:0.78rem;
       padding:0 14px; height:36px; display:flex; align-items:center; justify-content:center;
       border-radius:10px; white-space:nowrap; flex-shrink:0; letter-spacing:0.02em;
-      transition:var(--transition); text-decoration:none;
+      transition:all .3s ease; text-decoration:none;
     }
-    .btn-apply-pill:hover{ background:#3fa374; }
     .hamburger-box{
       display:none; flex-direction:column; justify-content:center; align-items:center; gap:4px;
-      width:36px; height:36px; border-radius:10px; border:1.5px solid rgba(255,255,255,0.4);
-      background:rgba(255,255,255,0.05); cursor:pointer; flex-shrink:0; padding:0;
+      width:36px; height:36px; border-radius:10px; border:1.5px solid;
+      cursor:pointer; flex-shrink:0; padding:0; transition:all .3s ease;
+      background:transparent;
     }
-    .navbar.scrolled .hamburger-box{ border-color:#e4e7ec; background:#fff; }
-    .hamburger-box span{ width:15px; height:2px; background:#fff; border-radius:2px; display:block; transition:var(--transition); }
-    .navbar.scrolled .hamburger-box span{ background:var(--forest); }
+    .hamburger-box span{ width:15px; height:2px; border-radius:2px; display:block; transition:all .3s ease; }
     .hamburger-box.active span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
     .hamburger-box.active span:nth-child(2){ opacity:0; }
     .hamburger-box.active span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
     .hamburger{ display:flex; flex-direction:column; gap:4px; background:none; border:none; cursor:pointer; padding:8px 4px; flex-shrink:0; }
-    .hamburger span{ width:22px; height:2px; background:var(--forest); border-radius:2px; transition:var(--transition); display:block; }
-    .navbar.scrolled .hamburger span{ background:var(--forest); }
+    .hamburger span{ width:22px; height:2px; border-radius:2px; transition:all .3s ease; display:block; }
     .hamburger.active span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
     .hamburger.active span:nth-child(2){ opacity:0; }
     .hamburger.active span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
@@ -407,11 +521,14 @@ html, body {
         grid-template-columns:1fr;
       }
     }
+
+    /* Hero needs top padding since navbar is now fixed/overlaid */
+    .hero{ padding-top: 0; }
   </style>
 </head>
 <body>
 
-<!-- ===== NAVBAR (IVHQ-style two-line logo) ===== -->
+<!-- ===== NAVBAR (matches volunteer.html scroll behavior) ===== -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="logo">
     <div class="logo-icon">🌍</div>
@@ -425,8 +542,10 @@ html, body {
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link active">Home</a></li>
     <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
-    <li><a href="tours.html" class="nav-link">Safaris</a></li>
+   
     <li><a href="community.html" class="nav-link">Community</a></li>
+     <li><a href="tours.html" class="nav-link">Safaris</a></li>
+      <li><a href="accommodation.html" class="nav-link">Accommodation</a></li>
     <li><a href="about.html" class="nav-link">About</a></li>
     <li><a href="blog.html" class="nav-link">Blog</a></li>
     <li><a href="contact.html" class="nav-link">Contact</a></li>
@@ -454,6 +573,7 @@ html, body {
   <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
   <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
   <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="accommodation.html" class="mobile-nav-link"><i class="fas fa-bed"></i> Accommodation</a>
   <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
   <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
   <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
@@ -1092,6 +1212,10 @@ html, body {
 <script src="js/index-dynamic.js"></script>
 <script src="js/index.js"></script>
 <script>
+/* ============================================================
+   SCROLL HEADER (matches volunteer.html — toggles .scrolled)
+============================================================ */
+
 /* ============================================================
    DYNAMIC HEADER
 ============================================================ */

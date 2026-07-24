@@ -400,12 +400,14 @@
     <div class="nav-section-label">Operations</div>
     <div class="nav-item" onclick="showView('bookings',this)"><span class="nav-icon">🗓️</span><span>Bookings</span><span class="nav-badge" id="badge-bookings">8</span></div>
     <div class="nav-item" onclick="showView('applications',this)"><span class="nav-icon">📋</span><span>Applications</span><span class="nav-badge amber" id="badge-applications">12</span></div>
+    
     <div class="nav-item" onclick="showView('reviews',this)"><span class="nav-icon">⭐</span><span>Reviews</span><span class="nav-badge amber" id="badge-reviews">5</span></div>
   </div>
   <div class="nav-section">
     <div class="nav-section-label">Content</div>
     <div class="nav-item" onclick="showView('tours',this)"><span class="nav-icon">🗺️</span><span>Tours</span></div>
     <div class="nav-item" onclick="showView('volunteers',this)"><span class="nav-icon">🌿</span><span>Volunteer Programs</span></div>
+    <div class="nav-item" onclick="showView('accommodations',this)"><span class="nav-icon">🏨</span><span>Accommodations</span></div>
     <div class="nav-item" onclick="showView('blog',this)"><span class="nav-icon">📰</span><span>Blog Posts</span></div>
     <div class="nav-item" onclick="showView('gallery',this)"><span class="nav-icon">🖼️</span><span>Media Gallery</span></div>
   </div>
@@ -666,6 +668,43 @@
         </div>
       </div>
     </div>
+
+
+    <!-- ═══ ACCOMMODATIONS ═══ -->
+<div class="view" id="view-accommodations">
+  <div class="page-header">
+    <div><h2>Accommodations</h2><p id="acc-count-text">Manage hotels, lodges, camps &amp; stays.</p></div>
+    <button class="btn-sm-primary" onclick="openAccommodationModal()">＋ Add Accommodation</button>
+  </div>
+  <div class="filter-row">
+    <div class="search-input"><span>🔍</span><input type="text" id="accSearchInput" placeholder="Search accommodations…" oninput="filterAccommodationsGrid()"/></div>
+    <select class="filter-select" id="accCategoryFilter" onchange="filterAccommodationsGrid()">
+      <option value="">All Categories</option>
+      <option value="hotel">Hotel</option>
+      <option value="airbnb">Airbnb</option>
+      <option value="guesthouse">Guesthouse</option>
+      <option value="hostel">Hostel</option>
+      <option value="lodge">Lodge</option>
+      <option value="safari_lodge">Safari Lodge</option>
+      <option value="resort">Resort</option>
+      <option value="beach_resort">Beach Resort</option>
+      <option value="luxury_tented_camp">Luxury Tented Camp</option>
+      <option value="campsite">Campsite</option>
+      <option value="homestay">Homestay</option>
+      <option value="apartment">Apartment</option>
+    </select>
+    <select class="filter-select" id="accStatusFilter" onchange="filterAccommodationsGrid()">
+      <option value="">All Status</option>
+      <option value="active">Active</option>
+      <option value="draft">Draft</option>
+    </select>
+  </div>
+  <div class="listing-cards" id="accommodationsGrid">
+    <div style="grid-column:1/-1;text-align:center;color:var(--text-faint);padding:32px;">Loading accommodations…</div>
+  </div>
+</div>
+
+
 
     <!-- ═══ REVIEWS ═══ -->
     <div class="view" id="view-reviews">
@@ -1061,6 +1100,85 @@
 </div>
 
 
+
+    <!-- ═══ ACCOMMODATION BOOKINGS ═══ -->
+    <div class="view" id="view-accommodation-bookings">
+      <div class="page-header">
+        <div><h2>🏨 Accommodation Bookings</h2><p id="acc-booking-count">View, approve, and manage all accommodation reservations.</p></div>
+        <div class="page-header-actions">
+          <button class="btn-sm-outline" onclick="exportAccommodationBookingsCSV()">⬇ Export CSV</button>
+          <button class="btn-sm-outline" onclick="loadAccommodationBookings()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <!-- Mini Stats -->
+      <div class="mini-stats" id="acc-booking-stats">
+        <div class="mini-stat"><span class="mini-stat-icon">📋</span><div><div class="mini-stat-num" id="acc-book-total">—</div><div class="mini-stat-label">Total</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">✅</span><div><div class="mini-stat-num" id="acc-book-confirmed">—</div><div class="mini-stat-label">Confirmed</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">⏳</span><div><div class="mini-stat-num" id="acc-book-pending">—</div><div class="mini-stat-label">Pending</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">❌</span><div><div class="mini-stat-num" id="acc-book-cancelled">—</div><div class="mini-stat-label">Cancelled</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">💰</span><div><div class="mini-stat-num" id="acc-book-revenue">—</div><div class="mini-stat-label">Revenue</div></div></div>
+        <div class="mini-stat"><span class="mini-stat-icon">🏠</span><div><div class="mini-stat-num" id="acc-book-properties">—</div><div class="mini-stat-label">Properties</div></div></div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-row">
+        <div class="search-input"><span>🔍</span><input type="text" id="accBookingSearch" placeholder="Search guest, property, ref…" oninput="filterAccommodationBookings()"/></div>
+        <select class="filter-select" id="accBookingStatus" onchange="filterAccommodationBookings()">
+          <option value="">All Statuses</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="pending">Pending</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+        <select class="filter-select" id="accBookingProperty" onchange="filterAccommodationBookings()">
+          <option value="">All Properties</option>
+        </select>
+        <select class="filter-select" id="accBookingPayment" onchange="filterAccommodationBookings()">
+          <option value="">All Payment Status</option>
+          <option value="unpaid">Unpaid</option>
+          <option value="deposit_paid">Deposit Paid</option>
+          <option value="fully_paid">Fully Paid</option>
+          <option value="pending_verification">Pending Verification</option>
+          <option value="refunded">Refunded</option>
+        </select>
+      </div>
+
+      <!-- Table -->
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Ref</th>
+                <th>Guest</th>
+                <th>Property</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Nights</th>
+                <th>Guests</th>
+                <th>Amount</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="accBookingsTableBody">
+              <tr><td colspan="11" style="text-align:center;color:var(--text-faint);padding:24px;">Loading accommodation bookings…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer" style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:.78rem;color:var(--text-muted);" id="acc-bookings-footer">Loading…</span>
+          <div style="display:flex;gap:6px;">
+            <button class="btn-xs ghost" onclick="accBookingsPage(-1)">← Prev</button>
+            <span style="font-size:.78rem;display:flex;align-items:center;color:var(--text-muted);" id="acc-bookings-page">Page 1</span>
+            <button class="btn-xs ghost" onclick="accBookingsPage(1)">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 <!-- ═══ VERIFY PAYMENT MODAL ═══ -->
 <div class="modal-overlay" id="verifyPaymentModal">
   <div class="modal" style="max-width:460px;">
@@ -1291,6 +1409,131 @@
     </div>
   </div>
 </div>
+
+
+
+<!-- ═══ NEW ACCOMMODATION MODAL ═══ -->
+<div class="modal-overlay" id="newAccommodationModal">
+  <div class="modal modal-wide">
+    <div class="modal-header"><h3>🏨 Add New Accommodation</h3><div class="modal-close" onclick="closeAccommodationModal()">✕</div></div>
+    <div class="modal-tabs">
+      <div class="modal-tab active" onclick="accStep(1)" id="accTab1"><span class="tab-num">1</span>Basics</div>
+      <div class="modal-tab" onclick="accStep(2)" id="accTab2"><span class="tab-num">2</span>Details &amp; Amenities</div>
+      <div class="modal-tab" onclick="accStep(3)" id="accTab3"><span class="tab-num">3</span>Photos</div>
+      <div class="modal-tab" onclick="accStep(4)" id="accTab4"><span class="tab-num">4</span>Publish</div>
+    </div>
+    <div class="modal-body" style="max-height:62vh;overflow-y:auto;">
+      <!-- Step 1: Basics -->
+      <div class="modal-step active" id="accStep1">
+        <div class="form-group"><label>Name *</label><input id="a_name" class="form-control" placeholder="e.g. Serengeti Bush Camp" oninput="updateCharCount(this,'a_name_count',120)" maxlength="120"/><div class="char-count"><span id="a_name_count">0</span>/120</div></div>
+        <div class="form-row">
+          <div class="form-group"><label>Category *</label><select id="a_category" class="form-control">
+            <option value="">Select category…</option>
+            <option value="hotel">🏨 Hotel</option>
+            <option value="airbnb">🏠 Airbnb</option>
+            <option value="guesthouse">🏡 Guesthouse</option>
+            <option value="hostel">🛏️ Hostel</option>
+            <option value="lodge">🌿 Lodge</option>
+            <option value="safari_lodge">🦁 Safari Lodge</option>
+            <option value="resort">🏖️ Resort</option>
+            <option value="beach_resort">🌊 Beach Resort</option>
+            <option value="luxury_tented_camp">⛺ Luxury Tented Camp</option>
+            <option value="campsite">🏕️ Campsite</option>
+            <option value="homestay">🏘️ Homestay</option>
+            <option value="apartment">🏢 Apartment</option>
+          </select></div>
+          <div class="form-group"><label>Country *</label><select id="a_country" class="form-control">
+            <option value="">Select country…</option>
+            <option value="Kenya">🇰🇪 Kenya</option>
+            <option value="Tanzania">🇹🇿 Tanzania</option>
+            <option value="Uganda">🇺🇬 Uganda</option>
+            <option value="Rwanda">🇷🇼 Rwanda</option>
+            <option value="Ethiopia">🇪🇹 Ethiopia</option>
+            <option value="Botswana">🇧🇼 Botswana</option>
+            <option value="South Africa">🇿🇦 South Africa</option>
+          </select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Region</label><input id="a_region" class="form-control" placeholder="e.g. Arusha, Zanzibar"/></div>
+          <div class="form-group"><label>City / Town</label><input id="a_city" class="form-control" placeholder="e.g. Karatu"/></div>
+        </div>
+        <div class="form-group"><label>Address</label><input id="a_address" class="form-control" placeholder="Street / area / landmark"/></div>
+        <div class="form-row">
+          <div class="form-group"><label>Price per Night (USD) *</label><input id="a_price" class="form-control" type="number" min="0" placeholder="180"/></div>
+          <div class="form-group"><label>Price Type</label><select id="a_pricetype" class="form-control">
+            <option value="per_night">Per Night</option>
+            <option value="per_person">Per Person</option>
+            <option value="per_tent">Per Tent</option>
+          </select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Max Guests</label><input id="a_maxguests" class="form-control" type="number" min="1" value="2"/></div>
+          <div class="form-group"><label>Bedrooms</label><input id="a_bedrooms" class="form-control" type="number" min="0"/></div>
+          <div class="form-group"><label>Bathrooms</label><input id="a_bathrooms" class="form-control" type="number" min="0"/></div>
+        </div>
+      </div>
+      <!-- Step 2: Details & Amenities -->
+      <div class="modal-step" id="accStep2">
+        <div class="form-group"><label>Full Description *</label><textarea id="a_description" class="form-control" style="min-height:110px;" placeholder="Describe the property, atmosphere, what makes it special…" oninput="updateCharCount(this,'a_desc_count',3000)"></textarea><div class="char-count"><span id="a_desc_count">0</span>/3000</div></div>
+        <div class="form-group"><label>Short Description (for cards)</label><textarea id="a_shortdesc" class="form-control" style="min-height:70px;" placeholder="Up to 200 characters…" maxlength="200" oninput="updateCharCount(this,'a_sdesc_count',200)"></textarea><div class="char-count"><span id="a_sdesc_count">0</span>/200</div></div>
+        <div class="section-divider">Amenities</div>
+        <div class="form-group"><label>Amenities</label><div class="tags-input-wrap" id="a_amenities_wrap" onclick="this.querySelector('input').focus()"><input id="a_amenities_input" placeholder="Type amenity and press Enter… e.g. wifi, pool, hot_water" onkeydown="addTag(event,'a_amenities_wrap','a_amenities_data')"/></div><input type="hidden" id="a_amenities_data" value="[]"/><div class="form-hint">Press Enter after each amenity.</div></div>
+        <div class="section-divider">Policies</div>
+        <div class="form-row">
+          <div class="form-group"><label>Check-in</label><input id="a_checkin" class="form-control" placeholder="e.g. 2:00 PM"/></div>
+          <div class="form-group"><label>Check-out</label><input id="a_checkout" class="form-control" placeholder="e.g. 10:00 AM"/></div>
+        </div>
+        <div class="form-group"><label>Cancellation Policy</label><textarea id="a_cancellation" class="form-control" style="min-height:70px;" placeholder="e.g. Free cancellation up to 48 hours before check-in…"></textarea></div>
+      </div>
+      <!-- Step 3: Photos -->
+      <div class="modal-step" id="accStep3">
+        <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:16px;">Photos upload right after the accommodation is created. The first photo becomes the cover image automatically. Up to 15 total.</p>
+        <div class="upload-zone" id="a_media_zone">
+          <input type="file" id="a_media_files" accept="image/*" multiple onchange="handleAccommodationFileSelect(event)"/>
+          <div class="upload-zone-icon">📷</div>
+          <h4>Drop photos here or click to browse</h4>
+          <p>Up to 15 images · 5MB each · First photo = cover</p>
+        </div>
+        <div class="img-preview-grid" id="a_media_previews"></div>
+      </div>
+      <!-- Step 4: Publish -->
+      <div class="modal-step" id="accStep4">
+        <div class="form-row">
+          <div class="form-group"><label>Status</label><select id="a_isactive" class="form-control"><option value="true">Active (live on site)</option><option value="false">Draft (not visible)</option></select></div>
+          <div class="form-group"><label>Featured</label><select id="a_featured" class="form-control"><option value="false">No</option><option value="true">Yes — show on homepage</option></select></div>
+        </div>
+        <div id="acc_summary" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-top:20px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:12px;">📋 Review Before Submitting</div>
+          <div id="acc_summary_content" style="font-size:.82rem;color:var(--text-muted);line-height:1.8;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between;">
+      <button class="btn-sm-outline" id="accBackBtn" onclick="accStepNav(-1)" style="display:none;">← Back</button>
+      <button class="btn-sm-outline" onclick="closeAccommodationModal()">Cancel</button>
+      <div style="display:flex;gap:8px;margin-left:auto;">
+        <button class="btn-submit" id="accNextBtn" onclick="accStepNav(1)">Next →</button>
+        <button class="btn-submit" id="accSubmitBtn" style="display:none;" onclick="submitAccommodation()"><span class="spin"></span>Create Accommodation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ACCOMMODATION BOOKINGS MODAL ═══ -->
+<div class="modal-overlay" id="accBookingsModal">
+  <div class="modal" style="max-width:600px;">
+    <div class="modal-header">
+      <h3>🗓️ Bookings — <span id="ab_name">…</span></h3>
+      <div class="modal-close" onclick="closeModal('accBookingsModal')">✕</div>
+    </div>
+    <div class="modal-body" id="ab_body" style="max-height:60vh;overflow-y:auto;">
+      <div style="text-align:center;padding:40px;color:var(--text-faint);">Loading…</div>
+    </div>
+    <div class="modal-footer"><button class="btn-sm-outline" onclick="closeModal('accBookingsModal')">Close</button></div>
+  </div>
+</div>
+
+
 
 <!-- TOAST STACK -->
 <div class="toast-stack" id="toastStack"></div>
@@ -2182,6 +2425,300 @@ async function updateBookingStatus(id,status,btn){
   }catch(e){ toast('Failed: '+e.message,'error'); if(row) row.querySelectorAll('button').forEach(b=>b.disabled=false); }
 }
 
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCOMMODATION BOOKINGS VIEW - Standalone Section
+═══════════════════════════════════════════════════════════════ */
+
+let allAccommodationBookings = [];
+let accBookingsCurrentPage = 1;
+const ACC_BOOKINGS_PER_PAGE = 20;
+let accBookingsFilter = { search: '', status: '', property: '', payment: '' };
+
+// Register the view loader
+viewLoaders['accommodation-bookings'] = loadAccommodationBookings;
+viewLabels['accommodation-bookings'] = 'Accommodation Bookings';
+
+// Add navigation item to sidebar
+document.addEventListener('DOMContentLoaded', function() {
+  const navSection = document.querySelector('.nav-section:nth-child(3)'); // Operations section
+  if (navSection) {
+    const newItem = document.createElement('div');
+    newItem.className = 'nav-item';
+    newItem.setAttribute('onclick', "showView('accommodation-bookings',this)");
+    newItem.innerHTML = `<span class="nav-icon">🏨</span><span>Accommodation Bookings</span><span class="nav-badge" id="badge-acc-bookings">0</span>`;
+    // Insert after the Bookings item
+    const bookingsItem = navSection.querySelector('.nav-item[onclick*="bookings"]');
+    if (bookingsItem) {
+      bookingsItem.after(newItem);
+    } else {
+      navSection.appendChild(newItem);
+    }
+  }
+});
+
+async function loadAccommodationBookings() {
+  const tbody = document.getElementById('accBookingsTableBody');
+  if (!tbody) return;
+  
+  tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:var(--text-faint);padding:24px;">Loading accommodation bookings…</td></tr>';
+  
+  try {
+    // Fetch only accommodation bookings
+    const data = await api('/api/bookings?bookingType=accommodation&limit=200').catch(() => ({ bookings: [] }));
+    allAccommodationBookings = data.bookings || [];
+    
+    // Sort by newest first
+    allAccommodationBookings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+    // Update mini stats
+    updateAccommodationBookingStats(allAccommodationBookings);
+    
+    // Populate property filter dropdown
+    populateAccommodationPropertyFilter(allAccommodationBookings);
+    
+    // Update sidebar badge
+    const pending = allAccommodationBookings.filter(b => b.status === 'pending').length;
+    const badge = document.getElementById('badge-acc-bookings');
+    if (badge) {
+      badge.textContent = pending > 0 ? pending : '';
+      badge.style.display = pending > 0 ? '' : 'none';
+    }
+    
+    // Apply filters and render
+    applyAccommodationBookingsFilters();
+    
+  } catch (e) {
+    tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;color:var(--red);padding:24px;">Failed to load: ${esc(e.message)}</td></tr>`;
+  }
+}
+
+function updateAccommodationBookingStats(bookings) {
+  const total = bookings.length;
+  const confirmed = bookings.filter(b => b.status === 'confirmed').length;
+  const pending = bookings.filter(b => b.status === 'pending').length;
+  const cancelled = bookings.filter(b => b.status === 'cancelled').length;
+  const revenue = bookings.reduce((sum, b) => sum + (Number(b.totalAmount) || 0), 0);
+  
+  // Unique properties
+  const propertyIds = new Set(bookings.map(b => b.accommodation?._id).filter(Boolean));
+  
+  const el = id => document.getElementById(id);
+  if (el('acc-book-total')) el('acc-book-total').textContent = total;
+  if (el('acc-book-confirmed')) el('acc-book-confirmed').textContent = confirmed;
+  if (el('acc-book-pending')) el('acc-book-pending').textContent = pending;
+  if (el('acc-book-cancelled')) el('acc-book-cancelled').textContent = cancelled;
+  if (el('acc-book-revenue')) el('acc-book-revenue').textContent = fmtMoneyShort(revenue);
+  if (el('acc-book-properties')) el('acc-book-properties').textContent = propertyIds.size;
+  
+  // Update count in page header
+  const countEl = document.getElementById('acc-booking-count');
+  if (countEl) countEl.textContent = `View, approve, and manage all ${total} accommodation reservations.`;
+}
+
+function populateAccommodationPropertyFilter(bookings) {
+  const select = document.getElementById('accBookingProperty');
+  if (!select) return;
+  
+  // Keep the first option
+  const firstOption = select.querySelector('option[value=""]');
+  select.innerHTML = '';
+  if (firstOption) select.appendChild(firstOption);
+  
+  // Get unique properties
+  const propertyMap = {};
+  bookings.forEach(b => {
+    if (b.accommodation?._id && b.accommodation?.name) {
+      propertyMap[b.accommodation._id] = b.accommodation.name;
+    }
+  });
+  
+  // Sort by name
+  const sorted = Object.entries(propertyMap).sort((a, b) => a[1].localeCompare(b[1]));
+  
+  sorted.forEach(([id, name]) => {
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = name;
+    select.appendChild(opt);
+  });
+}
+
+function applyAccommodationBookingsFilters() {
+  const search = document.getElementById('accBookingSearch')?.value?.toLowerCase() || '';
+  const status = document.getElementById('accBookingStatus')?.value || '';
+  const property = document.getElementById('accBookingProperty')?.value || '';
+  const payment = document.getElementById('accBookingPayment')?.value || '';
+  
+  let filtered = allAccommodationBookings;
+  
+  // Filter by status
+  if (status) {
+    filtered = filtered.filter(b => b.status === status);
+  }
+  
+  // Filter by property
+  if (property) {
+    filtered = filtered.filter(b => b.accommodation?._id === property);
+  }
+  
+  // Filter by payment status
+  if (payment) {
+    filtered = filtered.filter(b => b.paymentStatus === payment);
+  }
+  
+  // Filter by search
+  if (search) {
+    filtered = filtered.filter(b => {
+      const guest = b.user ? `${b.user.firstName || ''} ${b.user.lastName || ''}`.toLowerCase() : '';
+      const ref = (b.bookingRef || '').toLowerCase();
+      const propertyName = (b.accommodation?.name || '').toLowerCase();
+      return guest.includes(search) || ref.includes(search) || propertyName.includes(search);
+    });
+  }
+  
+  // Paginate
+  const totalPages = Math.ceil(filtered.length / ACC_BOOKINGS_PER_PAGE) || 1;
+  const page = Math.min(accBookingsCurrentPage, totalPages);
+  const start = (page - 1) * ACC_BOOKINGS_PER_PAGE;
+  const paginated = filtered.slice(start, start + ACC_BOOKINGS_PER_PAGE);
+  
+  // Render table
+  renderAccommodationBookingsTable(paginated, filtered.length, page, totalPages);
+}
+
+function renderAccommodationBookingsTable(bookings, total, page, totalPages) {
+  const tbody = document.getElementById('accBookingsTableBody');
+  if (!tbody) return;
+  
+  if (!bookings.length) {
+    tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:var(--text-faint);padding:24px;">No accommodation bookings found matching your filters.</td></tr>';
+    document.getElementById('acc-bookings-footer').textContent = '0 bookings';
+    document.getElementById('acc-bookings-page').textContent = 'Page 1 of 1';
+    return;
+  }
+  
+  tbody.innerHTML = bookings.map(b => {
+    const guest = b.user ? `${b.user.firstName || ''} ${b.user.lastName || ''}`.trim() : 'Unknown';
+    const ini = initials(b.user);
+    const ref = b.bookingRef || b._id?.slice(-6).toUpperCase() || '—';
+    const property = b.accommodation?.name || 'Unknown Property';
+    const checkIn = b.checkInDate ? fmtDate(b.checkInDate) : '—';
+    const checkOut = b.checkOutDate ? fmtDate(b.checkOutDate) : '—';
+    const nights = b.numberOfNights || '—';
+    const guests = b.numberOfGuests || b.pax || 1;
+    
+    const sc = { confirmed: 'confirmed', pending: 'pending', cancelled: 'cancelled' }[b.status] || 'pending';
+    const payMap = {
+      deposit_paid: 'Deposit paid',
+      fully_paid: 'Fully paid',
+      unpaid: 'Unpaid',
+      pending_verification: 'Pending verification',
+      refunded: 'Refunded'
+    };
+    const pay = payMap[b.paymentStatus] || b.paymentStatus || '—';
+    const payBadge = {
+      'Deposit paid': 'active',
+      'Fully paid': 'confirmed',
+      'Unpaid': 'pending',
+      'Pending verification': 'review',
+      'Refunded': 'cancelled'
+    }[pay] || 'pending';
+    
+    const canAct = b.status === 'pending';
+    
+    return `<tr>
+      <td class="td-mono">${esc(ref)}</td>
+      <td><div class="td-avatar"><div class="avatar-sm">${ini}</div><div><div class="td-main">${esc(guest)}</div><div class="td-mono">${esc(b.user?.email || '')}</div></div></div></td>
+      <td><span style="font-weight:600;">${esc(property)}</span></td>
+      <td>${esc(checkIn)}</td>
+      <td>${esc(checkOut)}</td>
+      <td class="td-mono">${nights}</td>
+      <td class="td-mono">${guests}</td>
+      <td style="font-weight:700;color:var(--forest);">${fmtMoney(b.totalAmount)}</td>
+      <td><span class="badge ${payBadge}">${esc(pay)}</span></td>
+      <td><span class="badge ${sc}">${b.status}</span></td>
+      <td><div class="td-action">
+        <button class="btn-xs ghost" onclick="openBookingDetail('${b._id}')">View →</button>
+        ${canAct ? `<button class="btn-xs primary" onclick="updateBookingStatus('${b._id}','confirmed',this);loadAccommodationBookings();">Confirm</button>` : ''}
+        ${b.status !== 'cancelled' && b.status !== 'completed' ? `<button class="btn-xs danger" onclick="updateBookingStatus('${b._id}','cancelled',this);loadAccommodationBookings();">Cancel</button>` : ''}
+      </div></td>
+    </tr>`;
+  }).join('');
+  
+  document.getElementById('acc-bookings-footer').textContent = `Showing ${bookings.length} of ${total} bookings`;
+  document.getElementById('acc-bookings-page').textContent = `Page ${page} of ${totalPages}`;
+}
+
+function filterAccommodationBookings() {
+  accBookingsCurrentPage = 1;
+  applyAccommodationBookingsFilters();
+}
+
+function accBookingsPage(dir) {
+  const total = allAccommodationBookings.length;
+  const totalPages = Math.ceil(total / ACC_BOOKINGS_PER_PAGE) || 1;
+  const newPage = accBookingsCurrentPage + dir;
+  if (newPage < 1 || newPage > totalPages) return;
+  accBookingsCurrentPage = newPage;
+  applyAccommodationBookingsFilters();
+}
+
+function exportAccommodationBookingsCSV() {
+  const bookings = allAccommodationBookings.filter(b => {
+    const search = document.getElementById('accBookingSearch')?.value?.toLowerCase() || '';
+    const status = document.getElementById('accBookingStatus')?.value || '';
+    const property = document.getElementById('accBookingProperty')?.value || '';
+    const payment = document.getElementById('accBookingPayment')?.value || '';
+    
+    let match = true;
+    if (status) match = match && b.status === status;
+    if (property) match = match && b.accommodation?._id === property;
+    if (payment) match = match && b.paymentStatus === payment;
+    if (search) {
+      const guest = b.user ? `${b.user.firstName || ''} ${b.user.lastName || ''}`.toLowerCase() : '';
+      const ref = (b.bookingRef || '').toLowerCase();
+      const propertyName = (b.accommodation?.name || '').toLowerCase();
+      match = match && (guest.includes(search) || ref.includes(search) || propertyName.includes(search));
+    }
+    return match;
+  });
+  
+  if (!bookings.length) {
+    toast('No bookings to export.', 'warning');
+    return;
+  }
+  
+  // Build CSV
+  const headers = ['Ref', 'Guest', 'Email', 'Property', 'Check-in', 'Check-out', 'Nights', 'Guests', 'Total', 'Payment', 'Status'];
+  const rows = bookings.map(b => [
+    b.bookingRef || b._id?.slice(-6).toUpperCase() || '—',
+    b.user ? `${b.user.firstName || ''} ${b.user.lastName || ''}`.trim() : 'Unknown',
+    b.user?.email || '—',
+    b.accommodation?.name || 'Unknown',
+    b.checkInDate ? fmtDate(b.checkInDate) : '—',
+    b.checkOutDate ? fmtDate(b.checkOutDate) : '—',
+    b.numberOfNights || '—',
+    b.numberOfGuests || b.pax || 1,
+    b.totalAmount || 0,
+    b.paymentStatus || '—',
+    b.status || '—'
+  ]);
+  
+  const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `accommodation-bookings-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('CSV exported successfully!', 'success');
+}
+
+
+
 /* ═══════════════════════════════════════════════════════════════
    APPLICATIONS VIEW
 ═══════════════════════════════════════════════════════════════ */
@@ -2805,6 +3342,241 @@ async function submitGalleryPhoto() {
     btn.classList.remove('loading');
   }
 }
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCOMMODATIONS
+═══════════════════════════════════════════════════════════════ */
+viewLoaders.accommodations = loadAccommodations;
+viewLabels.accommodations = 'Accommodations';
+let allAccommodations = [];
+
+async function loadAccommodations(){
+  const grid=document.getElementById('accommodationsGrid'); if(!grid) return;
+  grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-faint);padding:32px;">Loading accommodations…</div>';
+  try{
+    let items=[],total=0;
+    // Try an admin endpoint first (shows drafts too); fall back to the public one (active only).
+    try{ const d=await api('/api/accommodations/admin'); items=d.accommodations||[]; total=d.total??items.length; }
+    catch{ const d=await api('/api/accommodations?limit=100'); items=d.accommodations||[]; total=d.total??items.length; }
+    allAccommodations=items;
+    const ac=document.getElementById('acc-count-text'); if(ac) ac.textContent=`Manage all ${total} accommodations.`;
+    renderAccommodationsGrid(items);
+  }catch(e){ grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;color:var(--red);padding:32px;">Failed: ${esc(e.message)}</div>`; }
+}
+
+function renderAccommodationsGrid(items){
+  const grid=document.getElementById('accommodationsGrid'); if(!grid) return;
+  if(!items.length){ grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-faint);padding:32px;">No accommodations found. Click "Add Accommodation" to create one.</div>'; return; }
+  grid.innerHTML=items.map(a=>{
+    const img=a.media?.images?.find(m=>m.isCover)?.url||a.media?.images?.[0]?.url||'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&auto=format&fit=crop';
+    const sc=a.isActive?'confirmed':'cancelled';
+    const sl=a.isActive?'active':'draft';
+    const rating=a.rating?`★ ${Number(a.rating).toFixed(1)} (${a.reviewsCount||0})`:'No reviews yet';
+    const priceLabel={per_night:'/night',per_person:'/person',per_tent:'/tent'}[a.priceType]||'/night';
+    return `<div class="listing-card" data-category="${esc(a.category||'')}" data-status="${a.isActive?'active':'draft'}" data-name="${esc((a.name||'').toLowerCase())}">
+      <div class="listing-card-img"><img src="${esc(img)}" alt="" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&auto=format&fit=crop'"/><span class="badge ${sc} card-status">${sl}</span></div>
+      <div class="listing-card-body">
+        <h4>${esc(a.name||'Untitled Accommodation')}</h4>
+        <div class="listing-meta"><span>📍 ${esc(a.location?.region||a.location?.country||'—')}</span><span>🏷️ ${esc((a.category||'—').replace(/_/g,' '))}</span><span>👥 ${a.capacity?.maxGuests||'—'} guests</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-xs ghost" style="flex:1;" onclick="toast('Edit form coming soon','default')">Edit</button>
+          <button class="btn-xs ghost" onclick="openAccommodationBookings('${a._id}','${esc(a.name||'')}')">🗓️ Bookings</button>
+          ${a.isActive?`<button class="btn-xs danger" onclick="toggleAccommodationActive('${a._id}',false,this)">Archive</button>`:`<button class="btn-xs primary" onclick="toggleAccommodationActive('${a._id}',true,this)">Publish</button>`}
+          <button class="btn-xs danger" onclick="deleteAccommodation('${a._id}',this)">Delete</button>
+        </div>
+      </div>
+      <div class="listing-card-footer"><span class="listing-price">${fmtMoney(a.pricePerNight)}<span style="font-size:.7rem;font-weight:600;color:var(--text-faint);">${priceLabel}</span></span><span class="listing-rating">${rating}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function filterAccommodationsGrid(){
+  const q=(document.getElementById('accSearchInput')?.value||'').toLowerCase();
+  const cat=document.getElementById('accCategoryFilter')?.value||'';
+  const status=document.getElementById('accStatusFilter')?.value||'';
+  document.querySelectorAll('#accommodationsGrid .listing-card').forEach(card=>{
+    const matchesQ=!q||card.dataset.name.includes(q);
+    const matchesCat=!cat||card.dataset.category===cat;
+    const matchesStatus=!status||card.dataset.status===status;
+    card.style.display=(matchesQ&&matchesCat&&matchesStatus)?'':'none';
+  });
+}
+
+async function toggleAccommodationActive(id,isActive,btn){
+  if(btn) btn.disabled=true;
+  try{ await api(`/api/accommodations/${id}`,{method:'PUT',body:JSON.stringify({isActive})}); toast(isActive?'Accommodation published!':'Accommodation archived.','success'); loadedViews.delete('accommodations'); showView('accommodations',null); }
+  catch(e){ toast('Failed: '+e.message,'error'); if(btn) btn.disabled=false; }
+}
+
+async function deleteAccommodation(id,btn){
+  if(!confirm('Delete this accommodation? This cannot be undone.')) return;
+  if(btn) btn.disabled=true;
+  try{ await api(`/api/accommodations/${id}`,{method:'DELETE'}); toast('Accommodation deleted.','success'); loadedViews.delete('accommodations'); showView('accommodations',null); }
+  catch(e){ toast('Failed: '+e.message,'error'); if(btn) btn.disabled=false; }
+}
+
+/* ── Bookings for an accommodation ──────────────────── */
+async function openAccommodationBookings(id,name){
+  document.getElementById('ab_name').textContent=name||'…';
+  document.getElementById('ab_body').innerHTML='<div style="text-align:center;padding:40px;color:var(--text-faint);">Loading…</div>';
+  openModal('accBookingsModal');
+  try{
+    // NOTE: requires a backend endpoint that filters bookings by accommodation,
+    // e.g. GET /api/bookings?accommodationId=<id>. Add this route if it doesn't exist yet.
+    const data=await api(`/api/bookings?accommodationId=${id}`);
+    const bookings=data.bookings||[];
+    if(!bookings.length){ document.getElementById('ab_body').innerHTML='<div style="text-align:center;padding:32px;color:var(--text-faint);">No bookings for this accommodation yet.</div>'; return; }
+    document.getElementById('ab_body').innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:.83rem;">
+      <thead><tr><th style="text-align:left;padding:8px;">Guest</th><th style="text-align:left;padding:8px;">Dates</th><th style="text-align:left;padding:8px;">Amount</th><th style="text-align:left;padding:8px;">Status</th></tr></thead>
+      <tbody>${bookings.map(b=>{
+        const guest=b.user?`${b.user.firstName||''} ${b.user.lastName||''}`.trim():'Unknown';
+        return `<tr><td style="padding:8px;border-top:1px solid var(--border-subtle);">${esc(guest)}</td><td style="padding:8px;border-top:1px solid var(--border-subtle);">${fmtDate(b.travelDate||b.startDate)}</td><td style="padding:8px;border-top:1px solid var(--border-subtle);">${fmtMoney(b.totalAmount)}</td><td style="padding:8px;border-top:1px solid var(--border-subtle);"><span class="badge ${b.status==='confirmed'?'confirmed':b.status==='cancelled'?'cancelled':'pending'}">${esc(b.status)}</span></td></tr>`;
+      }).join('')}</tbody></table>`;
+  }catch(e){
+    document.getElementById('ab_body').innerHTML=`<div style="text-align:center;padding:32px;color:var(--amber);">⚠️ Couldn't load bookings for this accommodation — your backend may not have a bookings-by-accommodation endpoint yet.<br><span style="font-size:.75rem;color:var(--text-faint);">${esc(e.message)}</span></div>`;
+  }
+}
+
+/* ── New Accommodation modal navigation ─────────────── */
+let currentAccStep=1; const ACC_TOTAL_STEPS=4;
+let pendingAccFiles=[];
+
+function openAccommodationModal(){ currentAccStep=1; pendingAccFiles=[]; renderAccStep(1); resetAccommodationForm(); openModal('newAccommodationModal'); }
+function closeAccommodationModal(){ closeModal('newAccommodationModal'); }
+function accStep(n){ currentAccStep=n; renderAccStep(n); }
+function accStepNav(dir){
+  const next=currentAccStep+dir;
+  if(next<1||next>ACC_TOTAL_STEPS) return;
+  if(dir===1&&!validateAccStep(currentAccStep)) return;
+  if(next===ACC_TOTAL_STEPS) buildAccSummary();
+  currentAccStep=next; renderAccStep(currentAccStep);
+}
+function renderAccStep(n){
+  for(let i=1;i<=ACC_TOTAL_STEPS;i++){
+    const s=document.getElementById('accStep'+i), t=document.getElementById('accTab'+i);
+    if(s) s.classList.toggle('active',i===n);
+    if(t){ t.classList.toggle('active',i===n); if(i<n) t.classList.add('done'); else t.classList.remove('done'); }
+  }
+  document.getElementById('accBackBtn').style.display=n>1?'':'none';
+  document.getElementById('accNextBtn').style.display=n<ACC_TOTAL_STEPS?'':'none';
+  document.getElementById('accSubmitBtn').style.display=n===ACC_TOTAL_STEPS?'':'none';
+}
+function validateAccStep(n){
+  if(n===1){
+    if(!v('a_name')) return errField('a_name','Accommodation name is required');
+    if(!v('a_category')) return errField('a_category','Please select a category');
+    if(!v('a_country')) return errField('a_country','Please select a country');
+    if(!v('a_price')||Number(v('a_price'))<=0) return errField('a_price','Price per night is required');
+  }
+  if(n===2){
+    if(!v('a_description')||v('a_description').length<20) return errField('a_description','Description must be at least 20 characters');
+  }
+  return true;
+}
+function buildAccSummary(){
+  document.getElementById('acc_summary_content').innerHTML=[
+    `<b>Name:</b> ${esc(v('a_name'))}`,
+    `<b>Category:</b> ${esc((v('a_category')||'').replace(/_/g,' '))}`,
+    `<b>Country:</b> ${esc(v('a_country'))}${v('a_region')?', '+esc(v('a_region')):''}`,
+    `<b>Price:</b> ${fmtMoney(v('a_price'))} ${v('a_pricetype')==='per_person'?'/person':v('a_pricetype')==='per_tent'?'/tent':'/night'}`,
+    `<b>Max Guests:</b> ${v('a_maxguests')||'—'}`,
+    `<b>Photos selected:</b> ${pendingAccFiles.length}`,
+    `<b>Status:</b> ${v('a_isactive')==='true'?'Active (live)':'Draft'}`,
+    `<b>Featured:</b> ${v('a_featured')==='true'?'Yes':'No'}`
+  ].join('<br>');
+}
+
+/* ── Photo selection (local preview only — upload happens after create) ── */
+function handleAccommodationFileSelect(e){
+  const files=Array.from(e.target.files||[]);
+  if(!files.length) return;
+  if(pendingAccFiles.length+files.length>15){ toast('Max 15 photos total.','error'); return; }
+  const valid=files.filter(f=>f.size<=5*1024*1024);
+  if(valid.length!==files.length) toast('Some files exceed 5MB and were skipped.','warning');
+  valid.forEach(f=>pendingAccFiles.push(f));
+  renderAccMediaPreviews();
+  e.target.value='';
+}
+function renderAccMediaPreviews(){
+  const grid=document.getElementById('a_media_previews'); if(!grid) return;
+  grid.innerHTML=pendingAccFiles.map((f,i)=>{
+    const url=URL.createObjectURL(f);
+    return `<div class="img-preview-item ${i===0?'cover-badge':''}"><img src="${url}" alt=""/><div class="img-remove" onclick="removeAccFile(${i})">✕</div></div>`;
+  }).join('');
+}
+function removeAccFile(i){ pendingAccFiles.splice(i,1); renderAccMediaPreviews(); }
+
+/* ── Submit: create record, then upload media ───────── */
+async function submitAccommodation(){
+  if(!validateAccStep(1)||!validateAccStep(2)) return;
+  const btn=document.getElementById('accSubmitBtn'); btn.classList.add('loading'); btn.disabled=true;
+  const amenities=JSON.parse(document.getElementById('a_amenities_data').value||'[]');
+  const payload={
+    name:v('a_name'),
+    category:v('a_category'),
+    description:v('a_description'),
+    shortDescription:v('a_shortdesc')||undefined,
+    location:{ country:v('a_country'), region:v('a_region')||undefined, city:v('a_city')||undefined, address:v('a_address')||undefined },
+    pricePerNight:Number(v('a_price')),
+    priceType:v('a_pricetype'),
+    capacity:{ maxGuests:Number(v('a_maxguests'))||2, bedrooms:v('a_bedrooms')?Number(v('a_bedrooms')):undefined, bathrooms:v('a_bathrooms')?Number(v('a_bathrooms')):undefined },
+    amenities,
+    policies:{ checkIn:v('a_checkin')||undefined, checkOut:v('a_checkout')||undefined, cancellationPolicy:v('a_cancellation')||undefined },
+    isActive:v('a_isactive')==='true',
+    isFeatured:v('a_featured')==='true'
+  };
+  Object.keys(payload).forEach(k=>payload[k]===undefined&&delete payload[k]);
+  if(payload.location) Object.keys(payload.location).forEach(k=>payload.location[k]===undefined&&delete payload.location[k]);
+  if(payload.capacity) Object.keys(payload.capacity).forEach(k=>payload.capacity[k]===undefined&&delete payload.capacity[k]);
+  if(payload.policies) Object.keys(payload.policies).forEach(k=>payload.policies[k]===undefined&&delete payload.policies[k]);
+
+  try{
+    const created=await api('/api/accommodations',{method:'POST',body:JSON.stringify(payload)});
+    const acc=created.accommodation||created;
+    const id=acc._id;
+
+    if(pendingAccFiles.length){
+      const formData=new FormData();
+      pendingAccFiles.forEach(f=>formData.append('files',f));
+      const uploadRes=await fetch(`${API_BASE}/api/accommodations/${id}/media`,{
+        method:'POST',
+        headers: getToken()?{'Authorization':`Bearer ${getToken()}`}:{},
+        body:formData
+      });
+      const uploadData=await uploadRes.json().catch(()=>({}));
+      if(!uploadRes.ok) throw new Error(uploadData.message||'Accommodation created, but photo upload failed.');
+    }
+
+    toast('Accommodation created successfully! 🏨','success');
+    closeAccommodationModal();
+    resetAccommodationForm();
+    loadedViews.delete('accommodations'); loadedViews.delete('dashboard');
+    showView('accommodations',null);
+  }catch(e){
+    toast('Failed to create accommodation: '+e.message,'error');
+  }finally{
+    btn.classList.remove('loading'); btn.disabled=false;
+  }
+}
+
+function resetAccommodationForm(){
+  ['a_name','a_category','a_country','a_region','a_city','a_address','a_price','a_pricetype','a_maxguests','a_bedrooms','a_bathrooms','a_description','a_shortdesc','a_checkin','a_checkout','a_cancellation','a_isactive','a_featured'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value=el.tagName==='SELECT'?el.options[0]?.value||'':'';
+  });
+  document.getElementById('a_amenities_data').value='[]';
+  document.getElementById('a_amenities_wrap')?.querySelectorAll('.tag-chip').forEach(el=>el.remove());
+  document.getElementById('a_media_previews').innerHTML='';
+  document.getElementById('a_media_files').value='';
+  pendingAccFiles=[];
+  currentAccStep=1;
+}
+
+
+
+
+
 
 /* ═══════════════════════════════════════════════════════════════
    GALLERY VIEW - Load images from database

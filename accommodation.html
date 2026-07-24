@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stays | International Volunteer Home Tz</title>
+<meta name="description" content="Browse lodges, safari camps, guesthouses and homestays across Tanzania and East Africa — filter by location, dates, guests and price, and book direct." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+:root {
+  --forest: #1a3c2e;
+  --forest-light: #2d6a4f;
+  --gold: #e8c565;
+  --gold-deep: #c99a3b;
+  --ink: #101828;
+  --muted: #6b7178;
+  --line: #e9e5dc;
+  --sand: #f6f1e7;
+  --cream: #fbf9f4;
+  --radius: 18px;
+  --white: #ffffff;
+}
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; width: 100%; max-width: 100vw; background: var(--cream); }
+body { font-family: 'Inter', sans-serif; color: var(--ink); }
+
+/* ── Navbar ── */
+.navbar {
+  background: #ffffff !important;
+  border-bottom: 1px solid var(--line);
+  padding: 12px 24px;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.navbar .nav-link { color: var(--forest); text-decoration: none; font-weight: 600; font-size: 0.88rem; }
+.navbar .nav-link.active { color: var(--forest) !important; font-weight: 800; }
+.logo-text .line1 { color: #98a2b3; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
+.logo-text .line2 { color: var(--forest); font-size: 1rem; }
+.logo-text .line2 em { color: var(--gold-deep); font-style: normal; }
+.logo-text .line2-short { display: none; }
+@media (max-width: 420px) { .logo-text .line2 { display: none; } .logo-text .line2-short { display: inline; font-size: 0.9rem; } }
+.navbar .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
+.navbar .logo .logo-icon { font-size: 1.3rem; flex-shrink: 0; }
+.logo-text { display: flex; flex-direction: column; line-height: 1.15; font-weight: 800; font-size: 0.85rem; }
+.nav-actions { position: relative; display: flex; align-items: center; gap: 8px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.nav-actions .nav-cta { font-weight: 600; font-size: 0.82rem; text-decoration: none; padding: 4px 8px; border-radius: 6px; color: var(--forest); }
+.nav-actions .nav-cta:hover { background: rgba(26,60,46,0.06); }
+.nav-actions .btn { flex-shrink: 0; font-size: 0.78rem; padding: 6px 14px; }
+.user-chip { display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px 4px; border-radius: 100px; cursor: pointer; max-width: 160px; background: rgba(26,60,46,0.06); border: 1px solid rgba(26,60,46,0.14); }
+.user-chip .avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; background: var(--gold); color: var(--forest); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.7rem; }
+.user-chip .greeting { color: var(--forest); font-size: 0.78rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
+.user-chip i.fa-chevron-down { font-size: 0.6rem; flex-shrink: 0; transition: transform .18s ease; color: var(--forest); }
+.user-chip.open i.fa-chevron-down { transform: rotate(180deg); }
+.user-menu { position: absolute; top: calc(100% + 8px); right: 0; background: #fff; border-radius: 12px; min-width: 180px; box-shadow: 0 12px 40px rgba(16,24,40,0.18); padding: 6px; display: none; z-index: 1100; border: 1px solid rgba(0,0,0,0.06); }
+.user-menu.open { display: block; }
+.user-menu a, .user-menu button { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 9px 12px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; color: #344054; background: none; border: none; cursor: pointer; font-family: inherit; }
+.user-menu a:hover, .user-menu button:hover { background: var(--sand); color: var(--forest); }
+.user-menu i { width: 16px; color: #98a2b3; }
+.user-menu .divider { height: 1px; background: #f0f0f0; margin: 4px 4px; }
+.mobile-header-actions { display: none; align-items: center; gap: 8px; flex-shrink: 0; }
+.icon-btn-outline { width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid #e4e7ec; color: var(--forest); background: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+.hamburger-box { display: none; flex-direction: column; justify-content: center; align-items: center; gap: 4px; width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid #e4e7ec; background: #fff; cursor: pointer; flex-shrink: 0; padding: 0; }
+.hamburger-box span { width: 15px; height: 2px; border-radius: 2px; display: block; background: var(--forest); transition: all .3s ease; }
+.hamburger-box.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger-box.active span:nth-child(2) { opacity: 0; }
+.hamburger-box.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+@media (max-width: 992px) {
+  .nav-links, .nav-actions { display: none !important; }
+  .mobile-header-actions { display: flex !important; }
+  .hamburger-box { display: flex !important; }
+  .navbar { padding-left: 16px; padding-right: 16px; gap: 8px; }
+}
+
+/* ── Sticky search / filter bar ── */
+.explore-topbar {
+  position: fixed;
+  top: 61px; left: 0; right: 0;
+  z-index: 900;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  padding: 16px 24px 14px;
+}
+.search-row {
+  max-width: 880px; margin: 0 auto 16px;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 0.9fr auto;
+  align-items: stretch;
+  border: 1.5px solid var(--line);
+  border-radius: 100px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.04);
+  transition: box-shadow .2s ease;
+}
+.search-row:hover { box-shadow: 0 6px 20px rgba(16,24,40,0.08); }
+.search-field {
+  padding: 9px 22px;
+  border-right: 1px solid var(--line);
+  cursor: pointer;
+  position: relative;
+}
+.search-field:last-of-type { border-right: none; }
+.search-field label { display: block; font-size: 0.64rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--forest); margin-bottom: 2px; }
+.search-field input, .search-field select {
+  border: none; outline: none; font-size: 0.84rem; font-family: inherit; width: 100%; color: var(--ink); background: transparent;
+}
+.search-field input::placeholder { color: #98a2b3; }
+.search-btn {
+  background: var(--forest); color: #fff; border: none; padding: 0 30px; margin: 5px 5px 5px 0;
+  border-radius: 100px;
+  display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.86rem; cursor: pointer;
+  transition: background .18s ease;
+}
+.search-btn:hover { background: var(--forest-light); }
+
+.pill-row {
+  max-width: 1180px; margin: 0 auto;
+  display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
+}
+.pill-row::-webkit-scrollbar { display: none; }
+.cat-pill {
+  flex-shrink: 0; display: flex; align-items: center; gap: 7px;
+  padding: 8px 16px; border-radius: 100px; border: 1.5px solid var(--line);
+  font-size: 0.8rem; font-weight: 700; color: #475467; cursor: pointer;
+  background: #fff; transition: all .15s ease; white-space: nowrap;
+}
+.cat-pill i { font-size: 0.82rem; }
+.cat-pill:hover { border-color: var(--forest); color: var(--forest); }
+.cat-pill.active { background: var(--forest); border-color: var(--forest); color: #fff; }
+
+/* ── Body / results ── */
+.explore-body { padding-top: 172px; max-width: 1440px; margin: 0 auto; }
+.results-head {
+  padding: 20px 32px 8px;
+  display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.results-count { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.5rem; color: var(--ink); }
+.results-count span { color: var(--muted); font-weight: 500; font-size: 0.86rem; font-family: 'Inter', sans-serif; display: block; margin-top: 4px; }
+.sort-select {
+  border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 16px; font-size: 0.82rem; font-weight: 600; color: #344054;
+  font-family: inherit; background: #fff; cursor: pointer;
+}
+
+.listings-col { padding: 12px 32px 70px; }
+.cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px 26px; }
+
+.stay-card { text-decoration: none; display: block; cursor: pointer; position: relative; }
+.stay-card.dimmed { opacity: 0.4; }
+.stay-card-img { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 1 / 0.98; margin-bottom: 12px; background: #f0f2f5; box-shadow: 0 1px 3px rgba(16,24,40,0.06); }
+.stay-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+.stay-card:hover .stay-card-img img { transform: scale(1.06); }
+.stay-card-badge {
+  position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.94); backdrop-filter: blur(4px);
+  padding: 4px 11px; border-radius: 100px; font-size: 0.66rem; font-weight: 800; color: var(--forest); text-transform: capitalize; letter-spacing: 0.02em;
+}
+.stay-card-fav {
+  position: absolute; top: 12px; right: 50px; background: var(--forest); color: var(--gold);
+  padding: 4px 10px; border-radius: 100px; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 4px;
+}
+.stay-card-wish {
+  position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%;
+  background: none; border: none; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1rem;
+  cursor: pointer; z-index: 2; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.45));
+  transition: transform .15s ease;
+}
+.stay-card-wish:hover { transform: scale(1.12); }
+.stay-card-wish.saved i { font-weight: 900; color: #e8556a; }
+.stay-card-wish.saved i::before { content: "\f004"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+.stay-card-rating { position: absolute; bottom: 12px; left: 12px; background: rgba(16,24,40,0.62); backdrop-filter: blur(4px); color: #fff; padding: 4px 10px; border-radius: 100px; font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+.stay-card-rating i { color: var(--gold); }
+.stay-card h4 { font-size: 0.98rem; font-weight: 700; color: var(--ink); margin-bottom: 2px; line-height: 1.32; }
+.stay-card .stay-loc { font-size: 0.82rem; color: var(--muted); margin-bottom: 5px; }
+.stay-card .stay-price { font-size: 0.92rem; color: var(--ink); }
+.stay-card .stay-price strong { font-weight: 800; }
+.stay-card .stay-price span { color: var(--muted); font-weight: 500; }
+
+.load-more-wrap { text-align: center; margin-top: 36px; }
+.btn-load-more {
+  border: 1.5px solid var(--forest); color: var(--forest); background: #fff; padding: 12px 30px; border-radius: 100px;
+  font-weight: 700; font-size: 0.86rem; cursor: pointer; transition: all .18s ease;
+}
+.btn-load-more:hover { background: var(--forest); color: #fff; }
+.btn-load-more:disabled { opacity: 0.5; cursor: default; }
+
+.skeleton-card .stay-card-img { background: linear-gradient(90deg,#eae6dc 25%,#f5f2ea 50%,#eae6dc 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
+.skeleton-card .sk-line { height: 12px; border-radius: 6px; background: linear-gradient(90deg,#eae6dc 25%,#f5f2ea 50%,#eae6dc 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; margin-bottom: 7px; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+.empty-state { text-align: center; padding: 90px 24px; grid-column: 1 / -1; }
+.empty-state .ico { font-size: 2.8rem; margin-bottom: 16px; color: #c9a86a; }
+.empty-state h3 { font-size: 1.25rem; color: var(--ink); margin-bottom: 8px; font-family: 'Playfair Display', serif; font-weight: 800; }
+.empty-state p { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; }
+
+@media (max-width: 1240px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px) {
+  .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 26px 16px; }
+  .results-head, .listings-col { padding-left: 20px; padding-right: 20px; }
+}
+@media (max-width: 720px) {
+  .search-row { display: none; }
+  .explore-topbar { padding: 10px 16px; top: 60px; }
+  .explore-body { padding-top: 128px; }
+  .cards-grid { grid-template-columns: 1fr 1fr; gap: 22px 14px; }
+  .results-head { padding: 14px 16px 4px; }
+  .listings-col { padding: 12px 16px 70px; }
+  .results-count { font-size: 1.2rem; }
+}
+@media (max-width: 460px) {
+  .cards-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">🌍</div>
+    <span class="logo-text">
+      <span class="line1">International</span>
+      <span class="line2">Volunteer <em>Home Tz</em></span>
+      <span class="line2-short">Volunteer <em>Home Tz</em></span>
+    </span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">Home</a></li>
+    <li><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+    <li><a href="tours.html" class="nav-link">Safaris</a></li>
+    <li><a href="accommodation.html" class="nav-link active">Stays</a></li>
+    <li><a href="community.html" class="nav-link">Community</a></li>
+    <li><a href="about.html" class="nav-link">About</a></li>
+    <li><a href="contact.html" class="nav-link">Contact</a></li>
+  </ul>
+  <div class="nav-actions" id="navActions">
+    <a href="login.html" class="nav-cta">Sign In</a>
+    <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+  </div>
+  <div class="mobile-header-actions">
+    <button class="icon-btn-outline" aria-label="Wishlist" type="button"><i class="fa-regular fa-heart"></i></button>
+    <button class="hamburger-box" id="hamburgerBox" aria-label="Open menu" type="button"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div id="mobileUserChip"></div>
+  <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
+  <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
+  <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="accommodation.html" class="mobile-nav-link"><i class="fas fa-bed"></i> Stays</a>
+  <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
+  <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
+  <a href="contact.html" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a>
+  <div class="mobile-actions" id="mobileActions">
+    <a href="login.html" class="btn btn-outline-dark" style="justify-content:center;">Sign In</a>
+    <a href="register.html" class="btn btn-primary" style="justify-content:center;">Get Started</a>
+  </div>
+</div>
+
+<!-- ===== STICKY SEARCH / FILTER BAR ===== -->
+<div class="explore-topbar" id="topbar">
+  <div class="search-row">
+    <div class="search-field">
+      <label>Where</label>
+      <input type="text" id="fLocation" placeholder="Country or region" autocomplete="off" />
+    </div>
+    <div class="search-field">
+      <label>Check in</label>
+      <input type="date" id="fCheckIn" />
+    </div>
+    <div class="search-field">
+      <label>Check out</label>
+      <input type="date" id="fCheckOut" />
+    </div>
+    <div class="search-field">
+      <label>Guests</label>
+      <input type="number" id="fGuests" min="1" placeholder="Add guests" />
+    </div>
+    <button class="search-btn" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+  </div>
+
+  <div class="pill-row" id="pillRow">
+    <div class="cat-pill active" data-cat=""><i class="fa-solid fa-border-all"></i> All stays</div>
+    <div class="cat-pill" data-cat="lodge"><i class="fa-solid fa-house-chimney"></i> Lodges</div>
+    <div class="cat-pill" data-cat="safari_lodge"><i class="fa-solid fa-binoculars"></i> Safari Lodges</div>
+    <div class="cat-pill" data-cat="luxury_tented_camp"><i class="fa-solid fa-campground"></i> Tented Camps</div>
+    <div class="cat-pill" data-cat="hotel"><i class="fa-solid fa-hotel"></i> Hotels</div>
+    <div class="cat-pill" data-cat="resort"><i class="fa-solid fa-umbrella-beach"></i> Resorts</div>
+    <div class="cat-pill" data-cat="beach_resort"><i class="fa-solid fa-water"></i> Beach Resorts</div>
+    <div class="cat-pill" data-cat="guesthouse"><i class="fa-solid fa-door-open"></i> Guesthouses</div>
+    <div class="cat-pill" data-cat="homestay"><i class="fa-solid fa-people-roof"></i> Homestays</div>
+    <div class="cat-pill" data-cat="airbnb"><i class="fa-brands fa-airbnb"></i> Airbnb-style</div>
+    <div class="cat-pill" data-cat="apartment"><i class="fa-solid fa-building"></i> Apartments</div>
+    <div class="cat-pill" data-cat="hostel"><i class="fa-solid fa-bed"></i> Hostels</div>
+    <div class="cat-pill" data-cat="campsite"><i class="fa-solid fa-tent"></i> Campsites</div>
+  </div>
+</div>
+
+<!-- ===== BODY ===== -->
+<div class="explore-body">
+  <div class="results-head">
+    <div class="results-count" id="resultsCount">Finding stays…<span id="resultsSub">&nbsp;</span></div>
+    <select class="sort-select" id="sortSelect">
+      <option value="featured">Sort: Featured</option>
+      <option value="price_asc">Price: Low to High</option>
+      <option value="price_desc">Price: High to Low</option>
+      <option value="rating">Top Rated</option>
+    </select>
+  </div>
+
+  <div class="listings-col">
+    <div class="cards-grid" id="cardsGrid"></div>
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+      <button class="btn-load-more" id="loadMoreBtn">Show more stays</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const API = 'https://wild-tours.onrender.com/api';
+const FALLBACK_IMG = 'https://images.unsplash.com/photo-1544906519-70c67c17ef3e?w=700&auto=format&fit=crop';
+const WISHLIST_KEY = 'wr_wishlist';
+
+const CATEGORY_LABELS = {
+  hotel: 'Hotel', airbnb: 'Airbnb-style', guesthouse: 'Guesthouse', hostel: 'Hostel', lodge: 'Lodge',
+  safari_lodge: 'Safari Lodge', resort: 'Resort', beach_resort: 'Beach Resort',
+  luxury_tented_camp: 'Tented Camp', campsite: 'Campsite', homestay: 'Homestay', apartment: 'Apartment'
+};
+
+function esc(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+function fmtMoney(n) { return '$' + Number(n || 0).toLocaleString('en-US', { maximumFractionDigits: 0 }); }
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg; el.style.display = 'block'; el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.style.display = 'none', 400); }, 3200);
+}
+function getToken() { return localStorage.getItem('wr_token'); }
+function getUser() { try { return JSON.parse(localStorage.getItem('wr_user') || 'null'); } catch (e) { return null; } }
+function getWishlist() { try { return JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]'); } catch (e) { return []; } }
+function toggleWishlist(id) {
+  let list = getWishlist();
+  if (list.includes(id)) { list = list.filter(x => x !== id); } else { list.push(id); }
+  localStorage.setItem(WISHLIST_KEY, JSON.stringify(list));
+  return list.includes(id);
+}
+
+/* ===== AUTH NAV ===== */
+function updateNavForAuth() {
+  const token = getToken(); const userRaw = localStorage.getItem('wr_user');
+  const navActions = document.querySelector('.nav-actions');
+  if (!navActions || !token || !userRaw) return;
+  try {
+    const user = JSON.parse(userRaw);
+    const firstName = user.firstName || user.name?.split(' ')[0] || 'Traveler';
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    navActions.innerHTML = `
+      <div class="user-chip" id="userChipBtn">
+        <div class="avatar">${firstName[0] || 'T'}</div>
+        <span class="greeting">${greeting}, ${firstName}</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+      <div class="user-menu" id="userMenu">
+        <a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>
+        <a href="my-portal.html#bookings"><i class="fa-solid fa-clipboard-list"></i> My Bookings</a>
+        <div class="divider"></div>
+        <button onclick="if(confirm('Are you sure you want to log out?')){localStorage.removeItem('wr_token');localStorage.removeItem('wr_user');window.location.reload();}"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </div>`;
+    const chip = document.getElementById('userChipBtn'), menu = document.getElementById('userMenu');
+    chip.addEventListener('click', e => { e.stopPropagation(); const open = menu.classList.toggle('open'); chip.classList.toggle('open', open); });
+    document.addEventListener('click', e => { if (!navActions.contains(e.target)) { menu.classList.remove('open'); chip.classList.remove('open'); } });
+  } catch (e) { localStorage.removeItem('wr_user'); localStorage.removeItem('wr_token'); }
+}
+updateNavForAuth();
+
+/* ===== Hamburger ===== */
+const hamburgerBox = document.getElementById('hamburgerBox');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburgerBox?.addEventListener('click', () => { mobileMenu.classList.toggle('open'); hamburgerBox.classList.toggle('active'); });
+mobileMenu?.querySelectorAll('.mobile-nav-link').forEach(a => a.addEventListener('click', () => { mobileMenu.classList.remove('open'); hamburgerBox.classList.remove('active'); }));
+
+/* ============================================================
+   STATE
+============================================================ */
+let state = {
+  category: '', country: '', guests: '', search: '',
+  page: 1, limit: 12, sort: 'featured',
+  items: [], total: 0, loading: false
+};
+
+/* ============================================================
+   FETCH + RENDER
+============================================================ */
+async function fetchAccommodations(append = false) {
+  state.loading = true;
+  if (!append) renderSkeletons();
+
+  const params = new URLSearchParams();
+  if (state.category) params.set('category', state.category);
+  if (state.country) params.set('country', state.country);
+  if (state.guests) params.set('guests', state.guests);
+  if (state.search) params.set('search', state.search);
+  params.set('page', state.page);
+  params.set('limit', state.limit);
+
+  try {
+    const res = await fetch(`${API}/accommodations?${params.toString()}`);
+    if (!res.ok) throw new Error('Server error ' + res.status);
+    const data = await res.json();
+    let items = data.accommodations || [];
+
+    if (state.sort === 'price_asc') items = items.slice().sort((a, b) => a.pricePerNight - b.pricePerNight);
+    if (state.sort === 'price_desc') items = items.slice().sort((a, b) => b.pricePerNight - a.pricePerNight);
+    if (state.sort === 'rating') items = items.slice().sort((a, b) => (b.rating || 0) - (a.rating || 0));
+
+    state.items = append ? state.items.concat(items) : items;
+    state.total = data.total || state.items.length;
+
+    renderCards(state.items);
+    updateResultsHead();
+
+    const loadMoreWrap = document.getElementById('loadMoreWrap');
+    loadMoreWrap.style.display = state.items.length < state.total ? 'block' : 'none';
+  } catch (err) {
+    console.error(err);
+    document.getElementById('cardsGrid').innerHTML = `
+      <div class="empty-state">
+        <div class="ico"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h3>Couldn't load stays</h3>
+        <p>${esc(err.message)}. Please try again in a moment.</p>
+        <button class="btn-load-more" onclick="fetchAccommodations()">Retry</button>
+      </div>`;
+  } finally {
+    state.loading = false;
+  }
+}
+
+function updateResultsHead() {
+  const head = document.getElementById('resultsCount');
+  const label = state.category ? (CATEGORY_LABELS[state.category] || state.category) : 'stays';
+  head.innerHTML = `${state.total} ${label}${state.country ? ' in ' + esc(state.country) : ' across East Africa'}<span id="resultsSub">Prices shown per night, before taxes</span>`;
+}
+
+function renderSkeletons() {
+  const grid = document.getElementById('cardsGrid');
+  grid.innerHTML = Array.from({ length: 8 }).map(() => `
+    <div class="stay-card skeleton-card">
+      <div class="stay-card-img"></div>
+      <div class="sk-line" style="width:70%;"></div>
+      <div class="sk-line" style="width:45%;"></div>
+      <div class="sk-line" style="width:30%;"></div>
+    </div>`).join('');
+}
+
+function renderCards(items) {
+  const grid = document.getElementById('cardsGrid');
+  if (!items.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="ico"><i class="fa-solid fa-house-circle-xmark"></i></div>
+        <h3>No stays match your search</h3>
+        <p>Try a different location, fewer guests, or clear your filters.</p>
+        <button class="btn-load-more" onclick="resetFilters()">Clear filters</button>
+      </div>`;
+    return;
+  }
+  const wishlist = getWishlist();
+  grid.innerHTML = items.map(item => {
+    const cover = item.media?.images?.find(i => i.isCover) || item.media?.images?.[0];
+    const loc = [item.location?.region, item.location?.country].filter(Boolean).join(', ');
+    const isFav = (item.rating || 0) >= 4.8 && (item.reviewsCount || 0) >= 3;
+    const isSaved = wishlist.includes(item._id);
+    return `
+      <a class="stay-card" data-id="${item._id}" href="accommodation-detail.html?slug=${encodeURIComponent(item.slug)}">
+        <div class="stay-card-img">
+          <img src="${esc(cover?.url || FALLBACK_IMG)}" alt="${esc(item.name)}" onerror="this.src='${FALLBACK_IMG}'" loading="lazy" />
+          <span class="stay-card-badge">${esc(CATEGORY_LABELS[item.category] || item.category)}</span>
+          ${isFav ? `<span class="stay-card-fav"><i class="fa-solid fa-medal"></i> Guest favorite</span>` : ''}
+          <button class="stay-card-wish${isSaved ? ' saved' : ''}" aria-label="Save" onclick="event.preventDefault(); this.classList.toggle('saved', toggleWishlist('${item._id}'));"><i class="fa-regular fa-heart"></i></button>
+          ${item.rating ? `<span class="stay-card-rating"><i class="fa-solid fa-star"></i> ${item.rating.toFixed(1)}</span>` : ''}
+        </div>
+        <h4>${esc(item.name)}</h4>
+        <div class="stay-loc"><i class="fa-solid fa-location-dot" style="font-size:0.72rem;"></i> ${esc(loc || 'East Africa')}</div>
+        <div class="stay-price"><strong>${fmtMoney(item.pricePerNight)}</strong> <span>/ night · sleeps ${item.capacity?.maxGuests || 2}</span></div>
+      </a>`;
+  }).join('');
+}
+
+function resetFilters() {
+  state = Object.assign(state, { category: '', country: '', guests: '', search: '', page: 1 });
+  document.getElementById('fLocation').value = '';
+  document.getElementById('fGuests').value = '';
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.toggle('active', p.dataset.cat === ''));
+  fetchAccommodations();
+}
+
+/* ============================================================
+   EVENTS
+============================================================ */
+document.querySelectorAll('.cat-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    state.category = pill.dataset.cat;
+    state.page = 1;
+    fetchAccommodations();
+  });
+});
+
+document.getElementById('searchBtn').addEventListener('click', () => {
+  state.country = document.getElementById('fLocation').value.trim();
+  state.guests = document.getElementById('fGuests').value;
+  state.page = 1;
+  fetchAccommodations();
+});
+document.getElementById('fLocation').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('searchBtn').click(); });
+
+document.getElementById('sortSelect').addEventListener('change', e => {
+  state.sort = e.target.value;
+  renderCards(state.items);
+});
+
+document.getElementById('loadMoreBtn').addEventListener('click', () => {
+  state.page += 1;
+  fetchAccommodations(true);
+});
+
+/* Check-out date must be after check-in */
+document.getElementById('fCheckIn').addEventListener('change', function () {
+  const out = document.getElementById('fCheckOut');
+  out.min = this.value;
+  if (out.value && out.value <= this.value) out.value = '';
+});
+
+/* Set sensible default dates */
+(function setDefaultDates() {
+  const today = new Date();
+  const inDate = new Date(today); inDate.setDate(inDate.getDate() + 14);
+  const outDate = new Date(inDate); outDate.setDate(outDate.getDate() + 3);
+  document.getElementById('fCheckIn').min = today.toISOString().slice(0, 10);
+  document.getElementById('fCheckOut').min = inDate.toISOString().slice(0, 10);
+})();
+
+/* ============================================================
+   INIT
+============================================================ */
+fetchAccommodations();
+</script>
+
+</body>
+</html>

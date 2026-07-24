@@ -28,43 +28,45 @@ function confirmLogout(){ if(confirm('Are you sure you want to log out?')) logou
 
 /* ===== AUTH NAV UPDATE ===== */
 function updateNavForAuth() {
-  const navActions = document.querySelector('.nav-actions');
-
-  if (!navActions) return;
-
   const token = localStorage.getItem('wr_token');
   const userRaw = localStorage.getItem('wr_user');
-
-  if (!token || !userRaw) {
-    navActions.innerHTML = ''; // reset UI
-    return;
-  }
-
+  const navActions = document.querySelector('.nav-actions');
+  if (!navActions || !token || !userRaw) return;
   try {
     const user = JSON.parse(userRaw);
     const firstName = user.firstName || user.name?.split(' ')[0] || 'Traveler';
-
     const hour = new Date().getHours();
-    const greeting =
-      hour < 12 ? 'Good morning' :
-      hour < 17 ? 'Good afternoon' :
-      'Good evening';
-
+    const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
     navActions.innerHTML = `
-      <span style="font-weight:600; color:#2d7a3a;">
-        ${greeting}, ${firstName} 👋
-      </span>
-      <a href="my-portal.html" class="btn btn-outline-dark btn-sm" style="margin-left:10px;">My Portal</a>
-      <a onclick="confirmLogout()" class="btn btn-outline-dark btn-sm" style="margin-left:12px; cursor:pointer;">
-        Logout
-      </a>
-    `;
-  } catch (e) {
+      <div class="user-chip" id="userChipBtn">
+        <div class="avatar">${firstName[0] || 'T'}</div>
+        <span class="greeting">${greeting}, ${firstName}</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+      <div class="user-menu" id="userMenu">
+        <a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>
+        <a href="my-portal.html#applications"><i class="fa-solid fa-clipboard-list"></i> My Applications</a>
+        <div class="divider"></div>
+        <button onclick="if(confirm('Are you sure you want to log out?')){localStorage.removeItem('wr_token');localStorage.removeItem('wr_user');window.location.href='login.html';}"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </div>`;
+    
+    const chip = document.getElementById('userChipBtn');
+    const menu = document.getElementById('userMenu');
+    if (chip && menu) {
+      chip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = menu.classList.toggle('open');
+        chip.classList.toggle('open', isOpen);
+      });
+      document.addEventListener('click', (e) => {
+        if (!navActions.contains(e.target)) { menu.classList.remove('open'); chip.classList.remove('open'); }
+      });
+    }
+  } catch(e) {
     localStorage.removeItem('wr_user');
     localStorage.removeItem('wr_token');
   }
 }
-
 
 
 

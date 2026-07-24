@@ -262,11 +262,11 @@ html, body {
   }
   /* Logo colors */
   .navbar .logo-text .line1 {
-    color: rgba(255,255,255,0.7);
+    color: #e8c565;
     transition: color 0.3s ease;
   }
   .navbar.scrolled .logo-text .line1 {
-    color: #98a2b3 !important;
+    color: #e8c565 !important;
   }
   .navbar .logo-text .line2 {
     color: #ffffff;
@@ -569,14 +569,15 @@ html, body {
     <div class="logo-icon">🌍</div>
     <span class="logo-text">
       <span class="line1">International</span>
-      <span class="line2">Volunteer <em>Home Tz</em></span>
-      <span class="line2-short">Volunteer <em>Home Tz</em></span>
+      <span class="line2">Volunteer <em>HT</em></span>
+      <span class="line2-short">Volunteer <em>HT</em></span>
     </span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link">Home</a></li>
     <li><a href="volunteer.html" class="nav-link active">Volunteer</a></li>
     <li><a href="tours.html" class="nav-link">Safaris</a></li>
+    <li><a href="accommodation.html" class="nav-link">Stays</a></li>
     <li><a href="community.html" class="nav-link">Community</a></li>
     <li><a href="about.html" class="nav-link">About</a></li>
     <li><a href="blog.html" class="nav-link">Blog</a></li>
@@ -605,6 +606,7 @@ html, body {
   <a href="index.html" class="mobile-nav-link"><i class="fas fa-house"></i> Home</a>
   <a href="volunteer.html" class="mobile-nav-link"><i class="fas fa-leaf"></i> Volunteer</a>
   <a href="tours.html" class="mobile-nav-link"><i class="fas fa-map"></i> Safaris</a>
+  <a href="accommodation.html" class="mobile-nav-link"><i class="fas fa-map"></i> Stays</a>
   <a href="community.html" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> Community</a>
   <a href="about.html" class="mobile-nav-link"><i class="fas fa-users"></i> About Us</a>
   <a href="blog.html" class="mobile-nav-link"><i class="fas fa-blog"></i> Blog</a>
@@ -621,10 +623,11 @@ html, body {
     <div class="breadcrumb"><a href="index.html">Home</a> › <span>Volunteer</span></div>
     <div class="vol-eyebrow">Volunteer With Purpose</div>
     <h1>Pick a cause. We'll match you with the placement.</h1>
-    <p>Every International Volunteer Home Tz program is run by local partners — Swahili coastal cooperatives, Chagga farming communities, Kikuyu and Luo neighborhood groups, and Maasai and Waarusha organizations near Arusha — not agencies. So your time and your fee go directly into the community you join. Choose a category below to see real, open placements.</p>
-    <div class="vol-trust">
-      <span class="trust-pill"><i class="fa-solid fa-star"></i> Excellent 4.9 / 5</span>
-      <span class="trust-source"><i class="fa-solid fa-shield-heart"></i> 3,200+ Verified Reviews</span>
+    <p>
+Every International Volunteer HT program is designed with trusted local partners and focused on creating meaningful impact. Your time and contribution support real projects in wildlife conservation, education, healthcare, environmental protection, and community development. Choose a category below to explore available volunteer placements.
+</p>
+      <span class="trust-pill"><i class="fa-solid fa-star"></i> Excellent 4.4 / 5</span>
+      <span class="trust-source"><i class="fa-solid fa-shield-heart"></i> 100+ Verified Reviews</span>
     </div>
     <div class="vol-hero-actions">
       <a href="#categories" class="btn btn-primary btn-lg">Browse Categories</a>
@@ -637,8 +640,8 @@ html, body {
 <div class="mobile-quickpanel">
   <div class="mqp-stats">
     <div class="mqp-stat"><i class="fa-solid fa-seedling"></i><span class="n">15+</span><span class="l">Programs</span></div>
-    <div class="mqp-stat"><i class="fa-solid fa-earth-africa"></i><span class="n">12</span><span class="l">Countries</span></div>
-    <div class="mqp-stat"><i class="fa-solid fa-suitcase"></i><span class="n">2–24</span><span class="l">Weeks</span></div>
+    <div class="mqp-stat"><i class="fa-solid fa-earth-africa"></i><span class="n">3</span><span class="l">Countries</span></div>
+    <div class="mqp-stat"><i class="fa-solid fa-suitcase"></i><span class="n">2–6</span><span class="l">Weeks</span></div>
   </div>
   <a class="mqp-dropdown" href="volunteer.html">
     <div>
@@ -649,8 +652,8 @@ html, body {
   </a>
   <a class="mqp-dropdown" href="volunteer.html#categories">
     <div>
-      <div class="mqp-dd-title">What do you want to do?</div>
-      <div class="mqp-dd-sub">Select the causes you care about</div>
+      <div class="mqp-dd-title">Choose your program</div>
+<div class="mqp-dd-sub">Find a volunteer opportunity</div>
     </div>
     <i class="fa-solid fa-chevron-down"></i>
   </a>
@@ -660,7 +663,7 @@ html, body {
 <!-- STATS STRIP -->
 <div class="stats-strip" id="statsStrip">
   <div>
-    <div class="stat-num" data-target="1200">0</div>
+    <div class="stat-num" data-target="100">0</div>
     <div class="stat-label">Volunteers Placed</div>
   </div>
   <div>
@@ -678,21 +681,32 @@ html, body {
 </div>
 
 <!-- CATEGORIES -->
+<!-- CATEGORIES -->
 <section class="vol-section" id="categories">
   <div class="vol-section-inner">
     <div class="section-head">
       <div class="vol-eyebrow">Five Ways To Help</div>
       <h2>Find your category</h2>
-      <p>Each category links to its own program listing, pulled live from our placements database — so you're only ever looking at trips that are actually open for booking.</p>
+      <p>Each category links to its own program listing, pulled live from our placements database — so you're only ever looking at volunteer opportunities that are available for booking.</p>
     </div>
 
     <div class="cat-grid" id="catGrid">
+
+      <!-- Environment & Wildlife Conservation -->
       <a class="cat-card" data-cat="wildlife" href="category.html?cat=wildlife">
-        <img src="https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=700&auto=format&fit=crop" alt="Wildlife conservation volunteering with East African rangers" onerror="this.src='https://images.unsplash.com/photo-1521651201144-634f700b36ef?w=700&auto=format&fit=crop'"/>
+         class="cat-teaser" href="category.html?cat=wildlife">
+         <img
+  src="images/wildlife.jpg"
+  alt="Environment & Wildlife Conservation"
+  loading="lazy"
+/>
         <div class="cat-card-body">
           <div class="cat-icon-badge"><i class="fa-solid fa-paw"></i></div>
-          <h3>Wildlife Conservation</h3>
-          <p>Monitor, rescue and protect Africa's most iconic species alongside field rangers, local game scouts and vets.</p>
+          <h3>Environment & Wildlife Conservation</h3>
+          <p>
+            Support wildlife protection, habitat restoration, conservation research,
+            and environmental projects alongside conservation teams across Tanzania.
+          </p>
           <div class="cat-meta">
             <span class="cat-count"><span class="n" data-count="wildlife">–</span> programs</span>
             <span class="cat-arrow">Explore <i class="fa-solid fa-arrow-right"></i></span>
@@ -700,12 +714,21 @@ html, body {
         </div>
       </a>
 
+
+      <!-- Education -->
       <a class="cat-card" data-cat="education" href="category.html?cat=education">
-        <img src="https://images.unsplash.com/photo-1497375638960-ca80c1a5c9c4?w=700&auto=format&fit=crop" alt="Education volunteering with East African schoolchildren" onerror="this.src='https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=700&auto=format&fit=crop'"/>
+         <img
+  src="images/education.jpg"
+  alt="Education"
+  loading="lazy"
+/>
         <div class="cat-card-body">
           <div class="cat-icon-badge"><i class="fa-solid fa-book"></i></div>
           <h3>Education</h3>
-          <p>Teach, mentor and build learning materials in under-resourced schools and youth centers across the region.</p>
+          <p>
+            Teach, mentor students, support classrooms, and help improve learning
+            opportunities in schools and youth education programs.
+          </p>
           <div class="cat-meta">
             <span class="cat-count"><span class="n" data-count="education">–</span> programs</span>
             <span class="cat-arrow">Explore <i class="fa-solid fa-arrow-right"></i></span>
@@ -713,12 +736,21 @@ html, body {
         </div>
       </a>
 
+
+      <!-- Healthcare -->
       <a class="cat-card" data-cat="healthcare" href="category.html?cat=healthcare">
-        <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?w=700&auto=format&fit=crop" alt="Healthcare volunteering in an East African community" onerror="this.src='https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=700&auto=format&fit=crop'"/>
+        <img 
+          src="https://images.unsplash.com/photo-1584515933487-779824d29309?w=700&auto=format&fit=crop"
+          alt="Healthcare volunteer supporting medical care in East Africa"
+          loading="lazy"
+        />
         <div class="cat-card-body">
           <div class="cat-icon-badge"><i class="fa-solid fa-heart-pulse"></i></div>
           <h3>Healthcare</h3>
-          <p>Support clinic staff, health outreach camps and maternal-care programs in rural and coastal communities alike.</p>
+          <p>
+            Assist healthcare professionals through clinics, health education,
+            outreach programs, and medical support initiatives.
+          </p>
           <div class="cat-meta">
             <span class="cat-count"><span class="n" data-count="healthcare">–</span> programs</span>
             <span class="cat-arrow">Explore <i class="fa-solid fa-arrow-right"></i></span>
@@ -726,12 +758,21 @@ html, body {
         </div>
       </a>
 
+
+      <!-- Women & Girls Empowerment -->
       <a class="cat-card" data-cat="environment" href="category.html?cat=environment">
-        <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=700&auto=format&fit=crop" alt="Environmental volunteering in East Africa" onerror="this.src='https://images.unsplash.com/photo-1516214104703-d870798883c5?w=700&auto=format&fit=crop'"/>
+        <img
+  src="images/women.jpg"
+  alt="Women & Girls Empowerment"
+  loading="lazy"
+/> 
         <div class="cat-card-body">
-          <div class="cat-icon-badge"><i class="fa-solid fa-leaf"></i></div>
-          <h3>Environment</h3>
-          <p>Restore forests, protect the Rift Valley's watersheds and run climate-resilience projects with local trusts.</p>
+          <div class="cat-icon-badge"><i class="fa-solid fa-venus"></i></div>
+          <h3>Women & Girls Empowerment</h3>
+          <p>
+            Support initiatives focused on education, skills development,
+            entrepreneurship, and creating opportunities for women and girls.
+          </p>
           <div class="cat-meta">
             <span class="cat-count"><span class="n" data-count="environment">–</span> programs</span>
             <span class="cat-arrow">Explore <i class="fa-solid fa-arrow-right"></i></span>
@@ -739,52 +780,87 @@ html, body {
         </div>
       </a>
 
+
+      <!-- Community Development -->
       <a class="cat-card" data-cat="community" href="category.html?cat=community">
-        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=700&auto=format&fit=crop" alt="Community development volunteering with East African families" onerror="this.src='https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=700&auto=format&fit=crop'"/>
+        <img
+  src="images/hero.jpg"
+  alt="Community development volunteering in Tanzania"
+  loading="lazy"
+/>
         <div class="cat-card-body">
           <div class="cat-icon-badge"><i class="fa-solid fa-hands-helping"></i></div>
           <h3>Community Development</h3>
-          <p>Work on construction, clean-water and livelihood projects led by East African communities themselves.</p>
+          <p>
+            Take part in sustainable projects supporting clean water,
+            construction, livelihoods, and community-led development.
+          </p>
           <div class="cat-meta">
             <span class="cat-count"><span class="n" data-count="community">–</span> programs</span>
             <span class="cat-arrow">Explore <i class="fa-solid fa-arrow-right"></i></span>
           </div>
         </div>
       </a>
+
     </div>
   </div>
 </section>
 
+
 <!-- EAST AFRICA SPOTLIGHT -->
+<!-- VOLUNTEER EXPERIENCE SPOTLIGHT -->
 <section class="vol-section">
   <div class="vol-section-inner">
+
     <div class="maasai-spotlight">
+
       <div class="maasai-spotlight-imgs">
-        <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=700&auto=format&fit=crop" alt="East African family, northern Tanzania" loading="lazy"/>
-        <img src="https://images.unsplash.com/photo-1590650046871-92c887180603?w=500&auto=format&fit=crop" alt="East African children" loading="lazy"/>
-        <img src="https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=500&auto=format&fit=crop" alt="East African women at a community gathering" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=700&auto=format&fit=crop" alt="Volunteer working on community project" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=500&auto=format&fit=crop" alt="Volunteer education project" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=500&auto=format&fit=crop" alt="Environmental volunteer project" loading="lazy"/>
       </div>
+
       <div class="maasai-spotlight-copy">
-        <div class="vol-eyebrow" style="color:var(--forest,#1a3c2e);">Who You'll Work With</div>
-        <h3>Placements built around the many communities of East Africa</h3>
-        <p>Our programs span far more than one culture. Around Arusha you'll meet Waarusha farmers and Maasai pastoralists; near Kilimanjaro, Chagga coffee-growing communities; on the coast, Swahili fishing towns; and in and around the region's cities, Kikuyu, Luo, Kalenjin and many other neighbors. You'll work alongside local staff — not just visit them — on projects the community itself has asked for.</p>
-        <p>Home-stays are optional but popular: many volunteers spend at least part of their placement living with a local family — of whichever community hosts that placement — sharing meals, daily chores, and evening conversation in Swahili.</p>
-        <div class="maasai-fact-row">
-          <div class="maasai-fact"><div class="num">40+</div><div class="lbl">Partner Communities</div></div>
-          <div class="maasai-fact"><div class="num">9+</div><div class="lbl">Local Languages Spoken by Staff</div></div>
-          <div class="maasai-fact"><div class="num">100%</div><div class="lbl">Locally Hired Coordinators</div></div>
+
+        <div class="vol-eyebrow" style="color:var(--forest,#1a3c2e);">
+          Your Volunteer Experience
         </div>
+
+        <h3>
+          Make a meaningful impact through hands-on volunteering
+        </h3>
+
+        <p>
+          Our volunteer programs connect passionate travelers with carefully selected projects across Tanzania and East Africa. Whether you choose wildlife conservation, education, healthcare, environmental protection, or community development, you will receive guidance and support throughout your journey.
+        </p>
+
+        <p>
+          From your arrival and orientation to your daily project activities, our team ensures you have a safe, rewarding, and memorable experience while contributing to projects that create positive change.
+        </p>
+
+        <div class="maasai-fact-row">
+
+          <div class="maasai-fact">
+            <div class="num">15+</div>
+            <div class="lbl">Volunteer Programs</div>
+          </div>
+
+          <div class="maasai-fact">
+            <div class="num">24/7</div>
+            <div class="lbl">Volunteer Support</div>
+          </div>
+
+          <div class="maasai-fact">
+            <div class="num">100%</div>
+            <div class="lbl">Dedicated Local Team</div>
+          </div>
+
+        </div>
+
       </div>
+
     </div>
 
-    <div class="communities-strip">
-      <div class="community-chip"><div class="ico">🌊</div><div class="nm">Swahili</div><div class="rg">Coast</div></div>
-      <div class="community-chip"><div class="ico">⛰️</div><div class="nm">Chagga</div><div class="rg">Kilimanjaro</div></div>
-      <div class="community-chip"><div class="ico">🏙️</div><div class="nm">Kikuyu</div><div class="rg">Central Kenya</div></div>
-      <div class="community-chip"><div class="ico">🌾</div><div class="nm">Luo</div><div class="rg">Lake Victoria</div></div>
-      <div class="community-chip"><div class="ico">🏃</div><div class="nm">Kalenjin</div><div class="rg">Rift Valley</div></div>
-      <div class="community-chip"><div class="ico">🐄</div><div class="nm">Maasai</div><div class="rg">Arusha & Mara</div></div>
-    </div>
   </div>
 </section>
 
@@ -792,7 +868,7 @@ html, body {
 <section class="vol-section">
   <div class="vol-section-inner">
     <div class="section-head">
-      <div class="vol-eyebrow">Why International Volunteer Home Tz</div>
+      <div class="vol-eyebrow">Why International Volunteer HT</div>
       <h2>Built for impact, not just itineraries</h2>
     </div>
     <div class="why-grid">
@@ -809,7 +885,7 @@ html, body {
       <div class="why-card">
         <i class="fa-solid fa-sliders"></i>
         <h4>Flexible duration</h4>
-        <p>Placements run from 2 to 24 weeks, so you can volunteer around your studies, career or travel plans.</p>
+        <p>Placements run from 2 to 6 weeks, so you can volunteer around your studies, career or travel plans.</p>
       </div>
       <div class="why-card">
         <i class="fa-solid fa-chart-line"></i>
@@ -885,9 +961,10 @@ html, body {
     </div>
     <div class="faq-list" id="faqList">
       <div class="faq-item">
-        <div class="faq-q">Do I need to speak Swahili or a local language? <i class="fa-solid fa-plus"></i></div>
-        <div class="faq-a"><p>No. Orientation includes basic Swahili for every volunteer, plus a few essential phrases in the local language of your specific placement — whether that's Maa, Chagga, Luo or another. Most coordinators and host families speak conversational English.</p></div>
-      </div>
+        <div class="faq-q">Do I need previous experience to volunteer? <i class="fa-solid fa-plus"></i></div>
+        <div class="faq-a"><p>
+No previous experience is required for most programs. Our team provides orientation, training, and guidance before you begin your placement. Some specialized projects may require specific skills or qualifications.
+</p></div>
       <div class="faq-item">
         <div class="faq-q">Will I stay with a local family? <i class="fa-solid fa-plus"></i></div>
         <div class="faq-a"><p>It depends on the program and your preference. Many placements offer optional home-stays with local host families — Maasai, Chagga, Swahili or otherwise, depending on the community that hosts the project; others use a shared volunteer house. This is confirmed before you book.</p></div>
@@ -936,7 +1013,7 @@ html, body {
     <div class="footer-brand">
       <a href="index.html" class="logo" style="color:var(--white)">
         <div class="logo-icon">🌍</div>
-        International <span>Volunteer Home Tz</span>
+        International <span>Volunteer HT</span>
       </a>
       <p>Creating meaningful connections between people, wildlife, and the stunning landscapes of Africa since 2014.</p>
     </div>
@@ -969,7 +1046,7 @@ html, body {
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 International Volunteer Home Tz. All rights reserved. Licensed Eco-Tourism Operator.</p>
+    <p>© 2026 International Volunteer HT. All rights reserved. Licensed Eco-Tourism Operator.</p>
     <p>🌍 Committed to sustainable tourism, wildlife conservation & community development</p>
   </div>
 </footer>

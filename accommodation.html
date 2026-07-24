@@ -10,6 +10,17 @@
 <link rel="stylesheet" href="css/style.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <style>
+  * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
 :root {
   --forest: #1a3c2e;
   --forest-light: #2d6a4f;
@@ -226,8 +237,8 @@ body { font-family: 'Inter', sans-serif; color: var(--ink); }
     <div class="logo-icon">🌍</div>
     <span class="logo-text">
       <span class="line1">International</span>
-      <span class="line2">Volunteer <em>Home Tz</em></span>
-      <span class="line2-short">Volunteer <em>Home Tz</em></span>
+      <span class="line2">Volunteer <em>HT</em></span>
+      <span class="line2-short">Volunteer <em>HT</em></span>
     </span>
   </a>
   <ul class="nav-links">
@@ -325,7 +336,7 @@ body { font-family: 'Inter', sans-serif; color: var(--ink); }
 </div>
 
 <div id="toast" class="toast"></div>
-
+<script src="whatsapp-widget.js"></script>
 <script>
 const API = 'https://wild-tours.onrender.com/api';
 const FALLBACK_IMG = 'https://images.unsplash.com/photo-1544906519-70c67c17ef3e?w=700&auto=format&fit=crop';

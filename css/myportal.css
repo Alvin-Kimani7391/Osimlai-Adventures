@@ -1,0 +1,663 @@
+/* ===== ADD THIS TO YOUR EXISTING CSS ===== */
+/* ===== OR REPLACE THE MEDIA QUERY SECTION ===== */
+
+/* ===== PHONE-SIZE RESPONSIVE OVERRIDES ===== */
+@media (max-width: 600px) {
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+  img, svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* ----- HERO ----- */
+  .portal-hero {
+    padding: 70px 0 40px;
+  }
+  .portal-hero-inner {
+    padding: 0 16px;
+    gap: 12px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .portal-hero-text h1 {
+    font-size: 1.25rem;
+  }
+  .portal-hero-text p {
+    font-size: 0.78rem;
+  }
+  .portal-hero-user {
+    width: 100%;
+    padding: 10px 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .portal-avatar-lg {
+    width: 38px;
+    height: 38px;
+    font-size: 0.85rem;
+  }
+  .portal-user-info strong {
+    font-size: 0.8rem;
+  }
+  .portal-user-info span {
+    font-size: 0.65rem;
+  }
+  .portal-user-badge {
+    font-size: 0.6rem;
+    padding: 1px 7px;
+  }
+
+  /* ----- STATS ----- */
+  .portal-stats {
+    grid-template-columns: 1fr 1fr;
+    padding: 0 12px;
+    gap: 8px;
+    margin-top: -14px;
+  }
+  .pstat {
+    padding: 10px 10px;
+    gap: 8px;
+    border-radius: 10px;
+  }
+  .pstat-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .pstat-num {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  .pstat-label {
+    font-size: 0.58rem;
+    margin-top: 1px;
+  }
+
+  /* ----- BODY LAYOUT ----- */
+  .portal-body {
+    padding: 0 12px;
+    margin: 16px auto 40px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* ----- SIDEBAR (horizontal scroll) ----- */
+  .portal-sidebar {
+    position: static;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sidebar-card {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    border-radius: 10px;
+    padding: 2px;
+    gap: 2px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  .sidebar-card .sidebar-nav-item {
+    white-space: nowrap;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 6px 14px;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    border-bottom: 2px solid transparent;
+    margin-right: 4px;
+  }
+  .sidebar-card .sidebar-nav-item.active {
+    border-bottom-color: var(--forest-light);
+    background: var(--forest-pale);
+    border-left-color: transparent;
+  }
+  .sidebar-card .sidebar-nav-item .snav-badge {
+    font-size: 0.55rem;
+    padding: 0 6px;
+  }
+  .sidebar-help {
+    display: none !important;
+  }
+
+  /* ----- PANEL HEADER ----- */
+  .panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .panel-header h2 {
+    font-size: 0.95rem;
+  }
+  .panel-header p {
+    font-size: 0.7rem;
+  }
+
+  /* ----- TYPE TABS (full width) ----- */
+  .type-tabs {
+    width: 100%;
+    border-radius: 30px;
+    padding: 3px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  .type-tab {
+    padding: 5px 10px;
+    font-size: 0.68rem;
+    flex: 1 0 auto;
+    justify-content: center;
+    min-width: 70px;
+  }
+  .type-tab .tt-count {
+    font-size: 0.55rem;
+    padding: 0 5px;
+  }
+
+  /* ----- FILTER CHIPS ----- */
+  .filter-chips {
+    gap: 5px;
+    padding-bottom: 2px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chip {
+    padding: 4px 10px;
+    font-size: 0.65rem;
+    flex-shrink: 0;
+  }
+
+  /* ===== BOOKING CARDS (MOBILE) ===== */
+  .booking-card {
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  }
+
+  /* top: stack vertically */
+  .bc-top {
+    flex-direction: column !important;
+  }
+
+  /* image: full width */
+  .bc-img-wrap,
+  .bc-img-placeholder {
+    width: 100% !important;
+    height: 130px !important;
+    flex-shrink: 0;
+  }
+  .bc-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .bc-img-placeholder {
+    font-size: 2rem;
+  }
+  .bc-type-flag {
+    font-size: 0.5rem;
+    padding: 2px 8px;
+    top: 4px;
+    left: 4px;
+  }
+
+  /* main body */
+  .bc-main {
+    padding: 10px 12px !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+  }
+  .bc-info {
+    width: 100%;
+    flex: none;
+  }
+  .bc-tour-name {
+    font-size: 0.85rem !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    margin-bottom: 2px;
+  }
+  .bc-meta-row {
+    gap: 4px 8px !important;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+  .bc-meta-item {
+    font-size: 0.65rem !important;
+  }
+  .bc-meta-item i {
+    font-size: 0.6rem;
+  }
+  .bc-badges {
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-size: 0.55rem !important;
+    padding: 2px 8px !important;
+  }
+  .badge::before {
+    width: 4px;
+    height: 4px;
+  }
+
+  /* right area: row layout */
+  .bc-right {
+    flex-direction: row !important;
+    align-items: center !important;
+    width: 100%;
+    justify-content: space-between;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .bc-amount {
+    font-size: 0.95rem !important;
+  }
+  .bc-ref {
+    font-size: 0.6rem !important;
+  }
+  .bc-chevron {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 0.6rem !important;
+    margin-top: 0 !important;
+  }
+
+  /* expand inner */
+  .bc-expand-inner {
+    padding: 10px 12px !important;
+  }
+
+  /* ----- STAY QUICK GRID (2 columns) ----- */
+  .stay-quickgrid {
+    grid-template-columns: 1fr 1fr !important;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .stay-quickcell {
+    padding: 6px 4px;
+    border-right: 1px solid var(--border);
+  }
+  .stay-quickcell:nth-child(2) { border-right: none; }
+  .stay-quickcell:nth-child(3),
+  .stay-quickcell:nth-child(4) {
+    border-top: 1px solid var(--border);
+  }
+  .stay-quickcell:nth-child(4) { border-right: none; }
+  .sqc-label {
+    font-size: 0.5rem;
+  }
+  .sqc-value {
+    font-size: 0.7rem;
+  }
+
+  /* ----- DETAIL GRID (single column) ----- */
+  .detail-grid {
+    grid-template-columns: 1fr !important;
+    gap: 6px 0 !important;
+    margin-bottom: 10px;
+  }
+  .detail-item {
+    padding: 2px 0;
+  }
+  .detail-label {
+    font-size: 0.55rem;
+  }
+  .detail-value {
+    font-size: 0.75rem;
+  }
+
+  /* ----- PAYMENT BAR ----- */
+  .pay-bar-wrap {
+    padding: 10px 12px !important;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .pay-bar-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 2px;
+    font-size: 0.7rem;
+  }
+  .pay-bar-title {
+    font-size: 0.7rem;
+  }
+  .pay-bar-amounts {
+    font-size: 0.7rem;
+  }
+  .pbar-track {
+    height: 5px;
+  }
+  .pbar-labels {
+    font-size: 0.6rem;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+
+  /* ----- TIMELINE (mobile) ----- */
+  .timeline-wrap {
+    margin-bottom: 10px;
+  }
+  .timeline-title {
+    font-size: 0.6rem;
+    margin-bottom: 8px;
+  }
+  .tl-steps {
+    row-gap: 10px !important;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .tl-steps::before {
+    display: none !important;
+  }
+  .tl-step {
+    min-width: 20% !important;
+    flex: 1 0 20% !important;
+    max-width: 25%;
+  }
+  .tl-dot {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 0.5rem !important;
+  }
+  .tl-label {
+    font-size: 0.55rem !important;
+  }
+  .tl-date {
+    font-size: 0.5rem !important;
+  }
+
+  /* ----- ACTIONS ----- */
+  .bc-actions {
+    gap: 5px !important;
+  }
+  .btn-action {
+    padding: 5px 10px !important;
+    font-size: 0.65rem !important;
+    border-radius: 6px;
+    gap: 4px;
+  }
+  .btn-action i {
+    font-size: 0.6rem;
+  }
+
+  /* ===== VOLUNTEER APP CARDS ===== */
+  .app-card {
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .ac-top {
+    padding: 10px 12px !important;
+    gap: 8px !important;
+    align-items: flex-start;
+  }
+  .ac-icon {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 1rem !important;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .ac-title {
+    font-size: 0.82rem !important;
+  }
+  .ac-meta {
+    gap: 4px 8px !important;
+    font-size: 0.62rem !important;
+  }
+  .ac-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .ac-meta i {
+    font-size: 0.6rem;
+  }
+  .ac-right {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+  .ac-fee {
+    font-size: 0.85rem !important;
+  }
+  .ac-ref {
+    font-size: 0.55rem !important;
+  }
+  .ac-expand-inner {
+    padding: 10px 12px !important;
+  }
+
+  /* ----- PROGRESS STEPPER (mobile) ----- */
+  .progress-stepper {
+    gap: 2px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .progress-stepper::before {
+    display: none !important;
+  }
+  .ps-step {
+    min-width: 18% !important;
+    flex: 1 0 18% !important;
+    max-width: 25%;
+    gap: 4px;
+  }
+  .ps-dot {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 0.5rem !important;
+  }
+  .ps-label {
+    font-size: 0.5rem !important;
+  }
+
+  /* ----- ALERTS ----- */
+  .alert {
+    padding: 8px 10px !important;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    gap: 8px;
+    font-size: 0.7rem;
+  }
+  .alert h5 {
+    font-size: 0.75rem;
+  }
+  .alert p {
+    font-size: 0.65rem;
+  }
+  .alert-icon {
+    font-size: 0.9rem;
+  }
+
+  /* ----- MOTIVATION BLOCK ----- */
+  .motivation-block {
+    padding: 8px 12px !important;
+    font-size: 0.7rem !important;
+    margin-bottom: 10px;
+  }
+  .motivation-block::before,
+  .motivation-block::after {
+    font-size: 1.2rem !important;
+    vertical-align: -8px !important;
+  }
+
+  /* ----- SECTION DIVIDER ----- */
+  .section-divider {
+    font-size: 0.55rem !important;
+    margin: 10px 0 6px !important;
+    gap: 6px;
+  }
+
+  /* ----- PILLS ----- */
+  .pill {
+    font-size: 0.6rem !important;
+    padding: 1px 8px !important;
+    margin: 1px;
+  }
+
+  /* ----- EMPTY STATE ----- */
+  .empty-state {
+    padding: 30px 16px !important;
+    border-radius: 10px;
+  }
+  .empty-icon {
+    font-size: 2rem !important;
+    margin-bottom: 8px;
+  }
+  .empty-state h3 {
+    font-size: 0.9rem !important;
+  }
+  .empty-state p {
+    font-size: 0.7rem !important;
+    max-width: 100%;
+    margin: 4px auto 12px;
+  }
+
+  /* ----- MODAL (full width) ----- */
+  .modal-box {
+    padding: 16px !important;
+    max-width: 100% !important;
+    border-radius: 12px;
+  }
+  .modal-header h3 {
+    font-size: 0.85rem !important;
+  }
+  .modal-sub {
+    font-size: 0.7rem !important;
+    margin-bottom: 12px;
+  }
+  .modal-fields {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    margin-top: 10px;
+  }
+  .modal-field label {
+    font-size: 0.6rem !important;
+  }
+  .modal-field input {
+    font-size: 0.75rem !important;
+    padding: 7px 10px !important;
+  }
+  .upload-zone {
+    padding: 16px 12px !important;
+  }
+  .upload-zone-icon {
+    font-size: 1.5rem !important;
+  }
+  .upload-zone h4 {
+    font-size: 0.75rem !important;
+  }
+  .upload-zone p {
+    font-size: 0.65rem !important;
+  }
+  .modal-footer {
+    margin-top: 12px;
+    gap: 6px;
+  }
+  .modal-footer .btn {
+    font-size: 0.7rem !important;
+    padding: 6px 14px !important;
+  }
+
+  /* ----- TOAST ----- */
+  .toast-stack {
+    bottom: 12px;
+    right: 12px;
+    left: 12px;
+    max-width: 100%;
+  }
+  .toast-item {
+    padding: 8px 14px !important;
+    font-size: 0.72rem !important;
+    min-width: unset !important;
+    border-radius: 8px;
+  }
+
+  /* ----- BTN (general) ----- */
+  .btn {
+    font-size: 0.75rem !important;
+    padding: 6px 14px !important;
+    border-radius: 8px;
+  }
+
+  /* ----- STAY LOCATION LINK ----- */
+  .stay-location-link {
+    font-size: 0.65rem !important;
+    margin-bottom: 8px;
+  }
+
+  /* ----- EXTRA TIGHT (400px and below) ----- */
+  @media (max-width: 400px) {
+    .portal-stats {
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+    .pstat {
+      padding: 8px 6px;
+    }
+    .pstat-icon {
+      width: 26px;
+      height: 26px;
+      font-size: 0.7rem;
+    }
+    .pstat-num {
+      font-size: 0.9rem;
+    }
+    .pstat-label {
+      font-size: 0.5rem;
+    }
+
+    .bc-img-wrap,
+    .bc-img-placeholder {
+      height: 110px !important;
+    }
+    .bc-tour-name {
+      font-size: 0.78rem !important;
+    }
+    .bc-main {
+      padding: 8px 10px !important;
+    }
+    .bc-amount {
+      font-size: 0.85rem !important;
+    }
+    .badge {
+      font-size: 0.5rem !important;
+      padding: 1px 6px !important;
+    }
+
+    .stay-quickcell .sqc-value {
+      font-size: 0.65rem;
+    }
+    .detail-value {
+      font-size: 0.7rem;
+    }
+    .btn-action {
+      font-size: 0.58rem !important;
+      padding: 4px 8px !important;
+    }
+    .ac-title {
+      font-size: 0.75rem !important;
+    }
+    .ac-meta {
+      font-size: 0.55rem !important;
+    }
+    .ac-fee {
+      font-size: 0.75rem !important;
+    }
+  }
+}

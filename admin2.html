@@ -372,6 +372,268 @@
     @media(max-width:1100px){.stats-row{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.three-col{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.stats-row{grid-template-columns:1fr 1fr}.content{padding:16px}.settings-grid{grid-template-columns:1fr}}
     @media(max-width:480px){.stats-row{grid-template-columns:1fr}}
+
+
+
+  /* ── Accommodation booking detail styling ── */
+.stay-property-card{display:flex;gap:14px;align-items:center;padding:14px 16px;background:var(--surface-2);border-bottom:1px solid var(--border)}
+.stay-property-card img{width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;background:var(--border)}
+.stay-property-card .spc-body{flex:1;min-width:0}
+.stay-property-card .spc-body h4{font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.stay-property-card .spc-meta{display:flex;gap:8px;flex-wrap:wrap;font-size:.75rem;color:var(--text-muted)}
+.stay-property-card .spc-link{font-size:.75rem;font-weight:700;color:var(--forest);text-decoration:none;white-space:nowrap;flex-shrink:0}
+.stay-info-grid{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border)}
+.stay-info-cell{padding:12px 14px;border-right:1px solid var(--border-subtle);text-align:center}
+.stay-info-cell:last-child{border-right:none}
+.stay-info-cell .sic-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);margin-bottom:4px}
+.stay-info-cell .sic-value{font-size:.9rem;font-weight:800;color:var(--text)}
+@media(max-width:520px){.stay-info-grid{grid-template-columns:repeat(2,1fr)}}
+
+.acc-booking-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;transition:var(--transition)}
+.acc-booking-card:hover{box-shadow:var(--shadow-sm)}
+.acc-booking-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.acc-booking-guest{font-size:.86rem;font-weight:700;color:var(--text)}
+.acc-booking-email{font-size:.74rem;color:var(--text-muted)}
+.acc-booking-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:.78rem;color:var(--text-2);margin-bottom:12px}
+.acc-booking-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:10px;border-top:1px solid var(--border-subtle)}
+
+
+.main, .content { overflow-x: hidden; }
+.card, .two-col > *, .three-col > *, .stats-row > *, .table-wrap, .listing-cards {
+  min-width: 0;
+}
+/* ── Accommodation Bookings View Fix ── */
+#view-accommodation-bookings {
+  display: none;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+#view-accommodation-bookings.active {
+  display: block;
+}
+
+#view-accommodation-bookings .page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+}
+
+#view-accommodation-bookings .page-header h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+#view-accommodation-bookings .page-header p {
+  font-size: .82rem;
+  color: var(--text-muted);
+}
+
+#view-accommodation-bookings .page-header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+#view-accommodation-bookings .mini-stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+#view-accommodation-bookings .mini-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-sm);
+  flex: 0 0 auto;
+}
+
+#view-accommodation-bookings .mini-stat-icon {
+  font-size: 1.1rem;
+}
+
+#view-accommodation-bookings .mini-stat-num {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+}
+
+#view-accommodation-bookings .mini-stat-label {
+  font-size: .72rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+#view-accommodation-bookings .filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+#view-accommodation-bookings .card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  width: 100%;
+}
+
+#view-accommodation-bookings .table-wrap {
+  overflow-x: auto;
+  width: 100%;
+}
+
+#view-accommodation-bookings table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .83rem;
+  min-width: 800px;
+}
+
+#view-accommodation-bookings thead th {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+#view-accommodation-bookings tbody td {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-2);
+  vertical-align: middle;
+}
+
+#view-accommodation-bookings tbody tr:last-child td {
+  border-bottom: none;
+}
+
+#view-accommodation-bookings tbody tr:hover td {
+  background: var(--surface-2);
+}
+
+#view-accommodation-bookings .card-footer {
+  padding: 12px 22px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#view-accommodation-bookings .search-input {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  transition: var(--transition);
+}
+
+#view-accommodation-bookings .search-input:focus-within {
+  border-color: var(--forest-light);
+}
+
+#view-accommodation-bookings .search-input input {
+  border: none;
+  background: none;
+  outline: none;
+  font-size: .82rem;
+  color: var(--text);
+  width: 180px;
+}
+
+#view-accommodation-bookings .filter-select {
+  padding: 7px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: .82rem;
+  color: var(--text);
+  background: var(--surface);
+  outline: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+#view-accommodation-bookings .filter-select:focus {
+  border-color: var(--forest-light);
+}
+
+/* Responsive fixes */
+@media (max-width: 1100px) {
+  #view-accommodation-bookings .mini-stats {
+    gap: 8px;
+  }
+  #view-accommodation-bookings .mini-stat {
+    flex: 1 1 calc(33% - 8px);
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  #view-accommodation-bookings .mini-stat {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 100px;
+  }
+  #view-accommodation-bookings .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #view-accommodation-bookings .search-input input {
+    width: 100%;
+  }
+  #view-accommodation-bookings .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  #view-accommodation-bookings .mini-stat {
+    flex: 1 1 100%;
+  }
+  #view-accommodation-bookings table {
+    font-size: .75rem;
+    min-width: 600px;
+  }
+  #view-accommodation-bookings tbody td,
+  #view-accommodation-bookings thead th {
+    padding: 8px 10px;
+  }
+}
+
+
+
   </style>
 </head>
 <body>
@@ -636,6 +898,84 @@
         </div>
       </div>
     </div>
+
+    <!-- ═══ ACCOMMODATION BOOKINGS ═══ -->
+  <!-- ═══ ACCOMMODATION BOOKINGS ═══ -->
+<div class="view" id="view-accommodation-bookings">
+  <div class="page-header">
+    <div><h2>🏨 Accommodation Bookings</h2><p id="acc-booking-count">View, approve, and manage all accommodation reservations.</p></div>
+    <div class="page-header-actions">
+      <button class="btn-sm-outline" onclick="exportAccommodationBookingsCSV()">⬇ Export CSV</button>
+      <button class="btn-sm-outline" onclick="loadAccommodationBookings()">🔄 Refresh</button>
+    </div>
+  </div>
+
+  <!-- Mini Stats -->
+  <div class="mini-stats" id="acc-booking-stats">
+    <div class="mini-stat"><span class="mini-stat-icon">📋</span><div><div class="mini-stat-num" id="acc-book-total">—</div><div class="mini-stat-label">Total</div></div></div>
+    <div class="mini-stat"><span class="mini-stat-icon">✅</span><div><div class="mini-stat-num" id="acc-book-confirmed">—</div><div class="mini-stat-label">Confirmed</div></div></div>
+    <div class="mini-stat"><span class="mini-stat-icon">⏳</span><div><div class="mini-stat-num" id="acc-book-pending">—</div><div class="mini-stat-label">Pending</div></div></div>
+    <div class="mini-stat"><span class="mini-stat-icon">❌</span><div><div class="mini-stat-num" id="acc-book-cancelled">—</div><div class="mini-stat-label">Cancelled</div></div></div>
+    <div class="mini-stat"><span class="mini-stat-icon">💰</span><div><div class="mini-stat-num" id="acc-book-revenue">—</div><div class="mini-stat-label">Revenue</div></div></div>
+    <div class="mini-stat"><span class="mini-stat-icon">🏠</span><div><div class="mini-stat-num" id="acc-book-properties">—</div><div class="mini-stat-label">Properties</div></div></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-row">
+    <div class="search-input"><span>🔍</span><input type="text" id="accBookingSearch" placeholder="Search guest, property, ref…" oninput="filterAccommodationBookings()"/></div>
+    <select class="filter-select" id="accBookingStatus" onchange="filterAccommodationBookings()">
+      <option value="">All Statuses</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="pending">Pending</option>
+      <option value="cancelled">Cancelled</option>
+    </select>
+    <select class="filter-select" id="accBookingProperty" onchange="filterAccommodationBookings()">
+      <option value="">All Properties</option>
+    </select>
+    <select class="filter-select" id="accBookingPayment" onchange="filterAccommodationBookings()">
+      <option value="">All Payment Status</option>
+      <option value="unpaid">Unpaid</option>
+      <option value="deposit_paid">Deposit Paid</option>
+      <option value="fully_paid">Fully Paid</option>
+      <option value="pending_verification">Pending Verification</option>
+      <option value="refunded">Refunded</option>
+    </select>
+  </div>
+
+  <!-- Table -->
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ref</th>
+            <th>Guest</th>
+            <th>Property</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th>Nights</th>
+            <th>Guests</th>
+            <th>Amount</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="accBookingsTableBody">
+          <tr><td colspan="11" style="text-align:center;color:var(--text-faint);padding:24px;">Loading accommodation bookings…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer" style="display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-size:.78rem;color:var(--text-muted);" id="acc-bookings-footer">Loading…</span>
+      <div style="display:flex;gap:6px;">
+        <button class="btn-xs ghost" onclick="accBookingsPage(-1)">← Prev</button>
+        <span style="font-size:.78rem;display:flex;align-items:center;color:var(--text-muted);" id="acc-bookings-page">Page 1</span>
+        <button class="btn-xs ghost" onclick="accBookingsPage(1)">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <!-- ═══ APPLICATIONS ═══ -->
     <div class="view" id="view-applications">
@@ -1094,89 +1434,10 @@
       <button class="btn-sm-primary" id="bd_confirm_btn" style="display:none;" onclick="updateBookingStatus(window._bdId,'confirmed',this);closeModal('bookingDetailModal')">✅ Confirm Booking</button>
       <button class="btn-sm-primary" id="bd_verify_btn" style="display:none;background:var(--blue);" onclick="openVerifyPaymentModal(window._bdId)">🧾 Verify Payment</button>
       <button class="btn-sm-outline" id="bd_cancel_btn" style="display:none;border-color:#fca5a5;color:var(--red);" onclick="updateBookingStatus(window._bdId,'cancelled',this);closeModal('bookingDetailModal')">❌ Cancel Booking</button>
-      <button class="btn-sm-outline" style="margin-left:auto;" onclick="toast('Email sent to guest!','success')">✉️ Email Guest</button>
+      <button class="btn-sm-outline" style="margin-left:auto;" onclick="emailGuestPrompt(window._bdId)">✉️ Email Guest</button>
     </div>
   </div>
 </div>
-
-
-
-    <!-- ═══ ACCOMMODATION BOOKINGS ═══ -->
-    <div class="view" id="view-accommodation-bookings">
-      <div class="page-header">
-        <div><h2>🏨 Accommodation Bookings</h2><p id="acc-booking-count">View, approve, and manage all accommodation reservations.</p></div>
-        <div class="page-header-actions">
-          <button class="btn-sm-outline" onclick="exportAccommodationBookingsCSV()">⬇ Export CSV</button>
-          <button class="btn-sm-outline" onclick="loadAccommodationBookings()">🔄 Refresh</button>
-        </div>
-      </div>
-
-      <!-- Mini Stats -->
-      <div class="mini-stats" id="acc-booking-stats">
-        <div class="mini-stat"><span class="mini-stat-icon">📋</span><div><div class="mini-stat-num" id="acc-book-total">—</div><div class="mini-stat-label">Total</div></div></div>
-        <div class="mini-stat"><span class="mini-stat-icon">✅</span><div><div class="mini-stat-num" id="acc-book-confirmed">—</div><div class="mini-stat-label">Confirmed</div></div></div>
-        <div class="mini-stat"><span class="mini-stat-icon">⏳</span><div><div class="mini-stat-num" id="acc-book-pending">—</div><div class="mini-stat-label">Pending</div></div></div>
-        <div class="mini-stat"><span class="mini-stat-icon">❌</span><div><div class="mini-stat-num" id="acc-book-cancelled">—</div><div class="mini-stat-label">Cancelled</div></div></div>
-        <div class="mini-stat"><span class="mini-stat-icon">💰</span><div><div class="mini-stat-num" id="acc-book-revenue">—</div><div class="mini-stat-label">Revenue</div></div></div>
-        <div class="mini-stat"><span class="mini-stat-icon">🏠</span><div><div class="mini-stat-num" id="acc-book-properties">—</div><div class="mini-stat-label">Properties</div></div></div>
-      </div>
-
-      <!-- Filters -->
-      <div class="filter-row">
-        <div class="search-input"><span>🔍</span><input type="text" id="accBookingSearch" placeholder="Search guest, property, ref…" oninput="filterAccommodationBookings()"/></div>
-        <select class="filter-select" id="accBookingStatus" onchange="filterAccommodationBookings()">
-          <option value="">All Statuses</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="pending">Pending</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
-        <select class="filter-select" id="accBookingProperty" onchange="filterAccommodationBookings()">
-          <option value="">All Properties</option>
-        </select>
-        <select class="filter-select" id="accBookingPayment" onchange="filterAccommodationBookings()">
-          <option value="">All Payment Status</option>
-          <option value="unpaid">Unpaid</option>
-          <option value="deposit_paid">Deposit Paid</option>
-          <option value="fully_paid">Fully Paid</option>
-          <option value="pending_verification">Pending Verification</option>
-          <option value="refunded">Refunded</option>
-        </select>
-      </div>
-
-      <!-- Table -->
-      <div class="card">
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Ref</th>
-                <th>Guest</th>
-                <th>Property</th>
-                <th>Check-in</th>
-                <th>Check-out</th>
-                <th>Nights</th>
-                <th>Guests</th>
-                <th>Amount</th>
-                <th>Payment</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="accBookingsTableBody">
-              <tr><td colspan="11" style="text-align:center;color:var(--text-faint);padding:24px;">Loading accommodation bookings…</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="card-footer" style="display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-size:.78rem;color:var(--text-muted);" id="acc-bookings-footer">Loading…</span>
-          <div style="display:flex;gap:6px;">
-            <button class="btn-xs ghost" onclick="accBookingsPage(-1)">← Prev</button>
-            <span style="font-size:.78rem;display:flex;align-items:center;color:var(--text-muted);" id="acc-bookings-page">Page 1</span>
-            <button class="btn-xs ghost" onclick="accBookingsPage(1)">Next →</button>
-          </div>
-        </div>
-      </div>
-    </div>
 
 
 <!-- ═══ VERIFY PAYMENT MODAL ═══ -->
@@ -1220,7 +1481,7 @@
       <button class="btn-sm-primary" id="ad_approve_btn" style="display:none;" onclick="updateApplicationStatus(window._adId,'approved',this);closeModal('appDetailModal')">✅ Approve</button>
       <button class="btn-sm-outline" id="ad_review_btn" style="display:none;" onclick="updateApplicationStatus(window._adId,'under_review',this);closeModal('appDetailModal')">🔍 Mark Under Review</button>
       <button class="btn-sm-outline" id="ad_reject_btn" style="display:none;border-color:#fca5a5;color:var(--red);" onclick="updateApplicationStatus(window._adId,'rejected',this);closeModal('appDetailModal')">❌ Reject</button>
-      <button class="btn-sm-outline" style="margin-left:auto;" onclick="toast('Email sent to applicant!','success')">✉️ Email Applicant</button>
+      <button class="btn-sm-outline" style="margin-left:auto;" onclick="emailApplicantPrompt(window._adId)">✉️ Email Applicant</button>
     </div>
   </div>
 </div>
@@ -1737,7 +1998,22 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySele
 ═══════════════════════════════════════════════════════════════ */
 const viewLoaders={dashboard:loadDashboard,bookings:loadBookings,applications:loadApplications,reviews:loadReviews,tours:loadTours,volunteers:loadVolunteerPrograms,blog:loadBlogPosts,gallery: loadGalleryImages,users:loadUsers,analytics:loadAnalytics};
 const loadedViews=new Set();
-const viewLabels={dashboard:'Dashboard',bookings:'Bookings',applications:'Applications',reviews:'Reviews',tours:'Tours',volunteers:'Volunteer Programs',blog:'Blog Posts',gallery:'Media Gallery',users:'Users',notifications:'Notifications',analytics:'Analytics',settings:'Settings'};
+const viewLabels = {
+  dashboard:'Dashboard',
+  bookings:'Bookings',
+  applications:'Applications',
+  reviews:'Reviews',
+  tours:'Tours',
+  volunteers:'Volunteer Programs',
+  'accommodations':'Accommodations',
+  'accommodation-bookings':'Accommodation Bookings',  // Add this line
+  blog:'Blog Posts',
+  gallery:'Media Gallery',
+  users:'Users',
+  notifications:'Notifications',
+  analytics:'Analytics',
+  settings:'Settings'
+};
 
 /* ═══════════════════════════════════════════════════════════════
    NAVIGATION
@@ -1825,73 +2101,135 @@ function _list(arr){ if(!arr||!arr.length) return '<span style="color:var(--text
 /* ═══════════════════════════════════════════════════════════════
    BOOKING DETAIL MODAL
 ═══════════════════════════════════════════════════════════════ */
-window.openBookingDetail=async function(bookingId){
-  window._bdId=bookingId;
+
+function afterBookingAction(){
+  loadedViews.delete('bookings');
+  loadedViews.delete('accommodations');
+  loadedViews.delete('dashboard');
+  const origin = window._bdOrigin;
+  if (origin && origin.type === 'accBookings'){
+    openAccommodationBookings(origin.id, origin.name);   // go back to the property's booking list
+    return;
+  }
+  const activeView = document.querySelector('.view.active');
+  const id = activeView ? activeView.id.replace('view-','') : 'bookings';
+  if (viewLoaders[id]) viewLoaders[id](); else showView('bookings', null);
+}
+
+
+
+
+function _propertyCard(b){
+  const acc = b.accommodation;
+  if(!acc) return '';
+  const img = acc.media?.images?.find(m=>m.isCover)?.url || acc.media?.images?.[0]?.url || 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=200&auto=format&fit=crop';
+  const loc = [acc.location?.city, acc.location?.region, acc.location?.country].filter(Boolean).join(', ');
+  const link = acc.slug ? `accommodation-detail.html?slug=${encodeURIComponent(acc.slug)}` : '';
+  return `<div class="stay-property-card">
+    <img src="${esc(img)}" alt="" onerror="this.style.display='none'">
+    <div class="spc-body">
+      <h4>${esc(acc.name||'Accommodation')}</h4>
+      <div class="spc-meta"><span>🏷️ ${esc((acc.category||'—').replace(/_/g,' '))}</span><span>📍 ${esc(loc||'—')}</span></div>
+    </div>
+    ${link ? `<a class="spc-link" href="${link}" target="_blank">View listing ↗</a>` : ''}
+  </div>`;
+}
+function _stayGrid(b){
+  const nights = b.numberOfNights ?? (b.checkInDate && b.checkOutDate
+    ? Math.round((new Date(b.checkOutDate) - new Date(b.checkInDate)) / 86400000) : '—');
+  return `<div class="stay-info-grid">
+    <div class="stay-info-cell"><div class="sic-label">Check-in</div><div class="sic-value">${fmtDate(b.checkInDate)}</div></div>
+    <div class="stay-info-cell"><div class="sic-label">Check-out</div><div class="sic-value">${fmtDate(b.checkOutDate)}</div></div>
+    <div class="stay-info-cell"><div class="sic-label">Nights</div><div class="sic-value">${nights}</div></div>
+    <div class="stay-info-cell"><div class="sic-label">Guests</div><div class="sic-value">${b.numberOfGuests || '—'}</div></div>
+  </div>`;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BOOKING DETAIL MODAL
+═══════════════════════════════════════════════════════════════ */
+window.openBookingDetail = async function(bookingId, origin){
+  window._bdId = bookingId;
+  window._bdOrigin = origin || null;   // ← tracks where we came from (fixes the redirect issue, see below)
   document.getElementById('bd_ref').textContent='…';
   document.getElementById('bd_body').innerHTML='<div style="text-align:center;padding:40px;color:var(--text-faint);">Loading…</div>';
   document.getElementById('bd_confirm_btn').style.display='none';
   document.getElementById('bd_cancel_btn').style.display='none';
   openModal('bookingDetailModal');
   try{
-   // With this:
-const data = await api(`/api/bookings/${bookingId}`);
-const b = data.booking || data.data || data;
-const paymentSummary = data.paymentSummary?.length
-  ? data.paymentSummary   // ← use backend's pre-built summary (has receiptUrl)
-  : (b.payments || []).map(p => ({
-      receiptUrl:    p.proofOfPayment?.url || '',
-      bankName:      p.bankName || '',
-      bankReference: p.bankReference || p.reference || '',
-      amount:        p.amount,
-      status:        p.status,
-      paidAt:        p.createdAt || p.paidAt,
-    }));
-window._bdPayments = paymentSummary; // store for verify modal
+    const data = await api(`/api/bookings/${bookingId}`);
+    const b = data.booking || data.data || data;
+    const paymentSummary = data.paymentSummary?.length
+      ? data.paymentSummary
+      : (b.payments || []).map(p => ({
+          receiptUrl: p.proofOfPayment?.url || '',
+          bankName: p.bankName || '',
+          bankReference: p.bankReference || p.reference || '',
+          amount: p.amount, status: p.status, paidAt: p.createdAt || p.paidAt,
+        }));
+    window._bdPayments = paymentSummary;
 
-    const ref=b.bookingRef||b._id?.slice(-6).toUpperCase()||bookingId;
-    const guest=b.user?`${b.user.firstName||''} ${b.user.lastName||''}`.trim():'Unknown';
-    const email=b.user?.email||'—';
-    const phone=b.user?.phone||b.guestPhone||'—';
-    const nationality=b.user?.nationality||b.personalInfo?.nationality||'—';
-    const tourTitle=b.tour?.title||b.tour?.destination||'Tour';
-    const tourId=b.tour?._id||b.tour?.id||'';
-    const pax=b.numberOfPeople||b.pax||1;
-    const deposit=b.depositAmount||(b.totalAmount?b.totalAmount*.2:0);
-    const remaining=b.remainingBalance??((b.totalAmount||0)-deposit);
-    const special=b.specialRequests||b.notes||'';
-    document.getElementById('bd_ref').textContent=ref;
-   if(b.status==='pending'){ document.getElementById('bd_confirm_btn').style.display=''; document.getElementById('bd_cancel_btn').style.display=''; }
-else if(b.status==='confirmed'){ document.getElementById('bd_cancel_btn').style.display=''; }
+    const bookingType = b.bookingType || 'tour';
+    const isStay = bookingType === 'accommodation';   // ← the switch that decides everything below
 
-const hasPending = (b.payments || []).some(p => p.status === 'pending_verification');
-const verifyBtn = document.getElementById('bd_verify_btn');
-if (verifyBtn) verifyBtn.style.display = hasPending ? '' : 'none';
-    document.getElementById('bd_body').innerHTML=
+    const ref = b.bookingRef || b._id?.slice(-6).toUpperCase() || bookingId;
+    const guest = b.user ? `${b.user.firstName||''} ${b.user.lastName||''}`.trim() : 'Unknown';
+    const email = b.user?.email || '—';
+    const phone = b.user?.phone || b.guestPhone || '—';
+    const nationality = b.user?.nationality || b.personalInfo?.nationality || '—';
+    const pax = isStay ? (b.numberOfGuests || 1) : (b.numberOfTravelers || b.numberOfPeople || b.pax || 1);
+    const deposit = b.depositAmount || (b.totalAmount ? b.totalAmount * .2 : 0);
+    const remaining = b.remainingBalance ?? ((b.totalAmount || 0) - deposit);
+    const special = b.specialRequests || b.notes || '';
+    const checkIn = b.checkInDate || b.travelDate || b.startDate;
+    const checkOut = b.checkOutDate || b.endDate;
+
+    document.getElementById('bd_ref').textContent = ref;
+    if (b.status === 'pending') { document.getElementById('bd_confirm_btn').style.display=''; document.getElementById('bd_cancel_btn').style.display=''; }
+    else if (b.status === 'confirmed') { document.getElementById('bd_cancel_btn').style.display=''; }
+
+    const hasPending = (b.payments || []).some(p => p.status === 'pending_verification');
+    const verifyBtn = document.getElementById('bd_verify_btn');
+    if (verifyBtn) verifyBtn.style.display = hasPending ? '' : 'none';
+
+    let itemLink = '';
+    let itemLabel = isStay ? (b.accommodation?.name || 'Accommodation') : (b.tour?.title || b.tour?.destination || 'Tour');
+    if (isStay && b.accommodation?.slug) itemLink = `accommodation-detail.html?slug=${encodeURIComponent(b.accommodation.slug)}`;
+    if (!isStay && (b.tour?._id || b.tour?.id)) itemLink = `tour-detail.html?id=${b.tour._id || b.tour.id}`;
+
+    const rateRow = isStay
+      ? _row('Rate', `${fmtMoney(b.pricePerNight)} ${({per_night:'/night',per_person:'/person',per_tent:'/tent'}[b.accommodation?.priceType]||'/night')}`)
+      : '';
+
+    document.getElementById('bd_body').innerHTML =
+      (isStay ? _propertyCard(b) + _stayGrid(b) : '') +
       _section('Guest Information',[
-        _row('Full Name',esc(guest)),
-        _row('Email',`<a href="mailto:${esc(email)}" style="color:var(--forest)">${esc(email)}</a>`),
-        _row('Phone',esc(phone)),
-        _row('Nationality',esc(nationality)),
+        _row('Full Name', esc(guest)),
+        _row('Email', `<a href="mailto:${esc(email)}" style="color:var(--forest)">${esc(email)}</a>`),
+        _row('Phone', esc(phone)),
+        _row('Nationality', esc(nationality), true),
       ].join(''))+
       _section('Booking Information',[
-        _row('Reference',`<span style="font-family:monospace;font-weight:700;">${esc(ref)}</span>`),
-        _row('Status',_badge(b.status)),
-        _row('Tour',tourId?`<a href="tour-detail.html?id=${esc(tourId)}" target="_blank" style="color:var(--forest);font-weight:600;">${esc(tourTitle)} ↗</a>`:esc(tourTitle)),
-        _row('Travelers',pax),
-        _row('Travel Date',fmtDate(b.travelDate||b.startDate)),
-        _row('End Date',b.endDate?fmtDate(b.endDate):'—'),
-        _row('Booked On',fmtDate(b.createdAt)),
+        _row('Reference', `<span style="font-family:monospace;font-weight:700;">${esc(ref)}</span>`),
+        _row('Type', `<span class="badge ${isStay?'confirmed':'active'}">${esc(bookingType)}</span>`),
+        _row('Status', _badge(b.status)),
+        _row(isStay ? 'Property' : 'Item', itemLink ? `<a href="${itemLink}" target="_blank" style="color:var(--forest);font-weight:600;">${esc(itemLabel)} ↗</a>` : esc(itemLabel)),
+        _row(isStay ? 'Guests' : 'Travelers', pax),
+        _row(isStay ? 'Check-in' : 'Travel Date', fmtDate(checkIn)),
+        _row(isStay ? 'Check-out' : 'End Date', checkOut ? fmtDate(checkOut) : '—'),
+        _row('Booked On', fmtDate(b.createdAt), true),
       ].join(''))+
-       
       _section('Payment',[
-        _row('Total Amount',`<strong style="color:var(--forest);font-size:1rem;">${fmtMoney(b.totalAmount)}</strong>`),
-        _row('Deposit Paid',fmtMoney(deposit)),
-        _row('Balance Due',`<span style="color:${remaining>0?'var(--amber)':'var(--green)'};">${fmtMoney(remaining)}</span>`),
-        _row('Payment Status',_badge((b.paymentStatus||'unpaid').replace(/\s/g,'_'))),
-        _row('Payment Method',esc(b.paymentMethod||'—')),
+        rateRow,
+        _row('Total Amount', `<strong style="color:var(--forest);font-size:1rem;">${fmtMoney(b.totalAmount)}</strong>`),
+        _row('Deposit Paid', fmtMoney(deposit)),
+        _row('Balance Due', `<span style="color:${remaining>0?'var(--amber)':'var(--green)'};">${fmtMoney(remaining)}</span>`),
+        _row('Payment Status', _badge((b.paymentStatus||'unpaid').replace(/\s/g,'_'))),
+        _row('Payment Method', esc(b.paymentMethod||'—'), true),
       ].join(''))+
-       _receiptSection(paymentSummary) +           // ← add this line
-      (special?_section('Special Requests',`<tr><td colspan="2" style="padding:12px 16px;font-size:.84rem;color:var(--text-2);font-style:italic;">${esc(special)}</td></tr>`):'');
+      _receiptSection(paymentSummary) +
+      (special ? _section('Special Requests', `<tr><td colspan="2" style="padding:12px 16px;font-size:.84rem;color:var(--text-2);font-style:italic;">${esc(special)}</td></tr>`) : '');
   }catch(e){
     document.getElementById('bd_body').innerHTML=`<div style="text-align:center;padding:40px;color:var(--red);">Failed to load booking: ${esc(e.message)}</div>`;
   }
@@ -1946,14 +2284,44 @@ async function submitVerifyPayment(approved) {
     toast(approved ? 'Payment approved! Booking confirmed. ✅' : 'Payment rejected. Guest notified. ❌', approved ? 'success' : 'warning');
     closeModal('verifyPaymentModal');
     closeModal('bookingDetailModal');
-    loadedViews.delete('bookings');
-    loadedViews.delete('dashboard');
-    showView('bookings', null);
+        afterBookingAction();
   } catch(e) {
     toast('Failed: ' + e.message, 'error');
     btns.forEach(b => { b.disabled = false; b.classList.remove('loading'); });
   }
 }
+
+
+async function emailGuestPrompt(bookingId){
+  if(!bookingId){ toast('No booking selected.', 'error'); return; }
+  const message = prompt('Message to send to the guest:', '');
+  if(message === null || !message.trim()) return;
+  try{
+    const res = await api(`/api/bookings/${bookingId}/email-guest`, {
+      method: 'POST',
+      body: JSON.stringify({ message })
+    });
+    toast(res.message || 'Email sent to guest.', 'success');
+  }catch(e){
+    toast('Failed to send email: ' + e.message, 'error');
+  }
+}
+
+async function emailApplicantPrompt(appId){
+  if(!appId){ toast('No application selected.', 'error'); return; }
+  const message = prompt('Message to send to the applicant:', '');
+  if(message === null || !message.trim()) return;
+  try{
+    const res = await api(`/api/applications/${appId}/email-applicant`, {
+      method: 'POST',
+      body: JSON.stringify({ message })
+    });
+    toast(res.message || 'Email sent to applicant.', 'success');
+  }catch(e){
+    toast('Failed to send email: ' + e.message, 'error');
+  }
+}
+
 
 
 // Add this helper function once, outside openBookingDetail
@@ -2421,7 +2789,7 @@ async function updateBookingStatus(id,status,btn){
   try{
     await api(`/api/bookings/${id}/status`,{method:'PUT',body:JSON.stringify({status})});
     toast(`Booking ${status}.`,'success');
-    loadedViews.delete('bookings'); loadedViews.delete('dashboard'); showView('bookings',null);
+        afterBookingAction();
   }catch(e){ toast('Failed: '+e.message,'error'); if(row) row.querySelectorAll('button').forEach(b=>b.disabled=false); }
 }
 
@@ -2641,8 +3009,8 @@ function renderAccommodationBookingsTable(bookings, total, page, totalPages) {
       <td><span class="badge ${sc}">${b.status}</span></td>
       <td><div class="td-action">
         <button class="btn-xs ghost" onclick="openBookingDetail('${b._id}')">View →</button>
-        ${canAct ? `<button class="btn-xs primary" onclick="updateBookingStatus('${b._id}','confirmed',this);loadAccommodationBookings();">Confirm</button>` : ''}
-        ${b.status !== 'cancelled' && b.status !== 'completed' ? `<button class="btn-xs danger" onclick="updateBookingStatus('${b._id}','cancelled',this);loadAccommodationBookings();">Cancel</button>` : ''}
+                ${canAct ? `<button class="btn-xs primary" onclick="updateBookingStatus('${b._id}','confirmed',this)">Confirm</button>` : ''}
+        ${b.status !== 'cancelled' && b.status !== 'completed' ? `<button class="btn-xs danger" onclick="updateBookingStatus('${b._id}','cancelled',this)">Cancel</button>` : ''}
       </div></td>
     </tr>`;
   }).join('');

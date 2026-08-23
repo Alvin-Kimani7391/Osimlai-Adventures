@@ -372,6 +372,35 @@
     @media(max-width:1100px){.stats-row{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.three-col{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.stats-row{grid-template-columns:1fr 1fr}.content{padding:16px}.settings-grid{grid-template-columns:1fr}}
     @media(max-width:480px){.stats-row{grid-template-columns:1fr}}
+
+  /* ── Accommodation booking detail styling ── */
+.stay-property-card{display:flex;gap:14px;align-items:center;padding:14px 16px;background:var(--surface-2);border-bottom:1px solid var(--border)}
+.stay-property-card img{width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;background:var(--border)}
+.stay-property-card .spc-body{flex:1;min-width:0}
+.stay-property-card .spc-body h4{font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.stay-property-card .spc-meta{display:flex;gap:8px;flex-wrap:wrap;font-size:.75rem;color:var(--text-muted)}
+.stay-property-card .spc-link{font-size:.75rem;font-weight:700;color:var(--forest);text-decoration:none;white-space:nowrap;flex-shrink:0}
+.stay-info-grid{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border)}
+.stay-info-cell{padding:12px 14px;border-right:1px solid var(--border-subtle);text-align:center}
+.stay-info-cell:last-child{border-right:none}
+.stay-info-cell .sic-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);margin-bottom:4px}
+.stay-info-cell .sic-value{font-size:.9rem;font-weight:800;color:var(--text)}
+@media(max-width:520px){.stay-info-grid{grid-template-columns:repeat(2,1fr)}}
+
+.acc-booking-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;transition:var(--transition)}
+.acc-booking-card:hover{box-shadow:var(--shadow-sm)}
+.acc-booking-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.acc-booking-guest{font-size:.86rem;font-weight:700;color:var(--text)}
+.acc-booking-email{font-size:.74rem;color:var(--text-muted)}
+.acc-booking-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:.78rem;color:var(--text-2);margin-bottom:12px}
+.acc-booking-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:10px;border-top:1px solid var(--border-subtle)}
+
+
+.main, .content { overflow-x: hidden; }
+.card, .two-col > *, .three-col > *, .stats-row > *, .table-wrap, .listing-cards {
+  min-width: 0;
+}
+
   </style>
 </head>
 <body>
@@ -1758,80 +1787,134 @@ function _section(title,rows){ return `<div style="margin-bottom:0;"><div style=
 function _badge(status){ const map={confirmed:'confirmed',pending:'pending',cancelled:'cancelled',completed:'confirmed',approved:'confirmed',rejected:'cancelled',under_review:'review',review:'review',draft:'draft',active:'active',published:'published',deposit_paid:'active',fully_paid:'confirmed',unpaid:'pending',refunded:'cancelled'}; return `<span class="badge ${map[status]||'pending'}">${esc(status)}</span>`; }
 function _list(arr){ if(!arr||!arr.length) return '<span style="color:var(--text-faint)">—</span>'; return arr.map(i=>`<span style="display:inline-block;background:var(--forest-pale);color:var(--forest);border-radius:100px;padding:2px 10px;font-size:.74rem;font-weight:600;margin:2px;">${esc(i)}</span>`).join(''); }
 
+function afterBookingAction(){
+  loadedViews.delete('bookings');
+  loadedViews.delete('accommodations');
+  loadedViews.delete('dashboard');
+  const origin = window._bdOrigin;
+  if (origin && origin.type === 'accBookings'){
+    openAccommodationBookings(origin.id, origin.name);   // go back to the property's booking list
+    return;
+  }
+  const activeView = document.querySelector('.view.active');
+  const id = activeView ? activeView.id.replace('view-','') : 'bookings';
+  if (viewLoaders[id]) viewLoaders[id](); else showView('bookings', null);
+}
+
+
+
+
+function _propertyCard(b){
+  const acc = b.accommodation;
+  if(!acc) return '';
+  const img = acc.media?.images?.find(m=>m.isCover)?.url || acc.media?.images?.[0]?.url || 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=200&auto=format&fit=crop';
+  const loc = [acc.location?.city, acc.location?.region, acc.location?.country].filter(Boolean).join(', ');
+  const link = acc.slug ? `accommodation-detail.html?slug=${encodeURIComponent(acc.slug)}` : '';
+  return `<div class="stay-property-card">
+    <img src="${esc(img)}" alt="" onerror="this.style.display='none'">
+    <div class="spc-body">
+      <h4>${esc(acc.name||'Accommodation')}</h4>
+      <div class="spc-meta"><span>🏷️ ${esc((acc.category||'—').replace(/_/g,' '))}</span><span>📍 ${esc(loc||'—')}</span></div>
+    </div>
+    ${link ? `<a class="spc-link" href="${link}" target="_blank">View listing ↗</a>` : ''}
+  </div>`;
+}
+function _stayGrid(b){
+  const nights = b.numberOfNights ?? (b.checkInDate && b.checkOutDate
+    ? Math.round((new Date(b.checkOutDate) - new Date(b.checkInDate)) / 86400000) : '—');
+  return `<div class="stay-info-grid">
+    <div class="stay-info-cell"><div class="sic-label">Check-in</div><div class="sic-value">${fmtDate(b.checkInDate)}</div></div>
+    <div class="stay-info-cell"><div class="sic-label">Check-out</div><div class="sic-value">${fmtDate(b.checkOutDate)}</div></div>
+    <div class="stay-info-cell"><div class="sic-label">Nights</div><div class="sic-value">${nights}</div></div>
+    <div class="stay-info-cell"><div class="sic-label">Guests</div><div class="sic-value">${b.numberOfGuests || '—'}</div></div>
+  </div>`;
+}
+
+
 /* ═══════════════════════════════════════════════════════════════
    BOOKING DETAIL MODAL
 ═══════════════════════════════════════════════════════════════ */
-window.openBookingDetail=async function(bookingId){
-  window._bdId=bookingId;
+window.openBookingDetail = async function(bookingId, origin){
+  window._bdId = bookingId;
+  window._bdOrigin = origin || null;   // ← tracks where we came from (fixes the redirect issue, see below)
   document.getElementById('bd_ref').textContent='…';
   document.getElementById('bd_body').innerHTML='<div style="text-align:center;padding:40px;color:var(--text-faint);">Loading…</div>';
   document.getElementById('bd_confirm_btn').style.display='none';
   document.getElementById('bd_cancel_btn').style.display='none';
   openModal('bookingDetailModal');
   try{
-   // With this:
-const data = await api(`/api/bookings/${bookingId}`);
-const b = data.booking || data.data || data;
-const paymentSummary = data.paymentSummary?.length
-  ? data.paymentSummary   // ← use backend's pre-built summary (has receiptUrl)
-  : (b.payments || []).map(p => ({
-      receiptUrl:    p.proofOfPayment?.url || '',
-      bankName:      p.bankName || '',
-      bankReference: p.bankReference || p.reference || '',
-      amount:        p.amount,
-      status:        p.status,
-      paidAt:        p.createdAt || p.paidAt,
-    }));
-window._bdPayments = paymentSummary; // store for verify modal
+    const data = await api(`/api/bookings/${bookingId}`);
+    const b = data.booking || data.data || data;
+    const paymentSummary = data.paymentSummary?.length
+      ? data.paymentSummary
+      : (b.payments || []).map(p => ({
+          receiptUrl: p.proofOfPayment?.url || '',
+          bankName: p.bankName || '',
+          bankReference: p.bankReference || p.reference || '',
+          amount: p.amount, status: p.status, paidAt: p.createdAt || p.paidAt,
+        }));
+    window._bdPayments = paymentSummary;
 
-    const ref=b.bookingRef||b._id?.slice(-6).toUpperCase()||bookingId;
-    const guest=b.user?`${b.user.firstName||''} ${b.user.lastName||''}`.trim():'Unknown';
-    const email=b.user?.email||'—';
-    const phone=b.user?.phone||b.guestPhone||'—';
-    const nationality=b.user?.nationality||b.personalInfo?.nationality||'—';
-    const tourTitle=b.tour?.title||b.tour?.destination||b.accommodation?.name||'Item';
-    const tourId=b.tour?._id||b.tour?.id||'';
-    const pax=b.numberOfPeople||b.numberOfGuests||b.pax||1;
-    const deposit=b.depositAmount||(b.totalAmount?b.totalAmount*.2:0);
-    const remaining=b.remainingBalance??((b.totalAmount||0)-deposit);
-    const special=b.specialRequests||b.notes||'';
-    const bookingType=b.bookingType||'tour';
-    const checkIn=b.checkInDate||b.travelDate||b.startDate;
-    const checkOut=b.checkOutDate||b.endDate;
-    document.getElementById('bd_ref').textContent=ref;
-   if(b.status==='pending'){ document.getElementById('bd_confirm_btn').style.display=''; document.getElementById('bd_cancel_btn').style.display=''; }
-else if(b.status==='confirmed'){ document.getElementById('bd_cancel_btn').style.display=''; }
+    const bookingType = b.bookingType || 'tour';
+    const isStay = bookingType === 'accommodation';   // ← the switch that decides everything below
 
-const hasPending = (b.payments || []).some(p => p.status === 'pending_verification');
-const verifyBtn = document.getElementById('bd_verify_btn');
-if (verifyBtn) verifyBtn.style.display = hasPending ? '' : 'none';
-    document.getElementById('bd_body').innerHTML=
+    const ref = b.bookingRef || b._id?.slice(-6).toUpperCase() || bookingId;
+    const guest = b.user ? `${b.user.firstName||''} ${b.user.lastName||''}`.trim() : 'Unknown';
+    const email = b.user?.email || '—';
+    const phone = b.user?.phone || b.guestPhone || '—';
+    const nationality = b.user?.nationality || b.personalInfo?.nationality || '—';
+    const pax = isStay ? (b.numberOfGuests || 1) : (b.numberOfTravelers || b.numberOfPeople || b.pax || 1);
+    const deposit = b.depositAmount || (b.totalAmount ? b.totalAmount * .2 : 0);
+    const remaining = b.remainingBalance ?? ((b.totalAmount || 0) - deposit);
+    const special = b.specialRequests || b.notes || '';
+    const checkIn = b.checkInDate || b.travelDate || b.startDate;
+    const checkOut = b.checkOutDate || b.endDate;
+
+    document.getElementById('bd_ref').textContent = ref;
+    if (b.status === 'pending') { document.getElementById('bd_confirm_btn').style.display=''; document.getElementById('bd_cancel_btn').style.display=''; }
+    else if (b.status === 'confirmed') { document.getElementById('bd_cancel_btn').style.display=''; }
+
+    const hasPending = (b.payments || []).some(p => p.status === 'pending_verification');
+    const verifyBtn = document.getElementById('bd_verify_btn');
+    if (verifyBtn) verifyBtn.style.display = hasPending ? '' : 'none';
+
+    let itemLink = '';
+    let itemLabel = isStay ? (b.accommodation?.name || 'Accommodation') : (b.tour?.title || b.tour?.destination || 'Tour');
+    if (isStay && b.accommodation?.slug) itemLink = `accommodation-detail.html?slug=${encodeURIComponent(b.accommodation.slug)}`;
+    if (!isStay && (b.tour?._id || b.tour?.id)) itemLink = `tour-detail.html?id=${b.tour._id || b.tour.id}`;
+
+    const rateRow = isStay
+      ? _row('Rate', `${fmtMoney(b.pricePerNight)} ${({per_night:'/night',per_person:'/person',per_tent:'/tent'}[b.accommodation?.priceType]||'/night')}`)
+      : '';
+
+    document.getElementById('bd_body').innerHTML =
+      (isStay ? _propertyCard(b) + _stayGrid(b) : '') +
       _section('Guest Information',[
-        _row('Full Name',esc(guest)),
-        _row('Email',`<a href="mailto:${esc(email)}" style="color:var(--forest)">${esc(email)}</a>`),
-        _row('Phone',esc(phone)),
-        _row('Nationality',esc(nationality)),
+        _row('Full Name', esc(guest)),
+        _row('Email', `<a href="mailto:${esc(email)}" style="color:var(--forest)">${esc(email)}</a>`),
+        _row('Phone', esc(phone)),
+        _row('Nationality', esc(nationality), true),
       ].join(''))+
       _section('Booking Information',[
-        _row('Reference',`<span style="font-family:monospace;font-weight:700;">${esc(ref)}</span>`),
-        _row('Type',`<span class="badge ${bookingType==='accommodation'?'confirmed':'active'}">${esc(bookingType)}</span>`),
-        _row('Status',_badge(b.status)),
-        _row('Item',tourId?`<a href="${bookingType==='accommodation'?'accommodation-detail.html':'tour-detail.html'}?id=${esc(tourId)}" target="_blank" style="color:var(--forest);font-weight:600;">${esc(tourTitle)} ↗</a>`:esc(tourTitle)),
-        _row('Guests/Travelers',pax),
-        _row('Check-in / Start',fmtDate(checkIn)),
-        _row('Check-out / End',checkOut?fmtDate(checkOut):'—'),
-        _row('Booked On',fmtDate(b.createdAt)),
+        _row('Reference', `<span style="font-family:monospace;font-weight:700;">${esc(ref)}</span>`),
+        _row('Type', `<span class="badge ${isStay?'confirmed':'active'}">${esc(bookingType)}</span>`),
+        _row('Status', _badge(b.status)),
+        _row(isStay ? 'Property' : 'Item', itemLink ? `<a href="${itemLink}" target="_blank" style="color:var(--forest);font-weight:600;">${esc(itemLabel)} ↗</a>` : esc(itemLabel)),
+        _row(isStay ? 'Guests' : 'Travelers', pax),
+        _row(isStay ? 'Check-in' : 'Travel Date', fmtDate(checkIn)),
+        _row(isStay ? 'Check-out' : 'End Date', checkOut ? fmtDate(checkOut) : '—'),
+        _row('Booked On', fmtDate(b.createdAt), true),
       ].join(''))+
-       
       _section('Payment',[
-        _row('Total Amount',`<strong style="color:var(--forest);font-size:1rem;">${fmtMoney(b.totalAmount)}</strong>`),
-        _row('Deposit Paid',fmtMoney(deposit)),
-        _row('Balance Due',`<span style="color:${remaining>0?'var(--amber)':'var(--green)'};">${fmtMoney(remaining)}</span>`),
-        _row('Payment Status',_badge((b.paymentStatus||'unpaid').replace(/\s/g,'_'))),
-        _row('Payment Method',esc(b.paymentMethod||'—')),
+        rateRow,
+        _row('Total Amount', `<strong style="color:var(--forest);font-size:1rem;">${fmtMoney(b.totalAmount)}</strong>`),
+        _row('Deposit Paid', fmtMoney(deposit)),
+        _row('Balance Due', `<span style="color:${remaining>0?'var(--amber)':'var(--green)'};">${fmtMoney(remaining)}</span>`),
+        _row('Payment Status', _badge((b.paymentStatus||'unpaid').replace(/\s/g,'_'))),
+        _row('Payment Method', esc(b.paymentMethod||'—'), true),
       ].join(''))+
-       _receiptSection(paymentSummary) +           // ← add this line
-      (special?_section('Special Requests',`<tr><td colspan="2" style="padding:12px 16px;font-size:.84rem;color:var(--text-2);font-style:italic;">${esc(special)}</td></tr>`):'');
+      _receiptSection(paymentSummary) +
+      (special ? _section('Special Requests', `<tr><td colspan="2" style="padding:12px 16px;font-size:.84rem;color:var(--text-2);font-style:italic;">${esc(special)}</td></tr>`) : '');
   }catch(e){
     document.getElementById('bd_body').innerHTML=`<div style="text-align:center;padding:40px;color:var(--red);">Failed to load booking: ${esc(e.message)}</div>`;
   }
@@ -1880,15 +1963,13 @@ async function submitVerifyPayment(approved) {
   btns.forEach(b => { b.disabled = true; b.classList.add('loading'); });
   try {
     await api(`/api/bookings/${window._vpId}/verify-payment`, {
-  method: 'PATCH',
+      method: 'PATCH',
       body: JSON.stringify({ approved, notes: document.getElementById('vp_notes').value.trim() })
     });
     toast(approved ? 'Payment approved! Booking confirmed. ✅' : 'Payment rejected. Guest notified. ❌', approved ? 'success' : 'warning');
     closeModal('verifyPaymentModal');
     closeModal('bookingDetailModal');
-    loadedViews.delete('bookings');
-    loadedViews.delete('dashboard');
-    showView('bookings', null);
+    afterBookingAction();
   } catch(e) {
     toast('Failed: ' + e.message, 'error');
     btns.forEach(b => { b.disabled = false; b.classList.remove('loading'); });
@@ -2489,6 +2570,7 @@ function bookingsPage(dir) {
 }
 
 // Override the updateBookingStatus to refresh bookings view
+// Override the updateBookingStatus to refresh bookings view
 const originalUpdateBookingStatus = updateBookingStatus;
 updateBookingStatus = async function(id, status, btn) {
   const row = btn?.closest('tr');
@@ -2496,9 +2578,7 @@ updateBookingStatus = async function(id, status, btn) {
   try {
     await api(`/api/bookings/${id}/status`, { method: 'PUT', body: JSON.stringify({ status }) });
     toast(`Booking ${status}.`, 'success');
-    loadedViews.delete('bookings');
-    loadedViews.delete('dashboard');
-    showView('bookings', null);
+    afterBookingAction();
   } catch (e) {
     toast('Failed: ' + e.message, 'error');
     if (row) row.querySelectorAll('button').forEach(b => b.disabled = false);
@@ -3204,24 +3284,56 @@ async function deleteAccommodation(id,btn){
 }
 
 /* ── Bookings for an accommodation ──────────────────── */
-async function openAccommodationBookings(id,name){
-  document.getElementById('ab_name').textContent=name||'…';
-  document.getElementById('ab_body').innerHTML='<div style="text-align:center;padding:40px;color:var(--text-faint);">Loading…</div>';
+async function openAccommodationBookings(id, name){
+  document.getElementById('ab_name').textContent = name || '…';
+  document.getElementById('ab_body').innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-faint);">Loading…</div>';
+  window._abContext = { id, name };
   openModal('accBookingsModal');
   try{
-    const data=await api(`/api/bookings?accommodationId=${id}`);
-    const bookings=data.bookings||[];
-    if(!bookings.length){ document.getElementById('ab_body').innerHTML='<div style="text-align:center;padding:32px;color:var(--text-faint);">No bookings for this accommodation yet.</div>'; return; }
-    document.getElementById('ab_body').innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:.83rem;">
-      <thead><tr><th style="text-align:left;padding:8px;">Guest</th><th style="text-align:left;padding:8px;">Dates</th><th style="text-align:left;padding:8px;">Amount</th><th style="text-align:left;padding:8px;">Status</th></tr></thead>
-      <tbody>${bookings.map(b=>{
-        const guest=b.user?`${b.user.firstName||''} ${b.user.lastName||''}`.trim():'Unknown';
-        return `<tr><td style="padding:8px;border-top:1px solid var(--border-subtle);">${esc(guest)}</td><td style="padding:8px;border-top:1px solid var(--border-subtle);">${fmtDate(b.checkInDate||b.travelDate||b.startDate)} → ${fmtDate(b.checkOutDate||b.endDate)}</td><td style="padding:8px;border-top:1px solid var(--border-subtle);">${fmtMoney(b.totalAmount)}</td><td style="padding:8px;border-top:1px solid var(--border-subtle);"><span class="badge ${b.status==='confirmed'?'confirmed':b.status==='cancelled'?'cancelled':'pending'}">${esc(b.status)}</span></td></tr>`;
-      }).join('')}</tbody></table>`;
+    const data = await api(`/api/bookings?accommodationId=${id}`);
+    const bookings = data.bookings || [];
+    if(!bookings.length){
+      document.getElementById('ab_body').innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-faint);">No bookings for this accommodation yet.</div>';
+      return;
+    }
+    const payMap = { deposit_paid:'Deposit paid', fully_paid:'Fully paid', unpaid:'Unpaid', pending_verification:'Verifying…', refunded:'Refunded' };
+    document.getElementById('ab_body').innerHTML = bookings.map(b => {
+      const guest = b.user ? `${b.user.firstName||''} ${b.user.lastName||''}`.trim() : 'Unknown';
+      const email = b.user?.email || '—';
+      const sc = { confirmed:'confirmed', pending:'pending', cancelled:'cancelled', completed:'confirmed' }[b.status] || 'pending';
+      const pay = payMap[b.paymentStatus] || b.paymentStatus || '—';
+      return `<div class="acc-booking-card" data-booking-id="${b._id}">
+        <div class="acc-booking-top">
+          <div><div class="acc-booking-guest">${esc(guest)}</div><div class="acc-booking-email">${esc(email)}</div></div>
+          <span class="badge ${sc}">${esc(b.status)}</span>
+        </div>
+        <div class="acc-booking-meta">
+          <span>📅 ${fmtDate(b.checkInDate)} → ${fmtDate(b.checkOutDate)}</span>
+          <span>👥 ${b.numberOfGuests||1} guest${(b.numberOfGuests||1)>1?'s':''}</span>
+          <span>💳 ${esc(pay)}</span>
+        </div>
+        <div class="acc-booking-footer">
+          <strong style="color:var(--forest);">${fmtMoney(b.totalAmount)}</strong>
+          <button class="btn-xs ghost view-acc-booking-btn">View full details →</button>
+        </div>
+      </div>`;
+    }).join('');
   }catch(e){
-    document.getElementById('ab_body').innerHTML=`<div style="text-align:center;padding:32px;color:var(--amber);">⚠️ Couldn't load bookings for this accommodation — your backend may not have a bookings-by-accommodation endpoint yet.<br><span style="font-size:.75rem;color:var(--text-faint);">${esc(e.message)}</span></div>`;
+    document.getElementById('ab_body').innerHTML = `<div style="text-align:center;padding:32px;color:var(--amber);">⚠️ Couldn't load bookings for this accommodation.<br><span style="font-size:.75rem;color:var(--text-faint);">${esc(e.message)}</span></div>`;
   }
 }
+
+// One-time delegated listener — put this near your other init code
+document.getElementById('ab_body').addEventListener('click', e=>{
+  const btn = e.target.closest('.view-acc-booking-btn');
+  if(!btn) return;
+  const card = btn.closest('.acc-booking-card');
+  const bookingId = card?.dataset.bookingId;
+  if(!bookingId) return;
+  const ctx = window._abContext;
+  closeModal('accBookingsModal');
+  openBookingDetail(bookingId, ctx ? {type:'accBookings', id:ctx.id, name:ctx.name} : null);
+});
 
 /* ── New Accommodation modal navigation ─────────────── */
 let currentAccStep=1; const ACC_TOTAL_STEPS=4;

@@ -9,10 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/myportal.css" />
   <style>
-    /* ═══════════════════════════════════════════
-       PORTAL-SPECIFIC VARIABLES & OVERRIDES
-    ═══════════════════════════════════════════ */
     :root {
       --forest: #1a3c2e;
       --forest-mid: #2d6a4f;
@@ -36,6 +34,8 @@
       --green-pale: #f0fdf4;
       --purple: #6d28d9;
       --purple-pale: #f5f3ff;
+      --teal: #0e7490;
+      --teal-pale: #ecfeff;
       --shadow: 0 4px 24px rgba(16,24,40,.08);
       --shadow-lg: 0 12px 48px rgba(16,24,40,.14);
       --radius: 14px;
@@ -43,13 +43,16 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 15px; scroll-behavior: smooth; }
+    html { font-size: 15px; scroll-behavior: smooth; overflow-x: hidden; }
     body {
       font-family: 'Inter', sans-serif;
       background: #f0f4f0;
       color: var(--text-dark);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
     }
     a { text-decoration: none; color: inherit; }
     button { cursor: pointer; font-family: inherit; border: none; }
@@ -187,6 +190,7 @@
       align-items: center;
       gap: 14px;
       transition: var(--transition);
+      min-width: 0;
     }
     .pstat:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
     .pstat-icon {
@@ -203,8 +207,10 @@
     .pstat-icon.blue  { background: var(--blue-pale);  color: var(--blue); }
     .pstat-icon.amber { background: var(--amber-pale); color: var(--amber); }
     .pstat-icon.forest{ background: var(--forest-pale);color: var(--forest); }
+    .pstat-icon.teal  { background: var(--teal-pale);  color: var(--teal); }
     .pstat-num  { font-size: 1.5rem; font-weight: 800; color: var(--text-dark); line-height: 1; }
     .pstat-label{ font-size: .75rem; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+    .pstat-body { min-width: 0; }
 
     /* ═══ MAIN LAYOUT ═══ */
     .portal-body {
@@ -291,15 +297,55 @@
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       flex-wrap: wrap;
       gap: 12px;
     }
     .panel-header h2 { font-size: 1.2rem; font-weight: 800; color: var(--text-dark); font-family: 'Playfair Display', serif; }
     .panel-header p  { font-size: .82rem; color: var(--text-muted); margin-top: 2px; }
 
+    /* ═══ TYPE TABS (Tours / Stays) ═══ */
+    .type-tabs {
+      display: flex;
+      gap: 4px;
+      background: #e9efe9;
+      border-radius: 100px;
+      padding: 4px;
+      width: fit-content;
+      margin-bottom: 14px;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    .type-tab {
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .type-tab.active {
+      background: var(--forest);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(26,60,46,.25);
+    }
+    .type-tab .tt-count {
+      font-size: .68rem;
+      background: rgba(255,255,255,.25);
+      padding: 1px 6px;
+      border-radius: 100px;
+    }
+    .type-tab:not(.active) .tt-count { background: rgba(0,0,0,.06); }
+
     /* ═══ FILTER CHIPS ═══ */
-    .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-chips { display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+    .filter-chips::-webkit-scrollbar { height: 4px; }
+    .filter-chips::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
     .chip {
       padding: 6px 14px;
       border-radius: 100px;
@@ -310,11 +356,13 @@
       color: var(--text-muted);
       cursor: pointer;
       transition: var(--transition);
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .chip:hover { border-color: var(--forest-light); color: var(--forest); }
     .chip.active { background: var(--forest); border-color: var(--forest); color: #fff; }
 
-    /* ═══ BOOKING CARDS ═══ */
+    /* ═══ BOOKING CARDS (shared: tours + stays) ═══ */
     .booking-card {
       background: var(--white);
       border-radius: var(--radius);
@@ -352,6 +400,20 @@
       justify-content: center;
       font-size: 2.5rem;
       flex-shrink: 0;
+    }
+    .bc-type-flag {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      font-size: .62rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      padding: 3px 8px;
+      border-radius: 100px;
+      background: rgba(16,24,40,.72);
+      color: #fff;
+      backdrop-filter: blur(4px);
     }
     .bc-main {
       flex: 1;
@@ -415,6 +477,27 @@
     .bc-expand.open { display: block; }
     .bc-expand-inner { padding: 20px 22px; }
 
+    /* ═══ STAY-SPECIFIC MINI GRID ═══ */
+    .stay-quickgrid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .stay-quickcell {
+      padding: 10px 8px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      background: #fafcfa;
+      min-width: 0;
+    }
+    .stay-quickcell:last-child { border-right: none; }
+    .stay-quickcell .sqc-label { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); margin-bottom: 3px; }
+    .stay-quickcell .sqc-value { font-size: .84rem; font-weight: 800; color: var(--text-dark); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
     /* ═══ DETAIL GRID ═══ */
     .detail-grid {
       display: grid;
@@ -422,7 +505,7 @@
       gap: 12px 20px;
       margin-bottom: 18px;
     }
-    .detail-item {}
+    .detail-item { min-width: 0; }
     .detail-label {
       font-size: .7rem;
       font-weight: 700;
@@ -431,7 +514,7 @@
       color: var(--text-muted);
       margin-bottom: 3px;
     }
-    .detail-value { font-size: .88rem; color: var(--text-dark); font-weight: 600; }
+    .detail-value { font-size: .88rem; color: var(--text-dark); font-weight: 600; overflow-wrap: anywhere; }
 
     /* ═══ PAYMENT BAR ═══ */
     .pay-bar-wrap {
@@ -446,6 +529,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 6px;
     }
     .pay-bar-title { font-size: .82rem; font-weight: 700; color: var(--text-dark); }
     .pay-bar-amounts { font-size: .82rem; color: var(--text-muted); }
@@ -468,6 +553,8 @@
       margin-top: 7px;
       font-size: .74rem;
       color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 4px;
     }
     .pbar-labels .paid-label { color: var(--forest); font-weight: 600; }
 
@@ -485,6 +572,8 @@
       display: flex;
       align-items: flex-start;
       position: relative;
+      flex-wrap: wrap;
+      row-gap: 14px;
     }
     .tl-steps::before {
       content: '';
@@ -498,6 +587,7 @@
     }
     .tl-step {
       flex: 1;
+      min-width: 60px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -573,6 +663,8 @@
     .badge.paid                          { background: var(--green-pale); color: var(--green); }
     .badge.unpaid                        { background: var(--red-pale);   color: var(--red); }
     .badge.receipt-pending               { background: var(--amber-pale); color: var(--amber); }
+    .badge.stay-type                     { background: var(--teal-pale); color: var(--teal); }
+    .badge.tour-type                     { background: var(--forest-pale); color: var(--forest); }
 
     /* ═══ APP CARDS (volunteer) ═══ */
     .app-card {
@@ -617,7 +709,7 @@
     .ac-expand-inner { padding: 20px 22px; }
 
     /* Progress stepper */
-    .progress-stepper { display: flex; gap: 0; margin-bottom: 20px; position: relative; }
+    .progress-stepper { display: flex; gap: 0; margin-bottom: 20px; position: relative; flex-wrap: wrap; row-gap: 14px; }
     .progress-stepper::before {
       content: '';
       position: absolute;
@@ -628,6 +720,7 @@
     }
     .ps-step {
       flex: 1;
+      min-width: 60px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -706,6 +799,18 @@
     .motivation-block::before { content: '"'; font-size: 2rem; color: var(--forest-light); line-height: 0; vertical-align: -12px; margin-right: 4px; }
     .motivation-block::after  { content: '"'; font-size: 2rem; color: var(--forest-light); line-height: 0; vertical-align: -12px; margin-left: 4px; }
 
+    /* ═══ MAP / DIRECTIONS LINK (stay) ═══ */
+    .stay-location-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 14px;
+    }
+    .stay-location-link:hover { text-decoration: underline; }
+
     /* ═══ EMPTY STATE ═══ */
     .empty-state {
       text-align: center;
@@ -751,11 +856,13 @@
       padding: 28px;
       max-width: 460px;
       width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
       box-shadow: var(--shadow-lg);
       animation: modalIn .22s ease;
     }
     @keyframes modalIn { from { opacity:0; transform: translateY(14px) scale(.97); } to { opacity:1; transform: none; } }
-    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; gap: 10px; }
     .modal-header h3 { font-size: 1rem; font-weight: 800; color: var(--text-dark); }
     .modal-close {
       width: 30px; height: 30px;
@@ -766,6 +873,7 @@
       color: var(--text-muted);
       cursor: pointer;
       transition: var(--transition);
+      flex-shrink: 0;
     }
     .modal-close:hover { background: var(--red-pale); color: var(--red); }
     .modal-sub { font-size: .83rem; color: var(--text-muted); margin-bottom: 18px; }
@@ -797,7 +905,7 @@
       transition: var(--transition);
     }
     .modal-field input:focus { border-color: var(--forest-light); box-shadow: 0 0 0 3px rgba(82,183,136,.1); }
-    .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+    .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; flex-wrap: wrap; }
     .upload-status { font-size: .8rem; color: var(--text-muted); margin-top: 10px; min-height: 18px; }
 
     /* ═══ TOAST ═══ */
@@ -809,6 +917,7 @@
       flex-direction: column;
       gap: 10px;
       z-index: 9999;
+      max-width: calc(100vw - 32px);
     }
     .toast-item {
       display: flex;
@@ -820,6 +929,7 @@
       font-weight: 600;
       color: #fff;
       min-width: 260px;
+      max-width: 100%;
       box-shadow: 0 8px 28px rgba(0,0,0,.18);
       animation: toastIn .25s ease;
     }
@@ -1001,12 +1111,14 @@
       .icon-btn-outline, .hamburger-box{ width:34px; height:34px; }
     }
 
-    /* ═══ RESPONSIVE (portal content) ═══ */
+    /* ═══════════════════════════════════════════
+       RESPONSIVE (portal content) — TIGHTENED
+    ═══════════════════════════════════════════ */
     @media (max-width: 900px) {
       .portal-stats { grid-template-columns: repeat(2, 1fr); }
-      .portal-body  { grid-template-columns: 1fr; }
+      .portal-body  { grid-template-columns: 1fr; margin-top: 24px; }
       .portal-sidebar { position: static; }
-      .sidebar-card { display: flex; overflow-x: auto; }
+      .sidebar-card { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; }
       .sidebar-nav-item { white-space: nowrap; border-left: none; border-bottom: none; border-bottom: 3px solid transparent; min-width: max-content; }
       .sidebar-nav-item.active { border-bottom-color: var(--forest-light); border-left-color: transparent; }
       .sidebar-help { display: none; }
@@ -1015,21 +1127,80 @@
     @media (max-width: 600px) {
       html, body { overflow-x: hidden; width: 100%; max-width: 100vw; }
       img, svg { max-width: 100%; height: auto; }
-      .portal-hero { padding: 88px 0 50px; }
-      .portal-hero-inner { padding: 0 5%; }
-      .portal-hero-user { width: 100%; }
-      .portal-stats { grid-template-columns: 1fr 1fr; padding: 0 5%; }
-      .portal-body { padding: 0 5%; }
+
+      .portal-hero { padding: 84px 0 46px; }
+      .portal-hero-inner { padding: 0 5%; gap: 16px; }
+      .portal-hero-text h1 { font-size: 1.4rem; }
+      .portal-hero-text p { font-size: .82rem; }
+      .portal-hero-user { width: 100%; padding: 12px 14px; gap: 10px; }
+      .portal-avatar-lg { width: 44px; height: 44px; font-size: 1rem; }
+      .portal-user-info strong { font-size: .85rem; }
+      .portal-user-info span { font-size: .7rem; }
+      .portal-user-badge { font-size: .65rem; padding: 2px 8px; }
+
+      .portal-stats { grid-template-columns: 1fr 1fr; padding: 0 5%; gap: 10px; margin-top: -20px; }
+      .pstat { padding: 14px 12px; gap: 10px; }
+      .pstat-icon { width: 36px; height: 36px; font-size: .95rem; border-radius: 9px; }
+      .pstat-num { font-size: 1.15rem; }
+      .pstat-label { font-size: .66rem; }
+
+      .portal-body { padding: 0 5%; margin: 22px auto 50px; }
+      .panel-header h2 { font-size: 1.05rem; }
+      .panel-header p { font-size: .76rem; }
+
+      .type-tabs { width: 100%; }
+      .type-tab { padding: 7px 12px; font-size: .76rem; flex: 1; justify-content: center; }
+
       .bc-top { flex-direction: column; }
-      .bc-img-wrap, .bc-img-placeholder { width: 100%; height: 160px; }
-      .bc-right { flex-direction: row; align-items: center; }
-      .detail-grid { grid-template-columns: 1fr; }
+      .bc-img-wrap, .bc-img-placeholder { width: 100%; height: 150px; }
+      .bc-main { padding: 12px 14px; gap: 10px; }
+      .bc-tour-name { font-size: .92rem; white-space: normal; }
+      .bc-meta-row { gap: 8px; }
+      .bc-meta-item { font-size: .72rem; }
+      .bc-right { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
+      .bc-amount { font-size: 1.05rem; }
+      .bc-expand-inner { padding: 14px 14px; }
+
+      .stay-quickgrid { grid-template-columns: repeat(2, 1fr); }
+      .stay-quickcell:nth-child(2) { border-right: none; }
+      .stay-quickcell:nth-child(3), .stay-quickcell:nth-child(4) { border-top: 1px solid var(--border); }
+      .stay-quickcell:nth-child(4) { border-right: none; }
+
+      .detail-grid { grid-template-columns: 1fr; gap: 10px; }
+      .pay-bar-wrap { padding: 12px 14px; }
+      .pay-bar-header { flex-direction: column; align-items: flex-start; }
+
+      .tl-steps { row-gap: 18px; }
       .tl-steps::before { display: none; }
+      .tl-step { min-width: 30%; flex-basis: 30%; }
+      .tl-label { font-size: .66rem; }
+      .tl-date { font-size: .62rem; }
+
+      .ac-top { padding: 14px 14px; gap: 10px; }
+      .ac-icon { width: 44px; height: 44px; font-size: 1.2rem; border-radius: 11px; }
+      .ac-title { font-size: .92rem; }
+      .ac-meta { gap: 8px; font-size: .72rem; }
+      .ac-expand-inner { padding: 14px 14px; }
+      .ac-right { align-items: flex-end; }
+
+      .progress-stepper::before { display: none; }
+      .ps-step { min-width: 22%; }
+      .ps-label { font-size: .64rem; }
+
+      .bc-actions { gap: 8px; }
+      .btn-action { padding: 7px 12px; font-size: .76rem; }
+
+      .modal-box { padding: 20px; max-width: 100%; }
       .modal-fields { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr !important; gap: 24px; }
+
+      .empty-state { padding: 40px 18px; }
+      .empty-icon { font-size: 2.4rem; margin-bottom: 12px; }
     }
     @media (max-width: 400px) {
-      .portal-stats { grid-template-columns: 1fr; }
+      .portal-stats { grid-template-columns: 1fr 1fr; }
+      .bc-img-wrap, .bc-img-placeholder { height: 130px; }
+      .stay-quickgrid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -1093,7 +1264,7 @@
   <div class="auth-gate-card">
     <div class="auth-gate-icon">🌍</div>
     <h2>Sign in to access your portal</h2>
-    <p>View and manage your International Volunteer Home Tz bookings, payments, and volunteer applications all in one place.</p>
+    <p>View and manage your International Volunteer Home Tz bookings, stays, payments, and volunteer applications all in one place.</p>
     <a href="login.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:12px;">
       <i class="fas fa-sign-in-alt"></i> Sign In to Your Account
     </a>
@@ -1111,7 +1282,7 @@
     <div class="portal-hero-inner">
       <div class="portal-hero-text">
         <h1>Welcome back, <em id="heroFirstName">Traveller</em> 👋</h1>
-        <p>Track your adventures, payments, and volunteer applications below.</p>
+        <p>Track your safaris, stays, payments, and volunteer applications below.</p>
       </div>
       <div class="portal-hero-user">
         <div class="portal-avatar-lg" id="heroAvatar">??</div>
@@ -1128,19 +1299,19 @@
   <div class="portal-stats" id="portalStats">
     <div class="pstat">
       <div class="pstat-icon green"><i class="fas fa-calendar-check"></i></div>
-      <div><div class="pstat-num" id="stat-bookings">—</div><div class="pstat-label">Total Bookings</div></div>
+      <div class="pstat-body"><div class="pstat-num" id="stat-bookings">—</div><div class="pstat-label">Total Bookings</div></div>
     </div>
     <div class="pstat">
-      <div class="pstat-icon forest"><i class="fas fa-leaf"></i></div>
-      <div><div class="pstat-num" id="stat-apps">—</div><div class="pstat-label">Applications</div></div>
+      <div class="pstat-icon teal"><i class="fas fa-bed"></i></div>
+      <div class="pstat-body"><div class="pstat-num" id="stat-stays">—</div><div class="pstat-label">Accommodation Stays</div></div>
     </div>
     <div class="pstat">
       <div class="pstat-icon blue"><i class="fas fa-dollar-sign"></i></div>
-      <div><div class="pstat-num" id="stat-spent">—</div><div class="pstat-label">Total Invested</div></div>
+      <div class="pstat-body"><div class="pstat-num" id="stat-spent">—</div><div class="pstat-label">Total Invested</div></div>
     </div>
     <div class="pstat">
       <div class="pstat-icon amber"><i class="fas fa-clock"></i></div>
-      <div><div class="pstat-num" id="stat-pending">—</div><div class="pstat-label">Pending Actions</div></div>
+      <div class="pstat-body"><div class="pstat-num" id="stat-pending">—</div><div class="pstat-label">Pending Actions</div></div>
     </div>
   </div>
 
@@ -1161,6 +1332,9 @@
         </div>
         <div class="sidebar-nav-item" onclick="window.location.href='tours.html'">
           <i class="fas fa-compass"></i> Browse Safaris
+        </div>
+        <div class="sidebar-nav-item" onclick="window.location.href='accommodation.html'">
+          <i class="fas fa-bed"></i> Browse Stays
         </div>
         <div class="sidebar-nav-item" onclick="window.location.href='volunteer.html'">
           <i class="fas fa-hands-helping"></i> Volunteer Programs
@@ -1184,16 +1358,24 @@
         <div class="panel-header">
           <div>
             <h2><i class="fas fa-calendar-alt" style="color:var(--forest-light);margin-right:8px;font-size:.95rem;"></i>My Bookings</h2>
-            <p>All your safari and tour bookings, payments, and trip details.</p>
-          </div>
-          <div class="filter-chips" id="bk-chips">
-            <button class="chip active" onclick="filterBookings('all',this)">All</button>
-            <button class="chip" onclick="filterBookings('confirmed',this)">Confirmed</button>
-            <button class="chip" onclick="filterBookings('pending',this)">Pending</button>
-            <button class="chip" onclick="filterBookings('completed',this)">Completed</button>
-            <button class="chip" onclick="filterBookings('cancelled',this)">Cancelled</button>
+            <p>All your safari tours and accommodation stays, payments, and trip details.</p>
           </div>
         </div>
+
+        <div class="type-tabs" id="bk-type-tabs">
+          <div class="type-tab active" onclick="filterBookingsByType('all',this)">All Bookings <span class="tt-count" id="tt-all">0</span></div>
+          <div class="type-tab" onclick="filterBookingsByType('tour',this)"><i class="fas fa-compass"></i> Safaris <span class="tt-count" id="tt-tour">0</span></div>
+          <div class="type-tab" onclick="filterBookingsByType('accommodation',this)"><i class="fas fa-bed"></i> Stays <span class="tt-count" id="tt-stay">0</span></div>
+        </div>
+
+        <div class="filter-chips" id="bk-chips" style="margin-bottom:18px;">
+          <button class="chip active" onclick="filterBookingsByStatus('all',this)">All</button>
+          <button class="chip" onclick="filterBookingsByStatus('confirmed',this)">Confirmed</button>
+          <button class="chip" onclick="filterBookingsByStatus('pending',this)">Pending</button>
+          <button class="chip" onclick="filterBookingsByStatus('completed',this)">Completed</button>
+          <button class="chip" onclick="filterBookingsByStatus('cancelled',this)">Cancelled</button>
+        </div>
+
         <div id="bookings-list">
           <div class="loading-state"><div class="spinner"></div><p>Loading your bookings…</p></div>
         </div>
@@ -1229,9 +1411,9 @@
         </div>
         <div class="booking-card" style="padding:0;">
           <div style="padding:24px 24px 0;">
-            <div style="display:flex;align-items:center;gap:18px;margin-bottom:24px;">
+            <div style="display:flex;align-items:center;gap:18px;margin-bottom:24px;flex-wrap:wrap;">
               <div class="portal-avatar-lg" style="width:64px;height:64px;font-size:1.4rem;" id="profileAvatar">??</div>
-              <div>
+              <div style="min-width:0;">
                 <div style="font-size:1.1rem;font-weight:800;color:var(--text-dark);" id="profileName">—</div>
                 <div style="font-size:.84rem;color:var(--text-muted);" id="profileEmail">—</div>
                 <div style="font-size:.78rem;color:var(--forest);font-weight:600;margin-top:4px;" id="profileRole">—</div>
@@ -1308,6 +1490,7 @@
       <h4>Quick Links</h4>
       <ul>
         <li><a href="tours.html">Safari Tours</a></li>
+        <li><a href="accommodation.html">Accommodation</a></li>
         <li><a href="volunteer.html">Volunteer Programs</a></li>
         <li><a href="community.html">Community Impact</a></li>
         <li><a href="my-portal.html">My Portal</a></li>
@@ -1466,6 +1649,8 @@ function confirmLogout(){
    NAV
 ═══════════════════════════════ */
 let allBookings = [], allApps = [];
+let currentBookingType = 'all';   // 'all' | 'tour' | 'accommodation'
+let currentBookingStatus = 'all';
 
 function showPanel(id, el){
   document.querySelectorAll('.portal-panel').forEach(p=>p.classList.remove('active'));
@@ -1475,11 +1660,25 @@ function showPanel(id, el){
   if(el) el.classList.add('active');
 }
 
-function filterBookings(status, chip){
-  document.querySelectorAll('#bk-chips .chip').forEach(c=>c.classList.remove('active'));
-  chip.classList.add('active');
-  renderBookings(status==='all' ? allBookings : allBookings.filter(b=>b.status===status));
+function filterBookingsByType(type, tab){
+  currentBookingType = type;
+  document.querySelectorAll('#bk-type-tabs .type-tab').forEach(t=>t.classList.remove('active'));
+  if(tab) tab.classList.add('active');
+  applyBookingFilters();
 }
+function filterBookingsByStatus(status, chip){
+  currentBookingStatus = status;
+  document.querySelectorAll('#bk-chips .chip').forEach(c=>c.classList.remove('active'));
+  if(chip) chip.classList.add('active');
+  applyBookingFilters();
+}
+function applyBookingFilters(){
+  let list = allBookings;
+  if(currentBookingType !== 'all') list = list.filter(b => (b.bookingType||'tour') === currentBookingType);
+  if(currentBookingStatus !== 'all') list = list.filter(b => b.status === currentBookingStatus);
+  renderBookings(list);
+}
+
 function filterApps(status, chip){
   document.querySelectorAll('#vol-chips .chip').forEach(c=>c.classList.remove('active'));
   chip.classList.add('active');
@@ -1528,9 +1727,14 @@ function payBadge(s){
   };
   return s ? `<span class="badge ${map[s]||'pending'}">${labels[s]||esc(s)}</span>` : '';
 }
+function typeBadge(bookingType){
+  return bookingType === 'accommodation'
+    ? `<span class="badge stay-type"><i class="fas fa-bed" style="font-size:.6rem;"></i> Stay</span>`
+    : `<span class="badge tour-type"><i class="fas fa-compass" style="font-size:.6rem;"></i> Safari</span>`;
+}
 
 /* ═══════════════════════════════
-   PAYMENT BAR
+   PAYMENT BAR (shared)
 ═══════════════════════════════ */
 function paymentBar(b){
   const total = b.totalAmount||0;
@@ -1554,13 +1758,13 @@ function paymentBar(b){
 }
 
 /* ═══════════════════════════════
-   BOOKING TIMELINE
+   TOUR BOOKING TIMELINE
 ═══════════════════════════════ */
 function bookingTimeline(b){
   const steps = [
     { label:'Booked',       done:true,                                       date:b.createdAt },
     { label:'Deposit Paid', done:['deposit_paid','fully_paid','pending_verification'].includes(b.paymentStatus||''), date:null },
-    { label:'Confirmed',    done:['confirmed','completed'].includes(b.status), date:b.confirmedAt||null },
+    { label:'Confirmed',    done:['confirmed','completed'].includes(b.status), date:null },
     { label:'Balance Due',  done:b.paymentStatus==='fully_paid',              date:b.travelDate ? new Date(new Date(b.travelDate)-30*86400000).toISOString():null },
     { label:'Travel Day',   done:b.status==='completed',                      date:b.travelDate },
   ];
@@ -1584,87 +1788,214 @@ function bookingTimeline(b){
 }
 
 /* ═══════════════════════════════
-   RENDER BOOKINGS
+   STAY (ACCOMMODATION) TIMELINE
+═══════════════════════════════ */
+function stayTimeline(b){
+  const steps = [
+    { label:'Booked',       done:true,                                       date:b.createdAt },
+    { label:'Deposit Paid', done:['deposit_paid','fully_paid','pending_verification'].includes(b.paymentStatus||''), date:null },
+    { label:'Confirmed',    done:['confirmed','completed'].includes(b.status), date:null },
+    { label:'Check-in',     done:b.status==='completed',                      date:b.checkInDate },
+    { label:'Check-out',    done:b.status==='completed',                      date:b.checkOutDate },
+  ];
+  const cur = steps.reduce((acc,s,i)=>s.done?i:acc, -1);
+  return `
+    <div class="timeline-wrap">
+      <div class="timeline-title"><i class="fas fa-route" style="margin-right:6px;"></i>Stay Timeline</div>
+      <div class="tl-steps">
+        ${steps.map((s,i)=>{
+          const cls = s.done ? 'done' : i===cur+1 ? 'current' : '';
+          const icon = s.done ? '<i class="fas fa-check" style="font-size:.65rem;"></i>' : (i+1);
+          return `
+            <div class="tl-step">
+              <div class="tl-dot ${cls}">${icon}</div>
+              <div class="tl-label ${cls}">${esc(s.label)}</div>
+              ${s.date ? `<div class="tl-date">${fmtDate(s.date)}</div>` : '<div class="tl-date">—</div>'}
+            </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════
+   RENDER: DISPATCH BY TYPE
 ═══════════════════════════════ */
 function renderBookings(list){
   const el = document.getElementById('bookings-list');
   if(!list||!list.length){
+    const isStayOnly = currentBookingType === 'accommodation';
+    const isTourOnly = currentBookingType === 'tour';
     el.innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">🗓️</div>
-        <h3>No bookings yet</h3>
-        <p>Your safari adventures and tours will appear here once you make a booking.</p>
-        <a href="tours.html" class="btn btn-primary"><i class="fas fa-compass"></i> Browse Safaris</a>
+        <div class="empty-icon">${isStayOnly ? '🏨' : '🗓️'}</div>
+        <h3>No ${isStayOnly ? 'stays' : isTourOnly ? 'safari bookings' : 'bookings'} yet</h3>
+        <p>${isStayOnly ? 'Your accommodation stays will appear here once you book one.' : 'Your safari adventures and stays will appear here once you make a booking.'}</p>
+        <a href="${isStayOnly ? 'accommodation.html' : 'tours.html'}" class="btn btn-primary"><i class="fas fa-compass"></i> ${isStayOnly ? 'Browse Stays' : 'Browse Safaris'}</a>
       </div>`;
     return;
   }
-  el.innerHTML = list.map(b=>{
-    const ref   = b.bookingRef||b._id?.slice(-6).toUpperCase()||'—';
-    const tour  = b.tour?.title||b.tour?.destination||'Safari Package';
-    const dest  = b.tour?.country||b.tour?.destination||'Africa';
-    const dur   = b.tour?.duration ? `${b.tour.duration} Days` : '';
-    const pax   = b.numberOfPeople||b.pax||1;
-    const img   = b.tour?.coverImage?.url||'';
-    const needsReceipt = (!b.paymentStatus||b.paymentStatus==='unpaid') && b.paymentMethod==='bank_transfer';
-    const canCancel    = ['pending','confirmed'].includes(b.status);
-    const receipts     = (b.payments||[]).filter(p=>p.proofOfPayment?.url);
+  el.innerHTML = list.map(b => (b.bookingType === 'accommodation') ? stayCardHTML(b) : tourCardHTML(b)).join('');
+}
 
-    return `
-      <div class="booking-card">
-        <div class="bc-top" onclick="toggleCard('${b._id}')">
-          ${img
-            ? `<div class="bc-img-wrap"><img src="${esc(img)}" alt="${esc(tour)}" loading="lazy" onerror="this.parentElement.innerHTML='<div style=\'width:130px;height:130px;background:var(--forest-pale);display:flex;align-items:center;justify-content:center;font-size:2rem;\'>🦁</div>'" /></div>`
-            : `<div class="bc-img-placeholder">🦁</div>`}
-          <div class="bc-main">
-            <div class="bc-info">
-              <div class="bc-tour-name">${esc(tour)}</div>
-              <div class="bc-meta-row">
-                <span class="bc-meta-item"><i class="fas fa-location-dot"></i>${esc(dest)}</span>
-                ${dur ? `<span class="bc-meta-item"><i class="fas fa-clock"></i>${esc(dur)}</span>` : ''}
-                <span class="bc-meta-item"><i class="fas fa-users"></i>${pax} traveller${pax!==1?'s':''}</span>
-                <span class="bc-meta-item"><i class="fas fa-calendar"></i>${fmtDate(b.travelDate||b.createdAt)}</span>
-              </div>
-              <div class="bc-badges">
-                ${statusBadge(b.status)}
-                ${payBadge(b.paymentStatus)}
-              </div>
+/* ═══════════════════════════════
+   TOUR CARD
+═══════════════════════════════ */
+function tourCardHTML(b){
+  const ref   = b.bookingRef||b._id?.slice(-6).toUpperCase()||'—';
+  const tour  = b.tour?.title||b.tour?.destination||'Safari Package';
+  const dest  = b.tour?.country||b.tour?.destination||'Africa';
+  const dur   = b.tour?.duration ? `${b.tour.duration} Days` : '';
+  const pax   = b.numberOfTravelers||b.numberOfPeople||b.pax||1;
+  const img   = b.tour?.coverImage?.url||'';
+  const needsReceipt = (!b.paymentStatus||b.paymentStatus==='unpaid') && b.paymentMethod==='bank_transfer';
+  const canCancel    = ['pending','confirmed'].includes(b.status);
+  const receipts     = (b.payments||[]).filter(p=>p.proofOfPayment?.url);
+
+  return `
+    <div class="booking-card">
+      <div class="bc-top" onclick="toggleCard('${b._id}')">
+        ${img
+          ? `<div class="bc-img-wrap"><span class="bc-type-flag">Safari</span><img src="${esc(img)}" alt="${esc(tour)}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'bc-type-flag\\'>Safari</span><div style=\\'width:100%;height:100%;background:var(--forest-pale);display:flex;align-items:center;justify-content:center;font-size:2rem;\\'>🦁</div>'" /></div>`
+          : `<div class="bc-img-placeholder" style="position:relative;"><span class="bc-type-flag">Safari</span>🦁</div>`}
+        <div class="bc-main">
+          <div class="bc-info">
+            <div class="bc-tour-name">${esc(tour)}</div>
+            <div class="bc-meta-row">
+              <span class="bc-meta-item"><i class="fas fa-location-dot"></i>${esc(dest)}</span>
+              ${dur ? `<span class="bc-meta-item"><i class="fas fa-clock"></i>${esc(dur)}</span>` : ''}
+              <span class="bc-meta-item"><i class="fas fa-users"></i>${pax} traveller${pax!==1?'s':''}</span>
+              <span class="bc-meta-item"><i class="fas fa-calendar"></i>${fmtDate(b.startDate||b.travelDate||b.createdAt)}</span>
             </div>
-            <div class="bc-right">
-              <div class="bc-amount">${fmt(b.totalAmount)}</div>
-              <div class="bc-ref">${esc(ref)}</div>
-              <div class="bc-chevron" id="chev-${b._id}"><i class="fas fa-chevron-down"></i></div>
-            </div>
-          </div>
-        </div>
-        <div class="bc-expand" id="bd-${b._id}">
-          <div class="bc-expand-inner">
-            <div class="detail-grid">
-              <div class="detail-item"><div class="detail-label">Booking Ref</div><div class="detail-value" style="font-family:monospace;">${esc(ref)}</div></div>
-              <div class="detail-item"><div class="detail-label">Travel Date</div><div class="detail-value">${fmtDate(b.travelDate)}</div></div>
-              <div class="detail-item"><div class="detail-label">Booked On</div><div class="detail-value">${fmtDate(b.createdAt)}</div></div>
-              <div class="detail-item"><div class="detail-label">Travelers</div><div class="detail-value">${pax} person${pax!==1?'s':''}</div></div>
-              <div class="detail-item"><div class="detail-label">Payment Method</div><div class="detail-value" style="text-transform:capitalize;">${esc(b.paymentMethod||'—')}</div></div>
-              <div class="detail-item"><div class="detail-label">Deposit</div><div class="detail-value">${fmt(b.depositAmount||(b.totalAmount*.2))}</div></div>
-            </div>
-            ${paymentBar(b)}
-            ${bookingTimeline(b)}
-            ${b.specialRequests ? `<div class="motivation-block">${esc(b.specialRequests)}</div>` : ''}
-            ${receipts.length ? `
-              <div class="section-divider">Payment Proof</div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
-                ${receipts.map(p=>`<a href="${esc(p.proofOfPayment.url)}" target="_blank" class="btn-action outline" style="font-size:.78rem;padding:6px 12px;"><i class="fas fa-file-invoice"></i>View Receipt</a>`).join('')}
-              </div>` : ''}
-            <div class="section-divider">Actions</div>
-            <div class="bc-actions">
-              ${needsReceipt ? `<button class="btn-action upload" onclick="openUpload('${b._id}')"><i class="fas fa-upload"></i>Upload Receipt</button>` : ''}
-              <button class="btn-action outline" onclick="toast('PDF sent to your email.','success')"><i class="fas fa-download"></i>Download PDF</button>
-              <button class="btn-action outline" onclick="toast('Our guide will contact you 48h before departure.','info')"><i class="fas fa-comment-dots"></i>Contact Guide</button>
-              ${canCancel ? `<button class="btn-action danger" onclick="requestCancel('${b._id}')"><i class="fas fa-times-circle"></i>Request Cancellation</button>` : ''}
+            <div class="bc-badges">
+              ${typeBadge('tour')}
+              ${statusBadge(b.status)}
+              ${payBadge(b.paymentStatus)}
             </div>
           </div>
+          <div class="bc-right">
+            <div class="bc-amount">${fmt(b.totalAmount)}</div>
+            <div class="bc-ref">${esc(ref)}</div>
+            <div class="bc-chevron" id="chev-${b._id}"><i class="fas fa-chevron-down"></i></div>
+          </div>
         </div>
-      </div>`;
-  }).join('');
+      </div>
+      <div class="bc-expand" id="bd-${b._id}">
+        <div class="bc-expand-inner">
+          <div class="detail-grid">
+            <div class="detail-item"><div class="detail-label">Booking Ref</div><div class="detail-value" style="font-family:monospace;">${esc(ref)}</div></div>
+            <div class="detail-item"><div class="detail-label">Travel Date</div><div class="detail-value">${fmtDate(b.startDate||b.travelDate)}</div></div>
+            <div class="detail-item"><div class="detail-label">Booked On</div><div class="detail-value">${fmtDate(b.createdAt)}</div></div>
+            <div class="detail-item"><div class="detail-label">Travelers</div><div class="detail-value">${pax} person${pax!==1?'s':''}</div></div>
+            <div class="detail-item"><div class="detail-label">Payment Method</div><div class="detail-value" style="text-transform:capitalize;">${esc(b.paymentMethod||'—')}</div></div>
+            <div class="detail-item"><div class="detail-label">Deposit</div><div class="detail-value">${fmt(b.depositAmount||(b.totalAmount*.2))}</div></div>
+          </div>
+          ${paymentBar(b)}
+          ${bookingTimeline(b)}
+          ${b.specialRequests ? `<div class="motivation-block">${esc(b.specialRequests)}</div>` : ''}
+          ${receipts.length ? `
+            <div class="section-divider">Payment Proof</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+              ${receipts.map(p=>`<a href="${esc(p.proofOfPayment.url)}" target="_blank" class="btn-action outline" style="font-size:.78rem;padding:6px 12px;"><i class="fas fa-file-invoice"></i>View Receipt</a>`).join('')}
+            </div>` : ''}
+          <div class="section-divider">Actions</div>
+          <div class="bc-actions">
+            ${needsReceipt ? `<button class="btn-action upload" onclick="event.stopPropagation();openUpload('${b._id}')"><i class="fas fa-upload"></i>Upload Receipt</button>` : ''}
+            <button class="btn-action outline" onclick="event.stopPropagation();emailBookingDetails('${b._id}',this)"><i class="fas fa-envelope"></i>Email Me Full Details</button>
+<button class="btn-action outline" onclick="event.stopPropagation();contactGuide('${b._id}')"><i class="fas fa-comment-dots"></i>Contact Guide</button>
+            ${canCancel ? `<button class="btn-action danger" onclick="event.stopPropagation();requestCancel('${b._id}')"><i class="fas fa-times-circle"></i>Request Cancellation</button>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════
+   STAY (ACCOMMODATION) CARD
+═══════════════════════════════ */
+function stayCardHTML(b){
+  const acc      = b.accommodation || {};
+  const ref      = b.bookingRef || b._id?.slice(-6).toUpperCase() || '—';
+  const name     = acc.name || 'Accommodation';
+  const loc      = [acc.location?.city, acc.location?.region, acc.location?.country].filter(Boolean).join(', ') || 'East Africa';
+  const category = (acc.category || '').replace(/_/g,' ');
+  const img      = acc.media?.images?.find(m=>m.isCover)?.url || acc.media?.images?.[0]?.url || '';
+  const nights   = b.numberOfNights ?? (b.checkInDate && b.checkOutDate
+    ? Math.round((new Date(b.checkOutDate) - new Date(b.checkInDate)) / 86400000) : '—');
+  const guests   = b.numberOfGuests || 1;
+  const priceLabel = { per_night:'/night', per_person:'/person', per_tent:'/tent' }[acc.priceType] || '/night';
+  const needsReceipt = (!b.paymentStatus||b.paymentStatus==='unpaid') && b.paymentMethod==='bank_transfer';
+  const canCancel    = ['pending','confirmed'].includes(b.status);
+  const receipts     = (b.payments||[]).filter(p=>p.proofOfPayment?.url);
+  const mapQuery = encodeURIComponent(loc || acc.name || 'Tanzania');
+  const listingLink = acc.slug ? `accommodation-detail.html?slug=${encodeURIComponent(acc.slug)}` : '';
+
+  return `
+    <div class="booking-card">
+      <div class="bc-top" onclick="toggleCard('${b._id}')">
+        ${img
+          ? `<div class="bc-img-wrap"><span class="bc-type-flag" style="background:rgba(14,116,144,.85);">Stay</span><img src="${esc(img)}" alt="${esc(name)}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'bc-type-flag\\' style=\\'background:rgba(14,116,144,.85);\\'>Stay</span><div style=\\'width:100%;height:100%;background:var(--teal-pale);display:flex;align-items:center;justify-content:center;font-size:2rem;\\'>🏨</div>'" /></div>`
+          : `<div class="bc-img-placeholder" style="position:relative;background:linear-gradient(135deg,var(--teal-pale),#7dd3e0);"><span class="bc-type-flag" style="background:rgba(14,116,144,.85);">Stay</span>🏨</div>`}
+        <div class="bc-main">
+          <div class="bc-info">
+            <div class="bc-tour-name">${esc(name)}</div>
+            <div class="bc-meta-row">
+              <span class="bc-meta-item"><i class="fas fa-location-dot"></i>${esc(loc)}</span>
+              ${category ? `<span class="bc-meta-item"><i class="fas fa-tag"></i>${esc(category)}</span>` : ''}
+              <span class="bc-meta-item"><i class="fas fa-users"></i>${guests} guest${guests!==1?'s':''}</span>
+              <span class="bc-meta-item"><i class="fas fa-moon"></i>${nights} night${nights!==1?'s':''}</span>
+            </div>
+            <div class="bc-badges">
+              ${typeBadge('accommodation')}
+              ${statusBadge(b.status)}
+              ${payBadge(b.paymentStatus)}
+            </div>
+          </div>
+          <div class="bc-right">
+            <div class="bc-amount">${fmt(b.totalAmount)}</div>
+            <div class="bc-ref">${esc(ref)}</div>
+            <div class="bc-chevron" id="chev-${b._id}"><i class="fas fa-chevron-down"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="bc-expand" id="bd-${b._id}">
+        <div class="bc-expand-inner">
+          <div class="stay-quickgrid">
+            <div class="stay-quickcell"><div class="sqc-label">Check-in</div><div class="sqc-value">${fmtDate(b.checkInDate)}</div></div>
+            <div class="stay-quickcell"><div class="sqc-label">Check-out</div><div class="sqc-value">${fmtDate(b.checkOutDate)}</div></div>
+            <div class="stay-quickcell"><div class="sqc-label">Nights</div><div class="sqc-value">${nights}</div></div>
+            <div class="stay-quickcell"><div class="sqc-label">Guests</div><div class="sqc-value">${guests}</div></div>
+          </div>
+
+          ${listingLink ? `<a href="${listingLink}" target="_blank" class="stay-location-link"><i class="fas fa-arrow-up-right-from-square"></i> View property listing</a><br>` : ''}
+          <a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" class="stay-location-link"><i class="fas fa-map-location-dot"></i> Get directions</a>
+
+          <div class="detail-grid" style="margin-top:8px;">
+            <div class="detail-item"><div class="detail-label">Booking Ref</div><div class="detail-value" style="font-family:monospace;">${esc(ref)}</div></div>
+            <div class="detail-item"><div class="detail-label">Booked On</div><div class="detail-value">${fmtDate(b.createdAt)}</div></div>
+            <div class="detail-item"><div class="detail-label">Rate</div><div class="detail-value">${fmt(b.pricePerNight)} ${priceLabel}</div></div>
+            <div class="detail-item"><div class="detail-label">Payment Method</div><div class="detail-value" style="text-transform:capitalize;">${esc(b.paymentMethod||'—')}</div></div>
+            <div class="detail-item"><div class="detail-label">Deposit</div><div class="detail-value">${fmt(b.depositAmount||(b.totalAmount*.2))}</div></div>
+            <div class="detail-item"><div class="detail-label">Check-in / out</div><div class="detail-value">${esc(acc.policies?.checkIn||'2:00 PM')} · ${esc(acc.policies?.checkOut||'11:00 AM')}</div></div>
+          </div>
+          ${paymentBar(b)}
+          ${stayTimeline(b)}
+          ${acc.policies?.cancellationPolicy ? `<div class="section-divider">Cancellation Policy</div><div class="motivation-block">${esc(acc.policies.cancellationPolicy)}</div>` : ''}
+          ${b.specialRequests ? `<div class="section-divider">Your Special Requests</div><div class="motivation-block">${esc(b.specialRequests)}</div>` : ''}
+          ${receipts.length ? `
+            <div class="section-divider">Payment Proof</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+              ${receipts.map(p=>`<a href="${esc(p.proofOfPayment.url)}" target="_blank" class="btn-action outline" style="font-size:.78rem;padding:6px 12px;"><i class="fas fa-file-invoice"></i>View Receipt</a>`).join('')}
+            </div>` : ''}
+          <div class="section-divider">Actions</div>
+          <div class="bc-actions">
+            ${needsReceipt ? `<button class="btn-action upload" onclick="event.stopPropagation();openUpload('${b._id}')"><i class="fas fa-upload"></i>Upload Receipt</button>` : ''}
+           <button class="btn-action outline" onclick="event.stopPropagation();emailBookingDetails('${b._id}',this)"><i class="fas fa-envelope"></i>Email Me Full Details</button>
+<button class="btn-action outline" onclick="event.stopPropagation();contactHost('${b._id}')"><i class="fas fa-comment-dots"></i>Contact Host</button>
+            ${canCancel ? `<button class="btn-action danger" onclick="event.stopPropagation();requestCancel('${b._id}')"><i class="fas fa-times-circle"></i>Request Cancellation</button>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>`;
 }
 
 /* ═══════════════════════════════
@@ -1768,9 +2099,9 @@ function renderApps(list){
             ${langs.length  ? `<div class="section-divider">Languages</div><div style="margin-bottom:12px;">${langs.map(l=>`<span class="pill blue">${esc(l)}</span>`).join('')}</div>` : ''}
             <div class="section-divider">Actions</div>
             <div class="bc-actions">
-              <button class="btn-action outline" onclick="toast('Application PDF sent to your email.','success')"><i class="fas fa-download"></i>Download Summary</button>
-              <button class="btn-action outline" onclick="toast('Our team will respond within 2 business days.','info')"><i class="fas fa-envelope"></i>Contact Us</button>
-              ${canWithdraw ? `<button class="btn-action danger" onclick="withdrawApp('${a._id}')"><i class="fas fa-times-circle"></i>Withdraw Application</button>` : ''}
+              <button class="btn-action outline" onclick="event.stopPropagation();toast('Application PDF sent to your email.','success')"><i class="fas fa-download"></i>Download Summary</button>
+              <button class="btn-action outline" onclick="event.stopPropagation();toast('Our team will respond within 2 business days.','info')"><i class="fas fa-envelope"></i>Contact Us</button>
+              ${canWithdraw ? `<button class="btn-action danger" onclick="event.stopPropagation();withdrawApp('${a._id}')"><i class="fas fa-times-circle"></i>Withdraw Application</button>` : ''}
             </div>
           </div>
         </div>
@@ -1782,9 +2113,10 @@ function renderApps(list){
    LOAD DATA
 ═══════════════════════════════ */
 async function loadData(){
-  /* Bookings */
+  /* Bookings — one call returns BOTH tours and accommodation stays,
+     each row distinguished by bookingType. */
   try {
-    const d = await api('/api/bookings/my');
+    const d = await api('/api/bookings/my?limit=100');
     allBookings = d.bookings||d.data||[];
   } catch(e) {
     console.warn('Bookings:', e.message);
@@ -1801,16 +2133,23 @@ async function loadData(){
   }
 
   /* Stats */
-  const total   = allBookings.reduce((s,b)=>s+(Number(b.totalAmount)||0), 0);
-  const pending = allBookings.filter(b=>b.status==='pending').length + allApps.filter(a=>a.status==='pending').length;
+  const tourCount = allBookings.filter(b => (b.bookingType||'tour') === 'tour').length;
+  const stayCount = allBookings.filter(b => b.bookingType === 'accommodation').length;
+  const total     = allBookings.reduce((s,b)=>s+(Number(b.totalAmount)||0), 0);
+  const pending   = allBookings.filter(b=>b.status==='pending').length + allApps.filter(a=>a.status==='pending').length;
+
   document.getElementById('stat-bookings').textContent = allBookings.length;
-  document.getElementById('stat-apps').textContent     = allApps.length;
+  document.getElementById('stat-stays').textContent    = stayCount;
   document.getElementById('stat-spent').textContent    = fmt(total);
   document.getElementById('stat-pending').textContent  = pending;
   document.getElementById('sb-bk').textContent         = allBookings.length;
   document.getElementById('sb-apps').textContent       = allApps.length;
 
-  renderBookings(allBookings);
+  document.getElementById('tt-all').textContent  = allBookings.length;
+  document.getElementById('tt-tour').textContent = tourCount;
+  document.getElementById('tt-stay').textContent = stayCount;
+
+  applyBookingFilters();
   renderApps(allApps);
 }
 
@@ -1840,7 +2179,8 @@ async function withdrawApp(id){
 }
 
 /* ═══════════════════════════════
-   UPLOAD
+   UPLOAD — matches backend:
+   POST /api/bookings/:id/upload-proof  (field name "proof")
 ═══════════════════════════════ */
 let _upId = null;
 
@@ -1866,6 +2206,50 @@ function handleFileSelect(input){
   const btn = document.getElementById('uploadSubmitBtn');
   btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
 }
+
+
+async function emailBookingDetails(bookingId, btn){
+  if(btn){ btn.disabled = true; }
+  try{
+    const res = await api(`/api/bookings/${bookingId}/email-details`, { method:'POST' });
+    toast(res.message || 'Booking details emailed to you.', 'success');
+  }catch(e){
+    toast('Could not send email: ' + e.message, 'error');
+  }finally{
+    if(btn) btn.disabled = false;
+  }
+}
+
+async function contactGuide(bookingId){
+  const message = prompt('What would you like to ask your guide?', '');
+  if(message === null) return; // cancelled
+  try{
+    const res = await api(`/api/bookings/${bookingId}/contact-guide`, {
+      method:'POST',
+      body: JSON.stringify({ message })
+    });
+    toast(res.message || 'Message sent to your guide.', 'success');
+  }catch(e){
+    toast('Could not send message: ' + e.message, 'error');
+  }
+}
+
+async function contactHost(bookingId){
+  const message = prompt('What would you like to ask the host?', '');
+  if(message === null) return;
+  try{
+    const res = await api(`/api/bookings/${bookingId}/contact-host`, {
+      method:'POST',
+      body: JSON.stringify({ message })
+    });
+    toast(res.message || 'Message sent to the host.', 'success');
+  }catch(e){
+    toast('Could not send message: ' + e.message, 'error');
+  }
+}
+
+
+
 async function submitUpload(){
   const f = document.getElementById('receiptFile').files[0];
   if(!f || !_upId) return;
@@ -1874,21 +2258,25 @@ async function submitUpload(){
   document.getElementById('uploadStatus').innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:6px;"></i>Uploading…';
   try {
     const fd = new FormData();
-    fd.append('receipt', f);
-    fd.append('bankName', document.getElementById('bankName').value.trim());
-    fd.append('bankReference', document.getElementById('bankRef').value.trim());
+    fd.append('proof', f);                       // ← backend expects field "proof"
+    const bankName = document.getElementById('bankName').value.trim();
+    const bankRef  = document.getElementById('bankRef').value.trim();
+    if(bankName) fd.append('bankName', bankName);
+    if(bankRef)  fd.append('bankReference', bankRef);
+
     const t = getToken();
-    const res = await fetch(`${API_BASE}/api/bookings/${_upId}/upload-receipt`, {
+    const res = await fetch(`${API_BASE}/api/bookings/${_upId}/upload-proof`, {   // ← correct endpoint
       method:'POST',
       headers: t ? {'Authorization':`Bearer ${t}`} : {},
       body: fd
     });
-    if(!res.ok) throw new Error('Upload failed');
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data.message || 'Upload failed');
     toast('Receipt submitted! Our team will verify within 24 hours.','success');
     closeUpload(); loadData();
   } catch(e) {
-    toast('Receipt received — our team will follow up shortly.','success');
-    closeUpload();
+    toast('Upload failed: ' + e.message, 'error');
+    btn.disabled = false; btn.style.opacity = '1';
   }
 }
 

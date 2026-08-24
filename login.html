@@ -419,7 +419,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       localStorage.setItem('wr_token', data.token);
       localStorage.setItem('wr_user', JSON.stringify(data.user));
       if (data.user.role === 'admin') {
-        window.location.href = 'admin/index.html';
+        window.location.href = 'admin2.html';
       } else {
         window.location.href = 'index.html';
       }

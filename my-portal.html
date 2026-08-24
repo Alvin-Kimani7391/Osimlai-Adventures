@@ -1202,6 +1202,78 @@
       .bc-img-wrap, .bc-img-placeholder { height: 130px; }
       .stay-quickgrid { grid-template-columns: 1fr 1fr; }
     }
+
+
+
+    /* ══════════════════════════════════════════════════
+   MOBILE SAFETY NET — prevents any row/grid from
+   overflowing its container and getting clipped/shifted
+   on narrow phone screens. Belt-and-braces on top of the
+   breakpoints above.
+══════════════════════════════════════════════════ */
+@media (max-width: 680px) {
+  html, body { overflow-x: hidden; width: 100%; max-width: 100vw; }
+  img, svg { max-width: 100%; height: auto; }
+
+  /* Force every top-level centered container back to 100% width,
+     centered, with safe side padding — no matter what fixed
+     max-width/padding was set above. */
+  .portal-hero-inner,
+  .portal-stats,
+  .portal-body,
+  .footer-grid {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
+
+  /* Flex/grid children that don't already have min-width:0 can
+     force their parent row wider than the viewport — this is the
+     #1 cause of "leaning" layouts. Reset it everywhere. */
+  .bc-right, .ac-right,
+  .pstat-body, .pstat,
+  .portal-user-info, .portal-hero-user,
+  .stat-item, .detail-item,
+  .bc-info, .ac-info,
+  .bc-meta-row, .ac-meta,
+  .pay-bar-header, .pay-bar-amounts {
+    min-width: 0;
+  }
+
+  .bc-right { flex-wrap: wrap; }
+  .ac-right { align-items: flex-end; flex-wrap: wrap; }
+
+  /* Toast cards have a 260px min-width — on very narrow phones
+     (≤320px) that alone can push the page wider than the
+     viewport. Cap it relative to the screen instead. */
+  .toast-item {
+    min-width: 0;
+    width: calc(100vw - 48px);
+    max-width: 360px;
+  }
+  .toast-stack {
+    left: 12px;
+    right: 12px;
+    max-width: calc(100vw - 24px);
+  }
+
+  /* Badges/pills/chips can wrap awkwardly and push a row wide if
+     they don't wrap — force-wrap them defensively. */
+  .bc-badges, .bc-meta-row, .ac-meta,
+  .filter-chips, .type-tabs,
+  .progress-stepper, .tl-steps {
+    flex-wrap: wrap;
+  }
+
+  /* Long unbroken refs/emails/names never overflow their box. */
+  .bc-ref, .ac-ref, .detail-value,
+  #heroEmail, #profileEmail, #heroFullName, #profileName {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
   </style>
 </head>
 <body>

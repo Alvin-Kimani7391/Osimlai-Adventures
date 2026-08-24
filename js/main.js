@@ -27,42 +27,75 @@ function logout(){ localStorage.removeItem('wr_token'); localStorage.removeItem(
 function confirmLogout(){ if(confirm('Are you sure you want to log out?')) logout(); }
 
 /* ===== AUTH NAV UPDATE ===== */
+/* ===== AUTH NAV UPDATE ===== */
 function updateNavForAuth() {
   const token = localStorage.getItem('wr_token');
   const userRaw = localStorage.getItem('wr_user');
   const navActions = document.querySelector('.nav-actions');
-  if (!navActions || !token || !userRaw) return;
+  const mobileUserChip = document.getElementById('mobileUserChip');
+  const mobileActions = document.getElementById('mobileActions');
+
+  // Not logged in → leave the default markup (Sign In / Get Started) as-is
+  if (!token || !userRaw) return;
+
   try {
     const user = JSON.parse(userRaw);
     const firstName = user.firstName || user.name?.split(' ')[0] || 'Traveler';
     const hour = new Date().getHours();
     const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-    navActions.innerHTML = `
-      <div class="user-chip" id="userChipBtn">
-        <div class="avatar">${firstName[0] || 'T'}</div>
-        <span class="greeting">${greeting}, ${firstName}</span>
-        <i class="fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="user-menu" id="userMenu">
-        <a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>
-        <a href="my-portal.html#applications"><i class="fa-solid fa-clipboard-list"></i> My Applications</a>
-        <div class="divider"></div>
-        <button onclick="if(confirm('Are you sure you want to log out?')){localStorage.removeItem('wr_token');localStorage.removeItem('wr_user');window.location.href='login.html';}"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
-      </div>`;
-    
-    const chip = document.getElementById('userChipBtn');
-    const menu = document.getElementById('userMenu');
-    if (chip && menu) {
-      chip.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = menu.classList.toggle('open');
-        chip.classList.toggle('open', isOpen);
-      });
-      document.addEventListener('click', (e) => {
-        if (!navActions.contains(e.target)) { menu.classList.remove('open'); chip.classList.remove('open'); }
-      });
+
+    /* ---- Desktop chip (unchanged) ---- */
+    if (navActions) {
+      navActions.innerHTML = `
+        <div class="user-chip" id="userChipBtn">
+          <div class="avatar">${firstName[0] || 'T'}</div>
+          <span class="greeting">${greeting}, ${firstName}</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="user-menu" id="userMenu">
+          <a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>
+          <a href="my-portal.html#applications"><i class="fa-solid fa-clipboard-list"></i> My Applications</a>
+          <div class="divider"></div>
+          <button onclick="confirmLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>`;
+
+      const chip = document.getElementById('userChipBtn');
+      const menu = document.getElementById('userMenu');
+      if (chip && menu) {
+        chip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = menu.classList.toggle('open');
+          chip.classList.toggle('open', isOpen);
+        });
+        document.addEventListener('click', (e) => {
+          if (!navActions.contains(e.target)) { menu.classList.remove('open'); chip.classList.remove('open'); }
+        });
+      }
     }
-  } catch(e) {
+
+    /* ---- Mobile: user chip at top of slide-out menu ---- */
+    if (mobileUserChip) {
+      mobileUserChip.innerHTML = `
+        <div class="mobile-user-chip">
+          <div class="avatar">${firstName[0] || 'T'}</div>
+          <div class="info">
+            <div class="name">${greeting}, ${firstName}</div>
+            <div class="email">${user.email || ''}</div>
+          </div>
+        </div>`;
+    }
+
+    /* ---- Mobile: swap Sign In/Get Started for My Portal/Logout ---- */
+    if (mobileActions) {
+      mobileActions.innerHTML = `
+        <a href="my-portal.html" class="btn btn-outline-dark" style="justify-content:center;">
+          <i class="fa-solid fa-user"></i> My Portal
+        </a>
+        <button class="btn btn-primary" style="justify-content:center;" onclick="confirmLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>`;
+    }
+  } catch (e) {
     localStorage.removeItem('wr_user');
     localStorage.removeItem('wr_token');
   }

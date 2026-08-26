@@ -86,13 +86,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
-  <!--
-    NOTE: Individual volunteer programs, safaris, and stays (volunteer-explore.html?id=,
-    tour-detail.html?id=, accommodation-detail.html?slug=) live in MongoDB and can't be
-    listed here by hand. Generate those entries dynamically from your Express backend —
-    see generate-sitemap.js for a script that queries your existing collections and
-    writes/serves an up-to-date sitemap automatically.
-  -->
-
 </urlset>

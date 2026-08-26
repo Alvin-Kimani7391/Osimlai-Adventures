@@ -5,6 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Stays | International Volunteer Home Tz</title>
 <meta name="description" content="Browse lodges, safari camps, guesthouses and homestays across Tanzania and East Africa — filter by location, dates, guests and price, and book direct." />
+<link rel="canonical" href="https://internationalvolunteerhometz.com/accommodation.html" />
+<meta name="robots" content="index, follow" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://internationalvolunteerhometz.com/accommodation.html" />
+<meta property="og:site_name" content="International Volunteer Home Tz" />
+<meta property="og:title" content="Stays | International Volunteer Home Tz" />
+<meta property="og:description" content="Browse lodges, safari camps, guesthouses and homestays across Tanzania and East Africa — filter by location, dates, guests and price, and book direct." />
+<meta property="og:image" content="https://internationalvolunteerhometz.com/images/og-stays.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://internationalvolunteerhometz.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Stays", "item": "https://internationalvolunteerhometz.com/accommodation.html" }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css" />
@@ -370,33 +389,88 @@ function toggleWishlist(id) {
 }
 
 /* ===== AUTH NAV ===== */
+/* ===== AUTH NAV ===== */
+async function hydrateUser() {
+  const token = getToken();
+  const user = localStorage.getItem('wr_user');
+  if (token && !user) {
+    try {
+      const res = await fetch(`${API}/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+      const data = await res.json();
+      if (data.user) localStorage.setItem('wr_user', JSON.stringify(data.user));
+    } catch (e) { console.error('Failed to hydrate user', e); }
+  }
+}
+
+function confirmLogout() {
+  if (confirm('Are you sure you want to log out?')) {
+    localStorage.removeItem('wr_token');
+    localStorage.removeItem('wr_user');
+    window.location.reload();
+  }
+}
+
 function updateNavForAuth() {
-  const token = getToken(); const userRaw = localStorage.getItem('wr_user');
+  const token = getToken();
+  const userRaw = localStorage.getItem('wr_user');
   const navActions = document.querySelector('.nav-actions');
-  if (!navActions || !token || !userRaw) return;
+  const mobileUserChip = document.getElementById('mobileUserChip');
+  const mobileActions = document.getElementById('mobileActions');
+  if (!token || !userRaw) return;
+
   try {
     const user = JSON.parse(userRaw);
     const firstName = user.firstName || user.name?.split(' ')[0] || 'Traveler';
     const hour = new Date().getHours();
     const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-    navActions.innerHTML = `
-      <div class="user-chip" id="userChipBtn">
-        <div class="avatar">${firstName[0] || 'T'}</div>
-        <span class="greeting">${greeting}, ${firstName}</span>
-        <i class="fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="user-menu" id="userMenu">
-        <a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>
-        <a href="my-portal.html#bookings"><i class="fa-solid fa-clipboard-list"></i> My Bookings</a>
-        <div class="divider"></div>
-        <button onclick="if(confirm('Are you sure you want to log out?')){localStorage.removeItem('wr_token');localStorage.removeItem('wr_user');window.location.reload();}"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
-      </div>`;
-    const chip = document.getElementById('userChipBtn'), menu = document.getElementById('userMenu');
-    chip.addEventListener('click', e => { e.stopPropagation(); const open = menu.classList.toggle('open'); chip.classList.toggle('open', open); });
-    document.addEventListener('click', e => { if (!navActions.contains(e.target)) { menu.classList.remove('open'); chip.classList.remove('open'); } });
-  } catch (e) { localStorage.removeItem('wr_user'); localStorage.removeItem('wr_token'); }
+
+    if (navActions) {
+      navActions.innerHTML = `
+        <div class="user-chip" id="userChipBtn">
+          <div class="avatar">${firstName[0] || 'T'}</div>
+          <span class="greeting">${greeting}, ${firstName}</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="user-menu" id="userMenu">
+          <a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>
+          <a href="my-portal.html#bookings"><i class="fa-solid fa-clipboard-list"></i> My Bookings</a>
+          <div class="divider"></div>
+          <button onclick="confirmLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>`;
+      const chip = document.getElementById('userChipBtn'), menu = document.getElementById('userMenu');
+      if (chip && menu) {
+        chip.addEventListener('click', e => { e.stopPropagation(); const open = menu.classList.toggle('open'); chip.classList.toggle('open', open); });
+        document.addEventListener('click', e => { if (!navActions.contains(e.target)) { menu.classList.remove('open'); chip.classList.remove('open'); } });
+      }
+    }
+
+    if (mobileUserChip) {
+      mobileUserChip.innerHTML = `
+        <div class="mobile-user-chip">
+          <div class="avatar">${firstName[0] || 'T'}</div>
+          <div class="info">
+            <div class="name">${greeting}, ${firstName}</div>
+            <div class="email">${user.email || ''}</div>
+          </div>
+        </div>`;
+    }
+
+    if (mobileActions) {
+      mobileActions.innerHTML = `
+        <a href="my-portal.html" class="btn btn-outline-dark" style="justify-content:center;">
+          <i class="fa-solid fa-user"></i> My Portal
+        </a>
+        <button class="btn btn-primary" style="justify-content:center;" onclick="confirmLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>`;
+    }
+  } catch (e) {
+    localStorage.removeItem('wr_user');
+    localStorage.removeItem('wr_token');
+  }
 }
-updateNavForAuth();
+
+(async () => { await hydrateUser(); updateNavForAuth(); })();
 
 /* ===== Hamburger ===== */
 const hamburgerBox = document.getElementById('hamburgerBox');

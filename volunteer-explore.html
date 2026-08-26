@@ -1159,6 +1159,91 @@ function getUser() {
 }
 function isLoggedIn() { return !!getToken() && !!getUser(); }
 
+
+async function hydrateUser() {
+  const token = getToken();
+  const user = localStorage.getItem('wr_user');
+  if (token && !user) {
+    try {
+      const res = await fetch(`${API}/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+      const data = await res.json();
+      if (data.user) localStorage.setItem('wr_user', JSON.stringify(data.user));
+    } catch (e) { console.error('Failed to hydrate user', e); }
+  }
+}
+
+function confirmLogout(){
+  if(confirm('Are you sure you want to log out?')){
+    localStorage.removeItem('wr_token');
+    localStorage.removeItem('wr_user');
+    window.location.href='login.html';
+  }
+}
+
+function updateNavForAuth() {
+  const token = getToken();
+  const user = getUser();
+  const navActions = document.querySelector('.nav-actions');
+  const mobileUserChip = document.getElementById('mobileUserChip');
+  const mobileActions = document.getElementById('mobileActions');
+  if (!token || !user) return;
+
+  const firstName = user.firstName || user.name?.split(' ')[0] || 'Traveler';
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+
+  if (navActions) {
+    navActions.innerHTML = `
+      <div class="user-chip" id="userChipBtn">
+        <div class="avatar">${firstName[0] || 'T'}</div>
+        <span class="greeting">${greeting}, ${firstName}</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+      <div class="user-menu" id="userMenu">
+        <a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>
+        <a href="my-portal.html#applications"><i class="fa-solid fa-clipboard-list"></i> My Applications</a>
+        <div class="divider"></div>
+        <button onclick="confirmLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </div>`;
+    const chip = document.getElementById('userChipBtn');
+    const menu = document.getElementById('userMenu');
+    if (chip && menu) {
+      chip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = menu.classList.toggle('open');
+        chip.classList.toggle('open', isOpen);
+      });
+      document.addEventListener('click', (e) => {
+        if (!navActions.contains(e.target)) { menu.classList.remove('open'); chip.classList.remove('open'); }
+      });
+    }
+  }
+
+  if (mobileUserChip) {
+    mobileUserChip.innerHTML = `
+      <div class="mobile-user-chip">
+        <div class="avatar">${firstName[0] || 'T'}</div>
+        <div class="info">
+          <div class="name">${greeting}, ${firstName}</div>
+          <div class="email">${user.email || ''}</div>
+        </div>
+      </div>`;
+  }
+
+  if (mobileActions) {
+    mobileActions.innerHTML = `
+      <a href="my-portal.html" class="btn btn-outline-dark" style="justify-content:center;">
+        <i class="fa-solid fa-user"></i> My Portal
+      </a>
+      <button class="btn btn-primary" style="justify-content:center;" onclick="confirmLogout()">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>`;
+  }
+}
+
+(async () => { await hydrateUser(); updateNavForAuth(); })();
+
+
 function showToast(msg) {
   const el = document.getElementById('toast');
   if (!el) return;
@@ -1573,6 +1658,22 @@ function renderPage(program) {
 
   // ---- page title ----
   document.title = `${title} | ${SITE_NAME}`;
+
+  function setMeta(prop, content, attr = 'property') {
+  let tag = document.querySelector(`meta[${attr}="${prop}"]`);
+  if (!tag) { tag = document.createElement('meta'); tag.setAttribute(attr, prop); document.head.appendChild(tag); }
+  tag.setAttribute('content', content);
+}
+let canonical = document.querySelector('link[rel="canonical"]');
+if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
+canonical.href = `https://internationalvolunteerhometz.org/volunteer-explore.html?id=${program._id || program.id}`;
+
+setMeta('og:type', 'website');
+setMeta('og:url', canonical.href);
+setMeta('og:title', title);
+setMeta('og:description', shortDesc || description.slice(0, 200));
+setMeta('og:image', heroImg);
+setMeta('robots', 'index, follow', 'name');
 
   // ---- inject ----
   document.getElementById('pageContent').innerHTML = `

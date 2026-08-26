@@ -3,8 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tour Details | International Volunteer Home Tz</title>
-  <meta name="description" content="Safari tour details - International Volunteer Home Tz" />
+  <title>Safari Tour Details | International Volunteer Home Tz</title>
+<meta name="description" content="Detailed itinerary, pricing, inclusions and reviews for this East African safari with International Volunteer Home Tz." />
+
+<link rel="canonical" href="https://internationalvolunteerhometz.org/tour-detail.html" />
+<meta name="robots" content="index, follow" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="International Volunteer Home Tz" />
+<meta property="og:title" content="Safari Tour Details | International Volunteer Home Tz" />
+<meta property="og:description" content="Detailed itinerary, pricing, inclusions and reviews for this East African safari with International Volunteer Home Tz." />
+<meta property="og:image" content="https://internationalvolunteerhometz.org/images/og-tour-detail.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
@@ -867,6 +877,40 @@ function renderPage(tour) {
   const accommodation = tour.accommodation || tour.accommodationType || 'Lodge';
 
   document.title = `${title} | International Volunteer Home Tz`;
+
+  function setMeta(prop, content, attr = 'property') {
+  let tag = document.querySelector(`meta[${attr}="${prop}"]`);
+  if (!tag) { tag = document.createElement('meta'); tag.setAttribute(attr, prop); document.head.appendChild(tag); }
+  tag.setAttribute('content', content);
+}
+let canonical = document.querySelector('link[rel="canonical"]');
+if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
+canonical.href = `https://internationalvolunteerhometz.org/tour-detail.html?id=${tour._id || tour.id}`;
+
+setMeta('og:url', canonical.href);
+setMeta('og:title', `${title} | International Volunteer Home Tz`);
+setMeta('og:description', shortDesc || description.slice(0, 200));
+setMeta('og:image', heroImg);
+setMeta('description', shortDesc || description.slice(0, 200), 'name');
+
+const ld = document.createElement('script');
+ld.type = 'application/ld+json';
+ld.textContent = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "TouristTrip",
+  "name": title,
+  "description": shortDesc || description,
+  "image": heroImg,
+  "touristType": "Safari travelers",
+  "offers": {
+    "@type": "Offer",
+    "price": finalPrice,
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  },
+  ...(rating > 0 && { "aggregateRating": { "@type": "AggregateRating", "ratingValue": rating, "reviewCount": ratingQty } })
+});
+document.head.appendChild(ld);
 
   document.getElementById('pageContent').innerHTML = `
     <!-- Hero -->

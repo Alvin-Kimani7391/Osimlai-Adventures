@@ -5,6 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact Us | International Volunteer Home Tz</title>
   <meta name="description" content="Get in touch with the International Volunteer Home Tz team. We're here to help you plan your safari, answer questions about volunteering, or simply talk about Africa." />
+  <link rel="canonical" href="https://internationalvolunteerhometz.org/contact.html" />
+<meta name="robots" content="index, follow" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://internationalvolunteerhometz.org/contact.html" />
+<meta property="og:site_name" content="International Volunteer Home Tz" />
+<meta property="og:title" content="Contact Us | International Volunteer Home Tz" />
+<meta property="og:description" content="Get in touch with the International Volunteer Home Tz team about safaris, volunteering, or custom trips across East Africa." />
+<meta property="og:image" content="https://internationalvolunteerhometz.org/images/og-contact.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How far in advance should I book a safari?", "acceptedAnswer": { "@type": "Answer", "text": "For the Great Migration (July–October) book 6–9 months ahead. For other seasons, 3–4 months is usually enough." } },
+    { "@type": "Question", "name": "Do I need previous experience to volunteer?", "acceptedAnswer": { "@type": "Answer", "text": "Most programs need no prior experience — just enthusiasm and flexibility. Medical or veterinary programs require relevant qualifications." } },
+    { "@type": "Question", "name": "What's included in the safari price?", "acceptedAnswer": { "@type": "Answer", "text": "Accommodation, game drives, park and conservation fees, listed meals, airport transfers, and a certified guide. Flights, visas, insurance and personal spending are not included." } },
+    { "@type": "Question", "name": "What's your cancellation policy?", "acceptedAnswer": { "@type": "Answer", "text": "Full refund up to 30 days before departure. 25% fee between 30 and 14 days. Deposit is non-refundable within 14 days." } },
+    { "@type": "Question", "name": "Is it safe to travel in East Africa?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — Tanzania, Kenya, Uganda and Rwanda are stable, welcoming countries with established tourism infrastructure and 24/7 emergency support." } },
+    { "@type": "Question", "name": "Can you build a custom itinerary for my group?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — bespoke itineraries for corporate retreats, family reunions, school trips and honeymoons are one of our specialties." } }
+  ]
+}
+</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
@@ -1422,40 +1445,76 @@
 const CONTACT_API = 'https://wild-tours.onrender.com/api/contact';
 
 /* ===== AUTH NAV (same as volunteer.html) ===== */
+/* ===== AUTH NAV ===== */
+function confirmLogout() {
+  if (confirm('Are you sure you want to log out?')) {
+    localStorage.removeItem('wr_token');
+    localStorage.removeItem('wr_user');
+    window.location.href = 'login.html';
+  }
+}
+
 function updateNavForAuth() {
   const token = localStorage.getItem('wr_token');
   const userRaw = localStorage.getItem('wr_user');
   const navActions = document.querySelector('.nav-actions');
-  if (!navActions || !token || !userRaw) return;
+  const mobileUserChip = document.getElementById('mobileUserChip');
+  const mobileActions = document.getElementById('mobileActions');
+  if (!token || !userRaw) return;
+
   try {
     const user = JSON.parse(userRaw);
     const firstName = user.firstName || user.name?.split(' ')[0] || 'Traveler';
     const hour = new Date().getHours();
     const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-    navActions.innerHTML = `
-      <div class="user-chip" id="userChipBtn">
-        <div class="avatar">${firstName[0] || 'T'}</div>
-        <span class="greeting">${greeting}, ${firstName}</span>
-        <i class="fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="user-menu" id="userMenu">
-        <a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>
-        <a href="my-portal.html#applications"><i class="fa-solid fa-clipboard-list"></i> My Applications</a>
-        <div class="divider"></div>
-        <button onclick="if(confirm('Are you sure you want to log out?')){localStorage.removeItem('wr_token');localStorage.removeItem('wr_user');window.location.href='login.html';}"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
-      </div>`;
-    
-    const chip = document.getElementById('userChipBtn');
-    const menu = document.getElementById('userMenu');
-    if (chip && menu) {
-      chip.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = menu.classList.toggle('open');
-        chip.classList.toggle('open', isOpen);
-      });
-      document.addEventListener('click', (e) => {
-        if (!navActions.contains(e.target)) { menu.classList.remove('open'); chip.classList.remove('open'); }
-      });
+
+    if (navActions) {
+      navActions.innerHTML = `
+        <div class="user-chip" id="userChipBtn">
+          <div class="avatar">${firstName[0] || 'T'}</div>
+          <span class="greeting">${greeting}, ${firstName}</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="user-menu" id="userMenu">
+          <a href="my-portal.html"><i class="fa-solid fa-user"></i> My Portal</a>
+          <a href="my-portal.html#applications"><i class="fa-solid fa-clipboard-list"></i> My Applications</a>
+          <div class="divider"></div>
+          <button onclick="confirmLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>`;
+
+      const chip = document.getElementById('userChipBtn');
+      const menu = document.getElementById('userMenu');
+      if (chip && menu) {
+        chip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = menu.classList.toggle('open');
+          chip.classList.toggle('open', isOpen);
+        });
+        document.addEventListener('click', (e) => {
+          if (!navActions.contains(e.target)) { menu.classList.remove('open'); chip.classList.remove('open'); }
+        });
+      }
+    }
+
+    if (mobileUserChip) {
+      mobileUserChip.innerHTML = `
+        <div class="mobile-user-chip">
+          <div class="avatar">${firstName[0] || 'T'}</div>
+          <div class="info">
+            <div class="name">${greeting}, ${firstName}</div>
+            <div class="email">${user.email || ''}</div>
+          </div>
+        </div>`;
+    }
+
+    if (mobileActions) {
+      mobileActions.innerHTML = `
+        <a href="my-portal.html" class="btn btn-outline-dark" style="justify-content:center;">
+          <i class="fa-solid fa-user"></i> My Portal
+        </a>
+        <button class="btn btn-primary" style="justify-content:center;" onclick="confirmLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>`;
     }
 
     /* Pre-fill form if logged in */
@@ -1464,7 +1523,7 @@ function updateNavForAuth() {
     setVal('lastName', user.lastName);
     setVal('email', user.email);
     setVal('phone', user.phone || '');
-  } catch(e) {
+  } catch (e) {
     localStorage.removeItem('wr_user');
     localStorage.removeItem('wr_token');
   }

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /my-portal.html
+Disallow: /forgot-password.html
+Disallow: /reset-password.html
+
+Sitemap: https://internationalvolunteerhometz.org/sitemap.xml

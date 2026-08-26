@@ -1,5 +1,9 @@
 {
   "rewrites": [
-    { "source": "/sitemap.xml", "destination": "https://wild-tours.onrender.com/sitemap.xml" }
+    { "source": "/sitemap.xml", "destination": "https://wild-tours.onrender.com/sitemap.xml" },
+    { "source": "/sitemap-static.xml", "destination": "https://wild-tours.onrender.com/sitemap-static.xml" },
+    { "source": "/sitemap-programs.xml", "destination": "https://wild-tours.onrender.com/sitemap-programs.xml" },
+    { "source": "/sitemap-tours.xml", "destination": "https://wild-tours.onrender.com/sitemap-tours.xml" },
+    { "source": "/sitemap-accommodations.xml", "destination": "https://wild-tours.onrender.com/sitemap-accommodations.xml" }
   ]
 }

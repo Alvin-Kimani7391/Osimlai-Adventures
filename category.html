@@ -1114,7 +1114,7 @@ function renderCategoryChrome() {
 // canonical + OG (add inside renderCategoryChrome, after pageDesc.setAttribute)
 let canonical = document.querySelector('link[rel="canonical"]');
 if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
-canonical.href = `https://internationalvolunteerhometz.com/category.html?cat=${activeSlug}`;
+canonical.href = `https://internationalvolunteerhometz.org/category.html?cat=${activeSlug}`;
 
 function setMeta(prop, content, attr = 'property') {
   let tag = document.querySelector(`meta[${attr}="${prop}"]`);

@@ -3,7 +3,7 @@
     'use strict';
 
     // 🔽 CHANGE THIS TO YOUR WHATSAPP NUMBER
-    const WHATSAPP_NUMBER = '254794327798';
+    const WHATSAPP_NUMBER = '255758758995';
     const PRE_FILLED_MSG = 'Hello! I have a question about your services.';
 
     // Create HTML elements

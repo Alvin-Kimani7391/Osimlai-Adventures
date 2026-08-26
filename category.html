@@ -1114,7 +1114,7 @@ function renderCategoryChrome() {
 // canonical + OG (add inside renderCategoryChrome, after pageDesc.setAttribute)
 let canonical = document.querySelector('link[rel="canonical"]');
 if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
-canonical.href = `https://internationalvolunteerhometz.org/category.html?cat=${activeSlug}`;
+canonical.href = `https://internationalvolunteerht.org/category.html?cat=${activeSlug}`;
 
 function setMeta(prop, content, attr = 'property') {
   let tag = document.querySelector(`meta[${attr}="${prop}"]`);
@@ -1123,7 +1123,7 @@ function setMeta(prop, content, attr = 'property') {
 }
 setMeta('og:type', 'website');
 setMeta('og:url', canonical.href);
-setMeta('og:title', `${activeCat.label} Volunteer Programs | International Volunteer Home Tz`);
+setMeta('og:title', `${activeCat.label} Volunteer Programs | International Volunteer HT`);
 setMeta('og:description', activeCat.description);
 setMeta('og:image', activeCat.heroImg);
 setMeta('robots', 'index, follow', 'name');

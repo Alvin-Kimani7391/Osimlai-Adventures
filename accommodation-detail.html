@@ -853,7 +853,7 @@ function renderPage(acc) {
 }
 let canonical = document.querySelector('link[rel="canonical"]');
 if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
-canonical.href = `https://internationalvolunteerhometz.org/accommodation-detail.html?slug=${acc.slug}`;
+canonical.href = `https://internationalvolunteerht.org/accommodation-detail.html?slug=${acc.slug}`;
 
 setMeta('og:type', 'website');
 setMeta('og:url', canonical.href);
